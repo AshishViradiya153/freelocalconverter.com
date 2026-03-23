@@ -1,0 +1,293 @@
+import type { Cell, RowData, TableMeta } from "@tanstack/react-table";
+
+export type Direction = "ltr" | "rtl";
+
+export type RowHeightValue = "short" | "medium" | "tall" | "extra-tall";
+
+export interface CellSelectOption {
+  label: string;
+  value: string;
+  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  count?: number;
+}
+
+export type CellOpts =
+  | {
+      variant: "short-text";
+    }
+  | {
+      variant: "long-text";
+    }
+  | {
+      variant: "number";
+      min?: number;
+      max?: number;
+      step?: number;
+    }
+  | {
+      variant: "select";
+      options: CellSelectOption[];
+    }
+  | {
+      variant: "multi-select";
+      options: CellSelectOption[];
+    }
+  | {
+      variant: "checkbox";
+    }
+  | {
+      variant: "date";
+    }
+  | {
+      variant: "url";
+    }
+  | {
+      variant: "file";
+      maxFileSize?: number;
+      maxFiles?: number;
+      accept?: string;
+      multiple?: boolean;
+    };
+
+export interface CellUpdate {
+  rowIndex: number;
+  columnId: string;
+  value: unknown;
+}
+
+declare module "@tanstack/react-table" {
+  // biome-ignore lint/correctness/noUnusedVariables: TData and TValue are used in the ColumnMeta interface
+  interface ColumnMeta<TData extends RowData, TValue> {
+    label?: string;
+    cell?: CellOpts;
+  }
+
+  // biome-ignore lint/correctness/noUnusedVariables: TData is used in the TableMeta interface
+  interface TableMeta<TData extends RowData> {
+    dataGridRef?: React.RefObject<HTMLElement | null>;
+    cellMapRef?: React.RefObject<Map<string, HTMLDivElement>>;
+    focusedCell?: CellPosition | null;
+    editingCell?: CellPosition | null;
+    selectionState?: SelectionState;
+    searchOpen?: boolean;
+    getIsCellSelected?: (rowIndex: number, columnId: string) => boolean;
+    getIsSearchMatch?: (rowIndex: number, columnId: string) => boolean;
+    getIsActiveSearchMatch?: (rowIndex: number, columnId: string) => boolean;
+    /** CSV compare: highlight cells that differ from the paired file (row id + column id). */
+    getCompareDiffHighlight?: (rowId: string, columnId: string) => boolean;
+    getVisualRowIndex?: (rowId: string) => number | undefined;
+    rowHeight?: RowHeightValue;
+    onRowHeightChange?: (value: RowHeightValue) => void;
+    onRowSelect?: (rowId: string, checked: boolean, shiftKey: boolean) => void;
+    onDataUpdate?: (params: CellUpdate | Array<CellUpdate>) => void;
+    onRowsDelete?: (rowIndices: number[]) => void | Promise<void>;
+    onColumnClick?: (columnId: string) => void;
+    /** Insert an empty column before this data column (CSV-style grids). */
+    onColumnInsertBefore?: (columnId: string) => void;
+    /** Insert an empty column after this data column. */
+    onColumnInsertAfter?: (columnId: string) => void;
+    onColumnCut?: (columnId: string) => void | Promise<void>;
+    onColumnCopy?: (columnId: string) => void | Promise<void>;
+    /** Paste a previously copied/cut column; often inserts after `columnId`. */
+    onColumnPaste?: (columnId: string) => void | Promise<void>;
+    /** Clear every cell in this column. */
+    onColumnClearAll?: (columnId: string) => void;
+    /** Remove this column from the sheet. */
+    onColumnDelete?: (columnId: string) => void;
+    /** Update the visible header label (e.g. CSV export header). Empty string is allowed. */
+    onColumnRename?: (columnId: string, newHeaderLabel: string) => void;
+    /** Row `id` from TanStack Table (stable row key). */
+    onRowInsertBefore?: (rowId: string) => void;
+    onRowInsertAfter?: (rowId: string) => void;
+    onRowCut?: (rowId: string) => void | Promise<void>;
+    onRowCopy?: (rowId: string) => void | Promise<void>;
+    /** Paste row(s) after this row (clipboard TSV lines). */
+    onRowPaste?: (rowId: string) => void | Promise<void>;
+    onRowClearAll?: (rowId: string) => void;
+    onRowDelete?: (rowId: string) => void;
+    /** Checkbox row selection toolbar: current selection from `table.getSelectedRowModel()`. */
+    onSelectedRowsCopy?: () => void | Promise<void>;
+    onSelectedRowsCut?: () => void | Promise<void>;
+    onSelectedRowsClearAll?: () => void;
+    onSelectedRowsDelete?: () => void;
+    onCellClick?: (
+      rowIndex: number,
+      columnId: string,
+      event?: React.MouseEvent,
+    ) => void;
+    onCellDoubleClick?: (rowIndex: number, columnId: string) => void;
+    onCellMouseDown?: (
+      rowIndex: number,
+      columnId: string,
+      event: React.MouseEvent,
+    ) => void;
+    onCellMouseEnter?: (rowIndex: number, columnId: string) => void;
+    onCellMouseUp?: () => void;
+    onCellContextMenu?: (
+      rowIndex: number,
+      columnId: string,
+      event: React.MouseEvent,
+    ) => void;
+    onCellEditingStart?: (rowIndex: number, columnId: string) => void;
+    onCellEditingStop?: (opts?: {
+      direction?: NavigationDirection;
+      moveToNextRow?: boolean;
+    }) => void;
+    onCellsCopy?: () => void;
+    onCellsCut?: () => void;
+    onCellsPaste?: (expand?: boolean) => void;
+    onSelectionClear?: () => void;
+    onFilesUpload?: (params: {
+      files: File[];
+      rowIndex: number;
+      columnId: string;
+    }) => Promise<FileCellData[]>;
+    onFilesDelete?: (params: {
+      fileIds: string[];
+      rowIndex: number;
+      columnId: string;
+    }) => void | Promise<void>;
+    contextMenu?: ContextMenuState;
+    onContextMenuOpenChange?: (open: boolean) => void;
+    pasteDialog?: PasteDialogState;
+    onPasteDialogOpenChange?: (open: boolean) => void;
+    readOnly?: boolean;
+    /** Reorder grip in select column (hover); DataGrid `enableRowReorder`. */
+    enableRowReorder?: boolean;
+  }
+}
+
+export interface CellPosition {
+  rowIndex: number;
+  columnId: string;
+}
+
+export interface CellRange {
+  start: CellPosition;
+  end: CellPosition;
+}
+
+export interface SelectionState {
+  selectedCells: Set<string>;
+  selectionRange: CellRange | null;
+  isSelecting: boolean;
+}
+
+export interface ContextMenuState {
+  open: boolean;
+  x: number;
+  y: number;
+}
+
+export interface PasteDialogState {
+  open: boolean;
+  rowsNeeded: number;
+  clipboardText: string;
+}
+
+export type NavigationDirection =
+  | "up"
+  | "down"
+  | "left"
+  | "right"
+  | "home"
+  | "end"
+  | "ctrl+up"
+  | "ctrl+down"
+  | "ctrl+home"
+  | "ctrl+end"
+  | "pageup"
+  | "pagedown"
+  | "pageleft"
+  | "pageright";
+
+export interface SearchState {
+  searchMatches: CellPosition[];
+  matchIndex: number;
+  searchOpen: boolean;
+  onSearchOpenChange: (open: boolean) => void;
+  searchQuery: string;
+  onSearchQueryChange: (query: string) => void;
+  onSearch: (query: string) => void;
+  onNavigateToNextMatch: () => void;
+  onNavigateToPrevMatch: () => void;
+  readOnly: boolean;
+  onSearchReplaceAll: (find: string, replacement: string) => void;
+}
+
+export interface DataGridCellProps<TData> {
+  cell: Cell<TData, unknown>;
+  tableMeta: TableMeta<TData>;
+  rowIndex: number;
+  columnId: string;
+  rowHeight: RowHeightValue;
+  isEditing: boolean;
+  isFocused: boolean;
+  isSelected: boolean;
+  isSearchMatch: boolean;
+  isActiveSearchMatch: boolean;
+  readOnly: boolean;
+}
+
+export interface FileCellData {
+  id: string;
+  name: string;
+  size: number;
+  type: string;
+  url?: string;
+}
+
+export type TextFilterOperator =
+  | "contains"
+  | "notContains"
+  | "equals"
+  | "notEquals"
+  | "startsWith"
+  | "endsWith"
+  | "isEmpty"
+  | "isNotEmpty";
+
+export type NumberFilterOperator =
+  | "equals"
+  | "notEquals"
+  | "lessThan"
+  | "lessThanOrEqual"
+  | "greaterThan"
+  | "greaterThanOrEqual"
+  | "isBetween"
+  | "isEmpty"
+  | "isNotEmpty";
+
+export type DateFilterOperator =
+  | "equals"
+  | "notEquals"
+  | "before"
+  | "after"
+  | "onOrBefore"
+  | "onOrAfter"
+  | "isBetween"
+  | "isEmpty"
+  | "isNotEmpty";
+
+export type SelectFilterOperator =
+  | "is"
+  | "isNot"
+  | "isAnyOf"
+  | "isNoneOf"
+  | "isEmpty"
+  | "isNotEmpty";
+
+export type BooleanFilterOperator = "isTrue" | "isFalse";
+
+export type FilterOperator =
+  | TextFilterOperator
+  | NumberFilterOperator
+  | DateFilterOperator
+  | SelectFilterOperator
+  | BooleanFilterOperator;
+
+export interface FilterValue {
+  operator: FilterOperator;
+  value?: string | number | string[];
+  endValue?: string | number;
+}
