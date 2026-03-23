@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import type { Metadata, Viewport } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
@@ -104,6 +105,7 @@ export default async function LocaleLayout({
           </ThemeProvider>
           <Toaster />
         </NextIntlClientProvider>
+      <GoogleAnalytics gaId={"G-Y0B8C93BRK"} />
       </body>
     </html>
   );
