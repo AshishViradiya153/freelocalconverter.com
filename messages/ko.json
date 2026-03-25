@@ -14,7 +14,9 @@
     "privacy": "개인정보",
     "terms": "이용약관",
     "homeAria": "{name} 홈",
-    "sourceRepo": "소스 저장소"
+    "sourceRepo": "소스 저장소",
+    "parquetViewer": "Parquet 뷰어",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "언어",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "개인정보 및 데이터",
-    "privacyBody": "파일은 이 기기에서만 처리되며 서버로 보내지 않습니다. 편집 내용은 브라우저 로컬 저장소에 저장됩니다. 지우면 이 기기에서 삭제됩니다. 광고가 표시될 수 있습니다.",
+    "privacyBody": "파일은 이 기기에서만 처리되며 서버로 보내지 않습니다. 편집 내용은 브라우저 로컬 저장소에 저장됩니다. 지우면 이 기기에서 삭제됩니다.",
     "trustedHeading": "선도적인 팀들이 사용합니다",
     "trustedSrIntro": "가로로 스크롤되는 로고(각각 브랜드 사이트를 새 탭에서 엽니다):"
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} 행 잘림",
     "toastRowsCleared": "{count} 행이 삭제되었습니다.",
     "toastRowsDeleted": "{count}행이 삭제되었습니다."
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "그리드에서 Parquet을 열고 로컬에서 편집한 다음 .parquet으로 다시 내보내세요.",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "Parquet 뷰어 및 에디터",
+    "heroSubtitle": ".parquet 파일을 업로드하고 로컬에서 행을 미리 본 다음, 그리드에서 편집하고 서버로 업로드하지 않고 업데이트된 .parquet을 다운로드하세요.",
+    "dropHint": "여기에 Parquet 파일을 드롭하거나 찾아보세요",
+    "chooseFile": "파일 선택",
+    "fileHint": "Parquet만 · 최대 {maxRows}개 행 표시",
+    "downloadParquet": ".parquet 다운로드",
+    "downloadStarted": "다운로드가 시작되었습니다"
   }
 }

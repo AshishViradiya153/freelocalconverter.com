@@ -14,7 +14,9 @@
     "privacy": "Gizlilik",
     "terms": "Şartlar",
     "homeAria": "{name} ana sayfa",
-    "sourceRepo": "Kaynak deposu"
+    "sourceRepo": "Kaynak deposu",
+    "parquetViewer": "Parquet Görüntüleyici",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "Dil",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "Gizlilik ve veri",
-    "privacyBody": "Dosyanız bu cihazda işlenir; sunucularımıza gönderilmez. Düzenlemeler tarayıcıda yerel olarak saklanır. Temizleme bunları bu cihazdan kaldırır. Reklamlar gösterilebilir.",
+    "privacyBody": "Dosyanız bu cihazda işlenir; sunucularımıza gönderilmez. Düzenlemeler tarayıcıda yerel olarak saklanır. Temizleme bunları bu cihazdan kaldırır.",
     "trustedHeading": "Önde gelen ekipler tarafından kullanılıyor",
     "trustedSrIntro": "Kaydırmalı logolar (her biri marka sitesini yeni sekmede açar):"
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} satır kesildi",
     "toastRowsCleared": "{count} satır temizlendi",
     "toastRowsDeleted": "{count} satır silindi"
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "Parquet'u bir ızgarada açın, yerel olarak düzenleyin ve ardından .parquet olarak tekrar dışa aktarın.",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "Parquet Görüntüleyici ve Düzenleyici",
+    "heroSubtitle": ".parquet dosyasını yükleyin, satırları yerel olarak önizleyin, ızgarada düzenleyin ve sunucuya yükleme yapmadan güncellenmiş .parquet dosyanızı indirin.",
+    "dropHint": "Buraya bir Parquet dosyası bırakın veya göz atın",
+    "chooseFile": "Dosya seçin",
+    "fileHint": "Yalnız Parquet · en fazla {maxRows} satır gösterilir",
+    "downloadParquet": ".parquet indir",
+    "downloadStarted": "İndirme başlatıldı"
   }
 }

@@ -14,7 +14,9 @@
     "privacy": "Privacidade",
     "terms": "Termos",
     "homeAria": "Início {name}",
-    "sourceRepo": "Repositório de código"
+    "sourceRepo": "Repositório de código",
+    "parquetViewer": "Visualizador de Parquet",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "Idioma",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "Privacidade e dados",
-    "privacyBody": "O ficheiro é analisado neste dispositivo; não o enviamos para os nossos servidores. As edições ficam no armazenamento local do navegador. Limpar remove-as deste dispositivo. Este site pode mostrar anúncios.",
+    "privacyBody": "O ficheiro é analisado neste dispositivo; não o enviamos para os nossos servidores. As edições ficam no armazenamento local do navegador. Limpar remove-as deste dispositivo.",
     "trustedHeading": "Usado e confiado por equipas líderes",
     "trustedSrIntro": "Logótipos num carrossel (cada um abre o site da marca num novo separador):"
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} linhas cortadas",
     "toastRowsCleared": "{count} linhas limpas",
     "toastRowsDeleted": "{count} linhas excluídas"
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "Abra o Parquet em uma grade, edite localmente e depois exporte de volta para .parquet.",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "Visualizador e editor de Parquet",
+    "heroSubtitle": "Envie um arquivo .parquet, visualize as linhas localmente, edite na grade e, sem enviar para o servidor, faça download do seu .parquet atualizado.",
+    "dropHint": "Solte um arquivo Parquet aqui ou escolha",
+    "chooseFile": "Escolher arquivo",
+    "fileHint": "Apenas Parquet · no máximo {maxRows} linhas exibidas",
+    "downloadParquet": "Baixar .parquet",
+    "downloadStarted": "Download iniciado"
   }
 }

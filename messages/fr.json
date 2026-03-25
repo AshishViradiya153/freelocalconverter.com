@@ -14,7 +14,9 @@
     "privacy": "Confidentialité",
     "terms": "Conditions",
     "homeAria": "Accueil {name}",
-    "sourceRepo": "Dépôt source"
+    "sourceRepo": "Dépôt source",
+    "parquetViewer": "Visionneuse Parquet",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "Langue",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "Confidentialité et données",
-    "privacyBody": "Votre fichier est analysé sur cet appareil ; nous ne l'envoyons pas à nos serveurs. Vos modifications sont enregistrées localement. Effacer les supprime de cet appareil. Des publicités peuvent s'afficher.",
+    "privacyBody": "Votre fichier est analysé sur cet appareil ; nous ne l'envoyons pas à nos serveurs. Vos modifications sont enregistrées localement. Effacer les supprime de cet appareil.",
     "trustedHeading": "Utilisé par des équipes leaders",
     "trustedSrIntro": "Logos défilants (chaque lien ouvre le site de la marque) :"
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} rangées coupées",
     "toastRowsCleared": "{count} lignes effacées",
     "toastRowsDeleted": "{count} lignes supprimées"
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "Ouvrez Parquet dans une grille, modifiez-le localement, puis exportez-le à nouveau au format .parquet.",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "Visionneuse et éditeur Parquet",
+    "heroSubtitle": "Importez un fichier .parquet, prévisualisez les lignes localement, modifiez dans la grille, puis téléchargez votre .parquet mis à jour sans l’envoyer au serveur.",
+    "dropHint": "Déposez un fichier Parquet ici ou parcourez",
+    "chooseFile": "Choisir un fichier",
+    "fileHint": "Parquet uniquement · jusqu’à {maxRows} lignes affichées",
+    "downloadParquet": "Télécharger .parquet",
+    "downloadStarted": "Téléchargement lancé"
   }
 }

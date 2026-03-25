@@ -14,7 +14,9 @@
     "privacy": "Конфиденциальность",
     "terms": "Условия",
     "homeAria": "Главная {name}",
-    "sourceRepo": "Репозиторий исходного кода"
+    "sourceRepo": "Репозиторий исходного кода",
+    "parquetViewer": "Просмотр Parquet",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "Язык",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "Конфиденциальность и данные",
-    "privacyBody": "Файл обрабатывается на этом устройстве; мы не отправляем его на серверы. Правки сохраняются локально в браузере. Очистка удаляет их с устройства. Возможна реклама.",
+    "privacyBody": "Файл обрабатывается на этом устройстве; мы не отправляем его на серверы. Правки сохраняются локально в браузере. Очистка удаляет их с устройства.",
     "trustedHeading": "Используют ведущие команды",
     "trustedSrIntro": "Логотипы в карусели (каждая ссылка открывает сайт бренда):"
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} строк вырезано",
     "toastRowsCleared": "{count} строк очищено",
     "toastRowsDeleted": "{count} строк удалено"
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "Откройте Parquet в таблице, отредактируйте локально и затем экспортируйте обратно в .parquet.",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "Просмотрщик и редактор Parquet",
+    "heroSubtitle": "Загрузите файл .parquet, просмотрите строки локально, отредактируйте их в таблице и затем скачайте обновленный .parquet без отправки на сервер.",
+    "dropHint": "Перетащите файл Parquet сюда или выберите",
+    "chooseFile": "Выбрать файл",
+    "fileHint": "Только Parquet · показано максимум {maxRows} строк",
+    "downloadParquet": "Скачать .parquet",
+    "downloadStarted": "Загрузка началась"
   }
 }

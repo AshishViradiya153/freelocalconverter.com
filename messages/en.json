@@ -8,6 +8,7 @@
     "jsonToExcel": "JSON → Excel",
     "xlsToCsv": "Excel → CSV",
     "xlsViewer": "Excel Viewer",
+    "parquetViewer": "Parquet Viewer",
     "guides": "Guides",
     "tools": "Tools",
     "blog": "Blog",
@@ -15,11 +16,11 @@
     "terms": "Terms",
     "homeAria": "{name} home",
     "sourceRepo": "Source repository",
-    "csvToParquet": "CSV \u0003 Parquet",
-    "parquetToCsv": "Parquet \u0003 CSV",
-    "jsonToParquet": "JSON \u0003 Parquet",
-    "parquetToJson": "Parquet \u0003 JSON",
-    "csvToMarkdownTable": "CSV \u0003 Markdown Table"
+    "csvToParquet": "CSV → Parquet",
+    "parquetToCsv": "Parquet → CSV",
+    "jsonToParquet": "JSON → Parquet",
+    "parquetToJson": "Parquet → JSON",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "Language",
@@ -249,6 +250,15 @@
     "previewPanel": "Preview",
     "previewHint": "Read-only grid (sort, filter, search)."
   },
+  "parquetViewer": {
+    "heroTitle": "Parquet viewer and editor",
+    "heroSubtitle": "Upload a .parquet file, preview rows locally, edit in the grid, then download your updated .parquet without server upload.",
+    "dropHint": "Drop a Parquet file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "Parquet only · max {maxRows} rows shown",
+    "downloadParquet": "Download .parquet",
+    "downloadStarted": "Download started"
+  },
   "jsonToParquet": {
     "heroTitle": "JSON to Parquet",
     "heroSubtitle": "Upload a JSON array of objects, preview rows locally, then download a .parquet file without server upload.",
@@ -312,6 +322,7 @@
     "viewerDesc": "Open, edit, and export CSV locally.",
     "compareDesc": "Side-by-side CSV diff with filters.",
     "xlsViewerDesc": "Open Excel in a grid (local parsing).",
+    "parquetViewerDesc": "Open Parquet in a grid, edit locally, then export back to .parquet.",
     "csvToExcelDesc": "Batch convert CSV files to .xlsx.",
     "xlsToCsvDesc": "Convert Excel sheets to CSV output.",
     "jsonToExcelDesc": "Convert JSON arrays to .xlsx.",
@@ -367,7 +378,7 @@
   },
   "marketing": {
     "privacySectionAria": "Privacy and data handling",
-    "privacyBody": "Your file is parsed on this device; we do not send it to our servers. Your edits are saved in this browser's local storage so you can pick up where you left off. Clear removes them from this device. This site may show ads.",
+    "privacyBody": "Your file is parsed on this device; we do not send it to our servers. Your edits are saved in this browser's local storage so you can pick up where you left off. Clear removes them from this device.",
     "trustedHeading": "Used & trusted by leading teams everywhere",
     "trustedSrIntro": "Brand and university logos in the scrolling row (each opens the official site in a new tab):"
   },

@@ -14,7 +14,9 @@
     "privacy": "حریم خصوصی",
     "terms": "شرایط",
     "homeAria": "خانه {name}",
-    "sourceRepo": "مخزن کد"
+    "sourceRepo": "مخزن کد",
+    "parquetViewer": "نمایشگر پارکت",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "زبان",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "حریم خصوصی و داده",
-    "privacyBody": "فایل روی این دستگاه پردازش می‌شود؛ به سرورهای ما ارسال نمی‌شود. ویرایش‌ها به‌صورت محلی ذخیره می‌شوند. پاک‌سازی آن‌ها را از این دستگاه حذف می‌کند. ممکن است تبلیغات نمایش داده شود.",
+    "privacyBody": "فایل روی این دستگاه پردازش می‌شود؛ به سرورهای ما ارسال نمی‌شود. ویرایش‌ها به‌صورت محلی ذخیره می‌شوند. پاک‌سازی آن‌ها را از این دستگاه حذف می‌کند.",
     "trustedHeading": "مورد استفاده تیم‌های پیشرو",
     "trustedSrIntro": "لوگوهای اسکرول‌شونده (هر پیوند سایت برند را در تب جدید باز می‌کند):"
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} ردیف بریده شده است",
     "toastRowsCleared": "{count} ردیف پاک شد",
     "toastRowsDeleted": "{count} ردیف حذف شد"
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "Parquet را در یک شبکه باز کنید، محلی ویرایش کنید و سپس دوباره آن را به .parquet خروجی بگیرید.",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "نمایشگر و ویرایشگر پارکت",
+    "heroSubtitle": "یک فایل .parquet بارگذاری کنید، ردیف‌ها را به‌صورت محلی پیش‌نمایش کنید، داخل شبکه ویرایش کنید و سپس بدون ارسال به سرور، فایل .parquet به‌روزشده را دانلود کنید.",
+    "dropHint": "فایل پارکت را اینجا رها کنید یا انتخاب کنید",
+    "chooseFile": "انتخاب فایل",
+    "fileHint": "فقط پارکت · حداکثر {maxRows} ردیف نمایش داده می‌شود",
+    "downloadParquet": "دانلود .parquet",
+    "downloadStarted": "دانلود شروع شد"
   }
 }

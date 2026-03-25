@@ -14,7 +14,9 @@
     "privacy": "Privacy",
     "terms": "Termini",
     "homeAria": "Home {name}",
-    "sourceRepo": "Repository del codice"
+    "sourceRepo": "Repository del codice",
+    "parquetViewer": "Visualizzatore Parquet",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "Lingua",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "Privacy e dati",
-    "privacyBody": "Il file viene elaborato su questo dispositivo; non lo inviamo ai nostri server. Le modifiche sono salvate in locale. Cancella le rimuove da questo dispositivo. Il sito può mostrare annunci.",
+    "privacyBody": "Il file viene elaborato su questo dispositivo; non lo inviamo ai nostri server. Le modifiche sono salvate in locale. Cancella le rimuove da questo dispositivo.",
     "trustedHeading": "Usato da team leader",
     "trustedSrIntro": "Loghi in scorrimento (ogni link apre il sito del brand):"
   },
@@ -318,6 +320,24 @@
     "toastRowsCleared": "{count} righe cancellate",
     "toastRowsDeleted": "{count} righe eliminate"
   },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
   "footer": {
     "kicker": "Strumenti local-first",
     "title": "{name} directory strumenti",
@@ -348,6 +368,16 @@
     "blogDesc": "Guide e insight sul prodotto.",
     "privacyDesc": "Come gestiamo i dati e la privacy.",
     "termsDesc": "Termini e condizioni.",
-    "copyright": "© {year} {name}. Tutti i diritti riservati."
+    "copyright": "© {year} {name}. Tutti i diritti riservati.",
+    "parquetViewerDesc": "Apri Parquet in una griglia, modifica localmente e poi esporta di nuovo in .parquet."
+  },
+  "parquetViewer": {
+    "heroTitle": "Visualizzatore e editor Parquet",
+    "heroSubtitle": "Carica un file .parquet, visualizza le righe in locale, modifica nella griglia e poi scarica il tuo .parquet aggiornato senza inviarlo al server.",
+    "dropHint": "Trascina qui un file Parquet o sfoglia",
+    "chooseFile": "Scegli file",
+    "fileHint": "Solo Parquet · massimo {maxRows} righe mostrate",
+    "downloadParquet": "Scarica .parquet",
+    "downloadStarted": "Download avviato"
   }
 }

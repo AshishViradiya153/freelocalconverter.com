@@ -14,7 +14,9 @@
     "privacy": "Privacy",
     "terms": "Voorwaarden",
     "homeAria": "{name} thuis",
-    "sourceRepo": "Broncode-repository"
+    "sourceRepo": "Broncode-repository",
+    "parquetViewer": "Parquet-viewer",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "Taal",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "Privacy en gegevens",
-    "privacyBody": "Je bestand wordt op dit apparaat verwerkt; we sturen het niet naar onze servers. Bewerkingen worden lokaal opgeslagen. Wissen verwijdert ze van dit apparaat. Advertenties kunnen worden getoond.",
+    "privacyBody": "Je bestand wordt op dit apparaat verwerkt; we sturen het niet naar onze servers. Bewerkingen worden lokaal opgeslagen. Wissen verwijdert ze van dit apparaat.",
     "trustedHeading": "Gebruikt door toonaangevende teams",
     "trustedSrIntro": "Logo's in een rij (elk opent de merksite in een nieuw tabblad):"
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} rijen geknipt",
     "toastRowsCleared": "{count} rijen gewist",
     "toastRowsDeleted": "{count} rijen verwijderd"
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "Open Parquet in een grid, bewerk lokaal en exporteer daarna terug naar .parquet.",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "Parquet viewer en editor",
+    "heroSubtitle": "Upload een .parquet-bestand, bekijk de rijen lokaal, bewerk ze in de grid en download daarna je bijgewerkte .parquet zonder serverupload.",
+    "dropHint": "Sleep een Parquet-bestand hierheen of blader",
+    "chooseFile": "Bestand kiezen",
+    "fileHint": "Alleen Parquet · maximaal {maxRows} rijen getoond",
+    "downloadParquet": "Parquet downloaden",
+    "downloadStarted": "Download gestart"
   }
 }

@@ -14,7 +14,9 @@
     "privacy": "隐私",
     "terms": "条款",
     "homeAria": "{name} 首页",
-    "sourceRepo": "源代码仓库"
+    "sourceRepo": "源代码仓库",
+    "parquetViewer": "Parquet 查看器",
+    "csvToMarkdownTable": "CSV → Markdown Table"
   },
   "language": {
     "menuAria": "语言",
@@ -216,7 +218,7 @@
   },
   "marketing": {
     "privacySectionAria": "隐私与数据处理",
-    "privacyBody": "文件在本设备解析，不会上传到我们的服务器。编辑内容保存在浏览器本地存储，方便下次继续。清除会从本设备删除这些数据。本站可能展示广告。",
+    "privacyBody": "文件在本设备解析，不会上传到我们的服务器。编辑内容保存在浏览器本地存储，方便下次继续。清除会从本设备删除这些数据。",
     "trustedHeading": "深受全球领先团队信赖",
     "trustedSrIntro": "横向滚动的品牌徽标（每个会在新标签页打开官网）："
   },
@@ -317,5 +319,36 @@
     "toastRowsCut": "{count} 行剪切",
     "toastRowsCleared": "{count} 行已清除",
     "toastRowsDeleted": "已删除 {count} 行"
+  },
+  "csvToMarkdownTable": {
+    "heroTitle": "CSV to Markdown Table",
+    "heroSubtitle": "Convert a CSV file to a Markdown table in your browser. Preview rows locally, then copy or download a .md table without server upload.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "markdownPanel": "Markdown table",
+    "markdownAria": "Markdown table output",
+    "markdownHint": "Markdown table is generated from your CSV. Copy or download it as .md.",
+    "copyMarkdown": "Copy Markdown",
+    "copySuccess": "Markdown copied",
+    "copyFailed": "Could not copy markdown",
+    "downloadMarkdown": "Download .md",
+    "downloadStarted": "Download started"
+  },
+  "footer": {
+    "parquetViewerDesc": "在网格中打开 Parquet，在本地编辑，然后导出回 .parquet。",
+    "csvToMarkdownTableDesc": "Convert CSV into a Markdown table."
+  },
+  "parquetViewer": {
+    "heroTitle": "Parquet 查看器与编辑器",
+    "heroSubtitle": "上传 .parquet 文件，在本地预览行内容，在网格中编辑，然后在不上传到服务器的情况下下载更新后的 .parquet。",
+    "dropHint": "在此拖放 Parquet 文件，或浏览",
+    "chooseFile": "选择文件",
+    "fileHint": "仅 Parquet · 最多显示 {maxRows} 行",
+    "downloadParquet": "下载 .parquet",
+    "downloadStarted": "下载已开始"
   }
 }
