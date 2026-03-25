@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "csvcn",
-  "homepage": "https://csvcn.com",
+  "homepage": "https://csveditoronline.org/",
   "items": [
     {
       "name": "data-grid",

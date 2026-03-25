@@ -104,6 +104,12 @@ importers:
       geist:
         specifier: ^1.5.1
         version: 1.5.1(next@16.1.1(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
+      hyparquet:
+        specifier: ^1.25.1
+        version: 1.25.1
+      hyparquet-writer:
+        specifier: ^0.13.0
+        version: 0.13.0
       lucide-react:
         specifier: ^0.562.0
         version: 0.562.0(react@19.2.3)
@@ -2819,6 +2825,12 @@ packages:
   human-signals@8.0.1:
     resolution: {integrity: sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==}
     engines: {node: '>=18.18.0'}
+
+  hyparquet-writer@0.13.0:
+    resolution: {integrity: sha512-4Vl2RxwQPjMhCOZ2mCNK/WY3lJiiy+NlUugdsqBPTTy9sw3Uu7sJPU3UMiy7+aRAbY+y2K5dRJuNGTmQ8PdXFQ==}
+
+  hyparquet@1.25.1:
+    resolution: {integrity: sha512-CXcN/u6RdQqsK8IphUptpAEqY8IzgwzHY+MuXX+2wpoWTumfxPVr6JYbbywsNsiAl9aEbM5sRtxkwRBa22b49w==}
 
   iconv-lite@0.7.2:
     resolution: {integrity: sha512-im9DjEDQ55s9fL4EYzOAv0yMqmMBSZp6G0VvFyTMPKWxiSBHUj9NW/qqLmXUwXrrM7AvqSlTCfvqRb0cM8yYqw==}
@@ -6518,6 +6530,12 @@ snapshots:
   human-signals@2.1.0: {}
 
   human-signals@8.0.1: {}
+
+  hyparquet-writer@0.13.0:
+    dependencies:
+      hyparquet: 1.25.1
+
+  hyparquet@1.25.1: {}
 
   iconv-lite@0.7.2:
     dependencies:

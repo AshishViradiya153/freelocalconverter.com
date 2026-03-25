@@ -327,7 +327,43 @@
     "blogDesc": "Guides and product insights.",
     "privacyDesc": "How we handle data and privacy.",
     "termsDesc": "Terms and conditions.",
-    "copyright": "© {name}. All rights reserved."
+    "copyright": "© {year} {name}. All rights reserved."
+  },
+  "legal": {
+    "kicker": "Legal",
+    "lastUpdatedLine": "Last updated: March 22, 2025",
+    "backToViewer": "Back to viewer",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "How {name} handles information when you view files in your browser.",
+    "privacyNoticeTitle": "Privacy notice",
+    "privacyNoticeBody": "{name} is designed to process your files locally in your browser for the core experience. Your data is not uploaded for basic viewing. Some deployments may show ads and use cookies for measurement and fraud prevention.",
+    "termsTitle": "Terms of Service",
+    "termsDescription": "Terms of use for {name}.",
+    "termsBody": "These terms govern your use of {name}. By using the site, you agree to them.",
+    "termsNoticeTitle": "Terms notice",
+    "termsNoticeBody": "{name} is provided “as is”. Don’t use the service for unlawful content or data you’re not allowed to process. Limits may apply to keep the in-browser experience reliable.",
+    "termsNoticeHint": "If you operate this deployment, update these terms with your legal entity details and any additional disclosures required in your region.",
+    "termsLink": "Terms of Service",
+    "privacyLink": "Privacy"
+  },
+  "dataGridDemo": {
+    "toggleTextDirectionAria": "Toggle text direction",
+    "ltr": "LTR",
+    "rtl": "RTL",
+    "columns": {
+      "name": "Name",
+      "age": "Age",
+      "email": "Email",
+      "website": "Website",
+      "notes": "Notes",
+      "salary": "Salary",
+      "department": "Department",
+      "status": "Status",
+      "skills": "Skills",
+      "active": "Active",
+      "startDate": "Start Date",
+      "attachments": "Attachments"
+    }
   },
   "marketing": {
     "privacySectionAria": "Privacy and data handling",
