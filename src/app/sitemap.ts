@@ -25,6 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/csv-to-json",
     "/json-to-csv",
     "/csv-to-excel",
+    "/xls-to-csv",
+    "/xls-viewer",
     "/json-to-excel",
     "/privacy",
     "/terms",
