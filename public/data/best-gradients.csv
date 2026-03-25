@@ -1,0 +1,301 @@
+idx,name,colorFamily,aesthetic,mode,baseHex,angle,saturationMul,lightnessMul,stop1,stop2,stop3,stop4,stop5,score,minTextRatio,adjacentContrastMin,colorTag,styleClassic,styleDarkModern,styleWarm,styleCold,styleBright,styleDark,stylePastel,styleVintage,styleMonochromatic,styleGradient
+1,"Sienna Velvet Drift",brown,classic,analogous,#7b4d2d,25,0.964,1.033,#411901,#5f241f,#7e5030,#9c933c,#8bb948,23.5814,6.6523,1.2891,brown,1,0,1,0,0,1,0,0,0,1
+2,"Nocturne Indigo Lattice",purple,dark-modern,tetradic,#620d72,47,1.295,0.989,#04002d,#55003c,#7e3e00,#33a600,#00ceb8,23.4469,6.5952,1.3916,violet,0,1,0,1,0,1,0,0,0,1
+3,"Cerulean Velvet Spectrum",blue,classic,tetradic,#2c4dab,175,0.999,0.919,#196161,#33217f,#9d2870,#bb8230,#60ce42,22.7595,6.3487,1.6388,blue,1,0,0,1,0,1,0,0,0,1
+4,"Nocturne Fuchsia Orbit",pink,dark-modern,complementary,#6d0f44,135,1.106,0.903,#230315,#1a4506,#676109,#89230c,#0fab53,22.6627,6.3819,1.4248,pink,0,1,0,0,0,1,0,0,0,1
+5,"Tide Velvet Lattice Monochrome",teal,classic,monochrome,#2b8770,192,0.956,1.172,#143a2a,#246b53,#359c82,#4fc3b0,#80d4cd,22.6565,6.2291,1.2510,turquoise,1,0,0,1,0,1,0,0,1,0
+6,"Carnation Velvet Suite",pink,classic,triadic,#812472,101,1.000,1.001,#1a1241,#611b48,#815824,#49a12d,#36c1bc,22.5717,6.2597,1.4573,pink,1,0,0,0,0,1,0,0,0,1
+7,"Scarlet Velvet Lattice",red,classic,analogous,#9a3938,348,0.928,1.073,#632700,#82330d,#a14140,#bb8852,#c6c772,22.5431,6.2770,1.3338,red,1,0,1,0,0,1,0,0,0,1
+8,"Cocoa Velvet Canvas",brown,classic,analogous,#875028,338,0.765,1.052,#461d05,#642925,#825636,#a19942,#8fb955,22.5306,6.2996,1.2920,brown,1,0,1,0,0,1,0,1,0,1
+9,"Ember Velvet Drift",red,classic,analogous,#a3292d,354,0.685,1.093,#5d275e,#7e355c,#9d4245,#b78354,#c5c274,22.4846,6.3659,1.2932,gray,1,0,1,0,0,0,0,1,0,1
+10,"Azure Velvet Bloom",blue,classic,tetradic,#2f50ac,51,0.994,0.985,#1d6a69,#38268a,#a92f7a,#c88c38,#71d157,22.4465,6.2229,1.5088,blue,1,0,0,1,0,0,0,0,0,1
+11,"Sapphire Velvet Canvas",blue,classic,tetradic,#2c56a2,164,0.921,1.017,#1e615a,#302880,#a03180,#c07d3b,#7ccc59,22.4369,6.2379,1.6731,blue,1,0,0,1,0,1,0,0,0,1
+12,"Cocoa Velvet Canvas",brown,classic,triadic,#9f4328,296,0.914,1.013,#5c1b00,#7c4a24,#579c2e,#37bca5,#5450cc,22.3960,6.1831,1.4353,brown,1,0,1,0,0,1,0,0,0,1
+13,"Nocturne Carnation Suite",pink,dark-modern,complementary,#6e0c43,183,1.145,0.893,#230114,#184603,#696204,#8c1f06,#07af51,22.3713,6.2696,1.4477,pink,0,1,0,0,0,1,0,0,0,1
+14,"Nocturne Rose Bloom",pink,dark-modern,complementary,#731334,356,1.278,0.799,#28020f,#0a4703,#576605,#863a06,#07a56f,22.3705,6.3483,1.2619,pink,0,1,1,0,0,1,0,0,0,1
+15,"Seaglass Velvet Orbit Monochrome",teal,classic,monochrome,#2a9075,163,0.811,1.160,#183e2d,#2a6d56,#3c9c83,#5abfad,#89d1ca,22.3323,6.1398,1.2683,gray,1,0,0,1,0,0,0,0,1,0
+16,"Seaglass Velvet Atlas Monochrome",teal,classic,monochrome,#358479,245,0.894,1.191,#1b3c32,#2f6a5d,#44988d,#65bab5,#93cdcf,22.3033,6.1217,1.2845,gray,1,0,0,1,0,0,0,0,1,0
+17,"Seaglass Velvet Canvas Monochrome",teal,classic,monochrome,#3c8584,241,0.812,1.186,#213f39,#386a65,#4f9695,#73b0b5,#9ec5cc,22.2837,6.1290,1.3144,gray,1,0,0,1,0,0,0,0,1,0
+18,"Nocturne Jade Orbit Monochrome",green,dark-modern,monochrome,#1a7209,226,1.020,0.973,#0e2503,#123d04,#197008,#17a30b,#0fd610,22.2674,6.2453,1.3194,green,0,1,0,0,0,1,0,0,1,0
+19,"Lagoon Velvet Bloom Monochrome",teal,classic,monochrome,#358986,189,0.732,1.195,#1f3d37,#366a64,#4d9694,#70b3b6,#9cc6cd,22.2137,6.1057,1.2905,gray,1,0,0,1,0,0,0,0,1,0
+20,"Nocturne Arctic Spectrum Monochrome",teal,dark-modern,monochrome,#0a7660,260,0.995,0.937,#032317,#053e2e,#0a6e5a,#0e9f8d,#12cfc8,22.2026,6.1930,1.3806,turquoise,0,1,0,1,0,1,0,0,1,0
+21,"Nocturne Moss Atlas Monochrome",green,dark-modern,monochrome,#0a6e37,76,1.099,0.970,#02260c,#033b17,#057035,#07a45b,#0ad889,22.2020,6.2212,1.2776,green,0,1,0,0,0,1,0,0,1,0
+22,"Nocturne Carnation Suite",pink,dark-modern,complementary,#7b0b43,100,1.161,0.758,#270114,#124601,#646402,#832202,#02a152,22.1758,6.2224,1.5335,pink,0,1,1,0,0,1,0,0,0,1
+23,"Nocturne Emerald Orbit",green,dark-modern,tetradic,#0b7d3f,247,1.227,0.988,#103600,#005e55,#0e0086,#af0079,#d76d00,22.1687,6.0769,1.7631,green,0,1,0,0,0,1,0,0,0,1
+24,"Nocturne Aqua Drift Monochrome",teal,dark-modern,monochrome,#176e51,97,1.176,0.943,#042213,#084029,#0e6f4f,#159e7c,#1bcdaf,22.1394,6.1668,1.4281,turquoise,0,1,0,1,0,1,0,0,1,0
+25,"Crimson Velvet Atlas",red,classic,analogous,#91393d,0,0.816,1.106,#582b5a,#79395c,#97484c,#b1825b,#c0bd7a,22.0601,6.2135,1.3112,gray,1,0,1,0,0,0,0,1,0,1
+26,"Nocturne Lagoon Studio Monochrome",teal,dark-modern,monochrome,#096e48,72,0.961,0.994,#042513,#063921,#0b6b47,#109e74,#15d1a9,22.0431,6.1650,1.2625,turquoise,0,1,0,0,0,1,0,0,1,0
+27,"Carmine Velvet Bloom",red,classic,analogous,#803730,196,0.887,1.132,#4b2000,#6b2e14,#8c433b,#ac8349,#b6be66,22.0329,6.0969,1.3455,red,1,0,1,0,0,1,0,0,0,1
+28,"Nocturne Jade Atlas Monochrome",green,dark-modern,monochrome,#146d42,74,1.045,0.990,#062310,#0a3e21,#126e41,#1a9e69,#21cd97,22.0221,6.1387,1.3729,green,0,1,0,0,0,1,0,0,1,0
+29,"Nocturne Crimson Spectrum",red,dark-modern,complementary,#4c0f10,211,1.292,0.992,#260303,#032e0d,#2e5406,#7a5c09,#0ba09d,22.0106,6.2457,1.2769,red,0,1,1,0,0,1,0,0,0,1
+30,"Nocturne Rose Bloom",pink,dark-modern,complementary,#750a39,241,1.048,0.849,#240211,#114504,#606606,#862f08,#0aa762,21.9753,6.1755,1.4030,pink,0,1,1,0,0,1,0,0,0,1
+31,"Nocturne Lagoon Canvas Monochrome",teal,dark-modern,monochrome,#146d4c,46,1.087,0.967,#052313,#093e26,#106d4a,#169d76,#1dcca8,21.9595,6.1185,1.3760,turquoise,0,1,0,0,0,1,0,0,1,0
+32,"Lagoon Velvet Lattice Monochrome",teal,classic,monochrome,#3b866d,93,0.979,1.142,#1d402e,#306c53,#44987c,#63b9a4,#90cdc3,21.9422,6.0281,1.2998,gray,1,0,0,1,0,0,0,0,1,0
+33,"Cobalt Velvet Lattice",blue,classic,tetradic,#334bc4,153,0.907,0.895,#236b71,#472b8d,#a93470,#c49a3e,#67cd5a,21.9261,6.1530,1.3008,blue,1,0,0,1,0,0,0,0,0,1
+34,"Spruce Velvet Suite Monochrome",green,classic,monochrome,#328f51,125,0.742,1.169,#1e4024,#336d42,#489963,#6ab98b,#97ceb2,21.9216,6.0122,1.3207,gray,1,0,0,0,0,0,0,0,1,0
+35,"Nocturne Verdant Bloom Monochrome",green,dark-modern,monochrome,#167040,180,1.181,0.937,#04220d,#08411e,#0d713b,#12a060,#18cf8c,21.9158,6.1005,1.4399,green,0,1,0,0,0,1,0,0,1,0
+36,"Umber Velvet Bloom",brown,classic,analogous,#9b5d35,76,0.949,0.908,#541f00,#6f2921,#8a5532,#a69a3c,#90bd4a,21.9152,6.1294,1.2810,brown,1,0,1,0,0,1,0,0,0,1
+37,"Cerulean Velvet Canvas",blue,classic,tetradic,#3262c2,218,0.984,0.858,#1d6e67,#30258a,#a52c7f,#c17d33,#6fcf49,21.9132,6.0371,1.7119,blue,1,0,0,1,0,1,0,0,0,1
+38,"Jade Velvet Canvas Monochrome",green,classic,monochrome,#279331,359,0.791,1.150,#1a3e17,#286d29,#3a9c43,#56c069,#85d299,21.9130,6.0163,1.2775,green,1,0,0,0,0,1,0,0,1,0
+39,"Aqua Velvet Bloom Monochrome",teal,classic,monochrome,#39856e,156,0.996,1.141,#1b3e2d,#2e6b53,#41987d,#5fbaa6,#8ccdc4,21.9036,6.0122,1.2852,gray,1,0,0,1,0,0,0,0,1,0
+40,"Nocturne Jade Studio Monochrome",green,dark-modern,monochrome,#177211,257,1.163,0.924,#0a2303,#0d4005,#0f7108,#0ca10f,#10d124,21.8960,6.1205,1.3970,green,0,1,0,0,0,1,0,0,1,0
+41,"Lagoon Velvet Bloom Monochrome",teal,classic,monochrome,#44826c,42,0.973,1.161,#234131,#396b55,#50967d,#73b4a2,#9dcbc2,21.8779,5.9998,1.3390,gray,1,0,0,0,0,0,0,0,1,0
+42,"Lagoon Velvet Bloom Monochrome",teal,classic,monochrome,#3a8f6c,71,0.847,1.121,#20442f,#346e51,#489978,#68b89e,#93ccbe,21.8275,6.0082,1.3001,gray,1,0,0,0,0,0,0,0,1,0
+43,"Nocturne Gild Palette Monochrome",yellow,dark-modern,monochrome,#75710f,311,0.927,0.925,#201b05,#3c360a,#696511,#909519,#adc220,21.8203,6.0515,1.4128,yellow,0,1,1,0,0,1,0,0,1,0
+44,"Nocturne Arctic Drift Monochrome",teal,dark-modern,monochrome,#0e7569,45,1.184,0.874,#012219,#023f33,#046f62,#069e99,#07c3cd,21.8192,6.0776,1.4157,turquoise,0,1,0,1,0,1,0,0,1,0
+45,"Nocturne Lagoon Suite Monochrome",teal,dark-modern,monochrome,#116b66,3,1.131,0.972,#04241d,#063c35,#0b6e68,#109b9f,#15bcd1,21.8187,6.0967,1.3374,turquoise,0,1,0,1,0,1,0,0,1,0
+46,"Nocturne Emerald Palette Monochrome",green,dark-modern,monochrome,#176f20,190,1.272,0.914,#052203,#064107,#0a7015,#0ea029,#13cf45,21.8163,6.0790,1.4289,green,0,1,0,0,0,1,0,0,1,0
+47,"Violet Velvet Orbit",purple,classic,tetradic,#743088,166,0.944,1.013,#1e1c4b,#69285b,#875733,#65a53e,#50bdaa,21.7725,6.1024,1.3134,violet,1,0,0,1,0,1,0,0,0,1
+48,"Nocturne Lagoon Studio Monochrome",teal,dark-modern,monochrome,#0c7a51,107,1.022,0.916,#032211,#064226,#0a714a,#0ea076,#12cfa8,21.7639,6.0452,1.4628,turquoise,0,1,0,0,0,1,0,0,1,0
+49,"Azure Velvet Palette",blue,classic,tetradic,#4e70be,225,0.921,1.182,#3f9d98,#6253ba,#c875ab,#d5b998,#c5e3ba,21.7339,6.0594,1.3429,white,1,0,0,1,1,0,0,0,0,1
+50,"Nocturne Seaglass Orbit Monochrome",teal,dark-modern,monochrome,#078156,344,0.925,0.887,#032112,#064127,#0a6e4b,#0f9c76,#13c9a7,21.7109,6.0373,1.4577,turquoise,0,1,0,0,0,1,0,0,1,0
+51,"Dandelion Velvet Suite Monochrome",yellow,classic,monochrome,#817f3a,79,0.822,1.146,#38331d,#625d34,#8d8b4a,#abaf67,#bec591,21.7007,5.9245,1.2788,gray,1,0,1,0,0,1,0,1,1,0
+52,"Sapphire Velvet Spectrum",blue,classic,tetradic,#2a5592,18,0.960,1.106,#1c5a50,#29267d,#9f3185,#c2763b,#86cd5d,21.6844,5.9484,1.5757,blue,1,0,0,1,0,1,0,0,0,1
+53,"Cocoa Velvet Spectrum Monochrome",brown,classic,monochrome,#8c4426,292,0.998,1.112,#3a1510,#6b2d1d,#9c4c2a,#ca713b,#d79d6c,21.6819,5.9365,1.5040,brown,1,0,1,0,0,1,0,0,1,0
+54,"Moss Velvet Orbit Monochrome",green,classic,monochrome,#408550,36,0.976,1.148,#204122,#356c3d,#4a985c,#6cb783,#97ccac,21.6620,5.9370,1.3216,gray,1,0,0,0,0,0,0,0,1,0
+55,"Nocturne Umber Lattice",brown,dark-modern,analogous,#792d0d,239,1.169,0.987,#320100,#590300,#802904,#a78605,#93cf06,21.6206,6.0553,1.2613,brown,0,1,1,0,0,1,0,0,0,1
+56,"Nocturne Spruce Palette Monochrome",green,dark-modern,monochrome,#0f6737,86,1.214,0.953,#02250c,#033817,#056b34,#089e59,#0ad186,21.6167,6.0453,1.2431,green,0,1,0,0,0,1,0,0,1,0
+57,"Copper Velvet Canvas Monochrome",orange,classic,monochrome,#8a6f41,170,0.934,1.191,#483524,#755a3a,#a18350,#bca978,#d2c9a5,21.6111,5.8778,1.3912,gray,1,0,1,0,0,0,1,1,1,0
+58,"Sienna Velvet Spectrum Monochrome",brown,classic,monochrome,#b26732,142,0.888,1.129,#623121,#915131,#c07642,#d0a071,#dfc5a1,21.6032,5.9113,1.4123,brown,1,0,1,0,0,0,0,1,1,0
+59,"Nocturne Seaglass Palette Monochrome",teal,dark-modern,monochrome,#14714d,189,1.018,0.956,#062112,#0b3f26,#126d4a,#1a9b74,#22c9a4,21.5736,5.9847,1.4207,turquoise,0,1,0,0,0,1,0,0,1,0
+60,"Moss Velvet Studio Monochrome",green,classic,monochrome,#2c9b52,8,0.784,1.100,#1b4522,#2c713e,#3e9d5e,#5abf85,#87d0ac,21.5598,5.9344,1.2626,gray,1,0,0,0,0,0,0,0,1,0
+61,"Verdant Velvet Suite Monochrome",green,classic,monochrome,#378d54,28,0.963,1.095,#1b4121,#2c6d3d,#3e995d,#59bb82,#84cda9,21.5270,5.9194,1.2746,gray,1,0,0,0,0,0,0,0,1,0
+62,"Aqua Velvet Palette Monochrome",teal,classic,monochrome,#4a8072,109,0.917,1.193,#284338,#416d5e,#5a9787,#81b3aa,#aaccc9,21.5220,5.8760,1.3602,gray,1,0,0,1,0,0,1,0,1,0
+63,"Nocturne Aqua Atlas Monochrome",teal,dark-modern,monochrome,#0c7b61,338,1.017,0.878,#032115,#06402d,#0a6d56,#0e9a85,#12c7bb,21.5098,5.9796,1.4437,turquoise,0,1,0,1,0,1,0,0,1,0
+64,"Nocturne Emerald Spectrum Monochrome",green,dark-modern,monochrome,#107518,241,1.133,0.939,#062403,#054305,#097411,#0ca525,#10d641,21.5085,5.9695,1.4361,green,0,1,0,0,0,1,0,0,1,0
+65,"Nocturne Seaglass Bloom Monochrome",teal,dark-modern,monochrome,#106a59,219,1.298,0.884,#012317,#01392a,#026956,#039a8a,#04cbc6,21.4764,5.9931,1.2918,turquoise,0,1,0,1,0,1,0,0,1,0
+66,"Nocturne Saffron Spectrum Monochrome",orange,dark-modern,monochrome,#705610,292,1.171,0.937,#241502,#3f2a04,#715407,#a2860b,#d3bf0e,21.4754,5.9511,1.3052,orange,0,1,1,0,0,1,0,0,1,0
+67,"Indigo Velvet Spectrum Monochrome",purple,classic,monochrome,#4d3f96,116,0.954,1.197,#252554,#3f3983,#5e4eb1,#8e7cc6,#bbabda,21.4581,5.8487,1.4438,white,1,0,0,1,0,0,1,0,1,0
+68,"Orchid Velvet Spectrum Monochrome",purple,classic,monochrome,#8744ce,70,0.758,1.163,#4f3488,#7447b7,#9e75ca,#c4a4dc,#e5d3ee,21.4578,5.8512,1.5270,white,1,0,0,1,1,0,0,0,1,0
+69,"Carnation Velvet Spectrum",pink,classic,triadic,#872977,160,0.835,0.974,#201942,#5f2449,#7c5b2f,#50993a,#45b5b2,21.4400,5.9587,1.4274,black,1,0,0,0,0,1,0,1,0,1
+70,"Cerulean Velvet Spectrum",blue,classic,tetradic,#274b8a,267,0.933,1.129,#1a524c,#2c2575,#98307a,#bb793b,#7dcb59,21.4334,5.9111,1.4462,blue,1,0,0,1,0,1,0,0,0,1
+71,"Citrus Velvet Studio Monochrome",orange,classic,monochrome,#977b42,117,0.852,1.135,#4f3c28,#7a613d,#a48952,#bcac7a,#d2caa4,21.3264,5.8256,1.3653,gray,1,0,1,0,0,0,1,1,1,0
+72,"Nocturne Honey Orbit",yellow,dark-modern,analogous,#715e15,292,1.168,0.992,#2f0500,#531f09,#78620d,#739c11,#39c115,21.3165,5.9130,1.3574,yellow,0,1,1,0,0,1,0,0,0,1
+73,"Nocturne Tide Atlas Monochrome",teal,dark-modern,monochrome,#097d78,131,1.276,0.838,#00221b,#004139,#00706b,#00999f,#00b5ce,21.2996,5.9490,1.4034,turquoise,0,1,0,1,0,1,0,0,1,0
+74,"Nocturne Jade Atlas Monochrome",green,dark-modern,monochrome,#10712d,75,0.966,0.974,#052209,#0a3d15,#116c2c,#199c4b,#20cb70,21.2818,5.8983,1.3648,green,0,1,0,0,0,1,0,0,1,0
+75,"Nocturne Seaglass Orbit Monochrome",teal,dark-modern,monochrome,#14745c,7,0.932,0.955,#072016,#0d3f2f,#166c56,#1f9884,#29c4b8,21.2755,5.8827,1.4416,turquoise,0,1,0,1,0,1,0,0,1,0
+76,"Azure Velvet Atlas",blue,classic,tetradic,#4967c1,174,0.796,1.181,#429898,#6855b5,#c377a5,#d2bb98,#c2e1ba,21.2728,5.9068,1.3071,white,1,0,0,1,1,0,1,0,0,1
+77,"Nocturne Moss Bloom Monochrome",green,dark-modern,monochrome,#187c0a,353,0.876,0.948,#0d2205,#154009,#1c6f10,#1c9d17,#1ecc25,21.1977,5.8845,1.4175,green,0,1,0,0,0,1,0,0,1,0
+78,"Saffron Velvet Canvas Monochrome",orange,classic,monochrome,#825b28,350,0.970,1.036,#2d1b0f,#593a1d,#855e2b,#b18739,#caac5a,21.1930,5.7799,1.4951,orange,1,0,1,0,0,1,0,1,1,0
+79,"Nocturne Aqua Drift Monochrome",teal,dark-modern,monochrome,#096e5d,274,0.956,0.957,#042319,#06372a,#0b6758,#10988c,#15c9c8,21.1917,5.8920,1.2604,turquoise,0,1,0,1,0,1,0,0,1,0
+80,"Nocturne Blush Palette",pink,dark-modern,complementary,#700731,67,1.031,0.937,#240210,#0d4603,#606a05,#8f3607,#09b36f,21.1703,5.8969,1.3196,pink,0,1,1,0,0,1,0,0,0,1
+81,"Nocturne Carnation Palette",pink,dark-modern,complementary,#701239,214,1.290,0.845,#280111,#0e4903,#616a04,#8c3205,#06ad68,21.1697,5.8796,1.3878,pink,0,1,1,0,0,1,0,0,0,1
+82,"Nocturne Rose Palette",pink,dark-modern,complementary,#7b0d4a,82,1.021,0.870,#2b041a,#1c4c07,#6c670a,#8c260d,#10ad56,21.1276,5.8625,1.4937,pink,0,1,0,0,0,1,0,0,0,1
+83,"Nocturne Lagoon Suite Monochrome",teal,dark-modern,monochrome,#0e754e,329,1.023,0.980,#042413,#074227,#0d744d,#12a57a,#17d7ae,21.0623,5.7972,1.4347,turquoise,0,1,0,0,0,1,0,0,1,0
+84,"Arctic Velvet Spectrum Monochrome",teal,classic,monochrome,#438479,318,0.982,1.114,#214035,#36695c,#4b9286,#6ab2ac,#93c8c7,21.0408,5.7550,1.3207,gray,1,0,0,1,0,0,0,0,1,0
+85,"Plum Velvet Bloom Monochrome",purple,classic,monochrome,#5433a2,267,0.931,1.199,#271f5a,#44308c,#6742bd,#9674cf,#c1a6e0,21.0310,5.6960,1.4318,violet,1,0,0,1,0,0,0,0,1,0
+86,"Cerulean Velvet Lattice",blue,classic,tetradic,#4a6bc0,56,0.800,1.187,#439895,#6757b5,#c378a8,#d2ba9a,#c4e1bb,20.9943,5.8216,1.3209,white,1,0,0,1,1,0,1,0,0,1
+87,"Verdant Velvet Canvas Monochrome",green,classic,monochrome,#497c47,95,0.995,1.189,#293f24,#42693c,#579355,#79b27b,#a3caa8,20.9865,5.7099,1.3666,gray,1,0,0,0,0,0,0,0,1,0
+88,"Nocturne Rose Bloom",pink,dark-modern,triadic,#77115f,305,1.242,0.910,#0d0230,#540331,#774d04,#1e9b06,#07b9bf,20.9761,5.7464,1.3424,pink,0,1,0,0,0,1,0,0,0,1
+89,"Saffron Velvet Bloom Monochrome",orange,classic,monochrome,#896e46,299,0.948,1.169,#483526,#73593d,#9e8054,#b9a57b,#d0c6a6,20.9486,5.6695,1.4100,gray,1,0,1,0,0,0,1,1,1,0
+90,"Tide Velvet Palette Monochrome",teal,classic,monochrome,#49806b,175,0.977,1.138,#254031,#3c6954,#54917a,#75af9e,#9ec7be,20.9443,5.7082,1.3561,gray,1,0,0,0,0,0,0,0,1,0
+91,"Tide Velvet Orbit Monochrome",teal,classic,monochrome,#4a8175,71,0.718,1.135,#274037,#3f685c,#569083,#78aea7,#a0c6c4,20.9389,5.7127,1.3517,gray,1,0,0,1,0,0,0,0,1,0
+92,"Nocturne Sunbeam Orbit Monochrome",yellow,dark-modern,monochrome,#726815,209,1.003,0.995,#221b06,#42380c,#726815,#a19e1d,#c6d026,20.9145,5.6658,1.4686,yellow,0,1,1,0,0,1,0,0,1,0
+93,"Seaglass Velvet Studio Monochrome",teal,classic,monochrome,#478474,36,0.675,1.132,#274035,#3e685a,#569081,#78aea4,#9fc6c2,20.9055,5.7020,1.3507,gray,1,0,0,1,0,0,0,0,1,0
+94,"Nocturne Jade Suite",green,dark-modern,complementary,#197809,122,1.194,0.958,#072d00,#090054,#00507c,#00a363,#ad00ca,20.9047,5.7856,1.2148,green,0,1,0,0,0,1,0,0,0,1
+95,"Nocturne Seaglass Palette Monochrome",teal,dark-modern,monochrome,#117064,156,1.093,0.897,#042118,#063b30,#0b685d,#109690,#15bcc3,20.9019,5.7873,1.3561,turquoise,0,1,0,1,0,1,0,0,1,0
+96,"Emerald Velvet Palette Monochrome",green,classic,monochrome,#3b984d,209,0.714,1.123,#264927,#3c7242,#519c60,#75b787,#9ecdaf,20.8987,5.7100,1.3295,gray,1,0,0,0,0,0,0,0,1,0
+97,"Tide Velvet Atlas Monochrome",teal,classic,monochrome,#358b8a,276,0.787,1.115,#1d3c37,#316661,#459190,#61aeb3,#8cbec8,20.8955,5.7059,1.2558,gray,1,0,0,1,0,1,0,0,1,0
+98,"Emerald Velvet Atlas Monochrome",green,classic,monochrome,#428d32,66,0.903,1.196,#29431b,#40732e,#52a341,#6ec266,#96d596,20.8843,5.6608,1.2803,gray,1,0,0,0,0,0,0,0,1,0
+99,"Nocturne Lagoon Canvas Monochrome",teal,dark-modern,monochrome,#116a68,320,1.129,0.970,#04241e,#063b35,#0b6c6a,#10959e,#15b4cf,20.8704,5.8147,1.3201,turquoise,0,1,0,1,0,1,0,0,1,0
+100,"Lagoon Velvet Atlas Monochrome",teal,classic,monochrome,#3e816d,263,0.869,1.166,#203c2f,#376754,#4d917d,#6eb2a3,#99c9c2,20.8664,5.6618,1.3421,gray,1,0,0,1,0,0,0,0,1,0
+101,"Moss Velvet Lattice Monochrome",green,classic,monochrome,#2d8440,156,0.841,1.188,#173618,#2a6532,#3e9551,#5abb77,#89cea4,20.8537,5.6226,1.2973,gray,1,0,0,0,0,1,0,0,1,0
+102,"Chestnut Velvet Palette Monochrome",brown,classic,monochrome,#8c4d25,54,0.764,1.133,#351c14,#633926,#915a38,#bb814d,#cca87b,20.8100,5.6398,1.4865,black,1,0,1,0,0,1,0,1,1,0
+103,"Sapphire Velvet Lattice",blue,classic,triadic,#25338a,74,0.790,1.154,#1d4e48,#2e2a71,#93377b,#b57844,#84c563,20.8032,5.7348,1.3261,blue,1,0,0,1,0,1,0,0,0,1
+104,"Nocturne Plum Bloom",purple,dark-modern,tetradic,#6c0780,87,0.896,0.966,#09052f,#52093d,#76400d,#3c9911,#15bda9,20.8021,5.7567,1.3638,violet,0,1,0,1,0,1,0,0,0,1
+105,"Nocturne Seaglass Studio Monochrome",teal,dark-modern,monochrome,#0c7859,164,1.169,0.827,#012112,#013d27,#026b4d,#03987a,#04c6ae,20.8003,5.7762,1.3833,turquoise,0,1,0,1,0,1,0,0,1,0
+106,"Ocean Velvet Studio",blue,classic,triadic,#223385,171,0.942,1.186,#164f45,#232175,#9a2c81,#c07136,#84cf57,20.7969,5.6566,1.4480,blue,1,0,0,1,0,1,0,0,0,1
+107,"Honey Velvet Orbit Monochrome",yellow,classic,monochrome,#7f7f47,118,0.967,1.079,#3b3722,#625e38,#88884e,#a4a969,#b7bf8f,20.7832,5.6785,1.2843,gray,1,0,1,0,0,1,0,1,1,0
+108,"Violet Velvet Orbit Monochrome",purple,classic,monochrome,#704ec3,152,0.967,1.185,#3d328d,#5d44bd,#8f75ce,#bca6e0,#e3d8f1,20.7813,5.6037,1.4844,violet,1,0,0,1,1,0,0,0,1,0
+109,"Arctic Velvet Palette Monochrome",teal,classic,monochrome,#318160,138,0.836,1.191,#183625,#2d6449,#429271,#60b79a,#8eccbc,20.7410,5.5817,1.3177,gray,1,0,0,0,0,1,0,0,1,0
+110,"Nocturne Chestnut Lattice Monochrome",brown,dark-modern,monochrome,#7a260f,28,1.238,0.935,#260201,#4a0b01,#7e1d02,#b13703,#e55a04,20.7357,5.7958,1.2271,brown,0,1,1,0,0,1,0,0,1,0
+111,"Nocturne Seaglass Atlas Monochrome",teal,dark-modern,monochrome,#116967,275,1.275,0.971,#02261f,#033d37,#05726f,#079ca6,#09bcda,20.7325,5.7646,1.3285,turquoise,0,1,0,1,0,1,0,0,1,0
+112,"Sapphire Velvet Palette",blue,classic,tetradic,#2f4aa9,140,0.938,1.069,#226c6e,#432c8f,#b1367c,#c8994b,#7ed26c,20.7293,5.6939,1.3954,blue,1,0,0,1,0,0,0,0,0,1
+113,"Sapphire Velvet Spectrum",blue,classic,tetradic,#5171bb,20,0.988,1.106,#3a948f,#5747b4,#c266a2,#cfae86,#b4dca7,20.7290,5.7161,1.3665,white,1,0,0,1,1,0,0,0,0,1
+114,"Emerald Velvet Bloom Monochrome",green,classic,monochrome,#419133,348,0.784,1.193,#2b451f,#437334,#56a149,#74be6f,#9dd39e,20.7185,5.6142,1.3114,gray,1,0,0,0,0,0,0,0,1,0
+115,"Seaglass Velvet Bloom Monochrome",teal,classic,monochrome,#389478,183,0.948,1.092,#1d4833,#2e7359,#409f82,#5ebea9,#89d0c6,20.7160,5.6562,1.2642,gray,1,0,0,1,0,0,0,0,1,0
+116,"Nocturne Spruce Atlas Monochrome",green,dark-modern,monochrome,#0f761e,90,1.188,0.853,#022101,#033f06,#056d14,#069b28,#08c944,20.6619,5.7269,1.4071,green,0,1,0,0,0,1,0,0,1,0
+117,"Chestnut Velvet Canvas Monochrome",brown,classic,monochrome,#ab5e2d,105,0.868,1.164,#5b2b1e,#8c4b2e,#bd703e,#cf9c6d,#dfc39f,20.5998,5.5510,1.4421,brown,1,0,1,0,0,0,0,1,1,0
+118,"Verdant Velvet Drift Monochrome",green,classic,monochrome,#39934d,194,0.882,1.143,#204922,#34753d,#47a25b,#6bbe85,#98d2ae,20.5918,5.5882,1.3040,gray,1,0,0,0,0,0,0,0,1,0
+119,"Nocturne Seaglass Bloom Monochrome",teal,dark-modern,monochrome,#0c6d67,271,0.971,0.957,#04231c,#073730,#0d6761,#139497,#19b4c6,20.5875,5.7105,1.2661,turquoise,0,1,0,1,0,1,0,0,1,0
+120,"Seaglass Velvet Palette Monochrome",teal,classic,monochrome,#31976a,226,0.710,1.180,#214730,#367453,#4ba17b,#71bda2,#9fd2c4,20.5736,5.5557,1.3143,gray,1,0,0,0,0,0,0,0,1,0
+121,"Arctic Velvet Spectrum Monochrome",teal,classic,monochrome,#4d8281,143,0.839,1.184,#2a4641,#43706b,#5c9998,#83b1b5,#adc9ce,20.5653,5.5723,1.3477,gray,1,0,0,1,0,0,1,0,1,0
+122,"Aqua Velvet Orbit Monochrome",teal,classic,monochrome,#2db082,176,0.733,0.969,#1e4c34,#2d7354,#3d9a79,#52bb9f,#79cabb,20.5590,5.6881,1.2243,gray,1,0,0,0,0,0,0,0,1,0
+123,"Spruce Velvet Bloom Monochrome",green,classic,monochrome,#37873b,315,0.958,1.116,#1e3d1a,#2f692d,#3f9544,#5ab967,#86cb95,20.5516,5.5938,1.2824,gray,1,0,0,0,0,1,0,0,1,0
+124,"Cobalt Velvet Lattice",blue,classic,tetradic,#3558aa,303,0.983,1.039,#246f6c,#3d2e8f,#b03886,#c68f4c,#85d06c,20.5375,5.5911,1.5114,blue,1,0,0,1,0,0,0,0,0,1
+125,"Nocturne Jade Suite Monochrome",green,dark-modern,monochrome,#146b30,322,1.163,0.930,#042209,#073b13,#0c6a2a,#119948,#17c86d,20.5092,5.6739,1.3281,green,0,1,0,0,0,1,0,0,1,0
+126,"Moss Velvet Canvas Monochrome",green,classic,monochrome,#279a56,98,0.887,1.136,#164621,#25773f,#34a863,#52c98d,#82d9b4,20.4860,5.5421,1.2412,green,1,0,0,0,0,0,0,0,1,0
+127,"Nocturne Carmine Spectrum",red,dark-modern,complementary,#6f1208,161,1.126,0.981,#280401,#014c1b,#2f7301,#9b8302,#02b0c2,20.4663,5.6411,1.4167,red,0,1,1,0,0,1,0,0,0,1
+128,"Cocoa Velvet Drift",brown,classic,analogous,#8b4727,70,0.702,1.185,#502304,#713126,#935a40,#b3a150,#a8c272,20.4588,5.5598,1.3068,brown,1,0,1,0,0,1,0,1,0,1
+129,"Cerulean Velvet Drift",blue,classic,triadic,#3246b8,36,0.939,0.986,#237468,#312c93,#b13592,#c88147,#8cd166,20.4560,5.5355,1.7089,blue,1,0,0,1,0,0,0,0,0,1
+130,"Amethyst Velvet Drift Monochrome",purple,classic,monochrome,#7649c5,339,0.938,1.181,#42308a,#6341bc,#9371ce,#bda2df,#e3d4f0,20.4484,5.4939,1.4904,violet,1,0,0,1,1,0,0,0,1,0
+131,"Nocturne Arctic Suite Monochrome",teal,dark-modern,monochrome,#086f6e,68,1.277,0.969,#002821,#003d37,#007372,#009daa,#00bde0,20.4380,5.6829,1.2997,turquoise,0,1,0,1,0,1,0,0,1,0
+132,"Nocturne Rose Canvas",pink,dark-modern,triadic,#6a0c49,320,1.265,0.967,#0e0027,#4b0022,#725600,#089a00,#00a4c1,20.4167,5.6326,1.2570,pink,0,1,0,0,0,1,0,0,0,1
+133,"Tide Velvet Bloom Monochrome",teal,classic,monochrome,#358182,227,0.741,1.184,#1d3733,#34635f,#4b8d8e,#6aaab1,#96bfc8,20.3885,5.4997,1.3233,gray,1,0,0,1,0,0,0,0,1,0
+134,"Cocoa Velvet Atlas Monochrome",brown,classic,monochrome,#7f4c2e,329,0.856,1.198,#331c16,#623a2a,#915d3e,#b8855a,#cdad89,20.3832,5.4698,1.5189,gray,1,0,1,0,0,1,0,1,1,0
+135,"Jade Velvet Suite Monochrome",green,classic,monochrome,#2b9e3b,321,0.924,0.985,#164315,#226d26,#2f973d,#3cc159,#65cf86,20.3816,5.6149,1.2073,green,1,0,0,0,0,1,0,0,1,0
+136,"Arctic Velvet Studio Monochrome",teal,classic,monochrome,#47817b,17,0.761,1.125,#253e37,#3d655e,#548d87,#74acab,#9cc1c3,20.3694,5.5368,1.3156,gray,1,0,0,1,0,0,0,0,1,0
+137,"Aqua Velvet Drift Monochrome",teal,classic,monochrome,#448d76,136,0.734,1.188,#2b483a,#447260,#5c9c88,#84b6ab,#aecfca,20.3579,5.4951,1.3582,gray,1,0,0,1,0,0,1,0,1,0
+138,"Nocturne Tide Atlas Monochrome",teal,dark-modern,monochrome,#0d7b62,178,0.901,0.893,#051f15,#0a3e2e,#106955,#179482,#1ec0b6,20.3455,5.5947,1.4353,turquoise,0,1,0,1,0,1,0,0,1,0
+139,"Nocturne Arctic Atlas Monochrome",teal,dark-modern,monochrome,#0a7d50,248,1.291,0.791,#00200e,#003e21,#006b41,#009769,#00c498,20.3334,5.6306,1.4106,turquoise,0,1,0,0,0,1,0,0,1,0
+140,"Verdant Velvet Bloom Monochrome",green,classic,monochrome,#319c44,88,0.706,1.161,#224a22,#37763d,#4ba35b,#71be85,#9ed2b0,20.3277,5.4957,1.3076,gray,1,0,0,0,0,0,0,0,1,0
+141,"Aqua Velvet Lattice Monochrome",teal,classic,monochrome,#398083,178,0.926,1.134,#1b3b37,#306664,#448e91,#60aab5,#8bbcc9,20.3183,5.5239,1.2805,gray,1,0,0,1,0,1,0,0,1,0
+142,"Moss Velvet Atlas Monochrome",green,classic,monochrome,#369762,203,0.725,1.166,#24492e,#39754f,#4ea174,#75bb9b,#a1d1bf,20.3067,5.4810,1.3266,gray,1,0,0,0,0,0,0,0,1,0
+143,"Cocoa Velvet Studio Monochrome",brown,classic,monochrome,#b46333,326,0.736,1.110,#5d3227,#895039,#b4734c,#c79c78,#d9c1a4,20.2920,5.4973,1.4328,white,1,0,1,0,0,0,1,1,1,0
+144,"Sienna Velvet Spectrum Monochrome",brown,classic,monochrome,#906643,264,0.703,1.195,#4a352c,#745645,#9e7b5e,#b8a187,#d1c5b1,20.2907,5.4486,1.4533,gray,1,0,1,0,0,0,1,1,1,0
+145,"Azure Velvet Spectrum",blue,classic,triadic,#3950c7,350,0.861,0.898,#297468,#36328f,#aa3c90,#c07e4b,#8ac966,20.2698,5.5375,1.6796,blue,1,0,0,1,0,0,0,0,0,1
+146,"Aqua Velvet Atlas Monochrome",teal,classic,monochrome,#3c9278,225,0.784,1.170,#254938,#3b745e,#51a088,#78bbac,#a4d1cb,20.2547,5.4606,1.3219,gray,1,0,0,1,0,0,1,0,1,0
+147,"Nocturne Verdant Orbit Monochrome",green,dark-modern,monochrome,#137525,8,1.201,0.961,#032503,#05480c,#097a1e,#0cac37,#10de58,20.2273,5.5058,1.5268,green,0,1,0,0,0,1,0,0,1,0
+148,"Citrus Velvet Spectrum Monochrome",orange,classic,monochrome,#a7883e,24,0.934,1.050,#583f23,#826434,#ac8d45,#c3b069,#d4cb93,20.2072,5.4951,1.3111,gray,1,0,1,0,0,0,0,1,1,0
+149,"Cerulean Velvet Palette",blue,classic,tetradic,#5162c4,162,0.922,1.162,#3e9ba5,#7454bf,#cc76a1,#d9c699,#bfe6bb,20.2047,5.5806,1.2213,blue,1,0,0,1,1,0,0,0,0,1
+150,"Seaglass Velvet Spectrum Monochrome",teal,classic,monochrome,#359875,73,0.901,1.107,#1d4a32,#2f7657,#40a380,#60c1a7,#8dd2c5,20.1394,5.4547,1.2555,gray,1,0,0,0,0,0,0,0,1,0
+151,"Seaglass Velvet Spectrum Monochrome",teal,classic,monochrome,#349688,153,0.669,1.199,#24473c,#3b7467,#52a095,#7abbb7,#a7d1d2,20.1371,5.4124,1.3196,gray,1,0,0,1,0,0,1,0,1,0
+152,"Aqua Velvet Orbit Monochrome",teal,classic,monochrome,#42917c,75,0.867,1.133,#264a3a,#3b7460,#519e8a,#76b9ad,#a0ceca,20.1292,5.4503,1.3074,gray,1,0,0,1,0,0,0,0,1,0
+153,"Nocturne Seaglass Bloom Monochrome",teal,dark-modern,monochrome,#097c4f,169,1.020,0.969,#022512,#044627,#08794d,#0bac7b,#0edfb0,20.1025,5.4511,1.4973,turquoise,0,1,0,0,0,1,0,0,1,0
+154,"Orchid Velvet Palette Monochrome",purple,classic,monochrome,#6951c9,168,0.965,1.152,#333094,#5243c2,#8673d1,#b6a4e1,#dfd5f1,20.1018,5.3866,1.4768,violet,1,0,0,1,1,0,0,0,1,0
+155,"Sapphire Velvet Orbit",blue,classic,tetradic,#285290,110,0.862,1.077,#1c524a,#2b2873,#93337c,#b4733e,#7fc658,20.0600,5.4625,1.4241,blue,1,0,0,1,0,1,0,0,0,1
+156,"Nocturne Spruce Orbit Monochrome",green,dark-modern,monochrome,#126d40,62,1.025,0.936,#05210f,#093a1d,#10673c,#179561,#1ec28c,20.0186,5.5080,1.3280,green,0,1,0,0,0,1,0,0,1,0
+157,"Verdant Velvet Orbit Monochrome",green,classic,monochrome,#478d4c,228,0.888,1.172,#2d4c29,#417641,#58a15d,#80ba89,#abd1b4,20.0064,5.3950,1.3449,gray,1,0,0,0,0,0,1,0,1,0
+158,"Plum Velvet Drift",purple,classic,tetradic,#712c7e,56,0.776,1.163,#242047,#672f57,#88623e,#69a84d,#6abbb2,19.9786,5.4355,1.2812,black,1,0,0,1,0,1,0,0,0,1
+159,"Nocturne Sunbeam Lattice Monochrome",yellow,dark-modern,monochrome,#706917,47,1.271,0.769,#1d1603,#383005,#5f5908,#87870c,#a1af0f,19.9727,5.5011,1.3636,yellow,0,1,1,0,0,1,0,0,1,0
+160,"Emerald Velvet Atlas Monochrome",green,classic,monochrome,#3c9d53,288,0.692,1.119,#294d2b,#3e7647,#549f66,#79b88d,#a2ceb4,19.9400,5.4024,1.3280,gray,1,0,0,0,0,0,1,0,1,0
+161,"Sapphire Velvet Atlas",blue,classic,tetradic,#3774bf,347,0.799,0.953,#2c7163,#37378d,#a94194,#bd7e54,#93c870,19.9381,5.4253,1.6214,gray,1,0,0,1,0,0,0,0,0,1
+162,"Nocturne Lagoon Suite Monochrome",teal,dark-modern,monochrome,#0a774e,314,1.270,0.950,#002712,#004525,#007a4c,#00b07c,#00e5b5,19.9258,5.4010,1.4458,turquoise,0,1,0,0,0,1,0,0,1,0
+163,"Plum Velvet Studio",purple,classic,tetradic,#6a367b,315,0.891,1.160,#24244b,#6a345f,#8a6043,#75aa52,#71baac,19.9030,5.4761,1.2220,gray,1,0,0,1,0,1,0,0,0,1
+164,"Moss Velvet Canvas Monochrome",green,classic,monochrome,#2e8c37,346,0.703,1.145,#1d391b,#306531,#45904c,#61b470,#8dc99d,19.8818,5.3467,1.3269,gray,1,0,0,0,0,1,0,0,1,0
+165,"Emerald Velvet Suite Monochrome",green,classic,monochrome,#2a8f5e,54,0.777,1.090,#173923,#286442,#3a9066,#4fb88e,#7bc9b0,19.8751,5.3611,1.2616,black,1,0,0,0,0,1,0,0,1,0
+166,"Arctic Velvet Drift Monochrome",teal,classic,monochrome,#487b6d,292,0.832,1.138,#233b31,#3b6355,#538b7b,#73aba0,#9bc3bf,19.8702,5.3469,1.3585,gray,1,0,0,1,0,0,0,0,1,0
+167,"Spruce Velvet Atlas Monochrome",green,classic,monochrome,#2f7833,313,0.893,1.036,#142711,#245023,#357838,#46a153,#66bc79,19.8639,5.3914,1.3935,black,1,0,0,0,0,1,0,0,1,0
+168,"Spruce Velvet Spectrum Monochrome",green,classic,monochrome,#2e9c5a,157,0.840,1.140,#1c4b27,#2d7945,#3ea869,#62c491,#90d6b8,19.8612,5.3402,1.2720,green,1,0,0,0,0,0,0,0,1,0
+169,"Aqua Velvet Bloom Monochrome",teal,classic,monochrome,#2ca78e,254,0.707,1.083,#1f4c3b,#317663,#43a18e,#63beb3,#8ed0ce,19.8569,5.3817,1.2636,gray,1,0,0,1,0,0,0,0,1,0
+170,"Nocturne Magenta Studio",pink,dark-modern,complementary,#65143c,349,1.286,0.980,#250314,#164905,#6e6e08,#942e0b,#0eb964,19.8549,5.3889,1.4679,pink,0,1,1,0,0,1,0,0,0,1
+171,"Nocturne Magenta Palette",pink,dark-modern,triadic,#691458,109,1.212,0.986,#0b0427,#4c0730,#70480b,#29950e,#12baba,19.8487,5.3996,1.3011,pink,0,1,0,0,0,1,0,0,0,1
+172,"Tobacco Velvet Bloom Monochrome",brown,classic,monochrome,#a15c37,168,0.874,1.175,#572c23,#864b36,#b56e48,#c99a77,#dbc2a6,19.7995,5.2887,1.4667,gray,1,0,1,0,0,0,0,1,1,0
+173,"Nocturne Lagoon Orbit Monochrome",teal,dark-modern,monochrome,#0f6f5f,298,1.219,0.832,#012116,#02382b,#046555,#059286,#07bfbf,19.7969,5.4623,1.3029,turquoise,0,1,0,1,0,1,0,0,1,0
+174,"Sapphire Velvet Suite",blue,classic,tetradic,#375b8f,285,0.880,1.038,#25544d,#343272,#8f3f7c,#ac764b,#85bc66,19.7884,5.4471,1.3299,gray,1,0,0,1,0,1,0,0,0,1
+175,"Lagoon Velvet Suite Monochrome",teal,classic,monochrome,#3c6e68,188,0.867,1.079,#172723,#2e4d47,#44736d,#5b9997,#7eb0b2,19.7731,5.3586,1.3554,black,1,0,0,1,0,1,0,0,1,0
+176,"Aqua Velvet Palette Monochrome",teal,classic,monochrome,#328f7d,233,0.836,1.048,#193b2f,#2b6555,#3c8e7e,#50b5aa,#7ac6c4,19.7663,5.3626,1.2545,black,1,0,0,1,0,1,0,0,1,0
+177,"Seaglass Velvet Orbit Monochrome",teal,classic,monochrome,#2b8d85,114,0.753,1.090,#17372f,#2a6258,#3c8d86,#51b4b5,#7cc1c7,19.7631,5.3463,1.2064,black,1,0,0,1,0,1,0,0,1,0
+178,"Nocturne Moss Lattice Monochrome",green,dark-modern,monochrome,#1c7908,201,1.279,0.964,#0e2700,#124600,#167c00,#11b200,#02e800,19.7581,5.3610,1.4530,green,0,1,0,0,0,1,0,0,1,0
+179,"Nocturne Tobacco Lattice",brown,dark-modern,triadic,#7e3d08,94,1.042,0.966,#310200,#563904,#177c05,#079aa2,#3809c8,19.7344,5.3548,1.5690,brown,0,1,1,0,0,1,0,0,0,1
+180,"Plum Velvet Suite Monochrome",purple,classic,monochrome,#9e6dd0,217,0.944,1.191,#663fb5,#936bcc,#bc9ddd,#e1ceee,#ffffff,19.7272,5.2156,1.4722,white,1,0,0,1,1,0,1,0,1,0
+181,"Lagoon Velvet Canvas Monochrome",teal,classic,monochrome,#2d9871,38,0.670,1.054,#1c3d2c,#2f654d,#428e72,#59b299,#81c4b7,19.7241,5.3438,1.2739,gray,1,0,0,0,0,1,0,0,1,0
+182,"Seaglass Velvet Bloom Monochrome",teal,classic,monochrome,#2d8e7c,147,0.990,1.013,#12392c,#206452,#2e8f7d,#3cbaad,#62cdcb,19.7180,5.3413,1.2602,turquoise,1,0,0,1,0,1,0,0,1,0
+183,"Ruby Velvet Atlas",red,classic,analogous,#9f3c33,252,0.683,0.924,#502600,#6a331c,#83453f,#9d7b4b,#aab15c,19.6992,5.3684,1.2996,red,1,0,1,0,0,1,0,1,0,1
+184,"Chestnut Velvet Suite",brown,classic,analogous,#926046,193,0.809,1.197,#673a1b,#874b42,#a5765d,#b7ad7d,#b9c89c,19.6985,5.3493,1.2711,gray,1,0,1,0,0,0,1,1,0,1
+185,"Nocturne Sunbeam Spectrum Monochrome",yellow,dark-modern,monochrome,#606e11,247,1.139,0.979,#252403,#3c4006,#62720a,#81a40f,#99d713,19.6923,5.3426,1.4472,yellow,0,1,0,0,0,1,0,0,1,0
+186,"Moss Velvet Lattice Monochrome",green,classic,monochrome,#467c4e,310,0.824,1.155,#243b23,#3c643e,#548c5c,#75ac82,#9dc4aa,19.6772,5.2827,1.3672,gray,1,0,0,0,0,0,0,0,1,0
+187,"Arctic Velvet Suite Monochrome",teal,classic,monochrome,#327859,333,0.962,1.188,#15301f,#295e42,#3d8d6a,#56b694,#85cab7,19.6705,5.2165,1.3071,black,1,0,0,0,0,1,0,0,1,0
+188,"Ocean Velvet Palette",blue,classic,tetradic,#4168bb,229,0.905,1.154,#378d87,#5244af,#c161a2,#cfab83,#b4dca5,19.6658,5.3222,1.3993,white,1,0,0,1,1,0,0,0,0,1
+189,"Violet Velvet Palette Monochrome",purple,classic,monochrome,#9369d2,216,0.816,1.197,#5d44af,#8b6fc7,#b79fda,#ded0ed,#ffffff,19.6614,5.1963,1.4633,white,1,0,0,1,1,0,1,0,1,0
+190,"Nocturne Spruce Studio Monochrome",green,dark-modern,monochrome,#157317,321,1.233,0.840,#072003,#093e05,#086a0b,#0c961a,#0fc131,19.6115,5.3931,1.3993,green,0,1,0,0,0,1,0,0,1,0
+191,"Nocturne Copper Canvas",orange,dark-modern,triadic,#804608,144,0.989,0.983,#320300,#584006,#127d09,#0b91a3,#490ec8,19.6056,5.2989,1.4113,orange,0,1,1,0,0,1,0,0,0,1
+192,"Moss Velvet Spectrum Monochrome",green,classic,monochrome,#41973d,0,0.777,1.162,#2f4d27,#44783d,#56a453,#7bbc7e,#a6d2ac,19.5451,5.2503,1.3319,gray,1,0,0,0,0,0,1,0,1,0
+193,"Cobalt Velvet Suite",blue,classic,tetradic,#687ac2,101,0.950,0.965,#3e8e93,#634aae,#bd6394,#c8af7f,#a3d49a,19.5231,5.3761,1.2574,white,1,0,0,1,1,0,1,0,0,1
+194,"Nocturne Emerald Palette Monochrome",green,dark-modern,monochrome,#087a31,92,0.937,0.871,#032009,#063b14,#0a672c,#0e9449,#13c06e,19.4973,5.3508,1.3533,green,0,1,0,0,0,1,0,0,1,0
+195,"Ocean Velvet Palette",blue,classic,tetradic,#2f559d,24,0.916,0.942,#1d5651,#2f2773,#903173,#ac743a,#6ec24b,19.4917,5.3134,1.5086,blue,1,0,0,1,0,1,0,0,0,1
+196,"Amethyst Velvet Lattice",purple,classic,tetradic,#8c39a4,134,0.687,1.122,#363468,#874378,#a57653,#8ab76f,#8dc6bc,19.4544,5.3161,1.2040,gray,1,0,0,1,0,0,1,0,0,1
+197,"Cerulean Velvet Spectrum",blue,classic,tetradic,#2c4f86,313,0.898,1.090,#1d4c46,#2d296d,#8d3576,#ad7341,#7dc15a,19.4463,5.3055,1.3182,blue,1,0,0,1,0,1,0,0,0,1
+198,"Cerulean Velvet Canvas",blue,classic,tetradic,#2e56ac,192,0.918,1.115,#24746f,#3c2e97,#ba398f,#cb9456,#91d678,19.4156,5.1601,1.5290,blue,1,0,0,1,0,0,0,0,0,1
+199,"Aqua Velvet Canvas Monochrome",teal,classic,monochrome,#447677,91,0.855,1.168,#213733,#39605d,#528789,#72a4aa,#9bbbc3,19.3947,5.1856,1.3528,gray,1,0,0,1,0,0,0,0,1,0
+200,"Violet Velvet Studio Monochrome",purple,classic,monochrome,#6b44ca,192,0.989,1.182,#372a91,#5639c4,#8a6bd4,#b89ee3,#e1d2f2,19.3933,5.1344,1.4602,violet,1,0,0,1,1,0,0,0,1,0
+201,"Indigo Velvet Atlas",purple,classic,tetradic,#793c84,333,0.906,1.049,#2a264e,#6a345a,#876542,#6aa451,#6ab5ae,19.3714,5.2892,1.2544,black,1,0,0,1,0,1,0,0,0,1
+202,"Sapphire Velvet Studio",blue,classic,tetradic,#4162b2,196,0.978,1.184,#348b87,#5241ae,#c25d9e,#d0ad80,#b1dda4,19.3634,5.1889,1.3788,blue,1,0,0,1,1,0,0,0,0,1
+203,"Nocturne Sienna Studio",brown,dark-modern,tetradic,#742e15,168,1.159,0.967,#300500,#543e09,#16780d,#118c9b,#4a15bf,19.3622,5.2484,1.4084,brown,0,1,1,0,0,1,0,0,0,1
+204,"Scarlet Velvet Lattice",red,classic,analogous,#6e383a,112,0.960,1.179,#402241,#61334c,#804346,#a07754,#b4b270,19.3439,5.2615,1.3466,black,1,0,1,0,0,1,0,1,0,1
+205,"Lagoon Velvet Palette Monochrome",teal,classic,monochrome,#3c856a,351,0.704,1.125,#213a2d,#38614f,#508974,#6dab99,#95c2b9,19.3299,5.1715,1.3478,gray,1,0,0,0,0,0,0,0,1,0
+206,"Cobalt Velvet Lattice",blue,classic,triadic,#2f44ac,226,0.905,0.908,#1e5f54,#2a277b,#97307f,#b36e39,#78c64b,19.2731,5.2062,1.6840,blue,1,0,0,1,0,1,0,0,0,1
+207,"Cocoa Velvet Palette",brown,classic,analogous,#c16739,152,0.921,0.854,#6c2400,#862d1e,#a05935,#baa63e,#a0c655,19.2648,5.2829,1.2429,brown,1,0,1,0,0,1,0,0,0,1
+208,"Jade Velvet Orbit Monochrome",green,classic,monochrome,#2e8823,34,0.856,1.111,#193110,#2c6020,#398f2f,#42be3e,#6ccf72,19.2546,5.1440,1.2468,green,1,0,0,0,0,1,0,0,1,0
+209,"Emerald Velvet Bloom Monochrome",green,classic,monochrome,#3a7e40,111,0.884,1.145,#1e371c,#316132,#478c4d,#63b070,#8ec59c,19.2198,5.1263,1.3313,gray,1,0,0,0,0,1,0,0,1,0
+210,"Violet Velvet Palette Monochrome",purple,classic,monochrome,#784ea6,346,0.853,1.185,#453666,#684d92,#8f6fb3,#b59aca,#d7c6e1,19.2181,5.0926,1.5467,white,1,0,0,1,1,0,1,0,1,0
+211,"Seaglass Velvet Bloom Monochrome",teal,classic,monochrome,#2a7f63,61,0.866,1.148,#122f21,#255d46,#378b6f,#4ab89d,#79cabd,19.1996,5.0850,1.2735,black,1,0,0,1,0,1,0,0,1,0
+212,"Azure Velvet Suite",blue,classic,tetradic,#4561c2,20,0.848,1.083,#388a8c,#5c45ac,#bf5e96,#cbae7e,#a7d89d,19.1366,5.1822,1.3090,white,1,0,0,1,1,0,0,0,0,1
+213,"Azure Velvet Atlas",blue,classic,tetradic,#3354ca,265,0.852,0.949,#28787b,#493298,#b53b80,#c69b51,#7ed06e,19.1302,5.1688,1.3565,blue,1,0,0,1,0,0,0,0,0,1
+214,"Orchid Velvet Studio Monochrome",purple,classic,monochrome,#6757c1,335,0.951,1.116,#353687,#4e46b4,#7e71c8,#ac9ed9,#d5cbeb,19.0534,5.0832,1.4092,white,1,0,0,1,1,0,0,0,1,0
+215,"Umber Velvet Spectrum",brown,classic,analogous,#a44f29,144,0.803,1.080,#632300,#832e1e,#a45a39,#c0a94a,#adcb6b,19.0477,5.1219,1.2791,brown,1,0,1,0,0,1,0,0,0,1
+216,"Ocean Velvet Lattice",blue,classic,tetradic,#4462c7,204,0.959,1.062,#309395,#553ab6,#c85397,#d3af74,#a2dd95,19.0396,5.1400,1.3111,blue,1,0,0,1,1,0,0,0,0,1
+217,"Spruce Velvet Orbit Monochrome",green,classic,monochrome,#2e8223,133,0.848,1.146,#182d0f,#2c5d20,#3b8d30,#45bd41,#70ce75,19.0166,5.0386,1.2516,green,1,0,0,0,0,1,0,0,1,0
+218,"Lagoon Velvet Orbit Monochrome",teal,classic,monochrome,#299e6c,104,0.866,1.156,#194c2d,#297d52,#38ae7c,#5dcaa5,#8edac6,18.9870,5.0608,1.2426,turquoise,1,0,0,0,0,0,0,0,1,0
+219,"Azure Velvet Orbit",blue,classic,complementary,#3b4fc0,331,0.921,1.122,#313f8d,#af483c,#c5559e,#ad77d0,#dcd299,18.9455,5.1672,1.2243,blue,1,0,0,1,1,0,0,0,0,1
+220,"Nocturne Sunbeam Lattice Monochrome",yellow,dark-modern,monochrome,#536d14,302,1.264,0.809,#1b1f02,#2c3704,#476207,#5b8c0a,#69b70c,18.9123,5.2004,1.3312,yellow,0,1,0,0,0,1,0,0,1,0
+221,"Orchid Velvet Bloom",purple,classic,tetradic,#963ca6,357,0.846,0.891,#2c275a,#733260,#8d653d,#64a648,#5ab8ae,18.9023,5.1706,1.2556,black,1,0,0,1,0,1,0,0,0,1
+222,"Aqua Velvet Orbit Monochrome",teal,classic,monochrome,#2b737f,229,0.736,1.115,#152c2b,#285457,#3c7781,#5097ac,#7aabc1,18.8892,5.0629,1.3236,black,1,0,0,1,0,1,0,0,1,0
+223,"Spruce Velvet Orbit Monochrome",green,classic,monochrome,#2d8359,279,0.822,1.119,#15321f,#285e3f,#3b8a63,#50b48b,#7cc7af,18.8738,5.0015,1.2915,black,1,0,0,0,0,1,0,0,1,0
+224,"Azure Velvet Studio",blue,classic,tetradic,#4a5dc5,331,0.995,0.893,#297880,#51329b,#b73b79,#c6a250,#76cf6b,18.8685,5.1312,1.2559,blue,1,0,0,1,0,0,0,0,0,1
+225,"Seaglass Velvet Palette Monochrome",teal,classic,monochrome,#288f7b,10,0.819,1.034,#143529,#23604f,#338a79,#43b5a8,#69c8c5,18.8611,5.0522,1.2680,turquoise,1,0,0,1,0,1,0,0,1,0
+226,"Emerald Velvet Palette Monochrome",green,classic,monochrome,#38812d,268,0.762,1.156,#1e3117,#365d2b,#498a40,#5cb258,#85c687,18.8485,4.9927,1.3090,black,1,0,0,0,0,1,0,0,1,0
+227,"Cobalt Velvet Atlas",blue,classic,tetradic,#3866bb,267,0.957,1.135,#2c8b81,#4338ae,#c64ea2,#d2a171,#aadd94,18.8424,5.0126,1.4851,blue,1,0,0,1,0,0,0,0,0,1
+228,"Nocturne Emerald Spectrum Monochrome",green,dark-modern,monochrome,#0a7924,9,1.177,0.995,#002903,#004a0b,#00821f,#00ba3b,#00f261,18.7382,4.9848,1.5050,green,0,1,0,0,0,1,0,0,1,0
+229,"Cobalt Velvet Studio",blue,classic,triadic,#25338c,34,0.786,1.067,#1c4a44,#2c276a,#8a3373,#a9703f,#78c054,18.7248,5.0764,1.3158,blue,1,0,0,1,0,1,0,0,0,1
+230,"Sapphire Velvet Orbit",blue,classic,tetradic,#3764b8,254,0.972,1.147,#2b8a80,#4236ad,#c74ba2,#d2a16f,#a9dd93,18.7033,4.9566,1.4834,blue,1,0,0,1,0,0,0,0,0,1
+231,"Aqua Velvet Canvas Monochrome",teal,classic,monochrome,#426c6f,150,0.927,1.103,#1b2d2b,#325353,#49777a,#6197a0,#88acb7,18.7000,4.9964,1.3398,black,1,0,0,1,0,1,0,0,1,0
+232,"Seaglass Velvet Studio Monochrome",teal,classic,monochrome,#32a19f,341,0.658,1.173,#264e47,#3b7a74,#51a7a5,#7bbabf,#a7cdd4,18.6513,4.9740,1.2816,gray,1,0,0,1,0,0,1,0,1,0
+233,"Azure Velvet Studio",blue,classic,triadic,#273888,347,0.960,0.955,#15443c,#201e62,#80276c,#9e5f30,#6abc39,18.6490,5.0806,1.3516,blue,1,0,0,1,0,1,0,0,0,1
+234,"Plum Velvet Palette Monochrome",purple,classic,monochrome,#5b46c8,195,0.932,1.163,#2d2e8a,#473ebb,#7c6cce,#ad9ddf,#d9ceef,18.6329,4.8933,1.4307,violet,1,0,0,1,1,0,0,0,1,0
+235,"Sapphire Velvet Lattice",blue,classic,tetradic,#224e88,276,0.701,1.126,#1d473f,#2b2a67,#883776,#a96f45,#82bd5e,18.6183,5.0467,1.2427,black,1,0,0,1,0,1,0,0,0,1
+236,"Jade Velvet Palette",green,classic,complementary,#33c346,215,0.844,1.151,#308d3c,#683cb0,#567fc6,#79d1c7,#dd9cd5,18.5806,5.0009,1.2009,green,1,0,0,0,1,0,0,0,0,1
+237,"Cerulean Velvet Orbit",blue,classic,tetradic,#376eaa,103,0.931,1.095,#297463,#353895,#b641a2,#c6845d,#a2d17e,18.5751,4.9216,1.6077,blue,1,0,0,1,0,0,0,0,0,1
+238,"Nocturne Tobacco Atlas",brown,dark-modern,tetradic,#772a0f,145,1.268,0.986,#330000,#5b4101,#0d8301,#0198ab,#4202d3,18.5719,4.9249,1.4260,brown,0,1,1,0,0,1,0,0,0,1
+239,"Sienna Velvet Suite",brown,classic,analogous,#a05f43,302,0.865,1.108,#6d340c,#8c4334,#aa6c51,#baab6f,#b7c98d,18.5622,4.9731,1.2855,brown,1,0,1,0,0,0,0,1,0,1
+240,"Nocturne Sienna Bloom",brown,dark-modern,complementary,#6d2408,3,1.068,0.954,#250b02,#034626,#1b6b04,#8d9106,#0786b6,18.5436,5.0946,1.2141,brown,0,1,1,0,0,1,0,0,0,1
+241,"Ocean Velvet Orbit",blue,classic,tetradic,#4266b6,185,0.997,1.107,#318782,#4c3da8,#c0529b,#cca374,#a6d895,18.5329,4.9185,1.4216,blue,1,0,0,1,0,0,0,0,0,1
+242,"Moss Velvet Lattice Monochrome",green,classic,monochrome,#34784d,289,0.690,1.131,#192b1c,#30533a,#477c5a,#5fa37e,#87baa3,18.4756,4.8853,1.3637,black,1,0,0,0,0,1,0,0,1,0
+243,"Nocturne Rose Drift",pink,dark-modern,complementary,#70153d,149,1.194,0.977,#2e0517,#165208,#70760c,#9a3b10,#13bf73,18.4626,4.9001,1.4252,pink,0,1,1,0,0,1,0,0,0,1
+244,"Ocean Velvet Spectrum",blue,classic,tetradic,#3354c1,127,0.823,1.131,#308688,#543caa,#c25293,#ceac74,#a3da96,18.4381,4.8912,1.3323,blue,1,0,0,1,0,0,0,0,0,1
+245,"Cobalt Velvet Lattice",blue,classic,tetradic,#3a5cc1,208,0.830,1.096,#338686,#5440a7,#be5594,#caa875,#a3d796,18.3948,4.8950,1.3574,white,1,0,0,1,0,0,0,0,0,1
+246,"Nocturne Moss Studio Monochrome",green,dark-modern,monochrome,#136a40,166,1.052,0.897,#05200e,#08361c,#0f6139,#168d5d,#1cb887,18.3879,5.0021,1.2750,green,0,1,0,0,0,1,0,0,1,0
+247,"Nocturne Cocoa Lattice",brown,dark-modern,complementary,#6c2b0a,96,1.163,0.987,#280e01,#014b2c,#147302,#8d9a03,#0382c2,18.3749,4.9759,1.3578,brown,0,1,1,0,0,1,0,0,0,1
+248,"Indigo Velvet Orbit Monochrome",purple,classic,monochrome,#7243ce,348,0.887,1.128,#3c2c8a,#5b3bba,#8965cf,#b496de,#d9c6ed,18.3745,4.8261,1.4481,violet,1,0,0,1,1,0,0,0,1,0
+249,"Jade Velvet Orbit Monochrome",green,classic,monochrome,#3e943a,13,0.991,1.195,#2a5020,#3d8033,#4bb046,#72c775,#a2daa9,18.3674,4.8455,1.2954,gray,1,0,0,0,0,0,0,0,1,0
+250,"Moss Velvet Spectrum Monochrome",green,classic,monochrome,#2da642,332,0.839,1.126,#1d521d,#2d8135,#3eb052,#64c97e,#93d9ab,18.3580,4.8802,1.2506,green,1,0,0,0,0,0,0,0,1,0
+251,"Cerulean Velvet Canvas",blue,classic,complementary,#5666c6,295,0.778,1.120,#46529d,#b6645a,#c47aaa,#bc9ad2,#e0dbb9,18.3132,4.9595,1.2950,white,1,0,0,1,1,0,1,0,0,1
+252,"Spruce Velvet Palette Monochrome",green,classic,monochrome,#3d9f2c,76,0.917,1.150,#2a4f19,#3d8029,#4ab138,#65cc5e,#8fdc90,18.2966,4.8632,1.2372,green,1,0,0,0,0,0,0,0,1,0
+253,"Sapphire Velvet Bloom",blue,classic,tetradic,#3059ba,195,0.937,1.070,#247f7a,#402ea0,#c23892,#cf9957,#91d879,18.2925,4.7816,1.4738,blue,1,0,0,1,0,0,0,0,0,1
+254,"Cobalt Velvet Suite",blue,classic,tetradic,#3760b9,254,0.841,1.061,#2e7a75,#463a9a,#b94592,#c59865,#99d184,18.2902,4.8508,1.4662,blue,1,0,0,1,0,0,0,0,0,1
+255,"Nocturne Seaglass Spectrum Monochrome",teal,dark-modern,monochrome,#08756b,270,1.243,0.761,#001f17,#00342b,#005f56,#008a89,#00a7b4,18.2828,4.9966,1.2629,turquoise,0,1,0,1,0,1,0,0,1,0
+256,"Arctic Velvet Lattice Monochrome",teal,classic,monochrome,#497c75,165,0.883,1.063,#223831,#385e55,#4f837c,#68a5a1,#8ebabb,18.2795,4.8700,1.3214,gray,1,0,0,1,0,1,0,0,1,0
+257,"Umber Velvet Bloom",brown,classic,analogous,#994d2a,13,0.783,1.179,#612500,#833223,#a66040,#bfac57,#b2cc7a,18.2611,4.8071,1.2763,brown,1,0,1,0,0,0,0,0,0,1
+258,"Nocturne Seaglass Atlas Monochrome",teal,dark-modern,monochrome,#107964,13,1.201,0.991,#022719,#034d38,#058269,#08b8a3,#0aede5,18.2517,4.7689,1.6242,turquoise,0,1,0,1,0,1,0,0,1,0
+259,"Ocean Velvet Suite",blue,classic,tetradic,#355e9c,34,0.985,0.909,#1e564e,#2b2771,#8d3176,#a96c3a,#72c048,18.2124,4.8931,1.5302,blue,1,0,0,1,0,1,0,0,0,1
+260,"Spruce Velvet Canvas Monochrome",green,classic,monochrome,#3a7632,263,0.656,1.185,#1d2a18,#385431,#4f7e49,#67a564,#8ebe91,18.2024,4.7587,1.3894,black,1,0,0,0,0,1,0,0,1,0
+261,"Arctic Velvet Orbit Monochrome",teal,classic,monochrome,#3a7f84,298,0.948,1.051,#1a3835,#2c6060,#3f8489,#53a2b0,#7bb2c2,18.1856,4.8731,1.2550,black,1,0,0,1,0,1,0,0,1,0
+262,"Plum Velvet Drift Monochrome",purple,classic,monochrome,#423684,262,0.924,1.187,#1b1b3d,#332f6b,#514499,#7965bb,#a693cf,18.1686,4.7814,1.3847,gray,1,0,0,1,0,0,0,0,1,0
+263,"Amethyst Velvet Spectrum Monochrome",purple,classic,monochrome,#8861d1,283,0.774,1.196,#5443a5,#8069c2,#ae98d6,#d6c8e9,#faf8fc,18.1621,4.7175,1.4963,white,1,0,0,1,1,0,0,0,1,0
+264,"Spruce Velvet Canvas Monochrome",green,classic,monochrome,#2b823e,41,0.723,1.085,#152d16,#28572f,#3c804b,#4faa6a,#76bf92,18.1509,4.7930,1.3220,black,1,0,0,0,0,1,0,0,1,0
+265,"Chestnut Velvet Spectrum",brown,classic,analogous,#7d3c2a,228,0.892,0.963,#3b1700,#582213,#743c2d,#907738,#96ad43,18.1499,4.8817,1.2634,brown,1,0,1,0,0,1,0,0,0,1
+266,"Cobalt Velvet Atlas",blue,classic,complementary,#3d4fc7,50,0.729,1.145,#3d488f,#b0574b,#c06aa0,#b48bce,#dcd5ac,18.1340,4.8714,1.2951,white,1,0,0,1,1,0,1,0,0,1
+267,"Arctic Velvet Canvas Monochrome",teal,classic,monochrome,#32826b,25,0.960,1.044,#143225,#255c48,#36866f,#47b09a,#6dc4ba,18.1339,4.7964,1.2908,black,1,0,0,1,0,1,0,0,1,0
+268,"Moss Velvet Drift Monochrome",green,classic,monochrome,#3e7555,66,0.785,1.119,#1c2f21,#34563f,#4b7d60,#65a284,#8cbaa7,18.1277,4.7711,1.3745,black,1,0,0,0,0,1,0,0,1,0
+269,"Ocean Velvet Spectrum",blue,classic,tetradic,#2e6ca9,312,0.989,1.158,#227963,#2c329e,#c336ae,#d18258,#a7db7d,18.0607,4.7093,1.5799,blue,1,0,0,1,0,0,0,0,0,1
+270,"Amethyst Velvet Drift Monochrome",purple,classic,monochrome,#7c60d6,154,0.662,1.174,#4d47a2,#786cbe,#a799d3,#d1c7e7,#f7f5fb,18.0291,4.6872,1.4891,white,1,0,0,1,1,0,1,0,1,0
+271,"Sapphire Velvet Bloom",blue,classic,tetradic,#4c70c3,37,0.843,0.933,#337d7a,#4c3e98,#b3498f,#bf9663,#92ca7e,18.0289,4.8218,1.4142,gray,1,0,0,1,0,0,1,0,0,1
+272,"Copper Velvet Lattice Monochrome",orange,classic,monochrome,#90773e,298,0.882,1.008,#40301f,#665131,#8c7643,#af9c59,#c2b87f,18.0003,4.7875,1.3540,gray,1,0,1,0,0,1,0,1,1,0
+273,"Moss Velvet Lattice Monochrome",green,classic,monochrome,#3f8443,218,0.977,1.031,#1f391c,#30602f,#428746,#56ad62,#7dc08c,17.9692,4.7857,1.2968,black,1,0,0,0,0,1,0,0,1,0
+274,"Cobalt Velvet Spectrum",blue,classic,tetradic,#2d6ea8,69,0.974,1.172,#227860,#2c359e,#c337b2,#d17f59,#abdb7e,17.8619,4.6566,1.5280,blue,1,0,0,1,0,0,0,0,0,1
+275,"Nocturne Verdant Spectrum Monochrome",green,dark-modern,monochrome,#11782c,218,1.077,0.801,#031e06,#063b10,#0a6322,#0f8c3a,#13b558,17.8519,4.8326,1.3763,green,0,1,0,0,0,1,0,0,1,0
+276,"Amethyst Velvet Studio Monochrome",purple,classic,monochrome,#6853c3,110,0.959,1.095,#333185,#4d41b2,#7a69c8,#a896d8,#d0c3e9,17.8516,4.6822,1.4147,violet,1,0,0,1,1,0,0,0,1,0
+277,"Emerald Velvet Drift Monochrome",green,classic,monochrome,#487a57,202,0.682,1.038,#203523,#36593d,#4c7e5b,#62a17a,#87b79d,17.8201,4.7268,1.3468,black,1,0,0,0,0,1,0,0,1,0
+278,"Blush Velvet Drift",pink,classic,triadic,#902c82,349,0.857,1.129,#282157,#792d5f,#9b6e3a,#66bb48,#69c7c1,17.7905,4.6852,1.2023,pink,1,0,0,0,0,1,0,1,0,1
+279,"Magenta Velvet Palette",pink,classic,triadic,#833777,300,0.705,1.144,#302b4d,#6b3b5a,#896e4c,#6fa65e,#7cb6b4,17.7797,4.7745,1.2626,gray,1,0,0,0,0,1,0,1,0,1
+280,"Cobalt Velvet Suite",blue,classic,tetradic,#335ec5,51,0.845,1.048,#2c837f,#4737a3,#c04494,#cb9d64,#98d684,17.7712,4.6601,1.4377,blue,1,0,0,1,0,0,0,0,0,1
+281,"Azure Velvet Orbit",blue,classic,tetradic,#3c58c3,53,0.807,1.083,#368386,#5a42a6,#bc5890,#c9ac78,#a1d597,17.7594,4.7476,1.2925,white,1,0,0,1,0,0,0,0,0,1
+282,"Amethyst Velvet Drift Monochrome",purple,classic,monochrome,#604ac0,124,0.993,1.141,#2f2e82,#4a3eb1,#7966c9,#a896da,#d2c5eb,17.7177,4.6083,1.4259,violet,1,0,0,1,1,0,0,0,1,0
+283,"Verdant Velvet Suite Monochrome",green,classic,monochrome,#408963,28,0.989,0.970,#1c3b25,#2d6041,#3e8560,#50aa82,#73bda3,17.7158,4.7287,1.2865,black,1,0,0,0,0,1,0,0,1,0
+284,"Cobalt Velvet Suite",blue,classic,tetradic,#3d6aba,168,0.942,1.076,#2f837a,#443aa4,#bf4b9d,#cb9a6b,#a3d68b,17.7133,4.6484,1.4986,blue,1,0,0,1,0,0,0,0,0,1
+285,"Tobacco Velvet Orbit",brown,classic,triadic,#9a4f28,319,0.998,1.148,#661b00,#8b5c24,#50b12e,#40cdc5,#7665d7,17.7093,4.6130,1.4026,brown,1,0,1,0,0,0,0,0,0,1
+286,"Cerulean Velvet Bloom",blue,classic,tetradic,#445fcc,171,0.995,0.887,#248084,#4a2ca1,#bd347f,#cd9f49,#76d565,17.7036,4.6710,1.3265,blue,1,0,0,1,0,0,0,0,0,1
+287,"Nocturne Emerald Lattice Monochrome",green,dark-modern,monochrome,#227513,73,1.141,0.800,#0b1e03,#123a06,#17630a,#168c0e,#12b514,17.6874,4.7917,1.3599,green,0,1,0,0,0,1,0,0,1,0
+288,"Nocturne Rose Drift",pink,dark-modern,complementary,#82073c,236,1.095,0.905,#320016,#105601,#737b01,#a03401,#02c470,17.6779,4.6026,1.5278,pink,0,1,1,0,0,1,0,0,0,1
+289,"Aqua Velvet Palette Monochrome",teal,classic,monochrome,#2b7a79,205,0.953,1.081,#102a25,#205651,#308281,#41a6ae,#66b7c6,17.6735,4.6357,1.2556,turquoise,1,0,0,1,0,1,0,0,1,0
+290,"Nocturne Tide Drift Monochrome",teal,dark-modern,monochrome,#07746a,233,0.906,0.787,#031d16,#052f28,#0a5750,#0e7f7e,#129ca7,17.6520,4.8213,1.2120,turquoise,0,1,0,1,0,1,0,0,1,0
+291,"Cerulean Velvet Suite",blue,classic,tetradic,#3a5aa8,151,0.996,1.164,#2b7d79,#4838a0,#bf4894,#cca16b,#a0d88e,17.6285,4.5953,1.4314,blue,1,0,0,1,0,0,0,0,0,1
+292,"Ocean Velvet Atlas",blue,classic,tetradic,#5f74ca,55,0.933,0.910,#348b90,#5a3eab,#bf4f8c,#c9a86a,#91d386,17.6131,4.7124,1.2769,blue,1,0,0,1,0,0,0,0,0,1
+293,"Nocturne Tobacco Drift",brown,dark-modern,tetradic,#722c0d,200,1.253,0.897,#290000,#4d3a00,#057200,#007f96,#4300bb,17.5268,4.6915,1.3114,brown,0,1,1,0,0,1,0,0,0,1
+294,"Nocturne Ember Suite",red,dark-modern,triadic,#75101b,345,1.298,0.959,#2c0031,#580901,#5a7f01,#01a552,#0240cc,17.5198,4.6970,1.2632,red,0,1,1,0,0,1,0,0,0,1
+295,"Sapphire Velvet Bloom",blue,classic,tetradic,#4670b4,94,0.955,1.091,#358278,#4942a2,#ba569f,#c79c76,#aad496,17.5195,4.6156,1.4880,white,1,0,0,1,0,0,0,0,0,1
+296,"Sunbeam Velvet Bloom Monochrome",yellow,classic,monochrome,#6c7746,226,0.773,1.032,#30321e,#515633,#6f7a49,#8b9e5f,#a1b482,17.4256,4.6094,1.3093,black,1,0,0,0,0,1,0,1,1,0
+297,"Cerulean Velvet Bloom",blue,classic,complementary,#3749b0,224,0.846,1.146,#303b7c,#9d463d,#bb4e95,#a570c8,#d5cb92,17.3744,4.6367,1.2404,white,1,0,0,1,0,0,0,0,0,1
+298,"Emerald Velvet Suite",green,classic,complementary,#3bca4f,359,0.839,1.023,#30883c,#653aa7,#4b75c0,#6acbc0,#d689cb,17.3078,4.6048,1.3152,green,1,0,0,0,0,0,0,0,0,1
+299,"Plum Velvet Drift",purple,classic,tetradic,#773e83,241,0.696,1.172,#333152,#6f4363,#8d7055,#7fa76c,#89b8b3,17.2024,4.5838,1.2517,gray,1,0,0,1,0,0,0,0,0,1
+300,"Nocturne Verdant Drift Monochrome",green,dark-modern,monochrome,#077510,31,1.012,0.803,#041f02,#033403,#055e0c,#07891d,#0ab434,17.0371,4.6050,1.2449,green,0,1,0,0,0,1,0,0,1,0
