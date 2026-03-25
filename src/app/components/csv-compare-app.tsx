@@ -4,10 +4,8 @@ import { DirectionProvider } from "@radix-ui/react-direction";
 import {
   ArrowLeftRight,
   Download,
-  FileSpreadsheet,
   GitCompare,
   Loader2,
-  Upload,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
@@ -16,6 +14,7 @@ import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-g
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
 import {
   Select,
   SelectContent,
@@ -40,81 +39,12 @@ import {
   CsvImportError,
   parseCsvFile,
 } from "@/lib/csv-import";
-import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
-import { cn } from "@/lib/utils";
-
-interface FilePickerCardProps {
-  label: string;
-  disabled: boolean;
-  busy: boolean;
-  fileName: string | null;
-  onFile: (file: File) => void;
-  inputId: string;
-  changeLabel: string;
-}
-
-function FilePickerCard({
-  label,
-  disabled,
-  busy,
-  fileName,
-  onFile,
-  inputId,
-  changeLabel,
-}: FilePickerCardProps) {
-  const tc = useTranslations("compare");
-
-  const onPick = React.useCallback(
-    (files: FileList | null) => {
-      const file = files?.[0];
-      if (file) onFile(file);
-    },
-    [onFile],
-  );
-
-  return (
-    <div className="flex min-w-0 flex-1 flex-col gap-2">
-      <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
-        {label}
-      </p>
-      <button
-        type="button"
-        disabled={disabled || busy}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          onPick(e.dataTransfer.files);
-        }}
-        onClick={() => document.getElementById(inputId)?.click()}
-        className={cn(
-          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 transition-colors",
-          "border-border bg-muted/15 hover:bg-muted/30",
-          (disabled || busy) && "pointer-events-none opacity-60",
-        )}
-      >
-        <FileSpreadsheet className="size-8 text-muted-foreground" />
-        <p className="text-center text-muted-foreground text-xs">
-          {fileName ? (
-            <span className="font-medium text-foreground">{fileName}</span>
-          ) : (
-            tc("dropHint")
-          )}
-        </p>
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-background px-2.5 py-1 font-medium text-xs shadow-sm">
-          <Upload className="size-3.5" />
-          {fileName ? changeLabel : tc("chooseFile")}
-        </span>
-      </button>
-      <input
-        id={inputId}
-        type="file"
-        accept=".csv,text/csv"
-        className="sr-only"
-        onChange={(e) => onPick(e.target.files)}
-      />
-    </div>
-  );
-}
+import {
+  type CsvViewerSession,
+  mergeRowsIntoSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 
 function intersectionColumnKeys(a: CsvViewerSession, b: CsvViewerSession): string[] {
   const setB = new Set(b.columnKeys);
@@ -253,6 +183,36 @@ export function CsvCompareApp() {
     [syncScroll],
   );
 
+  const onLeftSessionChange = React.useCallback(
+    (nextDisplay: CsvViewerSession) => {
+      if (!leftSession) return;
+
+      // displayLeft might be filtered to differing rows only; preserve the full dataset
+      // by patching values back into the base leftSession by row id.
+      const editedById = new Map(
+        nextDisplay.rows.map((r) => [r.id, r] as const),
+      );
+      const nextRows = leftSession.rows.map((r) => editedById.get(r.id) ?? r);
+      setLeftSession(mergeRowsIntoSession(leftSession, nextRows));
+    },
+    [leftSession],
+  );
+
+  const onRightSessionChange = React.useCallback(
+    (nextDisplay: CsvViewerSession) => {
+      if (!rightSession) return;
+
+      const editedById = new Map(
+        nextDisplay.rows.map((r) => [r.id, r] as const),
+      );
+      const nextRows = rightSession.rows.map(
+        (r) => editedById.get(r.id) ?? r,
+      );
+      setRightSession(mergeRowsIntoSession(rightSession, nextRows));
+    },
+    [rightSession],
+  );
+
   const onLoadFile = React.useCallback(
     async (file: File, side: "left" | "right") => {
       setBusy(true);
@@ -344,23 +304,41 @@ export function CsvCompareApp() {
         </header>
 
         <div className="flex flex-col gap-4 md:flex-row">
-          <FilePickerCard
-            label={tc("leftFile")}
+          <FileDropZone
+            size="sm"
+            wrapperClassName="flex-1"
+            topLabel={tc("leftFile")}
             disabled={false}
             busy={busy}
-            fileName={leftSession?.fileName ?? null}
-            onFile={(f) => void onLoadFile(f, "left")}
             inputId="csv-compare-left"
-            changeLabel={tc("changeFile")}
+            accept=".csv,text/csv"
+            fileIcon={FileSpreadsheetGlyph}
+            fileName={leftSession?.fileName ?? null}
+            dropTitle={tc("dropHint")}
+            chooseLabel={tc("chooseFile")}
+            chooseLabelWhenFileSelected={tc("changeFile")}
+            onFiles={(files) => {
+              const file = files?.[0];
+              if (file) void onLoadFile(file, "left");
+            }}
           />
-          <FilePickerCard
-            label={tc("rightFile")}
+          <FileDropZone
+            size="sm"
+            wrapperClassName="flex-1"
+            topLabel={tc("rightFile")}
             disabled={false}
             busy={busy}
-            fileName={rightSession?.fileName ?? null}
-            onFile={(f) => void onLoadFile(f, "right")}
             inputId="csv-compare-right"
-            changeLabel={tc("changeFile")}
+            accept=".csv,text/csv"
+            fileIcon={FileSpreadsheetGlyph}
+            fileName={rightSession?.fileName ?? null}
+            dropTitle={tc("dropHint")}
+            chooseLabel={tc("chooseFile")}
+            chooseLabelWhenFileSelected={tc("changeFile")}
+            onFiles={(files) => {
+              const file = files?.[0];
+              if (file) void onLoadFile(file, "right");
+            }}
           />
         </div>
 
@@ -619,6 +597,7 @@ export function CsvCompareApp() {
               {displayLeft ? (
                 <CsvSessionReadOnlyGrid
                   session={displayLeft}
+                  onSessionChange={onLeftSessionChange}
                   gridKey={`left-${diffOnly}-${displayLeft.rows.length}-${alignRows}-${alignKeyColumn}-${equality.trimWhitespace}-${equality.ignoreCase}`}
                   diffCellSet={leftDiffSet}
                   highlightDiffs={highlightDiffs}
@@ -629,6 +608,7 @@ export function CsvCompareApp() {
               {displayRight ? (
                 <CsvSessionReadOnlyGrid
                   session={displayRight}
+                  onSessionChange={onRightSessionChange}
                   gridKey={`right-${diffOnly}-${displayRight.rows.length}-${alignRows}-${alignKeyColumn}-${equality.trimWhitespace}-${equality.ignoreCase}`}
                   diffCellSet={rightDiffSet}
                   highlightDiffs={highlightDiffs}

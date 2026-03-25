@@ -6,7 +6,7 @@ export const meta: BlogPostMeta = {
   slug: "csv-compare-two-files-browser",
   title: "Compare two CSV files in the browser (side by side, locally)",
   description:
-    "How browser-based CSV compare works: matching columns, row alignment, difference counts, and when to pre-process exports—plus where to try it in Table.",
+    "How browser-based CSV compare works: matching columns, row alignment, difference counts, and when to pre-process exports, plus where to try it in Table.",
   publishedAt: "2025-03-22",
   category: "guide",
   readTimeMinutes: 7,
@@ -39,8 +39,8 @@ export function BlogPostContent() {
         need to verify a vendor replaced the entire file and row counts match.
       </p>
       <p>
-        When row order is meaningless—think user ids that appear in different
-        sequences—you should <strong>sort both files by the same key</strong>{" "}
+        When row order is meaningless, think user ids that appear in different
+        sequences, you should <strong>sort both files by the same key</strong>{" "}
         in a trusted environment first, then compare. Otherwise you will see
         false positives even though the underlying entities match.
       </p>
@@ -80,8 +80,8 @@ export function BlogPostContent() {
       <p>
         Very wide or tall files still stress memory. Respect the product&apos;s
         import limits, split extracts when needed, and compare slices that
-        represent the business question—one region, one day, one account
-        segment—before you attempt full-file analysis.
+        represent the business question, one region, one day, one account
+        segment, before you attempt full-file analysis.
       </p>
 
       <h2>Try it in Table</h2>
@@ -95,7 +95,7 @@ export function BlogPostContent() {
         </Link>{" "}
         page: load a left and right CSV, read the summary when columns match,
         optionally show only rows with differences, and use the same search and
-        filter affordances you expect from the main grid—in read-only mode so
+        filter affordances you expect from the main grid, in read-only mode so
         you do not accidentally overwrite a reference extract.
       </p>
       <p>

@@ -2,6 +2,7 @@
 
 import { Globe } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,11 +15,36 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 import { routing } from "@/i18n/routing";
 
+const LOCALE_TO_FLAG_CC: Partial<Record<AppLocale, string>> = {
+  ar: "SA",
+  az: "AZ",
+  de: "DE",
+  el: "GR",
+  en: "US",
+  es: "ES",
+  fa: "IR",
+  fr: "FR",
+  he: "IL",
+  it: "IT",
+  ja: "JP",
+  ko: "KR",
+  nl: "NL",
+  pt: "PT",
+  ru: "RU",
+  tr: "TR",
+  zh: "CN",
+};
+
+function vercelFlagSvgUrl(countryCode: string, size: "s" | "m" | "l" = "s") {
+  return `https://country-flags.vercel.sh/${size}/${countryCode.toUpperCase()}.svg`;
+}
+
 export function LanguageSwitcher() {
   const locale = useLocale() as AppLocale;
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations("language");
+  const [failedFlags, setFailedFlags] = React.useState(() => new Set<string>());
 
   return (
     <DropdownMenu>
@@ -30,7 +56,21 @@ export function LanguageSwitcher() {
           className="size-8"
           aria-label={t("menuAria")}
         >
-          <Globe className="size-4" aria-hidden />
+          <span className="relative grid place-items-center">
+            <Globe className="size-4" aria-hidden />
+            {LOCALE_TO_FLAG_CC[locale] && !failedFlags.has(locale) ? (
+              <img
+                src={vercelFlagSvgUrl(LOCALE_TO_FLAG_CC[locale]!, "s")}
+                alt=""
+                width={12}
+                height={12}
+                className="absolute -bottom-1 -right-1 size-3 rounded-[4px] ring-1 ring-border/60"
+                onError={() => {
+                  setFailedFlags((prev) => new Set(prev).add(locale));
+                }}
+              />
+            ) : null}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -48,7 +88,26 @@ export function LanguageSwitcher() {
               router.replace(pathname, { locale: code });
             }}
           >
-            {LOCALE_DISPLAY_NAMES[code]}
+            <span className="flex min-w-0 items-center gap-2">
+              {LOCALE_TO_FLAG_CC[code] && !failedFlags.has(code) ? (
+                <img
+                  src={vercelFlagSvgUrl(LOCALE_TO_FLAG_CC[code]!, "s")}
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="size-4 rounded-[6px] ring-1 ring-border/60"
+                  onError={() => {
+                    setFailedFlags((prev) => new Set(prev).add(code));
+                  }}
+                />
+              ) : (
+                <span
+                  aria-hidden
+                  className="size-4 rounded-[6px] bg-muted/50 ring-1 ring-border/60"
+                />
+              )}
+              <span className="truncate">{LOCALE_DISPLAY_NAMES[code]}</span>
+            </span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

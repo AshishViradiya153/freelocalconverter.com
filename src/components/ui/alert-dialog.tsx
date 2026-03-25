@@ -1,7 +1,7 @@
 "use client";
 
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
-import type * as React from "react";
+import * as React from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -46,8 +46,33 @@ function AlertDialogOverlay({
 
 function AlertDialogContent({
   className,
+  children,
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Content>) {
+  const hasTitle = React.useMemo(() => {
+    let found = false;
+
+    const visit = (node: React.ReactNode) => {
+      if (found) return;
+
+      React.Children.forEach(node, (child) => {
+        if (found) return;
+        if (!React.isValidElement(child)) return;
+
+        const childProps = child.props as { children?: React.ReactNode; "data-slot"?: string };
+        if (childProps["data-slot"] === "alert-dialog-title") {
+          found = true;
+          return;
+        }
+
+        if (childProps.children) visit(childProps.children);
+      });
+    };
+
+    visit(children);
+    return found;
+  }, [children]);
+
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
@@ -58,7 +83,17 @@ function AlertDialogContent({
           className,
         )}
         {...props}
-      />
+      >
+        {!hasTitle && (
+          <AlertDialogPrimitive.Title
+            data-slot="alert-dialog-title"
+            className="font-semibold text-lg sr-only"
+          >
+            Alert
+          </AlertDialogPrimitive.Title>
+        )}
+        {children}
+      </AlertDialogPrimitive.Content>
     </AlertDialogPortal>
   );
 }

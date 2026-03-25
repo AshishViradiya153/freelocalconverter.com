@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import {
   Braces,
   Copy,
-  FileSpreadsheet,
   Loader2,
   RotateCcw,
   Upload,
@@ -29,8 +28,9 @@ import {
   parseCsvFile,
 } from "@/lib/csv-import";
 import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
-import { cn } from "@/lib/utils";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import type { Direction } from "@/types/data-grid";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
 
 function JsonEditorLoadFallback() {
   const t = useTranslations("csvToJson");
@@ -65,77 +65,10 @@ function sessionToPrettyJson(session: CsvViewerSession): string {
   return `${JSON.stringify(rows, null, 2)}\n`;
 }
 
-interface FileDropCardProps {
-  disabled: boolean;
-  busy: boolean;
-  fileName: string | null;
-  onFile: (file: File) => void;
-  inputId: string;
-}
-
-function FileDropCard({
-  disabled,
-  busy,
-  fileName,
-  onFile,
-  inputId,
-}: FileDropCardProps) {
-  const tc = useTranslations("csvToJson");
-  const tCompare = useTranslations("compare");
-
-  const onPick = React.useCallback(
-    (files: FileList | null) => {
-      const file = files?.[0];
-      if (file) onFile(file);
-    },
-    [onFile],
-  );
-
-  return (
-    <div className="flex min-w-0 flex-col gap-2">
-      <button
-        type="button"
-        disabled={disabled || busy}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          onPick(e.dataTransfer.files);
-        }}
-        onClick={() => document.getElementById(inputId)?.click()}
-        className={cn(
-          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-8 transition-colors",
-          "border-border bg-muted/15 hover:bg-muted/30",
-          (disabled || busy) && "pointer-events-none opacity-60",
-        )}
-      >
-        <FileSpreadsheet className="size-10 text-muted-foreground" />
-        <p className="text-center text-muted-foreground text-sm">
-          {fileName ? (
-            <span className="font-medium text-foreground">{fileName}</span>
-          ) : (
-            tCompare("dropHint")
-          )}
-        </p>
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-background px-2.5 py-1 font-medium text-xs shadow-sm">
-          <Upload className="size-3.5" />
-          {tCompare("chooseFile")}
-        </span>
-      </button>
-      <input
-        id={inputId}
-        type="file"
-        accept=".csv,text/csv"
-        className="sr-only"
-        onChange={(e) => onPick(e.target.files)}
-      />
-      <p className="text-muted-foreground text-xs">{tc("fileHint")}</p>
-    </div>
-  );
-}
-
 export function CsvToJsonApp() {
   const t = useTranslations("csvToJson");
   const tl = useTranslations("landing");
+  const tCompare = useTranslations("compare");
   const [session, setSession] = React.useState<CsvViewerSession | null>(null);
   const [jsonText, setJsonText] = React.useState("");
   const [jsonEditorRevision, setJsonEditorRevision] = React.useState(0);
@@ -299,12 +232,19 @@ export function CsvToJsonApp() {
         </header>
 
         {!session ? (
-          <FileDropCard
+          <FileDropZone
             disabled={false}
             busy={busy}
-            fileName={null}
-            onFile={(f) => void onLoadFile(f)}
             inputId="csv-to-json-file"
+            accept=".csv,text/csv"
+            onFiles={(files) => {
+              const file = files?.[0];
+              if (file) void onLoadFile(file);
+            }}
+            fileIcon={FileSpreadsheetGlyph}
+            dropTitle={tCompare("dropHint")}
+            chooseLabel={tCompare("chooseFile")}
+            fileHint={t("fileHint")}
           />
         ) : null}
 
@@ -340,6 +280,7 @@ export function CsvToJsonApp() {
                 </p>
                 <CsvSessionReadOnlyGrid
                   session={session}
+                  onSessionChange={(next) => setSession(next)}
                   gridKey={`csv-json-${session.rows.length}-${session.columnKeys.join(",")}`}
                 />
               </div>

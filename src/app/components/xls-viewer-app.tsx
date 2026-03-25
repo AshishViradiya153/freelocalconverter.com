@@ -1,7 +1,7 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { FileSpreadsheet, Loader2, Upload } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
@@ -24,75 +24,36 @@ import {
   type ParseStringMatrixHeaderOptions,
 } from "@/lib/csv-import";
 import { parseExcelFile } from "@/lib/excel-import";
+import {
+  clearCsvViewerSession,
+  loadCsvViewerSession,
+  saveCsvViewerSession,
+} from "@/lib/csv-viewer-idb";
+import {
+  getInMemoryXlsViewerState,
+  setInMemoryXlsViewerState,
+} from "@/lib/xls-viewer-memory";
 import { resultToSession, type CsvViewerSession } from "@/lib/csv-viewer-session";
-import { cn } from "@/lib/utils";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
+import { FileExcelGlyph } from "@/components/file-glyphs";
 
-interface FileDropCardProps {
-  disabled: boolean;
-  busy: boolean;
-  onFile: (file: File) => void;
-  inputId: string;
+const PERSIST_DEBOUNCE_MS = 500;
+
+function exportCsvBaseName(excelName: string): string {
+  const leaf = excelName.replace(/\.(xlsx|xlsm|xlsb|xls)$/i, "");
+  return leaf ? `${leaf}.csv` : "export.csv";
 }
-
-function FileDropCard({ disabled, busy, onFile, inputId }: FileDropCardProps) {
-  const t = useTranslations("xlsToCsv");
-  const onPick = React.useCallback(
-    (files: FileList | null) => {
-      const file = files?.[0];
-      if (file) onFile(file);
-    },
-    [onFile],
-  );
-
-  return (
-    <div className="flex min-w-0 flex-col gap-2">
-      <button
-        type="button"
-        disabled={disabled || busy}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          onPick(e.dataTransfer.files);
-        }}
-        onClick={() => document.getElementById(inputId)?.click()}
-        className={cn(
-          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-8 transition-colors",
-          "border-border bg-muted/15 hover:bg-muted/30",
-          (disabled || busy) && "pointer-events-none opacity-60",
-        )}
-      >
-        <FileSpreadsheet className="size-10 text-muted-foreground" />
-        <p className="text-center text-muted-foreground text-sm">{t("dropHint")}</p>
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-background px-2.5 py-1 font-medium text-xs shadow-sm">
-          <Upload className="size-3.5" />
-          {t("chooseFile")}
-        </span>
-      </button>
-      <input
-        id={inputId}
-        type="file"
-        accept=".xlsx,.xls,.xlsm,.xlsb,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-        className="sr-only"
-        onChange={(e) => onPick(e.target.files)}
-      />
-      <p className="text-muted-foreground text-xs">{t("fileHint")}</p>
-    </div>
-  );
-}
-
-const MAX_HEADER_ROW_PICK = 100;
 
 export function XlsViewerApp() {
   const t = useTranslations("xlsToCsv");
   const tl = useTranslations("landing");
 
   const [session, setSession] = React.useState<CsvViewerSession | null>(null);
+  const sessionRef = React.useRef<CsvViewerSession | null>(null);
   const [sheetNames, setSheetNames] = React.useState<string[]>([]);
   const [sheetIndex, setSheetIndex] = React.useState(0);
-  const [sheetRowCount, setSheetRowCount] = React.useState(0);
-
-  const [hasHeaderRow, setHasHeaderRow] = React.useState(true);
-  const [headerRowLine, setHeaderRowLine] = React.useState(1); // 1-based for UI.
+  const [headerRowInput, setHeaderRowInput] = React.useState("");
+  const [hydrated, setHydrated] = React.useState(false);
 
   const [loadGeneration, setLoadGeneration] = React.useState(0);
   const [busy, setBusy] = React.useState(false);
@@ -101,25 +62,111 @@ export function XlsViewerApp() {
 
   const patchSession = React.useCallback(
     (fn: (s: CsvViewerSession) => CsvViewerSession) => {
-      setSession((prev) => (prev ? fn(prev) : prev));
+      setSession((prev) => {
+        const next = prev ? fn(prev) : prev;
+        sessionRef.current = next;
+        const current = getInMemoryXlsViewerState();
+        if (current) {
+          setInMemoryXlsViewerState({ ...current, session: next });
+        }
+        return next;
+      });
     },
     [],
   );
 
-  const reloadParsed = React.useCallback(
-    async (file: File, index: number) => {
-      const { session: nextSession, sheetNames: names, sheetIndex: resolvedIndex, sheetRowCount: rows } =
-        await parseXlsToCsvSession(file, {
-          sheetIndex: index,
-          hasHeaderRow,
-          headerRowLine,
-        });
+  React.useEffect(() => {
+    let cancelled = false;
+    const xlsInMemory = getInMemoryXlsViewerState();
+    if (xlsInMemory?.session) {
+      fileRef.current = xlsInMemory.file;
+      sessionRef.current = xlsInMemory.session;
+      setSession(xlsInMemory.session);
+      setSheetNames(xlsInMemory.sheetNames);
+      setSheetIndex(xlsInMemory.sheetIndex);
+      setHeaderRowInput(xlsInMemory.headerRowInput);
+      setLoadError(null);
+      setLoadGeneration((g) => g + 1);
+      setHydrated(true);
+      return () => {
+        cancelled = true;
+      };
+    }
 
+    void loadCsvViewerSession().then((restored) => {
+      if (cancelled) return;
+      if (restored) {
+        fileRef.current = null;
+        sessionRef.current = restored;
+        setSession(restored);
+        setSheetNames([]);
+        setSheetIndex(0);
+        setHeaderRowInput("");
+        setInMemoryXlsViewerState({
+          file: null,
+          session: restored,
+          sheetNames: [],
+          sheetIndex: 0,
+          headerRowInput: "",
+        });
+        setLoadError(null);
+        setLoadGeneration((g) => g + 1);
+      }
+      setHydrated(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (!hydrated || !session) return;
+    const id = window.setTimeout(() => {
+      void saveCsvViewerSession(session);
+    }, PERSIST_DEBOUNCE_MS);
+    return () => window.clearTimeout(id);
+  }, [hydrated, session]);
+
+  // If the user switches locale, this component unmounts/remounts.
+  // Flush the latest snapshot so language switching has no “state reset” side-effect.
+  React.useEffect(() => {
+    return () => {
+      const s = sessionRef.current;
+      if (!s) return;
+      void saveCsvViewerSession(s);
+    };
+  }, []);
+
+  const reloadParsed = React.useCallback(
+    async (file: File, index: number, headerLineInput: string) => {
+      const parsedLine = Number.parseInt(headerLineInput.trim(), 10);
+      const matrixHeader: ParseStringMatrixHeaderOptions =
+        Number.isFinite(parsedLine) && parsedLine >= 1
+          ? {
+            hasHeaderRow: true,
+            headerRowIndex: parsedLine - 1,
+            autoDetectHeaderRow: false,
+          }
+          : { autoDetectHeaderRow: true };
+
+      const { result, sheetNames: names, sheetIndex: resolvedIndex } =
+        await parseExcelFile(file, { sheetIndex: index, matrixHeader });
+
+      const csvName = exportCsvBaseName(file.name);
+      const nextSession = resultToSession(csvName, result, "ltr");
+
+      sessionRef.current = nextSession;
+      setInMemoryXlsViewerState({
+        file,
+        session: nextSession,
+        sheetNames: names,
+        sheetIndex: resolvedIndex,
+        headerRowInput: headerLineInput,
+      });
       setSession(nextSession);
       setLoadGeneration((g) => g + 1);
       setSheetNames(names);
       setSheetIndex(resolvedIndex);
-      setSheetRowCount(rows);
       setLoadError(null);
 
       if (nextSession.truncated) {
@@ -131,7 +178,7 @@ export function XlsViewerApp() {
         });
       }
     },
-    [headerRowLine, hasHeaderRow, tl],
+    [tl],
   );
 
   const onLoadFile = React.useCallback(
@@ -140,19 +187,18 @@ export function XlsViewerApp() {
       setLoadError(null);
       try {
         fileRef.current = file;
-        await reloadParsed(file, 0);
+        await reloadParsed(file, 0, headerRowInput);
       } catch (e) {
         fileRef.current = null;
         setSession(null);
         setSheetNames([]);
-        setSheetRowCount(0);
         if (e instanceof CsvImportError) setLoadError(e.message);
         else setLoadError(tl("readError"));
       } finally {
         setBusy(false);
       }
     },
-    [reloadParsed, tl],
+    [reloadParsed, tl, headerRowInput],
   );
 
   const onSheetSelect = React.useCallback(
@@ -164,7 +210,7 @@ export function XlsViewerApp() {
       setBusy(true);
       setLoadError(null);
       try {
-        await reloadParsed(file, nextIndex);
+        await reloadParsed(file, nextIndex, headerRowInput);
       } catch (e) {
         if (e instanceof CsvImportError) setLoadError(e.message);
         else setLoadError(tl("readError"));
@@ -172,100 +218,36 @@ export function XlsViewerApp() {
         setBusy(false);
       }
     },
-    [reloadParsed, tl],
+    [reloadParsed, tl, headerRowInput],
   );
 
-  const onToggleHeaderRow = React.useCallback(
-    (pressed: boolean) => {
-      setHasHeaderRow(pressed);
-      const file = fileRef.current;
-      if (!file) return;
-      setBusy(true);
-      setLoadError(null);
-      void parseXlsToCsvSession(file, {
-        sheetIndex,
-        hasHeaderRow: pressed,
-        headerRowLine,
+  const onApplyHeaderRow = React.useCallback(() => {
+    const file = fileRef.current;
+    if (!file) return;
+    setBusy(true);
+    setLoadError(null);
+    void reloadParsed(file, sheetIndex, headerRowInput)
+      .catch((e) => {
+        if (e instanceof CsvImportError) setLoadError(e.message);
+        else setLoadError(tl("readError"));
       })
-        .then(({ session: nextSession, sheetNames: names, sheetIndex: resolvedIndex, sheetRowCount: rows }) => {
-          setSession(nextSession);
-          setLoadGeneration((g) => g + 1);
-          setSheetNames(names);
-          setSheetIndex(resolvedIndex);
-          setSheetRowCount(rows);
-          setLoadError(null);
-          if (nextSession.truncated) {
-            toast.message(tl("largeFileTitle"), {
-              description: tl("largeFileDescription", {
-                shown: nextSession.rows.length.toLocaleString(),
-                total: nextSession.rowCountBeforeCap.toLocaleString(),
-              }),
-            });
-          }
-        })
-        .catch((e) => {
-          if (e instanceof CsvImportError) setLoadError(e.message);
-          else setLoadError(tl("readError"));
-        })
-        .finally(() => setBusy(false));
-    },
-    [headerRowLine, sheetIndex, tl],
-  );
+      .finally(() => setBusy(false));
+  }, [headerRowInput, reloadParsed, sheetIndex, tl]);
 
-  const onHeaderRowLineChange = React.useCallback(
-    (value: string) => {
-      const next = Number.parseInt(value, 10);
-      if (Number.isNaN(next)) return;
-      setHeaderRowLine(next);
-      const file = fileRef.current;
-      if (!file) return;
-      setBusy(true);
-      setLoadError(null);
-      void parseXlsToCsvSession(file, {
-        sheetIndex,
-        hasHeaderRow,
-        headerRowLine: next,
-      })
-        .then(({ session: nextSession, sheetNames: names, sheetIndex: resolvedIndex, sheetRowCount: rows }) => {
-          setSession(nextSession);
-          setLoadGeneration((g) => g + 1);
-          setSheetNames(names);
-          setSheetIndex(resolvedIndex);
-          setSheetRowCount(rows);
-          setLoadError(null);
-          if (nextSession.truncated) {
-            toast.message(tl("largeFileTitle"), {
-              description: tl("largeFileDescription", {
-                shown: nextSession.rows.length.toLocaleString(),
-                total: nextSession.rowCountBeforeCap.toLocaleString(),
-              }),
-            });
-          }
-        })
-        .catch((e) => {
-          if (e instanceof CsvImportError) setLoadError(e.message);
-          else setLoadError(tl("readError"));
-        })
-        .finally(() => setBusy(false));
-    },
-    [hasHeaderRow, sheetIndex, tl],
-  );
-
-  const onClear = React.useCallback(() => {
+  const onClear = React.useCallback(async () => {
     fileRef.current = null;
+    sessionRef.current = null;
+    setInMemoryXlsViewerState(null);
     setSession(null);
     setSheetNames([]);
     setSheetIndex(0);
-    setSheetRowCount(0);
-    setHasHeaderRow(true);
-    setHeaderRowLine(1);
+    setHeaderRowInput("");
     setLoadError(null);
+
+    await clearCsvViewerSession();
   }, []);
 
-  const headerRowPickMax = Math.min(
-    MAX_HEADER_ROW_PICK,
-    Math.max(1, sheetRowCount),
-  );
+  const canEditXlsMeta = fileRef.current !== null;
 
   return (
     <DirectionProvider dir="ltr">
@@ -282,12 +264,31 @@ export function XlsViewerApp() {
           </header>
 
           {!session ? (
-            <FileDropCard
-              disabled={false}
-              busy={busy}
-              onFile={(f) => void onLoadFile(f)}
-              inputId="xls-viewer-file"
-            />
+            !hydrated ? (
+              <div
+                className="flex items-center gap-2 text-muted-foreground text-sm"
+                role="status"
+                aria-live="polite"
+              >
+                <Loader2 className="size-4 animate-spin" aria-hidden />
+                {tl("loadingSheet")}
+              </div>
+            ) : (
+                <FileDropZone
+                  disabled={false}
+                  busy={busy}
+                  inputId="xls-viewer-file"
+                  accept=".xlsx,.xls,.xlsm,.xlsb,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                  onFiles={(files) => {
+                    const file = files?.[0];
+                    if (file) void onLoadFile(file);
+                  }}
+                  fileIcon={FileExcelGlyph}
+                  dropTitle={t("dropHint")}
+                  chooseLabel={t("chooseFile")}
+                  fileHint={t("fileHint")}
+                />
+              )
           ) : (
             <div className="flex flex-col gap-3">
               <div className="flex flex-wrap items-center gap-3">
@@ -299,7 +300,7 @@ export function XlsViewerApp() {
                 >
                   {t("clearFile")}
                 </Button>
-                {sheetNames.length > 1 ? (
+                  {canEditXlsMeta && sheetNames.length > 1 ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-muted-foreground text-sm">
                       {t("sheetLabel")}
@@ -329,52 +330,36 @@ export function XlsViewerApp() {
                 ) : null}
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
-                <Toggle
-                  variant="outline"
-                  size="sm"
-                  pressed={hasHeaderRow}
-                  onPressedChange={onToggleHeaderRow}
-                  disabled={busy}
-                  aria-label={t("headerToggleAria")}
-                  className="bg-background dark:bg-input/30 dark:hover:bg-input/50"
-                >
-                  {t("headerToggleLabel")}
-                </Toggle>
-
-                {hasHeaderRow && sheetRowCount > 0 ? (
-                  <div className="flex flex-wrap items-center gap-2">
+                {canEditXlsMeta ? (
+                  <div className="flex flex-wrap items-center gap-3">
                     <Label
-                      htmlFor="xls-viewer-header-row"
+                      htmlFor="xls-viewer-header-row-number"
                       className="text-muted-foreground"
                     >
                       {t("headerRowLabel")}
                     </Label>
-                    <Select
-                      value={String(Math.min(headerRowLine, headerRowPickMax))}
-                      onValueChange={onHeaderRowLineChange}
+                    <input
+                      id="xls-viewer-header-row-number"
+                      type="number"
+                      min={1}
+                      inputMode="numeric"
+                      value={headerRowInput}
+                      onChange={(e) => setHeaderRowInput(e.target.value)}
+                      placeholder="Auto"
+                      className="h-9 w-28 rounded-md border bg-background px-3 text-sm"
                       disabled={busy}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={busy}
+                      onClick={onApplyHeaderRow}
                     >
-                      <SelectTrigger
-                        id="xls-viewer-header-row"
-                        className="w-[min(100%,200px)]"
-                      >
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Array.from(
-                          { length: headerRowPickMax },
-                          (_, i) => i + 1,
-                        ).map((line) => (
-                          <SelectItem key={line} value={String(line)}>
-                            {t("headerRowOption", { line })}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      Apply
+                    </Button>
                   </div>
                 ) : null}
-              </div>
             </div>
           )}
 

@@ -11,11 +11,9 @@ import type {
 import {
   ChevronDown,
   Download,
-  FileSpreadsheet,
   Languages,
   Loader2,
   Trash2,
-  Upload,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
@@ -68,6 +66,7 @@ import {
 import {
   downloadCsvExport,
   downloadJsonExport,
+  downloadXmlExport,
   downloadXlsxExport,
 } from "@/lib/csv-export";
 import {
@@ -91,6 +90,10 @@ import {
   saveCsvViewerSession,
 } from "@/lib/csv-viewer-idb";
 import {
+  getInMemoryCsvViewerSession,
+  setInMemoryCsvViewerSession,
+} from "@/lib/csv-viewer-session-memory";
+import {
   type CsvViewerSession,
   cloneCsvViewerSession,
   insertCsvSessionRowsAfter,
@@ -104,9 +107,10 @@ import {
   reorderCsvSessionColumnKeys,
   resultToSession,
 } from "@/lib/csv-viewer-session";
-import { cn } from "@/lib/utils";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import type { Direction } from "@/types/data-grid";
 import { SAMPLE_CSV_FILENAME, SAMPLE_CSV_PATH } from "../lib/sample-csv";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
 
 const PERSIST_DEBOUNCE_MS = 500;
 
@@ -116,7 +120,7 @@ interface CsvGridPanelProps {
   onClear: () => void | Promise<void>;
 }
 
-function CsvGridPanel({ session, patchSession, onClear }: CsvGridPanelProps) {
+export function CsvGridPanel({ session, patchSession, onClear }: CsvGridPanelProps) {
   const tc = useTranslations("csv");
   const tCommon = useTranslations("common");
   const csvGridTableRef = React.useRef<Table<CsvViewerRow> | null>(null);
@@ -892,6 +896,16 @@ function CsvGridPanel({ session, patchSession, onClear }: CsvGridPanelProps) {
     toast.success(tc("downloadStarted"));
   }, [columnKeys, exportBaseName, session.headerLabels, session.rows, tc]);
 
+  const onExportXml = React.useCallback(() => {
+    downloadXmlExport(
+      session.rows,
+      columnKeys,
+      session.headerLabels,
+      exportBaseName,
+    );
+    toast.success(tc("downloadStarted"));
+  }, [columnKeys, exportBaseName, session.headerLabels, session.rows, tc]);
+
   const onExportXlsx = React.useCallback(() => {
     void toast.promise(
       downloadXlsxExport(
@@ -998,9 +1012,12 @@ function CsvGridPanel({ session, patchSession, onClear }: CsvGridPanelProps) {
                   <ChevronDown className="size-4 opacity-70" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-[12rem]">
+              <DropdownMenuContent align="end" className="min-w-48">
                 <DropdownMenuItem onSelect={onExportCsv}>
                   {tc("exportCsv")}
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={onExportXml}>
+                  XML (.xml)
                 </DropdownMenuItem>
                 <DropdownMenuItem onSelect={onExportJson}>
                   {tc("exportJson")}
@@ -1079,18 +1096,30 @@ export function CsvViewerApp() {
   const tl = useTranslations("landing");
   const [hydrated, setHydrated] = React.useState(false);
   const [session, setSession] = React.useState<CsvViewerSession | null>(null);
+  const sessionRef = React.useRef<CsvViewerSession | null>(null);
   const [loadGeneration, setLoadGeneration] = React.useState(0);
   const [error, setError] = React.useState<string | null>(null);
   const [busy, setBusy] = React.useState(false);
-  const inputRef = React.useRef<HTMLInputElement>(null);
 
   // and load `next/script` for pagead/js/adsbygoogle.js when re-enabling <AdSlot /> below.
 
   React.useEffect(() => {
     let cancelled = false;
+    const inMemory = getInMemoryCsvViewerSession();
+    if (inMemory) {
+      sessionRef.current = inMemory;
+      setSession(inMemory);
+      setHydrated(true);
+      return () => {
+        cancelled = true;
+      };
+    }
+
     void loadCsvViewerSession().then((restored) => {
       if (cancelled) return;
       if (restored) {
+        sessionRef.current = restored;
+        setInMemoryCsvViewerSession(restored);
         setSession(restored);
       }
       setHydrated(true);
@@ -1108,16 +1137,34 @@ export function CsvViewerApp() {
     return () => window.clearTimeout(id);
   }, [session, hydrated]);
 
+  // If the user switches locale, this component unmounts/remounts.
+  // Flush the latest snapshot so language switching has no “state reset” side-effect.
+  React.useEffect(() => {
+    return () => {
+      const s = sessionRef.current;
+      if (!s) return;
+      void saveCsvViewerSession(s);
+    };
+  }, []);
+
   const patchSession = React.useCallback(
     (fn: (s: CsvViewerSession) => CsvViewerSession) => {
-      setSession((prev) => (prev ? fn(prev) : prev));
+      setSession((prev) => {
+        const next = prev ? fn(prev) : prev;
+        sessionRef.current = next;
+        setInMemoryCsvViewerSession(next);
+        return next;
+      });
     },
     [],
   );
 
   const onParsed = React.useCallback(
     (r: CsvImportResult, name: string) => {
-      setSession(resultToSession(name, r, "ltr"));
+      const next = resultToSession(name, r, "ltr");
+      sessionRef.current = next;
+      setInMemoryCsvViewerSession(next);
+      setSession(next);
       setLoadGeneration((g) => g + 1);
       setError(null);
       if (r.truncated) {
@@ -1154,14 +1201,6 @@ export function CsvViewerApp() {
     [onParsed, tl],
   );
 
-  const onDrop = React.useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      void onPickFiles(e.dataTransfer.files);
-    },
-    [onPickFiles],
-  );
-
   const onTrySample = React.useCallback(async () => {
     setBusy(true);
     setError(null);
@@ -1187,9 +1226,10 @@ export function CsvViewerApp() {
 
   const onClear = React.useCallback(async () => {
     await clearCsvViewerSession();
+    sessionRef.current = null;
+    setInMemoryCsvViewerSession(null);
     setSession(null);
     setError(null);
-    if (inputRef.current) inputRef.current.value = "";
   }, []);
 
   return (
@@ -1225,39 +1265,21 @@ export function CsvViewerApp() {
             <div className="flex flex-col gap-4">
               {/* Future: banner ad (placeholder / AdSense). Import AdSlot from @/components/ads/ad-slot */}
               {/* <AdSlot variant="banner" className="lg:hidden" /> */}
-              <button
-                type="button"
-                disabled={busy}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={onDrop}
-                onClick={() => inputRef.current?.click()}
-                className={cn(
-                  "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-10 transition-colors",
-                  "border-border bg-muted/20 hover:bg-muted/40",
-                  busy && "pointer-events-none opacity-60",
-                )}
-              >
-                <FileSpreadsheet className="size-10 text-muted-foreground" />
-                <div className="text-center">
-                  <p className="font-medium text-sm">{tl("dropzoneTitle")}</p>
-                  <p className="text-muted-foreground text-xs">
-                    {tl("dropzoneHint", {
-                      mb: Math.round(CSV_IMPORT_MAX_FILE_BYTES / (1024 * 1024)),
-                      maxRows: CSV_IMPORT_MAX_ROWS.toLocaleString(),
-                    })}
-                  </p>
-                </div>
-                <span className="inline-flex items-center gap-2 rounded-md bg-background px-3 py-1.5 font-medium text-sm shadow-sm">
-                  <Upload className="size-4" />
-                  {tl("chooseFile")}
-                </span>
-              </button>
-              <input
-                ref={inputRef}
-                type="file"
-                accept=".csv,text/csv"
-                className="sr-only"
-                onChange={(e) => void onPickFiles(e.target.files)}
+                <FileDropZone
+                  disabled={false}
+                  busy={busy}
+                  size="lg"
+                  badgeSize="lg"
+                    fileIcon={FileSpreadsheetGlyph}
+                  accept=".csv,text/csv"
+                  onFiles={onPickFiles}
+                  dropTitle={tl("dropzoneTitle")}
+                  dropHint={tl("dropzoneHint", {
+                    mb: Math.round(CSV_IMPORT_MAX_FILE_BYTES / (1024 * 1024)),
+                    maxRows: CSV_IMPORT_MAX_ROWS.toLocaleString(),
+                  })}
+                  chooseLabel={tl("chooseFile")}
+                  ariaLabel={tl("chooseFile")}
               />
               <div className="flex flex-wrap items-center gap-2">
                 <Button

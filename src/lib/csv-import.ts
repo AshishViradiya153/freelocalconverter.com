@@ -333,6 +333,263 @@ export function parseCsvText(text: string): CsvImportResult {
   };
 }
 
+export interface ParseStringMatrixHeaderOptions {
+  /**
+   * Auto-detect whether a header row exists and which row should be used.
+   * Enabled by default when `hasHeaderRow` is not explicitly provided.
+   */
+  autoDetectHeaderRow?: boolean;
+  /**
+   * When false, every non-empty row is data and column names are `Column 1`, ….
+   * Default true.
+   */
+  hasHeaderRow?: boolean;
+  /**
+   * 0-based index of the header row. Rows above are ignored (e.g. title blocks).
+   * Default 0. Ignored when `hasHeaderRow` is false.
+   */
+  headerRowIndex?: number;
+}
+
+interface HeaderDetectionResult {
+  hasHeaderRow: boolean;
+  headerRowIndex: number;
+}
+
+function classifyHeaderCellKind(value: string): "empty" | "number" | "date" | "text" {
+  const t = value.trim();
+  if (t === "") return "empty";
+  if (tryParseNumber(t) !== null) return "number";
+  if (tryParseDate(t) !== null) return "date";
+  return "text";
+}
+
+function normalizedHeaderToken(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/[^a-z0-9 ]/g, "");
+}
+
+function detectHeaderRow(normalized: string[][]): HeaderDetectionResult {
+  const width = Math.max(0, ...normalized.map((r) => r.length));
+  if (width === 0) return { hasHeaderRow: false, headerRowIndex: 0 };
+
+  const candidateLimit = Math.min(20, Math.max(1, normalized.length - 1));
+  const lookaheadRows = 25;
+
+  let best = { score: -Infinity, rowIndex: 0 };
+
+  for (let headerIdx = 0; headerIdx < candidateLimit; headerIdx++) {
+    const header = normalized[headerIdx] ?? [];
+    const body = normalized
+      .slice(headerIdx + 1, headerIdx + 1 + lookaheadRows)
+      .filter((row) => row.some((c) => c.trim() !== ""));
+    if (body.length === 0) continue;
+
+    let filledHeaderCount = 0;
+    let textHeaderCount = 0;
+    let numericLikeHeaderCount = 0;
+    let dateLikeHeaderCount = 0;
+    let differsFromBodyKindCount = 0;
+    let duplicatePenalty = 0;
+    let titleRowPenalty = 0;
+    const seen = new Set<string>();
+
+    for (let col = 0; col < width; col++) {
+      const hv = (header[col] ?? "").trim();
+      const hk = classifyHeaderCellKind(hv);
+      if (hk !== "empty") filledHeaderCount++;
+      if (hk === "text") textHeaderCount++;
+      if (hk === "number") numericLikeHeaderCount++;
+      if (hk === "date") dateLikeHeaderCount++;
+
+      const token = normalizedHeaderToken(hv);
+      if (token !== "") {
+        if (seen.has(token)) duplicatePenalty += 1;
+        seen.add(token);
+      }
+
+      let bodyText = 0;
+      let bodyNumericOrDate = 0;
+      for (const row of body) {
+        const bk = classifyHeaderCellKind((row[col] ?? "").trim());
+        if (bk === "empty") continue;
+        if (bk === "text") bodyText++;
+        else bodyNumericOrDate++;
+      }
+      if (hk === "text" && bodyNumericOrDate > bodyText) differsFromBodyKindCount++;
+      if ((hk === "number" || hk === "date") && bodyText > bodyNumericOrDate) {
+        differsFromBodyKindCount--;
+      }
+    }
+
+    if (filledHeaderCount <= 1 && width >= 3) titleRowPenalty += 3;
+    const coverage = filledHeaderCount / width;
+    const textRatio = filledHeaderCount === 0 ? 0 : textHeaderCount / filledHeaderCount;
+    const numericDateRatio =
+      filledHeaderCount === 0
+        ? 0
+        : (numericLikeHeaderCount + dateLikeHeaderCount) / filledHeaderCount;
+
+    const score =
+      coverage * 2.5 +
+      textRatio * 2.25 +
+      differsFromBodyKindCount * 0.7 -
+      numericDateRatio * 1.8 -
+      duplicatePenalty * 0.5 -
+      titleRowPenalty;
+
+    if (score > best.score) best = { score, rowIndex: headerIdx };
+  }
+
+  if (best.score < 1.25) return { hasHeaderRow: false, headerRowIndex: 0 };
+  return { hasHeaderRow: true, headerRowIndex: best.rowIndex };
+}
+
+function buildImportResultFromLabelsAndDataRows(
+  headerLabels: string[],
+  rawRows: string[][],
+): CsvImportResult {
+  if (rawRows.length === 0) {
+    throw new CsvImportError(
+      "empty_file",
+      "No data rows below the chosen header row.",
+    );
+  }
+
+  const keys = uniqueKeys(headerLabels);
+  const rowCountBeforeCap = rawRows.length;
+  const truncated = rawRows.length > CSV_IMPORT_MAX_ROWS;
+  const capped = truncated ? rawRows.slice(0, CSV_IMPORT_MAX_ROWS) : rawRows;
+
+  const kinds: CsvColumnKind[] = keys.map((_key, colIdx) => {
+    const sample: string[] = [];
+    const limit = Math.min(capped.length, INFER_SAMPLE_ROWS);
+    for (let r = 0; r < limit; r++) {
+      const row = capped[r];
+      const v = row?.[colIdx];
+      sample.push(v === null || v === undefined ? "" : String(v));
+    }
+    return inferColumnKind(sample);
+  });
+
+  const rows: CsvViewerRow[] = capped.map((row) => {
+    const out: CsvViewerRow = { id: generateId() };
+    for (let i = 0; i < keys.length; i++) {
+      const raw = row[i];
+      const colKey = keys[i];
+      if (colKey) {
+        out[colKey] = coerceValue(raw, kinds[i] ?? "short-text");
+      }
+    }
+    return out;
+  });
+
+  const columns = buildColumnDefsForCsv(keys, headerLabels, kinds);
+
+  return {
+    rows,
+    columns,
+    headerLabels,
+    truncated,
+    rowCountBeforeCap,
+  };
+}
+
+/**
+ * Parse a rectangular string matrix into the same shape as CSV import.
+ * Used by Excel import after the sheet is read as an array of arrays.
+ *
+ * Default: row 0 is the header; use {@link ParseStringMatrixHeaderOptions} to skip
+ * title rows, pick another header row, or import without a header (synthetic names).
+ */
+export function parseStringMatrixToImportResult(
+  matrix: string[][],
+  options?: ParseStringMatrixHeaderOptions,
+): CsvImportResult {
+  if (matrix.length === 0) {
+    throw new CsvImportError(
+      "empty_file",
+      "This spreadsheet has no rows.",
+    );
+  }
+
+  const width = Math.max(0, ...matrix.map((r) => r.length));
+  if (width === 0) {
+    throw new CsvImportError(
+      "empty_file",
+      "This spreadsheet has no columns.",
+    );
+  }
+
+  const normalized = matrix.map((r) => {
+    const row = r.map((c) =>
+      c === null || c === undefined ? "" : String(c),
+    );
+    while (row.length < width) row.push("");
+    return row;
+  });
+
+  const hasExplicitHeaderOption = options?.hasHeaderRow !== undefined;
+  const shouldAutoDetect =
+    options?.autoDetectHeaderRow !== false && !hasExplicitHeaderOption;
+
+  const detected = shouldAutoDetect ? detectHeaderRow(normalized) : null;
+  const hasHeaderRow =
+    options?.hasHeaderRow ?? detected?.hasHeaderRow ?? true;
+  const maxHeaderIdx = Math.max(0, normalized.length - 1);
+  const defaultHeaderRowIndex = detected?.headerRowIndex ?? 0;
+  const headerRowIndex = Math.min(
+    Math.max(
+      0,
+      Math.floor(
+        options?.headerRowIndex ?? defaultHeaderRowIndex,
+      ),
+    ),
+    maxHeaderIdx,
+  );
+
+  if (!hasHeaderRow) {
+    const rawRows = normalized.filter((row) =>
+      row.some((cell) => String(cell ?? "").trim() !== ""),
+    );
+    if (rawRows.length === 0) {
+      throw new CsvImportError(
+        "empty_file",
+        "This spreadsheet has no data rows.",
+      );
+    }
+    const headerLabels = Array.from(
+      { length: width },
+      (_, i) => `Column ${i + 1}`,
+    );
+    return buildImportResultFromLabelsAndDataRows(headerLabels, rawRows);
+  }
+
+  const headerCells = normalized[headerRowIndex];
+  if (!headerCells) {
+    throw new CsvImportError(
+      "empty_file",
+      "This spreadsheet has no rows.",
+    );
+  }
+
+  const headerLabels = headerCells.map((h, i) => {
+    const t = h.trim();
+    return t === "" ? `Column ${i + 1}` : t;
+  });
+
+  const rawRows = normalized
+    .slice(headerRowIndex + 1)
+    .filter((row) =>
+      row.some((cell) => String(cell ?? "").trim() !== ""),
+    );
+
+  return buildImportResultFromLabelsAndDataRows(headerLabels, rawRows);
+}
+
 const CSV_FILE_EXTENSION = /\.csv$/i;
 const CSV_LIKE_MIME_TYPES = new Set([
   "",

@@ -108,6 +108,65 @@ export function downloadJsonExport(
   triggerBrowserDownload(blob, `${base}.json`);
 }
 
+function escapeXmlText(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function cellValueForXml(value: unknown): string {
+  if (value === null || value === undefined) return "";
+  if (value instanceof Date) return value.toISOString();
+  // Keep behavior consistent with CSV formula injection mitigation.
+  const s = value instanceof Date ? value.toISOString() : String(value);
+  return neutralizeCsvFormulaPrefix(s);
+}
+
+export function buildXmlExportString(
+  rows: CsvViewerRow[],
+  columnKeys: string[],
+  headerLabels: string[],
+  rootElementName = "data",
+): string {
+  const colsXml = columnKeys
+    .map((key, i) => {
+      const label = headerLabels[i] ?? key;
+      return `  <column name="${escapeXmlText(String(label))}"/>`;
+    })
+    .join("\n");
+
+  const rowsXml = rows
+    .map((row, rowIndex) => {
+      const cellsXml = columnKeys
+        .map((key, i) => {
+          const label = headerLabels[i] ?? key;
+          const v = cellValueForXml(row[key]);
+          return `    <cell header="${escapeXmlText(String(label))}" colIndex="${i + 1
+            }">${escapeXmlText(v)}</cell>`;
+        })
+        .join("\n");
+      return `  <row index="${rowIndex + 1}">\n${cellsXml}\n  </row>`;
+    })
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<${rootElementName}>\n  <columns>\n${colsXml}\n  </columns>\n  <rows>\n${rowsXml}\n  </rows>\n</${rootElementName}>\n`;
+}
+
+export function downloadXmlExport(
+  rows: CsvViewerRow[],
+  columnKeys: string[],
+  headerLabels: string[],
+  fileBaseName: string,
+): void {
+  const xml = buildXmlExportString(rows, columnKeys, headerLabels);
+  const blob = new Blob([xml], { type: "application/xml;charset=utf-8" });
+  const base = sanitizeCsvDownloadFileBaseName(fileBaseName);
+  triggerBrowserDownload(blob, `${base}.xml`);
+}
+
 function cellValueForXlsx(value: unknown): string | number | boolean {
   if (value === null || value === undefined) return "";
   if (typeof value === "number" && Number.isFinite(value)) return value;

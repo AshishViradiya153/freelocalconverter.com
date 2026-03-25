@@ -4,6 +4,7 @@ import { DirectionProvider } from "@radix-ui/react-direction";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Languages } from "lucide-react";
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { DataGrid } from "@/components/data-grid/data-grid";
 import { DataGridFilterMenu } from "@/components/data-grid/data-grid-filter-menu";
 import { DataGridKeyboardShortcuts } from "@/components/data-grid/data-grid-keyboard-shortcuts";
@@ -52,6 +53,7 @@ function DataGridDemoImpl({
   undoRedo,
   ...props
 }: DataGridDemoImplProps) {
+  const t = useTranslations("dataGridDemo");
   const { table, searchState, ...dataGridProps } = useDataGrid({
     getRowId: (row) => row.id,
     initialState: {
@@ -73,7 +75,7 @@ function DataGridDemoImpl({
         className="flex items-center gap-2 self-end"
       >
         <Toggle
-          aria-label="Toggle text direction"
+          aria-label={t("toggleTextDirectionAria")}
           dir={dir}
           variant="outline"
           size="sm"
@@ -82,7 +84,7 @@ function DataGridDemoImpl({
           onPressedChange={(pressed) => onDirChange(pressed ? "rtl" : "ltr")}
         >
           <Languages className="text-muted-foreground" />
-          {dir === "ltr" ? "LTR" : "RTL"}
+          {dir === "ltr" ? t("ltr") : t("rtl")}
         </Toggle>
         <DataGridSearchButton searchState={searchState} />
         <DataGridUndoRedoButtons
@@ -114,6 +116,7 @@ function DataGridDemoImpl({
 }
 
 export function DataGridDemo() {
+  const t = useTranslations("dataGridDemo");
   const [data, setData] = React.useState<Person[]>(initialData);
   const [dir, setDir] = React.useState<Direction>("ltr");
   const windowSize = useWindowSize({ defaultHeight: 760 });
@@ -126,11 +129,11 @@ export function DataGridDemo() {
       {
         id: "name",
         accessorKey: "name",
-        header: "Name",
+        header: t("columns.name"),
         minSize: 180,
         filterFn,
         meta: {
-          label: "Name",
+          label: t("columns.name"),
           cell: {
             variant: "short-text",
           },
@@ -139,11 +142,11 @@ export function DataGridDemo() {
       {
         id: "age",
         accessorKey: "age",
-        header: "Age",
+        header: t("columns.age"),
         minSize: 100,
         filterFn,
         meta: {
-          label: "Age",
+          label: t("columns.age"),
           cell: {
             variant: "number",
             min: 18,
@@ -155,11 +158,11 @@ export function DataGridDemo() {
       {
         id: "email",
         accessorKey: "email",
-        header: "Email",
+        header: t("columns.email"),
         minSize: 240,
         filterFn,
         meta: {
-          label: "Email",
+          label: t("columns.email"),
           cell: {
             variant: "short-text",
           },
@@ -168,11 +171,11 @@ export function DataGridDemo() {
       {
         id: "website",
         accessorKey: "website",
-        header: "Website",
+        header: t("columns.website"),
         minSize: 240,
         filterFn,
         meta: {
-          label: "Website",
+          label: t("columns.website"),
           cell: {
             variant: "url",
           },
@@ -181,11 +184,11 @@ export function DataGridDemo() {
       {
         id: "notes",
         accessorKey: "notes",
-        header: "Notes",
+        header: t("columns.notes"),
         minSize: 200,
         filterFn,
         meta: {
-          label: "Notes",
+          label: t("columns.notes"),
           cell: {
             variant: "long-text",
           },
@@ -194,11 +197,11 @@ export function DataGridDemo() {
       {
         id: "salary",
         accessorKey: "salary",
-        header: "Salary",
+        header: t("columns.salary"),
         minSize: 180,
         filterFn,
         meta: {
-          label: "Salary",
+          label: t("columns.salary"),
           cell: {
             variant: "number",
             min: 0,
@@ -209,11 +212,11 @@ export function DataGridDemo() {
       {
         id: "department",
         accessorKey: "department",
-        header: "Department",
+        header: t("columns.department"),
         minSize: 180,
         filterFn,
         meta: {
-          label: "Department",
+          label: t("columns.department"),
           cell: {
             variant: "select",
             options: departments.map((dept) => ({
@@ -226,11 +229,11 @@ export function DataGridDemo() {
       {
         id: "status",
         accessorKey: "status",
-        header: "Status",
+        header: t("columns.status"),
         minSize: 180,
         filterFn,
         meta: {
-          label: "Status",
+          label: t("columns.status"),
           cell: {
             variant: "select",
             options: statuses.map((status) => ({
@@ -243,11 +246,11 @@ export function DataGridDemo() {
       {
         id: "skills",
         accessorKey: "skills",
-        header: "Skills",
+        header: t("columns.skills"),
         minSize: 240,
         filterFn,
         meta: {
-          label: "Skills",
+          label: t("columns.skills"),
           cell: {
             variant: "multi-select",
             options: skills.map((skill) => ({
@@ -260,11 +263,11 @@ export function DataGridDemo() {
       {
         id: "isActive",
         accessorKey: "isActive",
-        header: "Active",
+        header: t("columns.active"),
         minSize: 140,
         filterFn,
         meta: {
-          label: "Active",
+          label: t("columns.active"),
           cell: {
             variant: "checkbox",
           },
@@ -273,11 +276,11 @@ export function DataGridDemo() {
       {
         id: "startDate",
         accessorKey: "startDate",
-        header: "Start Date",
+        header: t("columns.startDate"),
         minSize: 150,
         filterFn,
         meta: {
-          label: "Start Date",
+          label: t("columns.startDate"),
           cell: {
             variant: "date",
           },
@@ -286,11 +289,11 @@ export function DataGridDemo() {
       {
         id: "attachments",
         accessorKey: "attachments",
-        header: "Attachments",
+        header: t("columns.attachments"),
         minSize: 240,
         filterFn,
         meta: {
-          label: "Attachments",
+          label: t("columns.attachments"),
           cell: {
             variant: "file",
             maxFileSize: 10 * 1024 * 1024, // 10MB
@@ -302,7 +305,7 @@ export function DataGridDemo() {
         },
       },
     ],
-    [filterFn],
+    [filterFn, t],
   );
 
   const {

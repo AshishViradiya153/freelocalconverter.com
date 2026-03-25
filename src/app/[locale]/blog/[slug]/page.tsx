@@ -72,6 +72,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <nav className="text-muted-foreground text-sm">
         <Link
           href="/blog"
+          locale={locale}
           className="underline-offset-4 hover:text-foreground hover:underline"
         >
           {t("backToBlog")}
@@ -107,6 +108,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <p className="mt-14 text-center text-muted-foreground text-sm">
         <Link
           href="/blog"
+          locale={locale}
           className="underline-offset-4 hover:text-foreground hover:underline"
         >
           {t("allArticles")}

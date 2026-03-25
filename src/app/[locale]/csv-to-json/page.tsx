@@ -7,7 +7,6 @@ import {
   DataGridSkeletonGrid,
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
-import { PrivacyFootnote } from "@/components/marketing/privacy-footnote";
 import { Shell } from "@/components/shell";
 import { siteConfig } from "@/config/site";
 
@@ -37,7 +36,6 @@ export default async function CsvToJsonPage({ params }: CsvToJsonPageProps) {
       >
         <CsvToJsonApp />
       </Suspense>
-      <PrivacyFootnote />
     </Shell>
   );
 }

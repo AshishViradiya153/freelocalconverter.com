@@ -2,7 +2,7 @@
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
-import type * as React from "react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -54,6 +54,30 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
 }) {
+  const hasTitle = React.useMemo(() => {
+    let found = false;
+
+    const visit = (node: React.ReactNode) => {
+      if (found) return;
+
+      React.Children.forEach(node, (child) => {
+        if (found) return;
+        if (!React.isValidElement(child)) return;
+
+        const childProps = child.props as { children?: React.ReactNode; "data-slot"?: string };
+        if (childProps["data-slot"] === "dialog-title") {
+          found = true;
+          return;
+        }
+
+        if (childProps.children) visit(childProps.children);
+      });
+    };
+
+    visit(children);
+    return found;
+  }, [children]);
+
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -65,11 +89,19 @@ function DialogContent({
         )}
         {...props}
       >
+        {!hasTitle && (
+          <DialogPrimitive.Title
+            data-slot="dialog-title"
+            className="font-semibold text-lg leading-none sr-only"
+          >
+            Dialog
+          </DialogPrimitive.Title>
+        )}
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-            className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0"
+            className="absolute right-4 top-4 z-50 inline-flex size-9 items-center justify-center rounded-md bg-background/70 text-foreground shadow-sm backdrop-blur-sm ring-offset-background transition-colors hover:bg-background/90 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0"
           >
             <XIcon />
             <span className="sr-only">Close</span>

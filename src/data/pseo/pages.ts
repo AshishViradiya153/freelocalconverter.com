@@ -151,7 +151,7 @@ export const rawPseoPages = [
     intro: [
       "Teams compare CSVs every week: yesterday versus today warehouse snapshots, staging versus production extracts, vendor resends after a disputed totals call, or finance copies before ERP ingestion. Spreadsheets work until width, row count, or policy blocks uploading the second file next to the first.",
       "A browser workflow can load both files on the same machine, summarize whether headers line up, and surface row-level differences without routing bytes through a shared SaaS account you do not control.",
-      "Table exposes a dedicated compare mode at /compare: pick a left and right CSV, review read-only grids, and—when column keys match in the same order—see how many cells differ and optionally hide identical rows so reviewers focus on what changed.",
+      "Table exposes a dedicated compare mode at /compare: pick a left and right CSV, review read-only grids, and, when column keys match in the same order, see how many cells differ and optionally hide identical rows so reviewers focus on what changed.",
     ],
     sections: [
       {
@@ -164,7 +164,7 @@ export const rawPseoPages = [
       {
         heading: "What “matching columns” means for automatic stats",
         paragraphs: [
-          "Table compares cells row index to row index after both files parse. Automatic counts require the same derived column keys in the same order—typically true when both exports share an identical header row and delimiter discipline.",
+          "Table compares cells row index to row index after both files parse. Automatic counts require the same derived column keys in the same order, typically true when both exports share an identical header row and delimiter discipline.",
           "If one vendor renamed a field, inserted a column, or reordered headers, the tool still renders both grids for manual review, but numeric diff summaries pause so you are not misled by misaligned fields. Normalize headers upstream or export from the same profile when you need strict comparability.",
         ],
       },
@@ -305,7 +305,7 @@ export const rawPseoPages = [
         heading: "Pairing compare with export and QA workflows",
         paragraphs: [
           "After you validate deltas, download cleaned subsets from the main viewer if you need editable grids again. Compare mode is intentionally read-only so golden files stay immutable while you investigate.",
-          "For recurring checks—nightly inventory, hourly order pulls—script ordering upstream so row indexes stay comparable, then spot-check visually in the browser before you promote automation.",
+          "For recurring checks, nightly inventory, hourly order pulls, script ordering upstream so row indexes stay comparable, then spot-check visually in the browser before you promote automation.",
         ],
       },
     ],
@@ -353,7 +353,7 @@ export const rawPseoPages = [
     intro: [
       "Shopify order exports are naturally line-grain: one row per line item with order-level fields repeated. That shape is correct for warehouses and tax engines, yet easy to misread if someone expects one row per order.",
       "Before you transform the file in Python or load it into NetSuite, a quick human scan in a local grid catches structural mistakes that would otherwise become expensive reconciliation projects.",
-      "Document which export profile you used—column names drift between apps, and QA is much faster when everyone references the same field map.",
+      "Document which export profile you used, column names drift between apps, and QA is much faster when everyone references the same field map.",
     ],
     sections: [
       {

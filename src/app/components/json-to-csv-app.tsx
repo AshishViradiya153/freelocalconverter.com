@@ -4,7 +4,6 @@ import { DirectionProvider } from "@radix-ui/react-direction";
 import {
   Braces,
   Copy,
-  FileJson,
   Loader2,
   Upload,
   Wand2,
@@ -18,6 +17,7 @@ import {
   buildLabelKeyedExportRows,
   buildCsvExportString,
   downloadCsvExport,
+  downloadXmlExport,
 } from "@/lib/csv-export";
 import {
   CSV_IMPORT_MAX_FILE_BYTES,
@@ -26,8 +26,9 @@ import {
   jsonRecordsToImportResult,
 } from "@/lib/csv-import";
 import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
-import { cn } from "@/lib/utils";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import type { Direction } from "@/types/data-grid";
+import { FileJsonGlyph } from "@/components/file-glyphs";
 
 function sessionToPrettyJson(session: CsvViewerSession): string {
   const rows = buildLabelKeyedExportRows(
@@ -36,72 +37,6 @@ function sessionToPrettyJson(session: CsvViewerSession): string {
     session.headerLabels,
   );
   return `${JSON.stringify(rows, null, 2)}\n`;
-}
-
-interface FileDropCardProps {
-  disabled: boolean;
-  busy: boolean;
-  fileName: string | null;
-  onFile: (file: File) => void;
-  inputId: string;
-}
-
-function FileDropCard({
-  disabled,
-  busy,
-  fileName,
-  onFile,
-  inputId,
-}: FileDropCardProps) {
-  const t = useTranslations("jsonToCsv");
-  const onPick = React.useCallback(
-    (files: FileList | null) => {
-      const file = files?.[0];
-      if (file) onFile(file);
-    },
-    [onFile],
-  );
-
-  return (
-    <div className="flex min-w-0 flex-col gap-2">
-      <button
-        type="button"
-        disabled={disabled || busy}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          onPick(e.dataTransfer.files);
-        }}
-        onClick={() => document.getElementById(inputId)?.click()}
-        className={cn(
-          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-8 transition-colors",
-          "border-border bg-muted/15 hover:bg-muted/30",
-          (disabled || busy) && "pointer-events-none opacity-60",
-        )}
-      >
-        <FileJson className="size-10 text-muted-foreground" />
-        <p className="text-center text-muted-foreground text-sm">
-          {fileName ? (
-            <span className="font-medium text-foreground">{fileName}</span>
-          ) : (
-            t("dropHint")
-          )}
-        </p>
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-background px-2.5 py-1 font-medium text-xs shadow-sm">
-          <Upload className="size-3.5" />
-          {t("chooseFile")}
-        </span>
-      </button>
-      <input
-        id={inputId}
-        type="file"
-        accept=".json,application/json,text/json,text/plain"
-        className="sr-only"
-        onChange={(e) => onPick(e.target.files)}
-      />
-      <p className="text-muted-foreground text-xs">{t("fileHint")}</p>
-    </div>
-  );
 }
 
 export function JsonToCsvApp() {
@@ -246,6 +181,23 @@ export function JsonToCsvApp() {
     toast.success(tl("downloadStarted"));
   }, [session, tl]);
 
+  const onDownloadXml = React.useCallback(() => {
+    if (!session) return;
+    downloadXmlExport(
+      session.rows,
+      session.columnKeys,
+      session.headerLabels,
+      session.fileName,
+    );
+    toast.success(tl("downloadStarted"));
+  }, [session, tl]);
+
+  const downloadXmlLabel = React.useMemo(() => {
+    const base = t("downloadCsv");
+    const replaced = base.replace(/\.csv\b/i, ".xml");
+    return replaced === base ? "Download .xml" : replaced;
+  }, [t]);
+
   const onClear = React.useCallback(() => {
     setSession(null);
     setJsonText("");
@@ -286,12 +238,19 @@ export function JsonToCsvApp() {
         </header>
 
         {!session ? (
-          <FileDropCard
+          <FileDropZone
             disabled={false}
             busy={busy}
-            fileName={null}
-            onFile={(f) => void onLoadFile(f)}
             inputId="json-to-csv-file"
+            accept=".json,application/json,text/json,text/plain"
+            onFiles={(files) => {
+              const file = files?.[0];
+              if (file) void onLoadFile(file);
+            }}
+            fileIcon={FileJsonGlyph}
+            dropTitle={t("dropHint")}
+            chooseLabel={t("chooseFile")}
+            fileHint={t("fileHint")}
           />
         ) : null}
 
@@ -392,6 +351,15 @@ export function JsonToCsvApp() {
                 >
                   {t("downloadCsv")}
                 </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={onDownloadXml}
+                  disabled={!session}
+                >
+                  {downloadXmlLabel}
+                </Button>
               </div>
               <textarea
                 value={csvOutput}
@@ -403,6 +371,7 @@ export function JsonToCsvApp() {
               {session ? (
                 <CsvSessionReadOnlyGrid
                   session={session}
+                  onSessionChange={(next) => setSession(next)}
                   gridKey={`json-csv-${session.rows.length}-${session.columnKeys.join(",")}`}
                 />
               ) : null}

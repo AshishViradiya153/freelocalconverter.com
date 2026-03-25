@@ -4,7 +4,8 @@ export const siteConfig = {
   name: "Table",
   description:
     "Data grid application built with Next.js, TanStack Table, and shadcn/ui.",
-  url: "https://csvcn.com",
+  url: "https://csveditoronline.org/",
+  copyrightYear: 2026,
   /** Set to your repository URL to show the GitHub icon in the header; leave empty to hide it. */
   links: { github: "" },
   /**

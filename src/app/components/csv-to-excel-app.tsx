@@ -1,7 +1,7 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { Download, FileSpreadsheet, Loader2, Play, Trash2, Upload } from "lucide-react";
+import { Download, Loader2, Play, Trash2, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
@@ -16,6 +16,8 @@ import {
 } from "@/lib/csv-import";
 import { resultToSession } from "@/lib/csv-viewer-session";
 import { cn } from "@/lib/utils";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 
 interface CsvToXlsxBatchEntry {
   id: string;
@@ -37,7 +39,6 @@ export function CsvToExcelApp() {
     [],
   );
   const [batchBusy, setBatchBusy] = React.useState(false);
-  const [isDragging, setIsDragging] = React.useState(false);
 
   const onBatchAddFiles = React.useCallback(
     (files: FileList | null) => {
@@ -58,7 +59,6 @@ export function CsvToExcelApp() {
   const onDropZonePick = React.useCallback(
     (files: FileList | null) => {
       onBatchAddFiles(files);
-      setIsDragging(false);
     },
     [onBatchAddFiles],
   );
@@ -163,7 +163,7 @@ export function CsvToExcelApp() {
       <div className="container flex flex-col gap-6 py-4">
         <header className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
-            <FileSpreadsheet className="size-8 text-muted-foreground" aria-hidden />
+            <FileSpreadsheetGlyph className="size-8 text-muted-foreground" aria-hidden />
             <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
               {t("heroTitle")}
             </h1>
@@ -177,53 +177,23 @@ export function CsvToExcelApp() {
         </header>
 
         <div className="flex flex-wrap items-center gap-2">
-          <input
-            id="csv-to-xlsx-batch-input"
-            type="file"
+          <FileDropZone
+            disabled={batchBusy}
+            busy={batchBusy}
+            fullWidth
+            wrapperClassName="w-full"
+            inputId="csv-to-xlsx-batch-input"
             accept=".csv,text/csv"
             multiple
-            className="sr-only"
-            onChange={(e) => onBatchAddFiles(e.target.files)}
+            onFiles={onDropZonePick}
+            fileIcon={FileSpreadsheetGlyph}
+            dropTitle={t("dropzoneTitle")}
+            dropHint={t("dropzoneHint", {
+              mb: Math.round(CSV_IMPORT_MAX_FILE_BYTES / (1024 * 1024)),
+              maxRows: CSV_IMPORT_MAX_ROWS.toLocaleString(),
+            })}
+            chooseLabel={t("addFiles")}
           />
-          <button
-            type="button"
-            disabled={batchBusy}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setIsDragging(true);
-            }}
-            onDragLeave={() => setIsDragging(false)}
-            onDrop={(e) => {
-              e.preventDefault();
-              onDropZonePick(e.dataTransfer.files);
-            }}
-            onClick={() =>
-              document.getElementById("csv-to-xlsx-batch-input")?.click()
-            }
-            className={cn(
-              "w-full rounded-xl border-2 border-dashed p-8 text-start transition-colors",
-              "border-border bg-muted/10 hover:bg-muted/20",
-              isDragging && "border-primary bg-primary/5",
-              batchBusy && "pointer-events-none opacity-60",
-            )}
-          >
-            <div className="flex flex-col items-center gap-3 text-center">
-              <FileSpreadsheet className="size-10 text-muted-foreground" />
-              <div className="space-y-1">
-                <p className="font-medium text-sm">{t("dropzoneTitle")}</p>
-                <p className="text-muted-foreground text-xs">
-                  {t("dropzoneHint", {
-                    mb: Math.round(CSV_IMPORT_MAX_FILE_BYTES / (1024 * 1024)),
-                    maxRows: CSV_IMPORT_MAX_ROWS.toLocaleString(),
-                  })}
-                </p>
-              </div>
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-background px-2.5 py-1 font-medium text-xs shadow-sm">
-                <Upload className="size-3.5" aria-hidden />
-                {t("addFiles")}
-              </span>
-            </div>
-          </button>
           <Button
             type="button"
             variant="outline"

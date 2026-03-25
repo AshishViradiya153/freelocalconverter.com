@@ -28,10 +28,11 @@ export async function SiteHeader() {
         <nav className="flex w-full items-center gap-1 text-sm">
           <ActiveLink href="/">{t("viewer")}</ActiveLink>
           <ActiveLink href="/compare">{t("compare")}</ActiveLink>
-          <ActiveLink href="/csv-to-json">{t("csvToJson")}</ActiveLink>
-          <ActiveLink href="/json-to-csv">{t("jsonToCsv")}</ActiveLink>
-          <ActiveLink href="/csv-to-excel">{t("csvToExcel")}</ActiveLink>
-          <ActiveLink href="/json-to-excel">{t("jsonToExcel")}</ActiveLink>
+          <ActiveLink href="/palettes/trending">Palettes</ActiveLink>
+          <ActiveLink href="/gradients">Gradients</ActiveLink>
+          <ActiveLink href="/xls-to-csv">{t("xlsToCsv")}</ActiveLink>
+          <ActiveLink href="/xls-viewer">{t("xlsViewer")}</ActiveLink>
+          <ActiveLink href="/parquet-viewer">{t("parquetViewer")}</ActiveLink>
           <ActiveLink href="/guides" match="nested">
             {t("guides")}
           </ActiveLink>
