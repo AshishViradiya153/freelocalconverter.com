@@ -6,6 +6,7 @@ import {
   isCsvLikeImportFile,
   parseCsvFile,
   parseCsvText,
+  parseStringMatrixToImportResult,
 } from "@/lib/csv-import";
 
 describe("isCsvLikeImportFile", () => {
@@ -120,5 +121,81 @@ describe("parseCsvText", () => {
     expect(truncated).toBe(true);
     expect(rows).toHaveLength(CSV_IMPORT_MAX_ROWS);
     expect(rowCountBeforeCap).toBe(CSV_IMPORT_MAX_ROWS + 5);
+  });
+});
+
+describe("parseStringMatrixToImportResult", () => {
+  it("parses first row as headers and coerces types like CSV import", () => {
+    const matrix = [
+      ["name", "age"],
+      ["Alice", "30"],
+      ["Bob", "25"],
+    ];
+    const { rows, truncated } = parseStringMatrixToImportResult(matrix);
+    expect(truncated).toBe(false);
+    expect(rows).toHaveLength(2);
+    expect(rows[0]?.name).toBe("Alice");
+    expect(rows[0]?.age).toBe(30);
+  });
+
+  it("uses a later row as header when title rows appear above", () => {
+    const matrix = [
+      ["Q4 Report"],
+      ["name", "age"],
+      ["Ada", "40"],
+    ];
+    const { rows, headerLabels } = parseStringMatrixToImportResult(matrix, {
+      headerRowIndex: 1,
+    });
+    expect(headerLabels).toEqual(["name", "age"]);
+    expect(rows).toHaveLength(1);
+  });
+
+  it("fills blank header cells with Column N labels", () => {
+    const matrix = [
+      ["a", "", "c"],
+      ["1", "2", "3"],
+    ];
+    const { headerLabels } = parseStringMatrixToImportResult(matrix);
+    expect(headerLabels[0]).toBe("a");
+    expect(headerLabels[1]).toBe("Column 2");
+    expect(headerLabels[2]).toBe("c");
+  });
+
+  it("treats all rows as data when hasHeaderRow is false", () => {
+    const matrix = [
+      ["x", "y"],
+      ["1", "2"],
+    ];
+    const { rows, headerLabels } = parseStringMatrixToImportResult(matrix, {
+      hasHeaderRow: false,
+    });
+    expect(headerLabels).toEqual(["Column 1", "Column 2"]);
+    expect(rows).toHaveLength(2);
+  });
+
+  it("auto-detects a title row above headers", () => {
+    const matrix = [
+      ["Quarterly Revenue Report", "", ""],
+      ["name", "amount", "created_at"],
+      ["Acme", "1200", "2024-01-01"],
+      ["Globex", "950", "2024-01-02"],
+    ];
+    const { headerLabels, rows } = parseStringMatrixToImportResult(matrix);
+    expect(headerLabels).toEqual(["name", "amount", "created_at"]);
+    expect(rows).toHaveLength(2);
+    expect(rows[0]?.name).toBe("Acme");
+  });
+
+  it("auto-detects no header when rows look uniformly numeric", () => {
+    const matrix = [
+      ["101", "202", "303"],
+      ["111", "222", "333"],
+      ["121", "232", "343"],
+    ];
+    const { headerLabels, rows } = parseStringMatrixToImportResult(matrix);
+    expect(headerLabels).toEqual(["Column 1", "Column 2", "Column 3"]);
+    expect(rows).toHaveLength(3);
+    expect(rows[0]?.Column_1).toBe(101);
   });
 });
