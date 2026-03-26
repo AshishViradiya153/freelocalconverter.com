@@ -10,7 +10,7 @@ These IDs use **simple local wordmark SVGs** (system sans text only) because Com
 
 ### Refreshing from Commons
 
-`scripts/fetch-trusted-by-logos.mjs` can download SVGs using **explicit** Commons file titles. Do **not** rely on broad Commons search for logos—it can return unrelated coats of arms or other universities. Prefer verifying `File:…` titles on commons.wikimedia.org first.
+`scripts/fetch-trusted-by-logos.mjs` can download SVGs using **explicit** Commons file titles. Do **not** rely on broad Commons search for logos, it can return unrelated coats of arms or other universities. Prefer verifying `File:…` titles on commons.wikimedia.org first.
 
 ## Remote fallback
 

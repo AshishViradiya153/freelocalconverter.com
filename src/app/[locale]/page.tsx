@@ -5,7 +5,7 @@ import {
   DataGridSkeletonGrid,
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
-import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";
+// import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";
 import { Shell } from "@/components/shell";
 import { CsvViewerApp } from "../components/csv-viewer-app";
 
@@ -29,7 +29,7 @@ export default async function IndexPage({ params }: IndexPageProps) {
       >
         <CsvViewerApp />
       </Suspense>
-      <TrustedByMarquee />
+      {/* <TrustedByMarquee /> */}
     </Shell>
   );
 }

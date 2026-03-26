@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
@@ -91,7 +92,15 @@ export default async function PaletteTrendingPage({
     <>
       <JsonLd data={graph} />
       <Shell>
-        <ColorPaletteTrendingApp />
+        <Suspense
+          fallback={
+            <div className="container flex flex-col gap-4 py-4 text-sm text-muted-foreground">
+              Loading palette…
+            </div>
+          }
+        >
+          <ColorPaletteTrendingApp />
+        </Suspense>
       </Shell>
     </>
   );

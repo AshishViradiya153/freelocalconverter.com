@@ -15,6 +15,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
 
 import "@/styles/globals.css";
+import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -101,6 +102,7 @@ export default async function LocaleLayout({
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
               <main className="flex-1">{children}</main>
+              <TrustedByMarquee />
               <SiteFooter />
             </div>
             <TailwindIndicator />

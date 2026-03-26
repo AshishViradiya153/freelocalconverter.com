@@ -12,7 +12,7 @@ import {
   Maximize2,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -187,6 +187,8 @@ function downloadPalettePng({
 
 export function ColorPaletteTrendingApp() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const initialMode = React.useMemo<HarmonyMode>(() => {
     const raw = searchParams.get("mode");
@@ -248,14 +250,18 @@ export function ColorPaletteTrendingApp() {
     return hexes.map((hex) => ({ hex, locked: false }));
   });
 
-  const initialFullscreenOpen = React.useMemo(() => {
+  const fullscreenRequested = React.useMemo(() => {
     const raw = searchParams.get("fullscreen");
     return raw === "1" || raw === "true";
   }, [searchParams]);
 
-  const [fullscreenOpen, setFullscreenOpen] = React.useState(
-    initialFullscreenOpen,
-  );
+  const [fullscreenOpen, setFullscreenOpen] = React.useState(fullscreenRequested);
+
+  // Keep dialog state in sync with the `fullscreen` query param, even when
+  // navigating by updating searchParams (client-side route change).
+  React.useEffect(() => {
+    setFullscreenOpen(fullscreenRequested);
+  }, [fullscreenRequested]);
 
   const [trendQuery, setTrendQuery] = React.useState("");
 
@@ -730,7 +736,19 @@ export function ColorPaletteTrendingApp() {
         </aside>
       </div>
 
-      <Dialog open={fullscreenOpen} onOpenChange={setFullscreenOpen}>
+      <Dialog
+        open={fullscreenOpen}
+        onOpenChange={(open) => {
+          setFullscreenOpen(open);
+
+          const nextParams = new URLSearchParams(searchParams.toString());
+          if (open) nextParams.set("fullscreen", "1");
+          else nextParams.delete("fullscreen");
+
+          const qs = nextParams.toString();
+          router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+        }}
+      >
         <DialogContent
           className="top-0 left-0 translate-x-0 translate-y-0 inset-0 h-screen w-screen max-w-none sm:max-w-none overflow-hidden rounded-none border-0 shadow-none p-0 gap-0"
         >

@@ -401,7 +401,7 @@
   "footer": {
     "kicker": "Tools mit lokalem Betrieb",
     "title": "{name}-Tool-Verzeichnis",
-    "subtitle": "Konvertieren, vergleichen und prüfen Sie tabellarische Dateien in Ihrem Browser. Nutzen Sie die Kategorien unten, um den passenden Workflow schnell zu finden—ohne sensible Daten zu unbekannten Servern hochzuladen.",
+    "subtitle": "Konvertieren, vergleichen und prüfen Sie tabellarische Dateien in Ihrem Browser. Nutzen Sie die Kategorien unten, um den passenden Workflow schnell zu finden, ohne sensible Daten zu unbekannten Servern hochzuladen.",
     "groupConvertersTitle": "Konverter",
     "groupConvertersDescription": "Werkzeuge von Format zu Format für saubere Übergaben.",
     "groupViewersTitle": "Viewer & Vergleich",

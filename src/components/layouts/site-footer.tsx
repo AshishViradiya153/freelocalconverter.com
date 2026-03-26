@@ -128,17 +128,6 @@ export async function SiteFooter() {
       ],
     },
     {
-      title: t("groupCompanyTitle"),
-      description: t("groupCompanyDescription"),
-      links: [
-        { href: "/guides", label: tNav("guides"), description: t("guidesDesc") },
-        { href: "/tools", label: tNav("tools"), description: t("toolsDesc") },
-        { href: "/blog", label: tNav("blog"), description: t("blogDesc") },
-        { href: "/privacy", label: tNav("privacy"), description: t("privacyDesc") },
-        { href: "/terms", label: tNav("terms"), description: t("termsDesc") },
-      ],
-    },
-    {
       title: "Color",
       description: "Color tools: generators & trending galleries.",
       links: [

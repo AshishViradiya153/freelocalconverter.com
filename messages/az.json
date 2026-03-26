@@ -200,7 +200,7 @@
     "downloadCsv": ".csv yükləyin",
     "csvAria": "CSV çıxışına baxış",
     "csvHint": "CSV seçilmiş vərəqdən yaradılır. ",
-    "previewHint": "Yalnız oxumaq üçün şəbəkə: çeşidləyin, filtrləyin və axtarın—yuxarıdakı sətir qapağı ilə eyni məhdudiyyətlər."
+    "previewHint": "Yalnız oxumaq üçün şəbəkə: çeşidləyin, filtrləyin və axtarın, yuxarıdakı sətir qapağı ilə eyni məhdudiyyətlər."
   },
   "landing": {
     "heroTitle": "Pulsuz, müasir və təhlükəsiz CSV baxıcı və redaktoru.",
@@ -401,7 +401,7 @@
   "footer": {
     "kicker": "Yerli-first alətlər",
     "title": "{name} alət kataloqu",
-    "subtitle": "Brauzerinizdə cədvəl fayllarını çevirin, müqayisə edin və yoxlayın. Aşağıdakı kateqoriyalardan istifadə edərək doğru iş axınını tez tapın—məlumatlarınızı naməlum serverlərə yükləmədən.",
+    "subtitle": "Brauzerinizdə cədvəl fayllarını çevirin, müqayisə edin və yoxlayın. Aşağıdakı kateqoriyalardan istifadə edərək doğru iş axınını tez tapın, məlumatlarınızı naməlum serverlərə yükləmədən.",
     "groupConvertersTitle": "Çeviricilər",
     "groupConvertersDescription": "Təmiz ötürmələr üçün formatdan formata alətlər.",
     "groupViewersTitle": "Baxıcılar və müqayisə",

@@ -216,9 +216,13 @@ export function TrustedByMarquee() {
 
   return (
     <section
-      className="border-border border-t bg-muted/25 py-10 md:py-12"
+      className="bg-muted/25 py-10 md:py-12 relative"
       aria-labelledby="trusted-by-heading"
     >
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0">
+        <div className="h-px bg-linear-to-r from-transparent via-primary/60 to-transparent" />
+        <div className="h-6 bg-linear-to-b from-primary/10 to-transparent blur-xl" />
+      </div>
       <div className="w-full">
         <div className="mx-auto max-w-2xl text-center">
           <h2
