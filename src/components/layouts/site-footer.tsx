@@ -154,6 +154,28 @@ export async function SiteFooter() {
       ],
     },
     {
+      title: "Video",
+      description: "Video tools: compress locally in your browser.",
+      links: [
+        {
+          href: "/video-compress",
+          label: "Video Compressor",
+          description: "Compress videos locally (bulk uploads + direct links).",
+        },
+      ],
+    },
+    {
+      title: "Image",
+      description: "Image tools: compress locally in your browser.",
+      links: [
+        {
+          href: "/image-compress",
+          label: "Image Compressor",
+          description: "Compress images locally (bulk uploads + direct links).",
+        },
+      ],
+    },
+    {
       title: "Color",
       description: "Color tools: generators & trending galleries.",
       links: [

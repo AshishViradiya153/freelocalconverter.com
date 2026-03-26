@@ -27,6 +27,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/pdf-to-image",
     "/pdf-watermark",
     "/bulk-pdf-watermark",
+    "/video-compress",
+    "/image-compress",
     "/images-to-pdf",
     "/csv-to-parquet",
     "/parquet-to-csv",
