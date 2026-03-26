@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Download, Image as ImageIcon, Loader2, Trash2 } from "lucide-react";
+import { Download, Expand, Image as ImageIcon, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -71,6 +72,7 @@ export function PdfToImageApp() {
   const [file, setFile] = React.useState<File | null>(null);
   const [busy, setBusy] = React.useState(false);
   const [loadError, setLoadError] = React.useState<string | null>(null);
+  const [preview, setPreview] = React.useState<null | { title: string; src: string }>(null);
 
   const [pageCount, setPageCount] = React.useState(0);
   const [thumbs, setThumbs] = React.useState<
@@ -456,13 +458,39 @@ export function PdfToImageApp() {
                       aria-label={`Page ${t.pageNumber}${selectable ? (isSelected ? " selected" : " not selected") : ""}`}
                       title={selectable ? "Click to select" : "Preview"}
                     >
-                      <div className="aspect-3/4 w-full bg-muted/20">
+                      <div className="group relative aspect-3/4 w-full bg-muted/20">
                         <img
                           src={t.dataUrl}
                           alt=""
                           className="h-full w-full object-contain"
                           decoding="async"
                         />
+                        <span className="absolute right-2 top-2 z-10 inline-flex">
+                          <span
+                            className={cn(
+                              "inline-flex items-center justify-center rounded-md border bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm",
+                              "hover:bg-background",
+                              "opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100",
+                            )}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Preview page ${t.pageNumber} full screen`}
+                            title="Preview"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setPreview({ title: `Page ${t.pageNumber}`, src: t.dataUrl });
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key !== "Enter" && e.key !== " ") return;
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setPreview({ title: `Page ${t.pageNumber}`, src: t.dataUrl });
+                            }}
+                          >
+                            <Expand className="size-4" aria-hidden />
+                          </span>
+                        </span>
                       </div>
                       <div className="flex items-center justify-between gap-2 p-2">
                         <div className="text-xs font-medium">
@@ -745,6 +773,29 @@ export function PdfToImageApp() {
           </div>
         </div>
       ) : null}
+
+      <Dialog
+        open={Boolean(preview)}
+        onOpenChange={(open) => {
+          if (!open) setPreview(null);
+        }}
+      >
+        <DialogContent className="h-dvh w-screen max-w-none rounded-none p-0 sm:max-w-none">
+          <DialogHeader className="border-border/60 border-b p-4">
+            <DialogTitle className="truncate">{preview?.title ?? "Preview"}</DialogTitle>
+          </DialogHeader>
+          <div className="h-[calc(100dvh-64px)] overflow-auto bg-muted/10 p-4">
+            {preview ? (
+              <img
+                src={preview.src}
+                alt=""
+                className="mx-auto h-auto w-full max-w-[1400px] rounded-md border bg-background object-contain"
+                decoding="async"
+              />
+            ) : null}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -128,6 +128,27 @@ export async function SiteFooter() {
       ],
     },
     {
+      title: "PDF",
+      description: "PDF tools: convert, watermark, and export locally.",
+      links: [
+        {
+          href: "/pdf-to-image",
+          label: "PDF to Image",
+          description: "Export PDF pages to PNG/JPG/WebP (local-only).",
+        },
+        {
+          href: "/images-to-pdf",
+          label: "Images to PDF",
+          description: "Combine images into a single PDF (reorder pages).",
+        },
+        {
+          href: "/pdf-watermark",
+          label: "PDF Watermark",
+          description: "Add text or image watermarks to a PDF.",
+        },
+      ],
+    },
+    {
       title: "Color",
       description: "Color tools: generators & trending galleries.",
       links: [
