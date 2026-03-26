@@ -44,6 +44,7 @@ import {
   type WatermarkType,
 } from "@/lib/pdf/pdf-watermark";
 import { getPdfJs } from "@/lib/pdf/pdfjs";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type PageMode = "all" | "selected" | "range";
@@ -379,7 +380,11 @@ export function PdfWatermarkApp() {
         <p className="max-w-3xl text-muted-foreground text-sm">
           Add a text or image watermark to a PDF locally in your browser.
           Control opacity, rotation, placement, and apply to specific pages — no
-          uploads.
+          uploads.{" "}
+          <Link className="text-foreground underline" href="/bulk-pdf-watermark">
+            Watermark many PDFs at once
+          </Link>
+          .
         </p>
       </header>
 

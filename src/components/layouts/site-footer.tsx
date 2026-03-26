@@ -146,6 +146,11 @@ export async function SiteFooter() {
           label: "PDF Watermark",
           description: "Add text or image watermarks to a PDF.",
         },
+        {
+          href: "/bulk-pdf-watermark",
+          label: "Bulk PDF Watermark",
+          description: "Apply one watermark to many PDFs; download a ZIP.",
+        },
       ],
     },
     {

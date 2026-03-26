@@ -226,11 +226,15 @@ export async function addWatermarkToPdf(opts: {
       const pageNumber = i + 1;
       if (!pagesToEdit.has(pageNumber)) continue;
       const page = doc.getPage(i);
-      drawTextWatermarkOnPage({
-        page,
-        font,
-        options: opts.watermark,
-      });
+      try {
+        drawTextWatermarkOnPage({
+          page,
+          font,
+          options: opts.watermark,
+        });
+      } catch (e) {
+        console.error({ watermarkPageError: { pageNumber }, e });
+      }
     }
   } else {
     const image = await ensureImage(doc, opts.watermark);
@@ -238,11 +242,17 @@ export async function addWatermarkToPdf(opts: {
       const pageNumber = i + 1;
       if (!pagesToEdit.has(pageNumber)) continue;
       const page = doc.getPage(i);
-      drawImageWatermarkOnPage({
-        page,
-        image,
-        options: opts.watermark,
-      });
+      try {
+        drawImageWatermarkOnPage({
+          page,
+          image,
+          options: opts.watermark,
+        });
+      } catch (e) {
+        // Some PDFs have malformed page resources; drawing may fail for a subset of pages.
+        // We keep going so the caller still gets a usable output file.
+        console.error({ watermarkPageError: { pageNumber }, e });
+      }
     }
   }
 
