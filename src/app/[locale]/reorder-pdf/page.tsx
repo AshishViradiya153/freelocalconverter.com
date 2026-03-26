@@ -1,0 +1,39 @@
+import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
+
+import { Shell } from "@/components/shell";
+import { siteConfig } from "@/config/site";
+import { ReorderPdfApp } from "@/app/components/reorder-pdf-app";
+
+export const metadata: Metadata = {
+  title: `Reorder PDF Pages · ${siteConfig.name}`,
+  description:
+    "Reorder pages in a PDF locally in your browser. Move pages up/down, optionally remove pages, and download a reordered PDF — no uploads.",
+};
+
+interface ReorderPdfPageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function ReorderPdfPage({ params }: ReorderPdfPageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return (
+    <Shell>
+      <Suspense
+        fallback={
+          <div className="container flex flex-col gap-4 py-4">
+            <div className="h-10 w-[min(520px,100%)] animate-pulse rounded-md bg-muted/40" />
+            <div className="h-24 w-full animate-pulse rounded-xl bg-muted/30" />
+            <div className="h-[380px] w-full animate-pulse rounded-xl bg-muted/20" />
+          </div>
+        }
+      >
+        <ReorderPdfApp />
+      </Suspense>
+    </Shell>
+  );
+}
+

@@ -128,7 +128,7 @@ async function ensureFfmpegLoaded(args: {
   if (args.loadedRef.current && args.ffmpegRef.current) return args.ffmpegRef.current;
 
   args.setEngineError(null);
-  args.setEngineStatus({ phase: "Loading video engine…" });
+  args.setEngineStatus({ phase: "Preparing video conversion…" });
 
   const [{ FFmpeg }, { toBlobURL }] = await Promise.all([
     import("@ffmpeg/ffmpeg"),
@@ -149,7 +149,7 @@ async function ensureFfmpegLoaded(args: {
   } catch (e) {
     const msg = errorToMessage(e);
     throw new Error(
-      `Failed to load the local video engine (ffmpeg-core) in your browser. ${msg}. If you're running behind a strict CSP/adblocker, allow loading from this site origin.`,
+      `Could not start the video conversion mode on this device. ${msg}. If you're running behind a strict CSP/adblocker, allow loading from this site origin.`,
     );
   }
 
@@ -681,8 +681,8 @@ export function VideoCompressApp() {
               </Button>
 
               <div className="text-muted-foreground text-xs">
-                Everything runs locally in your browser. The engine may take a
-                moment to load the first time.
+                Everything runs locally on your device. The conversion mode may
+                take a moment to load the first time.
               </div>
             </div>
           </aside>

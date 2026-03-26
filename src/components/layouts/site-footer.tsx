@@ -132,6 +132,26 @@ export async function SiteFooter() {
       description: "PDF tools: convert, watermark, and export locally.",
       links: [
         {
+          href: "/pdf-to-word",
+          label: "PDF to Word",
+          description: "Convert a PDF to DOCX locally (best for text-based PDFs).",
+        },
+        {
+          href: "/split-pdf",
+          label: "Split PDF",
+          description: "Split a PDF into pages or ranges; download PDFs or a ZIP.",
+        },
+        {
+          href: "/reorder-pdf",
+          label: "Reorder PDF pages",
+          description: "Reorder or remove pages, then download a new PDF.",
+        },
+        {
+          href: "/merge-pdf",
+          label: "Merge PDF",
+          description: "Combine multiple PDFs into one (reorder files).",
+        },
+        {
           href: "/pdf-to-image",
           label: "PDF to Image",
           description: "Export PDF pages to PNG/JPG/WebP (local-only).",
@@ -172,6 +192,21 @@ export async function SiteFooter() {
           href: "/image-compress",
           label: "Image Compressor",
           description: "Compress images locally (bulk uploads + direct links).",
+        },
+        {
+          href: "/image-convert",
+          label: "Image Converter",
+          description: "Convert images to WebP/AVIF/JPG/PNG locally (bulk + direct links).",
+        },
+        {
+          href: "/image-resize",
+          label: "Resize/Crop + Convert",
+          description: "Bulk resize, center-crop presets, convert, and bulk rename images locally.",
+        },
+        {
+          href: "/heic-to-jpg",
+          label: "HEIC to JPG/PNG",
+          description: "Convert iPhone HEIC/HEIF photos to JPG or PNG locally (bulk).",
         },
       ],
     },

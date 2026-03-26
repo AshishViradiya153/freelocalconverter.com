@@ -228,7 +228,7 @@ async function ensureFfmpegLoaded(args: {
   } catch (error) {
     const msg = errorToMessage(error);
     throw new Error(
-      `Failed to load the local image engine (ffmpeg-core) in your browser. ${msg}. If you're running behind a strict CSP/adblocker, allow loading from this site origin.`,
+      `Could not start the advanced conversion mode on this device. ${msg}. If you're running behind a strict CSP/adblocker, allow loading from this site origin.`,
     );
   }
 
@@ -242,7 +242,7 @@ async function convertImageBrowser(args: {
   quality: number;
 }) {
   if (!isCanvasEncodable(args.format)) {
-    throw new Error(`Browser engine can't encode ${args.format.toUpperCase()}.`);
+    throw new Error(`Fast mode can't encode ${args.format.toUpperCase()}.`);
   }
   const canvas = await decodeToRgbaCanvas(args.file);
 
@@ -323,7 +323,7 @@ async function convertImageFfmpeg(args: {
     // A common failure mode is that ffmpeg didn't generate the expected output file,
     // which surfaces as an FS error when reading it.
     throw new Error(
-      `FFmpeg could not convert "${args.file.name}" to ${args.format.toUpperCase()}. ${msg}`,
+      `Could not convert "${args.file.name}" to ${args.format.toUpperCase()} in “works with more formats” mode. ${msg}`,
     );
   } finally {
     // best-effort cleanup
@@ -839,25 +839,25 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                 <div>
                   <div className="font-semibold text-sm">Conversion settings</div>
                   <div className="mt-1 text-muted-foreground text-xs">
-                    Choose output format + engine. Auto picks the fastest safe path.
+                    Choose output format + conversion mode. Recommended picks the fastest safe path.
                   </div>
                 </div>
               </div>
 
               <div className="grid gap-2">
-                <Label className="text-sm">Conversion engine</Label>
+                <Label className="text-sm">Conversion mode</Label>
                 <Select value={engine} onValueChange={(value) => setEngine(value as ConvertEngine)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="auto">Auto (fast when possible)</SelectItem>
-                    <SelectItem value="browser">Browser (Canvas)</SelectItem>
-                    <SelectItem value="ffmpeg">FFmpeg (max formats)</SelectItem>
+                    <SelectItem value="auto">Recommended</SelectItem>
+                    <SelectItem value="browser">Fast</SelectItem>
+                    <SelectItem value="ffmpeg">Works with more formats</SelectItem>
                   </SelectContent>
                 </Select>
                 <div className="text-muted-foreground text-xs">
-                  Auto uses the browser encoder for PNG/JPG/WebP/AVIF, otherwise falls back to FFmpeg.
+                  Recommended picks the fastest option. “Works with more formats” can be slower.
                 </div>
               </div>
 
@@ -903,7 +903,7 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
               <Separator />
 
               <div className="text-muted-foreground text-xs">
-                Runs 100% in your browser. For the widest support (HEIC, TIFF, ICO), use FFmpeg engine.
+                Runs 100% on your device. If a file won’t convert, try “Works with more formats”.
               </div>
             </div>
           </aside>
