@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/compare",
     "/csv-to-json",
     "/json-to-csv",
+    "/pdf-to-image",
     "/csv-to-parquet",
     "/parquet-to-csv",
     "/json-to-parquet",

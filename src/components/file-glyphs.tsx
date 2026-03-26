@@ -162,3 +162,61 @@ export function FileExcelGlyph({
   );
 }
 
+export function FilePdfGlyph({
+  className,
+  "aria-hidden": ariaHidden,
+}: FileGlyphProps) {
+  // PDF-like glyph: folded sheet + "PDF" label.
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden={ariaHidden}
+    >
+      <path
+        d="M7 3.75h5.5L18.25 9.5V20.25c0 .966-.784 1.75-1.75 1.75H7c-.966 0-1.75-.784-1.75-1.75V5.5c0-.966.784-1.75 1.75-1.75Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.5 3.75V9.5H18.25"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8.2 17.3h7.6"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        opacity="0.85"
+      />
+      <path
+        d="M8.3 14.8h.9c.8 0 1.4.5 1.4 1.2 0 .6-.6 1.2-1.4 1.2h-.9v-2.4Z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+        opacity="0.9"
+      />
+      <path
+        d="M11.6 14.8h.9c1.1 0 1.9.7 1.9 1.6s-.8 1.6-1.9 1.6h-.9v-3.2Z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+        opacity="0.9"
+      />
+      <path
+        d="M16.2 14.8h-1.6v3.2M16.1 16.4h-1.4"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.9"
+      />
+    </svg>
+  );
+}
+
