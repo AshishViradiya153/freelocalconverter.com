@@ -138,7 +138,7 @@ export function ImagesToPdfApp() {
           </h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Add images, reorder them, and export a single PDF locally in your browser — no uploads.
+          Add images, reorder them, and export a single PDF locally in your browser, no uploads.
         </p>
       </header>
 
@@ -177,7 +177,7 @@ export function ImagesToPdfApp() {
               <div className="flex flex-col gap-0.5">
                 <div className="font-medium">Pages</div>
                 <div className="text-muted-foreground text-xs">
-                  Drag is optional — use up/down for precise ordering.
+                  Drag is optional, use up/down for precise ordering.
                 </div>
               </div>
               <div className="text-muted-foreground text-sm">

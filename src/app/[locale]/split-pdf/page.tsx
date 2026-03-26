@@ -9,7 +9,7 @@ import { SplitPdfApp } from "@/app/components/split-pdf-app";
 export const metadata: Metadata = {
   title: `Split PDF · ${siteConfig.name}`,
   description:
-    "Split a PDF into multiple PDFs locally in your browser. Export each page as its own PDF or choose page ranges — no uploads.",
+    "Split a PDF into multiple PDFs locally in your browser. Export each page as its own PDF or choose page ranges, no uploads.",
 };
 
 interface SplitPdfPageProps {

@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { HeicToJpgApp } from "@/app/components/heic-to-jpg-app";
+import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `HEIC to JPG/PNG · ${siteConfig.name}`,
+  title: `HTTP status + headers explainer · ${siteConfig.name}`,
   description:
-    "Convert HEIC/HEIF photos to JPG or PNG locally in your browser. Bulk convert iPhone photos for universal compatibility, no uploads.",
+    "Understand common HTTP status codes and headers with quick practical notes.",
 };
 
-interface HeicToJpgPageProps {
+interface HttpExplainerPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
+export default async function HttpExplainerPage({ params }: HttpExplainerPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -31,9 +31,13 @@ export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
           </div>
         }
       >
-        <HeicToJpgApp />
+        <ApiWebDevHelpersApp
+          initialTool="http"
+          showToolSwitcher={false}
+          title="HTTP status + headers explainer"
+          subtitle="Quick meanings and debugging tips for status codes and common headers."
+        />
       </Suspense>
     </Shell>
   );
 }
-

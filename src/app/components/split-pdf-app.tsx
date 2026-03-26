@@ -137,7 +137,7 @@ export function SplitPdfApp() {
           <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">Split PDF</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Split one PDF into multiple PDFs locally in your browser — no uploads. Export each page as its own PDF, or
+          Split one PDF into multiple PDFs locally in your browser, no uploads. Export each page as its own PDF, or
           choose ranges.
         </p>
       </header>

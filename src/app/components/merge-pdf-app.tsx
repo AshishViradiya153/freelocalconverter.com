@@ -144,7 +144,7 @@ export function MergePdfApp() {
           <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">Merge PDF</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Add multiple PDFs, reorder them, and download one merged PDF locally in your browser — no uploads.
+          Add multiple PDFs, reorder them, and download one merged PDF locally in your browser, no uploads.
         </p>
       </header>
 

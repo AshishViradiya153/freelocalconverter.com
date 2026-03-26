@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: `PDF to Word · ${siteConfig.name}`,
   description:
-    "Convert PDF to Word (DOCX) locally in your browser. Best for text-based PDFs; scanned PDFs need OCR — no uploads.",
+    "Convert PDF to Word (DOCX) locally in your browser. Best for text-based PDFs; scanned PDFs need OCR, no uploads.",
 };
 
 interface PdfToWordPageProps {

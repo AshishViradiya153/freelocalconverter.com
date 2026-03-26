@@ -9,7 +9,7 @@ import { MergePdfApp } from "@/app/components/merge-pdf-app";
 export const metadata: Metadata = {
   title: `Merge PDF · ${siteConfig.name}`,
   description:
-    "Merge multiple PDF files into one PDF locally in your browser. Reorder files, then download a single merged PDF — no uploads.",
+    "Merge multiple PDF files into one PDF locally in your browser. Reorder files, then download a single merged PDF, no uploads.",
 };
 
 interface MergePdfPageProps {

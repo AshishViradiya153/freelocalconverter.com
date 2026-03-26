@@ -9,7 +9,7 @@ import { ReorderPdfApp } from "@/app/components/reorder-pdf-app";
 export const metadata: Metadata = {
   title: `Reorder PDF Pages · ${siteConfig.name}`,
   description:
-    "Reorder pages in a PDF locally in your browser. Move pages up/down, optionally remove pages, and download a reordered PDF — no uploads.",
+    "Reorder pages in a PDF locally in your browser. Move pages up/down, optionally remove pages, and download a reordered PDF, no uploads.",
 };
 
 interface ReorderPdfPageProps {

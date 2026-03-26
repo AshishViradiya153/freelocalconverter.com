@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: `Image Compressor · ${siteConfig.name}`,
   description:
-    "Compress images locally in your browser. Upload multiple files or paste a direct link, then download smaller outputs — no uploads.",
+    "Compress images locally in your browser. Upload multiple files or paste a direct link, then download smaller outputs, no uploads.",
 };
 
 interface ImageCompressPageProps {

@@ -421,7 +421,7 @@ export function VideoCompressApp() {
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Compress videos locally in your browser. Upload many files or paste a
-          link, then download the smaller outputs — no uploads to our servers.
+          link, then download the smaller outputs, no uploads to our servers.
         </p>
       </header>
 

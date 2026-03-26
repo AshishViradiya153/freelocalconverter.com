@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: `Bulk PDF Watermark · ${siteConfig.name}`,
   description:
-    "Watermark many PDFs at once in your browser. Same text or image settings on every file; download a ZIP — no uploads.",
+    "Watermark many PDFs at once in your browser. Same text or image settings on every file; download a ZIP, no uploads.",
 };
 
 interface BulkPdfWatermarkPageProps {

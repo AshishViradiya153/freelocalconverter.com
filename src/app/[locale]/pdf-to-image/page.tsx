@@ -9,7 +9,7 @@ import { PdfToImageApp } from "@/app/components/pdf-to-image-app";
 export const metadata: Metadata = {
   title: `PDF to Image · ${siteConfig.name}`,
   description:
-    "Convert a PDF to PNG/JPG/WebP images locally in your browser. Pick pages, resolution, quality, and download single images or a ZIP — no uploads.",
+    "Convert a PDF to PNG/JPG/WebP images locally in your browser. Pick pages, resolution, quality, and download single images or a ZIP, no uploads.",
 };
 
 interface PdfToImagePageProps {

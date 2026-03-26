@@ -311,7 +311,7 @@ export function BulkPdfWatermarkApp() {
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Upload many PDFs, set one watermark, and download every file
-          watermarked on all pages — packaged as a ZIP. Everything stays in your
+          watermarked on all pages, packaged as a ZIP. Everything stays in your
           browser.
         </p>
       </header>

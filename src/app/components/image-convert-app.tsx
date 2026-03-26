@@ -632,7 +632,7 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           {props.subtitle ??
-            "Convert images locally in your browser. Upload many files or paste a direct link, choose an output format, then download — no uploads."}
+            "Convert images locally in your browser. Upload many files or paste a direct link, choose an output format, then download, no uploads."}
         </p>
       </header>
 

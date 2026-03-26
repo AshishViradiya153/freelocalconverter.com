@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: `Image Resize/Crop + Convert · ${siteConfig.name}`,
   description:
-    "Resize, center-crop, convert, and bulk rename images locally in your browser. Bulk queue, presets, then download outputs — no uploads.",
+    "Resize, center-crop, convert, and bulk rename images locally in your browser. Bulk queue, presets, then download outputs, no uploads.",
 };
 
 interface ImageResizePageProps {

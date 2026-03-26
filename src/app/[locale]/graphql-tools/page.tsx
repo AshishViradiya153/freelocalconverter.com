@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { HeicToJpgApp } from "@/app/components/heic-to-jpg-app";
+import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `HEIC to JPG/PNG · ${siteConfig.name}`,
+  title: `GraphQL tools · ${siteConfig.name}`,
   description:
-    "Convert HEIC/HEIF photos to JPG or PNG locally in your browser. Bulk convert iPhone photos for universal compatibility, no uploads.",
+    "Format GraphQL queries and explore schema types using introspection JSON.",
 };
 
-interface HeicToJpgPageProps {
+interface GraphQlToolsPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
+export default async function GraphQlToolsPage({ params }: GraphQlToolsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -31,9 +31,13 @@ export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
           </div>
         }
       >
-        <HeicToJpgApp />
+        <ApiWebDevHelpersApp
+          initialTool="graphql"
+          showToolSwitcher={false}
+          title="GraphQL formatter + schema explorer"
+          subtitle="Format query text and inspect schema types from introspection JSON."
+        />
       </Suspense>
     </Shell>
   );
 }
-

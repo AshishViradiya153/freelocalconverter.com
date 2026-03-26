@@ -379,7 +379,7 @@ export function PdfWatermarkApp() {
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Add a text or image watermark to a PDF locally in your browser.
-          Control opacity, rotation, placement, and apply to specific pages — no
+          Control opacity, rotation, placement, and apply to specific pages, no
           uploads.{" "}
           <Link className="text-foreground underline" href="/bulk-pdf-watermark">
             Watermark many PDFs at once
@@ -827,7 +827,7 @@ export function PdfWatermarkApp() {
                 : "Preview"}
             </DialogTitle>
             <p className="text-left font-normal text-muted-foreground text-xs leading-snug">
-              Sharp preview — re-rendered for your screen. Watermark is applied
+              Sharp preview, re-rendered for your screen. Watermark is applied
               only after you download.
             </p>
           </DialogHeader>

@@ -144,7 +144,7 @@ export function ReorderPdfApp() {
           <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">Reorder PDF pages</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Reorder pages in a single PDF locally in your browser — no uploads. Drag pages to reorder, or use Up/Down for
+          Reorder pages in a single PDF locally in your browser, no uploads. Drag pages to reorder, or use Up/Down for
           precise ordering, then download a new PDF.
         </p>
       </header>

@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: `Video Compressor · ${siteConfig.name}`,
   description:
-    "Compress videos locally in your browser. Upload multiple files or paste a direct link, then download smaller outputs — no uploads.",
+    "Compress videos locally in your browser. Upload multiple files or paste a direct link, then download smaller outputs, no uploads.",
 };
 
 interface VideoCompressPageProps {

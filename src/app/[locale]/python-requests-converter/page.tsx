@@ -2,21 +2,23 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { HeicToJpgApp } from "@/app/components/heic-to-jpg-app";
+import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `HEIC to JPG/PNG · ${siteConfig.name}`,
+  title: `Python requests converter · ${siteConfig.name}`,
   description:
-    "Convert HEIC/HEIF photos to JPG or PNG locally in your browser. Bulk convert iPhone photos for universal compatibility, no uploads.",
+    "Convert Python requests snippets to cURL, fetch, or axios locally.",
 };
 
-interface HeicToJpgPageProps {
+interface PythonRequestsConverterPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
+export default async function PythonRequestsConverterPage({
+  params,
+}: PythonRequestsConverterPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -31,7 +33,14 @@ export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
           </div>
         }
       >
-        <HeicToJpgApp />
+        <ApiWebDevHelpersApp
+          initialTool="converter"
+          initialFromFormat="python-requests"
+          initialToFormat="curl"
+          showToolSwitcher={false}
+          title="Python requests converter"
+          subtitle="Convert Python requests snippets to cURL, fetch, or axios."
+        />
       </Suspense>
     </Shell>
   );

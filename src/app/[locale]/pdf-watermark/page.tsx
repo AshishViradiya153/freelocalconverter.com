@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: `PDF Watermark · ${siteConfig.name}`,
   description:
-    "Add text or image watermarks to a PDF locally in your browser. Control opacity, rotation, placement, and pages — no uploads.",
+    "Add text or image watermarks to a PDF locally in your browser. Control opacity, rotation, placement, and pages, no uploads.",
 };
 
 interface PdfWatermarkPageProps {

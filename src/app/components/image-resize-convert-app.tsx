@@ -425,7 +425,7 @@ export function ImageResizeConvertApp() {
           </div>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Bulk resize, center-crop (preset ratios), convert, and bulk rename images locally in your browser — no uploads.
+          Bulk resize, center-crop (preset ratios), convert, and bulk rename images locally in your browser, no uploads.
         </p>
       </header>
 

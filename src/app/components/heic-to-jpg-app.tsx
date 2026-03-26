@@ -8,7 +8,7 @@ export function HeicToJpgApp() {
   return (
     <ImageConvertApp
       title="HEIC to JPG/PNG"
-      subtitle="Convert iPhone HEIC/HEIF photos to JPG or PNG locally in your browser. Bulk add files and download converted outputs — no uploads."
+      subtitle="Convert iPhone HEIC/HEIF photos to JPG or PNG locally in your browser. Bulk add files and download converted outputs, no uploads."
       inputId="heic-to-jpg-input"
       accept="image/heic,image/heif,.heic,.heif"
       dropTitleEmpty="Drop HEIC/HEIF photos here or click to browse"

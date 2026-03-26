@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { HeicToJpgApp } from "@/app/components/heic-to-jpg-app";
+import { JsonFormatterApp } from "@/app/components/json-formatter-app";
 import { Shell } from "@/components/shell";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `HEIC to JPG/PNG · ${siteConfig.name}`,
+  title: `JSON Formatter · ${siteConfig.name}`,
   description:
-    "Convert HEIC/HEIF photos to JPG or PNG locally in your browser. Bulk convert iPhone photos for universal compatibility, no uploads.",
+    "Format, minify, and validate JSON locally in your browser. Copy output instantly, no uploads.",
 };
 
-interface HeicToJpgPageProps {
+interface JsonFormatterPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
+export default async function JsonFormatterPage({ params }: JsonFormatterPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -31,7 +31,7 @@ export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
           </div>
         }
       >
-        <HeicToJpgApp />
+        <JsonFormatterApp />
       </Suspense>
     </Shell>
   );

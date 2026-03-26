@@ -128,6 +128,57 @@ export async function SiteFooter() {
       ],
     },
     {
+      title: "Developer",
+      description: "API and text utilities for everyday web development.",
+      links: [
+        {
+          href: "/json-formatter",
+          label: "JSON Formatter",
+          description: "Format, minify, and validate JSON locally.",
+        },
+        {
+          href: "/curl-converter",
+          label: "cURL converter",
+          description: "Convert cURL request snippets to fetch/axios/Python.",
+        },
+        {
+          href: "/fetch-converter",
+          label: "fetch converter",
+          description: "Convert fetch() snippets to cURL/axios/Python.",
+        },
+        {
+          href: "/axios-converter",
+          label: "axios converter",
+          description: "Convert axios snippets to cURL/fetch/Python.",
+        },
+        {
+          href: "/python-requests-converter",
+          label: "Python requests converter",
+          description: "Convert Python requests snippets to cURL/fetch/axios.",
+        },
+        {
+          href: "/http-explainer",
+          label: "HTTP explainer",
+          description: "Explain status codes and common HTTP headers.",
+        },
+        {
+          href: "/openapi-viewer",
+          label: "OpenAPI viewer",
+          description: "Load OpenAPI/Swagger specs and browse endpoints.",
+        },
+        {
+          href: "/graphql-tools",
+          label: "GraphQL tools",
+          description: "Format queries and explore introspection schema types.",
+        },
+        {
+          href: "/webhook-viewer",
+          label: "Webhook viewer",
+          description: "Pretty-print payloads and search with JSONPath.",
+        },
+      ],
+    },
+    {
       title: "PDF",
       description: "PDF tools: convert, watermark, and export locally.",
       links: [
