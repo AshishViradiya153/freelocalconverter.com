@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `OpenAPI viewer · ${siteConfig.name}`,
-  description:
-    "Drop an OpenAPI/Swagger file and browse endpoints, request body shape, and responses.",
-};
+export async function generateMetadata({
+  params,
+}: OpenApiViewerPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "openapi-viewer");
+}
 
 interface OpenApiViewerPageProps {
   params: Promise<{ locale: string }>;

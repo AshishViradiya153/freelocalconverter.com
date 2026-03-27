@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `API converter · ${siteConfig.name}`,
-  description:
-    "Convert request snippets between cURL, fetch, axios, and Python requests locally.",
-};
+export async function generateMetadata({
+  params,
+}: RequestConverterPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "request-converter");
+}
 
 interface RequestConverterPageProps {
   params: Promise<{ locale: string }>;

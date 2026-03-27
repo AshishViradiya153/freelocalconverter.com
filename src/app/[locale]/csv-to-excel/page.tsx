@@ -8,13 +8,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `CSV to Excel · ${siteConfig.name}`,
-  description:
-    "Convert up to 10 CSV files to Excel in your browser. Add files, convert in batch, then download each .xlsx one by one.",
-};
+export async function generateMetadata({
+  params,
+}: CsvToExcelPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "csv-to-excel");
+}
 
 interface CsvToExcelPageProps {
   params: Promise<{ locale: string }>;

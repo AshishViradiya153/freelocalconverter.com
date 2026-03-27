@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `GraphQL tools · ${siteConfig.name}`,
-  description:
-    "Format GraphQL queries and explore schema types using introspection JSON.",
-};
+export async function generateMetadata({
+  params,
+}: GraphQlToolsPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "graphql-tools");
+}
 
 interface GraphQlToolsPageProps {
   params: Promise<{ locale: string }>;

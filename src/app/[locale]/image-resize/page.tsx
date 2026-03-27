@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ImageResizeConvertApp } from "@/app/components/image-resize-convert-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Image Resize/Crop + Convert · ${siteConfig.name}`,
-  description:
-    "Resize, center-crop, convert, and bulk rename images locally in your browser. Bulk queue, presets, then download outputs, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: ImageResizePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "image-resize");
+}
 
 interface ImageResizePageProps {
   params: Promise<{ locale: string }>;

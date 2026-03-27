@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ImageCompressApp } from "@/app/components/image-compress-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Image Compressor · ${siteConfig.name}`,
-  description:
-    "Compress images locally in your browser. Upload multiple files or paste a direct link, then download smaller outputs, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: ImageCompressPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "image-compress");
+}
 
 interface ImageCompressPageProps {
   params: Promise<{ locale: string }>;

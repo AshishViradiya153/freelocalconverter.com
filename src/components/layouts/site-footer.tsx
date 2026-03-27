@@ -1,7 +1,8 @@
-import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/config/site";
+import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import { cn } from "@/lib/utils";
+import { getLocale, getTranslations } from "next-intl/server";
 
 interface FooterLink {
   href: string;
@@ -46,11 +47,13 @@ function FooterGroupColumn({ title, description, links }: FooterGroup) {
   return (
     <section className="flex min-w-0 flex-col gap-3">
       <div className="min-w-0">
-        <h3 className="truncate font-semibold text-sm tracking-tight">{title}</h3>
+        <h3 className="truncate font-semibold text-sm tracking-tight">
+          {title}
+        </h3>
       </div>
       <ul className="flex flex-col gap-1">
         {links.map((l) => (
-          <FooterLinkItem key={l.href} {...l} />
+          <FooterLinkItem key={`${l.href}-${l.label}`} {...l} />
         ))}
       </ul>
     </section>
@@ -58,236 +61,10 @@ function FooterGroupColumn({ title, description, links }: FooterGroup) {
 }
 
 export async function SiteFooter() {
-  const t = await getTranslations("footer");
+  const locale = await getLocale();
+  const tFooter = await getTranslations("footer");
   const tNav = await getTranslations("nav");
-  const tMarketing = await getTranslations("marketing");
-
-  const groups: FooterGroup[] = [
-    {
-      title: t("groupConvertersTitle"),
-      description: t("groupConvertersDescription"),
-      links: [
-        {
-          href: "/csv-to-json",
-          label: tNav("csvToJson"),
-          description: t("csvToJsonDesc"),
-        },
-        {
-          href: "/json-to-csv",
-          label: tNav("jsonToCsv"),
-          description: t("jsonToCsvDesc"),
-        },
-        {
-          href: "/csv-to-parquet",
-          label: tNav("csvToParquet"),
-          description: t("csvToParquetDesc"),
-        },
-        {
-          href: "/parquet-to-csv",
-          label: tNav("parquetToCsv"),
-          description: t("parquetToCsvDesc"),
-        },
-        {
-          href: "/json-to-parquet",
-          label: tNav("jsonToParquet"),
-          description: t("jsonToParquetDesc"),
-        },
-        {
-          href: "/parquet-to-json",
-          label: tNav("parquetToJson"),
-          description: t("parquetToJsonDesc"),
-        },
-        {
-          href: "/csv-to-markdown-table",
-          label: tNav("csvToMarkdownTable"),
-          description: t("csvToMarkdownTableDesc"),
-        },
-      ],
-    },
-    {
-      title: t("groupViewersTitle"),
-      description: t("groupViewersDescription"),
-      links: [
-        { href: "/", label: tNav("viewer"), description: t("viewerDesc") },
-        { href: "/compare", label: tNav("compare"), description: t("compareDesc") },
-        { href: "/xls-viewer", label: tNav("xlsViewer"), description: t("xlsViewerDesc") },
-        {
-          href: "/parquet-viewer",
-          label: tNav("parquetViewer"),
-          description: t("parquetViewerDesc"),
-        },
-      ],
-    },
-    {
-      title: t("groupExcelTitle"),
-      description: t("groupExcelDescription"),
-      links: [
-        { href: "/csv-to-excel", label: tNav("csvToExcel"), description: t("csvToExcelDesc") },
-        { href: "/xls-to-csv", label: tNav("xlsToCsv"), description: t("xlsToCsvDesc") },
-        { href: "/json-to-excel", label: tNav("jsonToExcel"), description: t("jsonToExcelDesc") },
-      ],
-    },
-    {
-      title: "Developer",
-      description: "API and text utilities for everyday web development.",
-      links: [
-        {
-          href: "/json-formatter",
-          label: "JSON Formatter",
-          description: "Format, minify, and validate JSON locally.",
-        },
-        {
-          href: "/curl-converter",
-          label: "cURL converter",
-          description: "Convert cURL request snippets to fetch/axios/Python.",
-        },
-        {
-          href: "/fetch-converter",
-          label: "fetch converter",
-          description: "Convert fetch() snippets to cURL/axios/Python.",
-        },
-        {
-          href: "/axios-converter",
-          label: "axios converter",
-          description: "Convert axios snippets to cURL/fetch/Python.",
-        },
-        {
-          href: "/python-requests-converter",
-          label: "Python requests converter",
-          description: "Convert Python requests snippets to cURL/fetch/axios.",
-        },
-        {
-          href: "/http-explainer",
-          label: "HTTP explainer",
-          description: "Explain status codes and common HTTP headers.",
-        },
-        {
-          href: "/openapi-viewer",
-          label: "OpenAPI viewer",
-          description: "Load OpenAPI/Swagger specs and browse endpoints.",
-        },
-        {
-          href: "/graphql-tools",
-          label: "GraphQL tools",
-          description: "Format queries and explore introspection schema types.",
-        },
-        {
-          href: "/webhook-viewer",
-          label: "Webhook viewer",
-          description: "Pretty-print payloads and search with JSONPath.",
-        },
-      ],
-    },
-    {
-      title: "PDF",
-      description: "PDF tools: convert, watermark, and export locally.",
-      links: [
-        {
-          href: "/pdf-to-word",
-          label: "PDF to Word",
-          description: "Convert a PDF to DOCX locally (best for text-based PDFs).",
-        },
-        {
-          href: "/split-pdf",
-          label: "Split PDF",
-          description: "Split a PDF into pages or ranges; download PDFs or a ZIP.",
-        },
-        {
-          href: "/reorder-pdf",
-          label: "Reorder PDF pages",
-          description: "Reorder or remove pages, then download a new PDF.",
-        },
-        {
-          href: "/merge-pdf",
-          label: "Merge PDF",
-          description: "Combine multiple PDFs into one (reorder files).",
-        },
-        {
-          href: "/pdf-to-image",
-          label: "PDF to Image",
-          description: "Export PDF pages to PNG/JPG/WebP (local-only).",
-        },
-        {
-          href: "/images-to-pdf",
-          label: "Images to PDF",
-          description: "Combine images into a single PDF (reorder pages).",
-        },
-        {
-          href: "/pdf-watermark",
-          label: "PDF Watermark",
-          description: "Add text or image watermarks to a PDF.",
-        },
-        {
-          href: "/bulk-pdf-watermark",
-          label: "Bulk PDF Watermark",
-          description: "Apply one watermark to many PDFs; download a ZIP.",
-        },
-      ],
-    },
-    {
-      title: "Video",
-      description: "Video tools: compress locally in your browser.",
-      links: [
-        {
-          href: "/video-compress",
-          label: "Video Compressor",
-          description: "Compress videos locally (bulk uploads + direct links).",
-        },
-      ],
-    },
-    {
-      title: "Image",
-      description: "Image tools: compress locally in your browser.",
-      links: [
-        {
-          href: "/image-compress",
-          label: "Image Compressor",
-          description: "Compress images locally (bulk uploads + direct links).",
-        },
-        {
-          href: "/image-convert",
-          label: "Image Converter",
-          description: "Convert images to WebP/AVIF/JPG/PNG locally (bulk + direct links).",
-        },
-        {
-          href: "/image-resize",
-          label: "Resize/Crop + Convert",
-          description: "Bulk resize, center-crop presets, convert, and bulk rename images locally.",
-        },
-        {
-          href: "/heic-to-jpg",
-          label: "HEIC to JPG/PNG",
-          description: "Convert iPhone HEIC/HEIF photos to JPG or PNG locally (bulk).",
-        },
-      ],
-    },
-    {
-      title: "Color",
-      description: "Color tools: generators & trending galleries.",
-      links: [
-        {
-          href: "/palettes/trending",
-          label: "Color palette generator",
-          description: "Generate trending palettes, lock swatches, and export PNG/JSON.",
-        },
-        {
-          href: "/gradients",
-          label: "Gradient generator",
-          description: "Create trending gradients, lock stops, and export PNG/JSON.",
-        },
-        {
-          href: "/palettes/best",
-          label: "Trending palettes",
-          description: "Browse curated palettes and reuse instantly in the generator.",
-        },
-        {
-          href: "/gradients/best",
-          label: "Trending gradients",
-          description: "Browse curated gradients and reuse instantly in the generator.",
-        },
-      ],
-    },
-  ];
+  const groups: FooterGroup[] = getLocalizedServiceGroups(locale);
 
   return (
     <footer className="relative overflow-hidden border-border/60 border-t">
@@ -312,13 +89,13 @@ export async function SiteFooter() {
         <div className="container relative py-14">
           <header className="flex flex-col gap-3">
             <p className="font-mono text-muted-foreground text-xs tracking-wide">
-              {t("kicker")}
+              {tFooter("kicker")}
             </p>
             <h2 className="font-semibold text-2xl tracking-tight md:text-3xl">
-              {t("title", { name: siteConfig.name })}
+              {tFooter("title", { name: siteConfig.name })}
             </h2>
             <p className="max-w-2xl text-muted-foreground text-sm leading-relaxed">
-              {t("subtitle")}
+              {tFooter("subtitle")}
             </p>
           </header>
 
@@ -330,7 +107,7 @@ export async function SiteFooter() {
 
           <div className="mt-12 flex flex-col gap-4 border-border/60 border-t pt-8 md:flex-row md:items-center md:justify-between">
             <p className="max-w-2xl text-muted-foreground text-xs leading-relaxed">
-              {tMarketing("privacyBody")}{" "}
+              {tFooter("processingNotice")}{" "}
               <Link
                 className="rounded-sm underline decoration-primary/40 underline-offset-4 transition hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 href="/privacy"
@@ -348,7 +125,7 @@ export async function SiteFooter() {
             </p>
 
             <p className="text-muted-foreground text-xs">
-              {t("copyright", {
+              {tFooter("copyright", {
                 year: siteConfig.copyrightYear,
                 name: siteConfig.name,
               })}
@@ -359,4 +136,3 @@ export async function SiteFooter() {
     </footer>
   );
 }
-

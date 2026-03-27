@@ -9,13 +9,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Parquet Viewer · ${siteConfig.name}`,
-  description:
-    "Open a Parquet file in an editable grid and export the updated data back to .parquet locally.",
-};
+export async function generateMetadata({
+  params,
+}: ParquetViewerPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "parquet-viewer");
+}
 
 interface ParquetViewerPageProps {
   params: Promise<{ locale: string }>;
