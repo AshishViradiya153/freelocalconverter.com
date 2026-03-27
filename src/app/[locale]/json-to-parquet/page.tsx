@@ -9,13 +9,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `JSON to Parquet · ${siteConfig.name}`,
-  description:
-    "Convert a JSON array of objects to Parquet in your browser. Upload JSON, preview rows locally, then download a .parquet file without server upload.",
-};
+export async function generateMetadata({
+  params,
+}: JsonToParquetPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "json-to-parquet");
+}
 
 interface JsonToParquetPageProps {
   params: Promise<{ locale: string }>;

@@ -9,13 +9,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `CSV to Markdown Table · ${siteConfig.name}`,
-  description:
-    "Convert CSV to a Markdown table in your browser. Upload CSV, preview rows locally, then copy or download a .md table without server upload.",
-};
+export async function generateMetadata({
+  params,
+}: CsvToMarkdownTablePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "csv-to-markdown-table");
+}
 
 interface CsvToMarkdownTablePageProps {
   params: Promise<{ locale: string }>;

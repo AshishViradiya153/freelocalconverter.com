@@ -1,8 +1,9 @@
 "use client";
 
 import { Icons } from "@/components/icons";
+import { LanguageSwitcher } from "@/components/layouts/language-switcher";
 import { ModeToggle } from "@/components/layouts/mode-toggle";
-import { serviceGroups } from "@/components/layouts/services-data";
+import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
@@ -33,15 +34,8 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { headerRepoOutboundUrl } from "@/lib/marketing/utm";
 import { cn } from "@/lib/utils";
 import { MenuIcon, SearchIcon, XIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
-
-const quickLinks = [
-  // { href: "/", label: "CSV Viewer" },
-  // { href: "/compare", label: "CSV Compare" },
-  { href: "/guides", label: "Guides" },
-  { href: "/tools", label: "Tools" },
-  { href: "/blog", label: "Blog" },
-];
 
 interface SearchItem {
   href: string;
@@ -129,6 +123,19 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
+  const locale = useLocale();
+  const tNav = useTranslations("nav");
+  const tHeader = useTranslations("header");
+
+  const quickLinks = [
+    { href: "/guides", label: tNav("guides") },
+    { href: "/tools", label: tNav("tools") },
+    { href: "/blog", label: tNav("blog") },
+  ];
+  const serviceGroups = useMemo(
+    () => getLocalizedServiceGroups(locale),
+    [locale],
+  );
 
   const searchItems = useMemo<SearchItem[]>(
     () =>
@@ -138,7 +145,7 @@ export function SiteHeader() {
           group: group.title,
         })),
       ),
-    [],
+    [serviceGroups],
   );
 
   const rankedSearchItems = useMemo(() => {
@@ -175,7 +182,7 @@ export function SiteHeader() {
           className="h-10 gap-0 px-2 font-mono font-semibold text-base tracking-tight"
           asChild
         >
-          <Link href="/" aria-label={`${siteConfig.name} Home`}>
+          <Link href="/" aria-label={tNav("homeAria", { name: siteConfig.name })}>
             <span className="text-muted-foreground">.</span>
             <span>csv</span>
           </Link>
@@ -242,7 +249,7 @@ export function SiteHeader() {
           >
             <span className="inline-flex items-center gap-2">
               <SearchIcon className="size-4" />
-              Search services...
+              {tHeader("searchButton")}
             </span>
             <span className="font-mono text-xs">⌘K</span>
           </Button>
@@ -254,7 +261,7 @@ export function SiteHeader() {
             size="icon"
             className="size-9 lg:hidden"
             onClick={() => setOpen(true)}
-            aria-label="Open search"
+            aria-label={tHeader("openSearch")}
           >
             <SearchIcon className="size-4" />
           </Button>
@@ -265,7 +272,7 @@ export function SiteHeader() {
                 variant="ghost"
                 size="icon"
                 className="size-9 lg:hidden"
-                aria-label="Open menu"
+                aria-label={tHeader("openMenu")}
               >
                 <MenuIcon className="size-4" />
               </Button>
@@ -275,7 +282,7 @@ export function SiteHeader() {
               className="w-[88vw] overflow-y-auto sm:max-w-md"
             >
               <SheetHeader>
-                <SheetTitle>Explore tools</SheetTitle>
+                <SheetTitle>{tHeader("exploreTools")}</SheetTitle>
               </SheetHeader>
               <div className="space-y-6 px-4 pb-8">
                 <div className="space-y-1">
@@ -313,7 +320,7 @@ export function SiteHeader() {
           {siteConfig.links.github ? (
             <Button variant="ghost" size="icon" className="size-8" asChild>
               <a
-                aria-label="GitHub repository"
+                aria-label={tNav("sourceRepo")}
                 href={headerRepoOutboundUrl(siteConfig.links.github)}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -322,6 +329,7 @@ export function SiteHeader() {
               </a>
             </Button>
           ) : null}
+          <LanguageSwitcher />
           <ModeToggle />
         </nav>
       </div>
@@ -334,13 +342,13 @@ export function SiteHeader() {
         }}
         commandProps={{ shouldFilter: false }}
         showCloseButton={false}
-        title="Search services"
-        description="Search tools and open pages quickly"
+        title={tHeader("searchTitle")}
+        description={tHeader("searchDescription")}
       >
         <CommandInput
           value={searchQuery}
           onValueChange={setSearchQuery}
-          placeholder="Search tools, pages, or categories..."
+          placeholder={tHeader("searchPlaceholder")}
           endContent={
             <Button
               type="button"
@@ -348,15 +356,15 @@ export function SiteHeader() {
               size="icon"
               className="size-8"
               onClick={() => setOpen(false)}
-              aria-label="Close search"
+              aria-label={tHeader("closeSearch")}
             >
               <XIcon className="size-4" />
             </Button>
           }
         />
         <CommandList key={searchQuery}>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Top results">
+          <CommandEmpty>{tHeader("noResults")}</CommandEmpty>
+          <CommandGroup heading={tHeader("topResults")}>
             {rankedSearchItems.map((item) => (
               <CommandItem
                 key={`${item.group}-${item.href}-${item.label}`}

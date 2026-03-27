@@ -1,7 +1,8 @@
 import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/config/site";
-import { serviceGroups } from "@/components/layouts/services-data";
+import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import { cn } from "@/lib/utils";
+import { getLocale, getTranslations } from "next-intl/server";
 
 interface FooterLink {
   href: string;
@@ -59,8 +60,12 @@ function FooterGroupColumn({ title, description, links }: FooterGroup) {
   );
 }
 
-export function SiteFooter() {
-  const groups: FooterGroup[] = serviceGroups;
+export async function SiteFooter() {
+  const locale = await getLocale();
+  const tFooter = await getTranslations("footer");
+  const tNav = await getTranslations("nav");
+  const groups: FooterGroup[] = getLocalizedServiceGroups(locale);
+
   return (
     <footer className="relative overflow-hidden border-border/60 border-t">
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0">
@@ -84,14 +89,13 @@ export function SiteFooter() {
         <div className="container relative py-14">
           <header className="flex flex-col gap-3">
             <p className="font-mono text-muted-foreground text-xs tracking-wide">
-              Tools
+              {tFooter("kicker")}
             </p>
             <h2 className="font-semibold text-2xl tracking-tight md:text-3xl">
-              Everything you need, in one place.
+              {tFooter("title", { name: siteConfig.name })}
             </h2>
             <p className="max-w-2xl text-muted-foreground text-sm leading-relaxed">
-              Convert, view, compare, and optimize files locally in your
-              browser.
+              {tFooter("subtitle")}
             </p>
           </header>
 
@@ -103,27 +107,28 @@ export function SiteFooter() {
 
           <div className="mt-12 flex flex-col gap-4 border-border/60 border-t pt-8 md:flex-row md:items-center md:justify-between">
             <p className="max-w-2xl text-muted-foreground text-xs leading-relaxed">
-              We do not store your uploaded files. Processing happens in your
-              browser.{" "}
+              {tFooter("processingNotice")}{" "}
               <Link
                 className="rounded-sm underline decoration-primary/40 underline-offset-4 transition hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 href="/privacy"
               >
-                Privacy
+                {tNav("privacy")}
               </Link>{" "}
               ·{" "}
               <Link
                 className="rounded-sm underline decoration-primary/40 underline-offset-4 transition hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 href="/terms"
               >
-                Terms
+                {tNav("terms")}
               </Link>
               .
             </p>
 
             <p className="text-muted-foreground text-xs">
-              Copyright {siteConfig.copyrightYear} {siteConfig.name}. All rights
-              reserved.
+              {tFooter("copyright", {
+                year: siteConfig.copyrightYear,
+                name: siteConfig.name,
+              })}
             </p>
           </div>
         </div>

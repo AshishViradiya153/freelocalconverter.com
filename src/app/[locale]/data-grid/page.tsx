@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import {
@@ -5,13 +6,23 @@ import {
   DataGridSkeletonGrid,
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 import { DataGridDemo } from "./components/data-grid-demo";
+
+interface DataGridPageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: DataGridPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "data-grid");
+}
 
 export default async function DataGridPage({
   params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+}: DataGridPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   return (

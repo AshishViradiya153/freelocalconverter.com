@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { PdfWatermarkApp } from "@/app/components/pdf-watermark-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `PDF Watermark · ${siteConfig.name}`,
-  description:
-    "Add text or image watermarks to a PDF locally in your browser. Control opacity, rotation, placement, and pages, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: PdfWatermarkPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "pdf-watermark");
+}
 
 interface PdfWatermarkPageProps {
   params: Promise<{ locale: string }>;

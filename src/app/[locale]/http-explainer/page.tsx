@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `HTTP status + headers explainer · ${siteConfig.name}`,
-  description:
-    "Understand common HTTP status codes and headers with quick practical notes.",
-};
+export async function generateMetadata({
+  params,
+}: HttpExplainerPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "http-explainer");
+}
 
 interface HttpExplainerPageProps {
   params: Promise<{ locale: string }>;

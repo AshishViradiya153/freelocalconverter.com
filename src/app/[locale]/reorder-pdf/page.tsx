@@ -3,14 +3,15 @@ import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 import { ReorderPdfApp } from "@/app/components/reorder-pdf-app";
 
-export const metadata: Metadata = {
-  title: `Reorder PDF Pages · ${siteConfig.name}`,
-  description:
-    "Reorder pages in a PDF locally in your browser. Move pages up/down, optionally remove pages, and download a reordered PDF, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: ReorderPdfPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "reorder-pdf");
+}
 
 interface ReorderPdfPageProps {
   params: Promise<{ locale: string }>;

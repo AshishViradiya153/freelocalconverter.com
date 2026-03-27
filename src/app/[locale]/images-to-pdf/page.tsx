@@ -3,14 +3,15 @@ import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 import { ImagesToPdfApp } from "@/app/components/images-to-pdf-app";
 
-export const metadata: Metadata = {
-  title: `Images to PDF · ${siteConfig.name}`,
-  description:
-    "Convert images (PNG/JPG/WebP and more) into a single PDF locally in your browser. Reorder pages, choose page size, and download, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: ImagesToPdfPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "images-to-pdf");
+}
 
 interface ImagesToPdfPageProps {
   params: Promise<{ locale: string }>;
