@@ -310,7 +310,7 @@
   "footer": {
     "kicker": "Strumenti local-first",
     "title": "{name} directory strumenti",
-    "subtitle": "Converte, confronta e rivedi file tabulari nel browser. Usa le categorie qui sotto per trovare velocemente il workflow giusto—senza caricare dati sensibili su server sconosciuti.",
+    "subtitle": "Converte, confronta e rivedi file tabulari nel browser. Usa le categorie qui sotto per trovare velocemente il workflow giusto, senza caricare dati sensibili su server sconosciuti.",
     "groupConvertersTitle": "Convertitori",
     "groupConvertersDescription": "Strumenti da un formato all’altro per passaggi puliti.",
     "groupViewersTitle": "Visualizzatori e confronto",

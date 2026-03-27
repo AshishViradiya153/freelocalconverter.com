@@ -250,6 +250,11 @@ export async function SiteFooter() {
           description: "Convert images to WebP/AVIF/JPG/PNG locally (bulk + direct links).",
         },
         {
+          href: "/svg-to-code",
+          label: "SVG to code",
+          description: "Paste or upload SVG and copy JSX, a React component, or pretty XML.",
+        },
+        {
           href: "/image-resize",
           label: "Resize/Crop + Convert",
           description: "Bulk resize, center-crop presets, convert, and bulk rename images locally.",

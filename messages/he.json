@@ -310,7 +310,7 @@
   "footer": {
     "kicker": "Local-first tools",
     "title": "{name} tool directory",
-    "subtitle": "Convert, compare, and review tabular files in your browser. Use the categories below to find the right workflow fast—without uploading sensitive data to unknown servers.",
+    "subtitle": "Convert, compare, and review tabular files in your browser. Use the categories below to find the right workflow fast, without uploading sensitive data to unknown servers.",
     "groupConvertersTitle": "Converters",
     "groupConvertersDescription": "Format-to-format tools for clean handoffs.",
     "groupViewersTitle": "Viewers & compare",

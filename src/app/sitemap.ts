@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/video-compress",
     "/image-compress",
     "/image-convert",
+    "/svg-to-code",
     "/image-resize",
     "/heic-to-jpg",
     "/images-to-pdf",
