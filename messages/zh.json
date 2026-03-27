@@ -207,7 +207,7 @@
     "previewHint": "只读网格：排序、过滤和搜索 - 与上面的行上限相同的限制。"
   },
   "landing": {
-    "heroTitle": "免费、现代、安全的 CSV 查看与编辑工具。",
+    "heroTitle": "免费、现代、本地且安全的工具。",
     "heroSubtitle": "拖入 CSV 文件，在表格中排序、筛选、搜索、编辑、粘贴、撤销/重做，并增删行。数据保留在本设备，下次访问可继续。",
     "loadingSheet": "正在加载表格…",
     "dropzoneTitle": "将 CSV 拖放到此处，或点击浏览",
