@@ -9,13 +9,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Parquet to CSV · ${siteConfig.name}`,
-  description:
-    "Convert Parquet to CSV in your browser. Upload a .parquet file, preview rows locally, then download or copy CSV without server upload.",
-};
+export async function generateMetadata({
+  params,
+}: ParquetToCsvPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "parquet-to-csv");
+}
 
 interface ParquetToCsvPageProps {
   params: Promise<{ locale: string }>;

@@ -3,14 +3,15 @@ import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 import { SplitPdfApp } from "@/app/components/split-pdf-app";
 
-export const metadata: Metadata = {
-  title: `Split PDF · ${siteConfig.name}`,
-  description:
-    "Split a PDF into multiple PDFs locally in your browser. Export each page as its own PDF or choose page ranges, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: SplitPdfPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "split-pdf");
+}
 
 interface SplitPdfPageProps {
   params: Promise<{ locale: string }>;

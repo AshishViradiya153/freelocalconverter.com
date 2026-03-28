@@ -8,13 +8,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `CSV to JSON · ${siteConfig.name}`,
-  description:
-    "Load a CSV on the left and edit the same data as JSON on the right. Apply changes back to the grid, format, copy, or download. Parsing stays in your browser.",
-};
+export async function generateMetadata({
+  params,
+}: CsvToJsonPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "csv-to-json");
+}
 
 interface CsvToJsonPageProps {
   params: Promise<{ locale: string }>;

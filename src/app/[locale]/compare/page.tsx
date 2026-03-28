@@ -8,13 +8,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Compare CSV files · ${siteConfig.name}`,
-  description:
-    "Load two CSV files side by side in your browser. When columns match, see row and cell difference counts and filter to changed rows only. Data stays on your device.",
-};
+export async function generateMetadata({
+  params,
+}: ComparePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "compare");
+}
 
 interface ComparePageProps {
   params: Promise<{ locale: string }>;

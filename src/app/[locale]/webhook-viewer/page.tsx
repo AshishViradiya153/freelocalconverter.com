@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Webhook payload viewer · ${siteConfig.name}`,
-  description:
-    "Pretty-print webhook JSON and run JSONPath searches on payload fields.",
-};
+export async function generateMetadata({
+  params,
+}: WebhookViewerPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "webhook-viewer");
+}
 
 interface WebhookViewerPageProps {
   params: Promise<{ locale: string }>;

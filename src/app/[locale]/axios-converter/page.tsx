@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `axios converter · ${siteConfig.name}`,
-  description:
-    "Convert axios request snippets to cURL, fetch, or Python requests locally.",
-};
+export async function generateMetadata({
+  params,
+}: AxiosConverterPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "axios-converter");
+}
 
 interface AxiosConverterPageProps {
   params: Promise<{ locale: string }>;

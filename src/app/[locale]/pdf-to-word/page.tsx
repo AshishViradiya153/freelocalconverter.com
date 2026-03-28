@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { PdfToWordApp } from "@/app/components/pdf-to-word-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `PDF to Word · ${siteConfig.name}`,
-  description:
-    "Convert PDF to Word (DOCX) locally in your browser. Best for text-based PDFs; scanned PDFs need OCR, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: PdfToWordPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "pdf-to-word");
+}
 
 interface PdfToWordPageProps {
   params: Promise<{ locale: string }>;

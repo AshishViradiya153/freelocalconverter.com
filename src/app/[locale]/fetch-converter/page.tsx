@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `fetch converter · ${siteConfig.name}`,
-  description:
-    "Convert fetch() request snippets to cURL, axios, or Python requests locally.",
-};
+export async function generateMetadata({
+  params,
+}: FetchConverterPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "fetch-converter");
+}
 
 interface FetchConverterPageProps {
   params: Promise<{ locale: string }>;

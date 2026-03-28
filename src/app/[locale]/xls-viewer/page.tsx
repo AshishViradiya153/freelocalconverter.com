@@ -8,13 +8,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Excel Viewer · ${siteConfig.name}`,
-  description:
-    "Open an Excel workbook (.xlsx/.xls) in a direct editable viewer grid. Manage header rows and edit data in-browser. Files stay on your device.",
-};
+export async function generateMetadata({
+  params,
+}: XlsViewerPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "xls-viewer");
+}
 
 interface XlsViewerPageProps {
   params: Promise<{ locale: string }>;

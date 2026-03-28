@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { BulkPdfWatermarkApp } from "@/app/components/bulk-pdf-watermark-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Bulk PDF Watermark · ${siteConfig.name}`,
-  description:
-    "Watermark many PDFs at once in your browser. Same text or image settings on every file; download a ZIP, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: BulkPdfWatermarkPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "bulk-pdf-watermark");
+}
 
 interface BulkPdfWatermarkPageProps {
   params: Promise<{ locale: string }>;

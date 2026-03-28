@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { HeicToJpgApp } from "@/app/components/heic-to-jpg-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `HEIC to JPG/PNG · ${siteConfig.name}`,
-  description:
-    "Convert HEIC/HEIF photos to JPG or PNG locally in your browser. Bulk convert iPhone photos for universal compatibility, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: HeicToJpgPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "heic-to-jpg");
+}
 
 interface HeicToJpgPageProps {
   params: Promise<{ locale: string }>;

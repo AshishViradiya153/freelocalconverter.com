@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { JsonFormatterApp } from "@/app/components/json-formatter-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `JSON Formatter · ${siteConfig.name}`,
-  description:
-    "Format, minify, and validate JSON locally in your browser. Copy output instantly, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: JsonFormatterPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "json-formatter");
+}
 
 interface JsonFormatterPageProps {
   params: Promise<{ locale: string }>;

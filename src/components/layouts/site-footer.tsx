@@ -1,7 +1,8 @@
-import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/config/site";
+import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import { cn } from "@/lib/utils";
+import { getLocale, getTranslations } from "next-intl/server";
 
 interface FooterLink {
   href: string;
@@ -46,11 +47,13 @@ function FooterGroupColumn({ title, description, links }: FooterGroup) {
   return (
     <section className="flex min-w-0 flex-col gap-3">
       <div className="min-w-0">
-        <h3 className="truncate font-semibold text-sm tracking-tight">{title}</h3>
+        <h3 className="truncate font-semibold text-sm tracking-tight">
+          {title}
+        </h3>
       </div>
       <ul className="flex flex-col gap-1">
         {links.map((l) => (
-          <FooterLinkItem key={l.href} {...l} />
+          <FooterLinkItem key={`${l.href}-${l.label}`} {...l} />
         ))}
       </ul>
     </section>
@@ -58,7 +61,8 @@ function FooterGroupColumn({ title, description, links }: FooterGroup) {
 }
 
 export async function SiteFooter() {
-  const t = await getTranslations("footer");
+  const locale = await getLocale();
+  const tFooter = await getTranslations("footer");
   const tNav = await getTranslations("nav");
   const tMarketing = await getTranslations("marketing");
 
@@ -293,6 +297,7 @@ export async function SiteFooter() {
       ],
     },
   ];
+  const groups: FooterGroup[] = getLocalizedServiceGroups(locale);
 
   return (
     <footer className="relative overflow-hidden border-border/60 border-t">
@@ -317,13 +322,13 @@ export async function SiteFooter() {
         <div className="container relative py-14">
           <header className="flex flex-col gap-3">
             <p className="font-mono text-muted-foreground text-xs tracking-wide">
-              {t("kicker")}
+              {tFooter("kicker")}
             </p>
             <h2 className="font-semibold text-2xl tracking-tight md:text-3xl">
-              {t("title", { name: siteConfig.name })}
+              {tFooter("title", { name: siteConfig.name })}
             </h2>
             <p className="max-w-2xl text-muted-foreground text-sm leading-relaxed">
-              {t("subtitle")}
+              {tFooter("subtitle")}
             </p>
           </header>
 
@@ -335,7 +340,7 @@ export async function SiteFooter() {
 
           <div className="mt-12 flex flex-col gap-4 border-border/60 border-t pt-8 md:flex-row md:items-center md:justify-between">
             <p className="max-w-2xl text-muted-foreground text-xs leading-relaxed">
-              {tMarketing("privacyBody")}{" "}
+              {tFooter("processingNotice")}{" "}
               <Link
                 className="rounded-sm underline decoration-primary/40 underline-offset-4 transition hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 href="/privacy"
@@ -353,7 +358,7 @@ export async function SiteFooter() {
             </p>
 
             <p className="text-muted-foreground text-xs">
-              {t("copyright", {
+              {tFooter("copyright", {
                 year: siteConfig.copyrightYear,
                 name: siteConfig.name,
               })}
@@ -364,4 +369,3 @@ export async function SiteFooter() {
     </footer>
   );
 }
-

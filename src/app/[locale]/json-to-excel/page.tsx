@@ -8,13 +8,14 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `JSON to Excel · ${siteConfig.name}`,
-  description:
-    "Load a JSON array of objects and convert it to Excel in your browser. Edit JSON, apply changes, preview rows, then download .xlsx.",
-};
+export async function generateMetadata({
+  params,
+}: JsonToExcelPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "json-to-excel");
+}
 
 interface JsonToExcelPageProps {
   params: Promise<{ locale: string }>;

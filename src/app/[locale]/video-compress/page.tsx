@@ -4,13 +4,14 @@ import { Suspense } from "react";
 
 import { VideoCompressApp } from "@/app/components/video-compress-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
-export const metadata: Metadata = {
-  title: `Video Compressor · ${siteConfig.name}`,
-  description:
-    "Compress videos locally in your browser. Upload multiple files or paste a direct link, then download smaller outputs, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: VideoCompressPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "video-compress");
+}
 
 interface VideoCompressPageProps {
   params: Promise<{ locale: string }>;

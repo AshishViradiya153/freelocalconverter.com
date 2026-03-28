@@ -1,24 +1,24 @@
-"use client";
+import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
+import { DataGridRenderPageClient } from "./data-grid-render-page-client";
 
-import { Fps } from "@/components/ui/fps";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useMounted } from "@/hooks/use-mounted";
-import { DataGridRenderDemo } from "./components/data-grid-render-demo";
+interface DataGridRenderPageProps {
+  params: Promise<{ locale: string }>;
+}
 
-export default function DataGridRenderPage() {
-  const mounted = useMounted();
+export async function generateMetadata({
+  params,
+}: DataGridRenderPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "data-grid-render");
+}
 
-  if (!mounted)
-    return (
-      <div className="container flex h-[calc(100dvh-5rem)] py-8">
-        <Skeleton className="size-full" />
-      </div>
-    );
+export default async function DataGridRenderPage({
+  params,
+}: DataGridRenderPageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
 
-  return (
-    <>
-      <Fps strategy="fixed" />
-      <DataGridRenderDemo />
-    </>
-  );
+  return <DataGridRenderPageClient />;
 }

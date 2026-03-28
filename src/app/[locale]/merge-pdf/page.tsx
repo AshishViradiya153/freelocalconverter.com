@@ -3,14 +3,15 @@ import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 import { MergePdfApp } from "@/app/components/merge-pdf-app";
 
-export const metadata: Metadata = {
-  title: `Merge PDF · ${siteConfig.name}`,
-  description:
-    "Merge multiple PDF files into one PDF locally in your browser. Reorder files, then download a single merged PDF, no uploads.",
-};
+export async function generateMetadata({
+  params,
+}: MergePdfPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "merge-pdf");
+}
 
 interface MergePdfPageProps {
   params: Promise<{ locale: string }>;

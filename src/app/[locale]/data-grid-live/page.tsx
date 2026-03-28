@@ -1,31 +1,24 @@
-"use client";
+import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
+import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
+import { DataGridLivePageClient } from "./data-grid-live-page-client";
 
-import dynamic from "next/dynamic";
-import {
-  DataGridSkeleton,
-  DataGridSkeletonGrid,
-  DataGridSkeletonToolbar,
-} from "@/components/data-grid/data-grid-skeleton";
+interface DataGridLivePageProps {
+  params: Promise<{ locale: string }>;
+}
 
-// Dynamic import with ssr: false is required because:
-// 1. useLiveQuery uses useSyncExternalStore which needs getServerSnapshot for SSR
-// 2. Collection preload triggers fetch() which rejects during prerendering
-const DataGridLiveDemo = dynamic(
-  () =>
-    import("./components/data-grid-live-demo").then(
-      (mod) => mod.DataGridLiveDemo,
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <DataGridSkeleton className="container flex flex-col gap-4 py-4">
-        <DataGridSkeletonToolbar actionCount={4} />
-        <DataGridSkeletonGrid />
-      </DataGridSkeleton>
-    ),
-  },
-);
+export async function generateMetadata({
+  params,
+}: DataGridLivePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildToolPageMetadata(locale, "data-grid-live");
+}
 
-export default function DataGridLivePage() {
-  return <DataGridLiveDemo />;
+export default async function DataGridLivePage({
+  params,
+}: DataGridLivePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return <DataGridLivePageClient />;
 }
