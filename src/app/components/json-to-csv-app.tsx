@@ -1,21 +1,26 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import {
-  Braces,
-  Copy,
-  Loader2,
-  Upload,
-  Wand2,
-} from "lucide-react";
+import { Braces, Copy, Loader2, Upload, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
 import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-grid";
-import { Button } from "@/components/ui/button";
+import { FileJsonGlyph } from "@/components/file-glyphs";
 import {
-  buildLabelKeyedExportRows,
+  ToolCard,
+  ToolHero,
+  ToolPage,
+  ToolPane,
+  ToolPaneTitle,
+  ToolToolbar,
+  toolEditorClassName,
+} from "@/components/tool-ui";
+import { Button } from "@/components/ui/button";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
+import {
   buildCsvExportString,
+  buildLabelKeyedExportRows,
   downloadCsvExport,
   downloadXmlExport,
 } from "@/lib/csv-export";
@@ -25,10 +30,12 @@ import {
   CsvImportError,
   jsonRecordsToImportResult,
 } from "@/lib/csv-import";
-import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
-import { FileDropZone } from "@/components/ui/file-drop-zone";
+import {
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
+import { cn } from "@/lib/utils";
 import type { Direction } from "@/types/data-grid";
-import { FileJsonGlyph } from "@/components/file-glyphs";
 
 function sessionToPrettyJson(session: CsvViewerSession): string {
   const rows = buildLabelKeyedExportRows(
@@ -92,7 +99,7 @@ export function JsonToCsvApp() {
         setBusy(false);
       }
     },
-    [replaceJsonFromExternal, tl],
+    [replaceJsonFromExternal, t, tl],
   );
 
   const onLoadFile = React.useCallback(
@@ -221,21 +228,15 @@ export function JsonToCsvApp() {
 
   return (
     <DirectionProvider dir="ltr">
-      <div className="container flex flex-col gap-6 py-4">
-        <header className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <Braces className="size-8 text-muted-foreground" aria-hidden />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {t("heroTitle")}
-            </h1>
-          </div>
-          <p className="max-w-3xl text-muted-foreground text-sm">
-            {t("heroSubtitle", {
-              mb: Math.round(CSV_IMPORT_MAX_FILE_BYTES / (1024 * 1024)),
-              maxRows: CSV_IMPORT_MAX_ROWS.toLocaleString(),
-            })}
-          </p>
-        </header>
+      <ToolPage>
+        <ToolHero
+          icon={<Braces className="size-8" aria-hidden />}
+          title={t("heroTitle")}
+          description={t("heroSubtitle", {
+            mb: Math.round(CSV_IMPORT_MAX_FILE_BYTES / (1024 * 1024)),
+            maxRows: CSV_IMPORT_MAX_ROWS.toLocaleString(),
+          })}
+        />
 
         {!session ? (
           <FileDropZone
@@ -271,19 +272,17 @@ export function JsonToCsvApp() {
           </p>
         ) : null}
 
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-2">
+        <ToolCard className="space-y-4">
+          <ToolToolbar>
             <Button type="button" variant="outline" size="sm" onClick={onClear}>
               {t("clearFile")}
             </Button>
-          </div>
+          </ToolToolbar>
 
           <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
-            <div className="flex min-w-0 flex-1 flex-col gap-2">
-              <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
-                {t("jsonPanel")}
-              </p>
-              <div role="toolbar" className="flex flex-wrap items-center gap-2">
+            <ToolPane className="flex-1 gap-2">
+              <ToolPaneTitle>{t("jsonPanel")}</ToolPaneTitle>
+              <ToolToolbar role="toolbar">
                 <Button
                   type="button"
                   variant="default"
@@ -310,13 +309,16 @@ export function JsonToCsvApp() {
                   <Copy className="size-3.5" aria-hidden />
                   {t("copyJson")}
                 </Button>
-              </div>
+              </ToolToolbar>
               <textarea
                 value={jsonText}
                 onChange={(e) => onEditorJsonChange(e.target.value)}
                 aria-label={t("jsonAria")}
                 spellCheck={false}
-                className="min-h-[280px] w-full rounded-md border bg-background p-3 font-mono text-xs leading-5 md:min-h-[360px]"
+                className={cn(
+                  "w-full rounded-md border bg-background p-3",
+                  toolEditorClassName(),
+                )}
               />
               {jsonError ? (
                 <p className="text-destructive text-sm" role="alert">
@@ -325,13 +327,11 @@ export function JsonToCsvApp() {
               ) : (
                 <p className="text-muted-foreground text-xs">{t("jsonHint")}</p>
               )}
-            </div>
+            </ToolPane>
 
-            <div className="flex min-w-0 flex-1 flex-col gap-2">
-              <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
-                {t("csvPanel")}
-              </p>
-              <div role="toolbar" className="flex flex-wrap items-center gap-2">
+            <ToolPane className="flex-1 gap-2">
+              <ToolPaneTitle>{t("csvPanel")}</ToolPaneTitle>
+              <ToolToolbar role="toolbar">
                 <Button
                   type="button"
                   variant="outline"
@@ -360,12 +360,15 @@ export function JsonToCsvApp() {
                 >
                   {downloadXmlLabel}
                 </Button>
-              </div>
+              </ToolToolbar>
               <textarea
                 value={csvOutput}
                 readOnly
                 aria-label={t("csvAria")}
-                className="min-h-[280px] w-full rounded-md border bg-muted/20 p-3 font-mono text-xs leading-5 md:min-h-[360px]"
+                className={cn(
+                  "w-full rounded-md border bg-muted/20 p-3",
+                  toolEditorClassName(),
+                )}
               />
               <p className="text-muted-foreground text-xs">{t("csvHint")}</p>
               {session ? (
@@ -375,10 +378,10 @@ export function JsonToCsvApp() {
                   gridKey={`json-csv-${session.rows.length}-${session.columnKeys.join(",")}`}
                 />
               ) : null}
-            </div>
+            </ToolPane>
           </div>
-        </div>
-      </div>
+        </ToolCard>
+      </ToolPage>
     </DirectionProvider>
   );
 }

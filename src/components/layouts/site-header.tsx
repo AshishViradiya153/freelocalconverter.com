@@ -1,9 +1,17 @@
 "use client";
 
+import { MenuIcon, SearchIcon, XIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
 import { Icons } from "@/components/icons";
 import { LanguageSwitcher } from "@/components/layouts/language-switcher";
 import { ModeToggle } from "@/components/layouts/mode-toggle";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
+import {
+  flattenServiceGroups,
+  getSearchScore,
+  type ToolSearchItem,
+} from "@/components/layouts/tool-search";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
@@ -30,102 +38,19 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { headerRepoOutboundUrl } from "@/lib/marketing/utm";
 import { cn } from "@/lib/utils";
-import { MenuIcon, SearchIcon, XIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
-
-interface SearchItem {
-  href: string;
-  label: string;
-  description: string;
-  group: string;
-}
-
-function normalizeSearchValue(value: string) {
-  return value.toLowerCase().trim().replace(/\s+/g, " ");
-}
-
-function isSubsequenceMatch(needle: string, haystack: string) {
-  if (!needle) return true;
-
-  let needleIndex = 0;
-  for (let i = 0; i < haystack.length; i += 1) {
-    if (haystack[i] === needle[needleIndex]) needleIndex += 1;
-    if (needleIndex === needle.length) return true;
-  }
-
-  return false;
-}
-
-function getSearchScore(item: SearchItem, query: string) {
-  const normalizedQuery = normalizeSearchValue(query);
-  if (!normalizedQuery) return 0;
-
-  const label = normalizeSearchValue(item.label);
-  const description = normalizeSearchValue(item.description);
-  const group = normalizeSearchValue(item.group);
-  const href = normalizeSearchValue(item.href);
-  const searchableText = `${label} ${description} ${group} ${href}`;
-  const queryTokens = normalizedQuery.split(" ").filter(Boolean);
-
-  if (!queryTokens.length) return 0;
-
-  let score = 0;
-
-  if (label.startsWith(normalizedQuery)) score += 650;
-  if (label.includes(normalizedQuery))
-    score += 350 - label.indexOf(normalizedQuery);
-  if (searchableText.includes(normalizedQuery))
-    score += 220 - searchableText.indexOf(normalizedQuery);
-
-  let matchedTokenCount = 0;
-  for (const token of queryTokens) {
-    if (label.includes(token)) {
-      score += 170 - label.indexOf(token);
-      matchedTokenCount += 1;
-      continue;
-    }
-
-    if (description.includes(token)) {
-      score += 110 - description.indexOf(token);
-      matchedTokenCount += 1;
-      continue;
-    }
-
-    if (group.includes(token)) {
-      score += 90 - group.indexOf(token);
-      matchedTokenCount += 1;
-      continue;
-    }
-
-    if (href.includes(token)) {
-      score += 85 - href.indexOf(token);
-      matchedTokenCount += 1;
-      continue;
-    }
-
-    if (isSubsequenceMatch(token, searchableText)) {
-      score += 45;
-      matchedTokenCount += 1;
-    }
-  }
-
-  if (matchedTokenCount !== queryTokens.length) return 0;
-  if (queryTokens.length > 1) score += 80;
-
-  return Math.max(score, 0);
-}
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
+  const pathname = usePathname();
   const locale = useLocale();
   const tNav = useTranslations("nav");
   const tHeader = useTranslations("header");
+  const showHeaderSearch = pathname !== "/";
 
   const quickLinks = [
     { href: "/guides", label: tNav("guides") },
@@ -137,14 +62,8 @@ export function SiteHeader() {
     [locale],
   );
 
-  const searchItems = useMemo<SearchItem[]>(
-    () =>
-      serviceGroups.flatMap((group) =>
-        group.links.map((link) => ({
-          ...link,
-          group: group.title,
-        })),
-      ),
+  const searchItems = useMemo<ToolSearchItem[]>(
+    () => flattenServiceGroups(serviceGroups),
     [serviceGroups],
   );
 
@@ -162,6 +81,8 @@ export function SiteHeader() {
   }, [searchItems, searchQuery]);
 
   useEffect(() => {
+    if (!showHeaderSearch) return;
+
     function onKeyDown(event: KeyboardEvent) {
       if (event.key.toLowerCase() !== "k") return;
       if (!event.metaKey && !event.ctrlKey) return;
@@ -171,7 +92,7 @@ export function SiteHeader() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [showHeaderSearch]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-border/40 border-b bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
@@ -182,7 +103,10 @@ export function SiteHeader() {
           className="h-10 gap-0 px-2 font-mono font-semibold text-base tracking-tight"
           asChild
         >
-          <Link href="/" aria-label={tNav("homeAria", { name: siteConfig.name })}>
+          <Link
+            href="/"
+            aria-label={tNav("homeAria", { name: siteConfig.name })}
+          >
             <span className="text-muted-foreground">.</span>
             <span>csv</span>
           </Link>
@@ -242,29 +166,33 @@ export function SiteHeader() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          <Button
-            variant="outline"
-            className="h-9 w-[220px] justify-between text-muted-foreground"
-            onClick={() => setOpen(true)}
-          >
-            <span className="inline-flex items-center gap-2">
-              <SearchIcon className="size-4" />
-              {tHeader("searchButton")}
-            </span>
-            <span className="font-mono text-xs">⌘K</span>
-          </Button>
+          {showHeaderSearch ? (
+            <Button
+              variant="outline"
+              className="h-9 w-[220px] justify-between text-muted-foreground"
+              onClick={() => setOpen(true)}
+            >
+              <span className="inline-flex items-center gap-2">
+                <SearchIcon className="size-4" />
+                {tHeader("searchButton")}
+              </span>
+              <span className="font-mono text-xs">⌘K</span>
+            </Button>
+          ) : null}
         </div>
 
         <nav className="ml-auto flex items-center gap-1.5">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-9 lg:hidden"
-            onClick={() => setOpen(true)}
-            aria-label={tHeader("openSearch")}
-          >
-            <SearchIcon className="size-4" />
-          </Button>
+          {showHeaderSearch ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-9 lg:hidden"
+              onClick={() => setOpen(true)}
+              aria-label={tHeader("openSearch")}
+            >
+              <SearchIcon className="size-4" />
+            </Button>
+          ) : null}
 
           <Sheet>
             <SheetTrigger asChild>
