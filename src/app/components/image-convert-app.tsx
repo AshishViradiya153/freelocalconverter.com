@@ -26,9 +26,19 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { downloadBlob } from "@/lib/download-blob";
+import { type SvgTracePreset, traceRasterCanvasToSvg } from "@/lib/image/raster-to-svg";
 import { cn } from "@/lib/utils";
 
-type OutputFormat = "webp" | "avif" | "jpeg" | "png" | "gif" | "bmp" | "tiff" | "ico";
+type OutputFormat =
+  | "webp"
+  | "avif"
+  | "jpeg"
+  | "png"
+  | "gif"
+  | "bmp"
+  | "tiff"
+  | "ico"
+  | "svg";
 type ConvertEngine = "auto" | "browser" | "ffmpeg";
 type ItemStatus = "idle" | "fetching" | "queued" | "running" | "done" | "error";
 
@@ -122,12 +132,14 @@ function outputMime(format: OutputFormat) {
   if (format === "bmp") return "image/bmp";
   if (format === "tiff") return "image/tiff";
   if (format === "ico") return "image/x-icon";
+  if (format === "svg") return "image/svg+xml";
   return "image/png";
 }
 
 function outputExt(format: OutputFormat) {
   if (format === "jpeg") return "jpg";
   if (format === "tiff") return "tif";
+  if (format === "svg") return "svg";
   return format;
 }
 
@@ -161,6 +173,11 @@ async function decodeBitmap(blob: Blob) {
 function isHeicFile(file: File) {
   if (file.type === "image/heic" || file.type === "image/heif") return true;
   return /\.(heic|heif)$/i.test(file.name);
+}
+
+function isSvgFile(file: File) {
+  if (file.type === "image/svg+xml") return true;
+  return /\.svg$/i.test(file.name);
 }
 
 async function decodeToRgbaCanvas(file: File) {
@@ -254,6 +271,25 @@ async function convertImageBrowser(args: {
     isQualityRelevant(args.format) ? quality01 : undefined,
   );
   return blob;
+}
+
+/**
+ * Raster → SVG via real vector tracing (paths), local-only.
+ * Existing SVG files are passed through as UTF-8 text.
+ */
+async function convertImageToSvg(file: File, svgPreset: SvgTracePreset): Promise<Blob> {
+  if (isSvgFile(file)) {
+    const text = await file.text();
+    const trimmed = text.trim();
+    if (!trimmed.startsWith("<")) {
+      throw new Error("This file doesn't look like SVG markup.");
+    }
+    return new Blob([text], { type: "image/svg+xml;charset=utf-8" });
+  }
+
+  const canvas = await decodeToRgbaCanvas(file);
+  const svg = await traceRasterCanvasToSvg(canvas, { preset: svgPreset });
+  return new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
 }
 
 async function convertImageFfmpeg(args: {
@@ -431,7 +467,8 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
 
   const [linkInput, setLinkInput] = React.useState("");
   const allowedFormats = React.useMemo(
-    () => props.allowedFormats ?? ["webp", "avif", "jpeg", "png", "gif", "bmp", "tiff", "ico"],
+    () =>
+      props.allowedFormats ?? ["webp", "avif", "jpeg", "png", "gif", "bmp", "tiff", "ico", "svg"],
     [props.allowedFormats],
   );
 
@@ -442,6 +479,7 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
       : ((allowedFormats[0] ?? "webp") as OutputFormat);
   });
   const [quality, setQuality] = React.useState(85);
+  const [svgTracePreset, setSvgTracePreset] = React.useState<SvgTracePreset>("balanced");
   const [engine, setEngine] = React.useState<ConvertEngine>(props.initialEngine ?? "auto");
 
   const hasQueued = items.some((item) => item.status === "queued" && item.file);
@@ -555,21 +593,26 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
       );
 
       try {
-        const selectedEngine: ConvertEngine = isHeicFile(file) && isCanvasEncodable(format)
-          ? "browser"
-          : engine === "auto"
-            ? (isCanvasEncodable(format) ? "browser" : "ffmpeg")
-            : engine;
-
         const blob =
-          selectedEngine === "browser"
-            ? await convertImageBrowser({ file, format, quality })
-            : await convertImageFfmpeg({
-              ffmpeg: await ensureFfmpegLoaded({ ffmpegRef }),
-              file,
-              format,
-              quality,
-            });
+          format === "svg"
+            ? await convertImageToSvg(file, svgTracePreset)
+            : await (async () => {
+              const selectedEngine: ConvertEngine = isHeicFile(file) && isCanvasEncodable(format)
+                ? "browser"
+                : engine === "auto"
+                  ? (isCanvasEncodable(format) ? "browser" : "ffmpeg")
+                  : engine;
+
+              if (selectedEngine === "browser") {
+                return convertImageBrowser({ file, format, quality });
+              }
+              return convertImageFfmpeg({
+                ffmpeg: await ensureFfmpegLoaded({ ffmpegRef }),
+                file,
+                format,
+                quality,
+              });
+            })();
 
         const base = baseNameFromFileName(file.name).replace(/[/?%*:|"<>\\]/g, "-");
         const ext = outputExt(format);
@@ -603,7 +646,7 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
         setEngineStatus(null);
       }
     },
-    [engine, format, items, quality],
+    [engine, format, items, quality, svgTracePreset],
   );
 
   const onConvertAll = React.useCallback(async () => {
@@ -846,7 +889,11 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
 
               <div className="grid gap-2">
                 <Label className="text-sm">Conversion mode</Label>
-                <Select value={engine} onValueChange={(value) => setEngine(value as ConvertEngine)}>
+                <Select
+                  value={engine}
+                  onValueChange={(value) => setEngine(value as ConvertEngine)}
+                  disabled={format === "svg"}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -857,9 +904,35 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                   </SelectContent>
                 </Select>
                 <div className="text-muted-foreground text-xs">
-                  Recommended picks the fastest option. “Works with more formats” can be slower.
+                  {format === "svg"
+                    ? "SVG is traced in your browser. Larger images are downscaled before tracing so the tab stays responsive."
+                    : "Recommended picks the fastest option. “Works with more formats” can be slower."}
                 </div>
               </div>
+
+              {format === "svg" ? (
+                <div className="grid gap-2">
+                  <Label className="text-sm">SVG vector quality</Label>
+                  <Select
+                    value={svgTracePreset}
+                    onValueChange={(value) => setSvgTracePreset(value as SvgTracePreset)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fast">Fast (smaller preview, fewer paths)</SelectItem>
+                      <SelectItem value="balanced">Balanced (recommended)</SelectItem>
+                      <SelectItem value="high">High detail (slower)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <div className="text-muted-foreground text-xs">
+                    Uses Vision Cortex VTracer (WASM) locally — the same engine family as many desktop tools. Fast uses
+                    a smaller trace and coarser clustering; High uses the vtracer “photo”-style settings and up to ~2048px
+                    per side. Still slower than a cloud GPU, but much closer in quality than the old JS-only tracer.
+                  </div>
+                </div>
+              ) : null}
 
               <div className="grid gap-2">
                 <Label className="text-sm">Output format</Label>
@@ -876,6 +949,7 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                     {allowedFormats.includes("bmp") ? <SelectItem value="bmp">BMP</SelectItem> : null}
                     {allowedFormats.includes("tiff") ? <SelectItem value="tiff">TIFF</SelectItem> : null}
                     {allowedFormats.includes("ico") ? <SelectItem value="ico">ICO</SelectItem> : null}
+                    {allowedFormats.includes("svg") ? <SelectItem value="svg">SVG</SelectItem> : null}
                   </SelectContent>
                 </Select>
               </div>

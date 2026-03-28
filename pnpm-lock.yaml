@@ -203,6 +203,9 @@ importers:
       vaul:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.8))(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      vtracer-wasm:
+        specifier: ^0.1.0
+        version: 0.1.0
       xlsx:
         specifier: ^0.18.5
         version: 0.18.5
@@ -4240,6 +4243,9 @@ packages:
       jsdom:
         optional: true
 
+  vtracer-wasm@0.1.0:
+    resolution: {integrity: sha512-q0A/z1NIuzROEJ9Z4NJirsl+PIH47sU5XKqLv/m7Nrf5MVDPcwogT1YfMBwfekncEeep8VLj6y60hpomwJJH6g==}
+
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
 
@@ -8100,6 +8106,8 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  vtracer-wasm@0.1.0: {}
 
   w3c-keyname@2.2.8: {}
 

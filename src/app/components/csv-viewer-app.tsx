@@ -1263,8 +1263,7 @@ export function CsvViewerApp() {
             </div>
           ) : !session ? (
             <div className="flex flex-col gap-4">
-              {/* Future: banner ad (placeholder / AdSense). Import AdSlot from @/components/ads/ad-slot */}
-              {/* <AdSlot variant="banner" className="lg:hidden" /> */}
+              {/* Future: AdSense (or similar) banner */}
                 <FileDropZone
                   disabled={false}
                   busy={busy}

@@ -2,28 +2,21 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
+import { SvgToCodeApp } from "@/app/components/svg-to-code-app";
 import { Shell } from "@/components/shell";
-import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
-import { ImageConvertApp } from "@/app/components/image-convert-app";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `Image Converter · ${siteConfig.name}`,
+  title: `SVG to Code · ${siteConfig.name}`,
   description:
-    "Convert images locally in your browser. Upload multiple files or paste a direct link, choose WebP, AVIF, PNG, JPEG, SVG via Vision Cortex VTracer (WASM), and more, then download, no uploads.",
+    "Convert SVG files to JSX, a React component with SVGProps, or pretty XML locally in your browser. Paste or upload, copy code, no uploads.",
 };
 
-export async function generateMetadata({
-  params,
-}: ImageConvertPageProps): Promise<Metadata> {
-  const { locale } = await params;
-  return buildToolPageMetadata(locale, "image-convert");
-}
-
-interface ImageConvertPageProps {
+interface SvgToCodePageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function ImageConvertPage({ params }: ImageConvertPageProps) {
+export default async function SvgToCodePage({ params }: SvgToCodePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -38,9 +31,8 @@ export default async function ImageConvertPage({ params }: ImageConvertPageProps
           </div>
         }
       >
-        <ImageConvertApp />
+        <SvgToCodeApp />
       </Suspense>
     </Shell>
   );
 }
-
