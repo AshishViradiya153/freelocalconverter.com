@@ -207,7 +207,7 @@
     "previewHint": "Πλέγμα μόνο για ανάγνωση: ταξινόμηση, φιλτράρισμα και αναζήτηση, τα ίδια όρια με το παραπάνω όριο σειρών."
   },
   "landing": {
-    "heroTitle": "Δωρεάν, σύγχρονα, τοπικά και ασφαλή εργαλεία.",
+    "heroTitle": "Δωρεάν, σύγχρονα, τοπικά\nκαι ασφαλή εργαλεία.",
     "heroSubtitle": "Αφήστε ένα CSV στο πλέγμα: ταξινόμηση, φίλτρα, αναζήτηση, επεξεργασία, επικόλληση, αναίρεση/επανάληψη, προσθήκη ή διαγραφή γραμμών. Τα δεδομένα παραμένουν σε αυτή τη συσκευή.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "Αναζητηστε σε μετατροπεις, προβολεις, μορφοποιητες, βοηθους OpenAPI, εργαλεία PDF, εργαλεία εικονων και αλλα. Ολα παραμενουν ευκολα στην περιηγηση απο ενα σημειο.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Νομικά",
-    "lastUpdatedLine": "Τελευταία ενημέρωση: 22 Μαρτίου 2025",
-    "backToViewer": "Επιστροφή στον προβολέα",
+    "lastUpdatedLine": "Τελευταία ενημέρωση: 28 Μαρτίου 2026",
+    "backToViewer": "Επιστροφή στην αρχική",
     "privacyTitle": "Πολιτική Απορρήτου",
     "privacyDescription": "Πώς το {name} χειρίζεται πληροφορίες όταν προβάλλετε αρχεία στο πρόγραμμα περιήγησής σας.",
     "privacyNoticeTitle": "Ειδοποίηση απορρήτου",

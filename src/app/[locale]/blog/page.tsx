@@ -53,7 +53,7 @@ function BlogIndexSkeleton() {
         {Array.from({ length: 6 }, (_, i) => (
           <div
             key={`skeleton-${String(i)}`}
-            className="space-y-3 rounded-lg border border-transparent px-1 py-2"
+            className="space-y-3 rounded-none border-2 border-border px-2 py-2"
           >
             <div className="h-3 w-40 rounded bg-muted" />
             <div className="h-5 max-w-xl rounded bg-muted" />
@@ -82,8 +82,7 @@ async function BlogIndexContent({
 
   const prevHref =
     page > 2 ? `/blog?page=${String(page - 1)}` : page > 1 ? "/blog" : null;
-  const nextHref =
-    page < pageCount ? `/blog?page=${String(page + 1)}` : null;
+  const nextHref = page < pageCount ? `/blog?page=${String(page + 1)}` : null;
 
   const from = (page - 1) * BLOG_INDEX_PAGE_SIZE + 1;
   const to = Math.min(page * BLOG_INDEX_PAGE_SIZE, totalCount);
@@ -95,7 +94,7 @@ async function BlogIndexContent({
   return (
     <div className="container max-w-3xl py-10 pb-20">
       <header className="border-border border-b pb-8">
-        <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
+        <p className="font-mono font-bold text-foreground text-xs uppercase tracking-wider">
           {t("label")}
         </p>
         <h1 className="mt-2 font-semibold text-3xl tracking-tight">
@@ -128,15 +127,15 @@ async function BlogIndexContent({
               <article>
                 <Link
                   href={`/blog/${meta.slug}`}
-                  className="group block rounded-lg border border-transparent outline-none transition-colors hover:border-border focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                  className="group block rounded-none border-2 border-border bg-background outline-none transition-colors hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
-                  <div className="rounded-lg px-1 py-2 sm:px-2">
+                  <div className="px-3 py-3 sm:px-4 sm:py-4">
                     <p className="text-muted-foreground text-xs">
                       <span
                         className={cn(
-                          "rounded-md px-1.5 py-0.5 font-medium",
+                          "rounded-none border-2 border-border px-1.5 py-0.5 font-mono font-bold text-xs uppercase tracking-tight",
                           meta.category === "guide"
-                            ? "bg-primary/10 text-primary"
+                            ? "bg-primary text-primary-foreground"
                             : "bg-muted text-muted-foreground",
                         )}
                       >
@@ -222,14 +221,14 @@ async function NextGuidesSection() {
         {nextGuideTopics.map((topic) => (
           <li
             key={topic.slug}
-            className="rounded-lg border border-border px-4 py-3"
+            className="rounded-none border-2 border-border bg-background px-4 py-3"
           >
             <p className="text-muted-foreground text-xs">
               <span
                 className={cn(
-                  "rounded-md px-1.5 py-0.5 font-medium",
+                  "rounded-none border-2 border-border px-1.5 py-0.5 font-mono font-bold text-xs uppercase tracking-tight",
                   topic.category === "guide"
-                    ? "bg-primary/10 text-primary"
+                    ? "bg-primary text-primary-foreground"
                     : "bg-muted text-muted-foreground",
                 )}
               >

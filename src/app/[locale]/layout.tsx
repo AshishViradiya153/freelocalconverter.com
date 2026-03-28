@@ -22,11 +22,8 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
-  colorScheme: "dark light",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+  colorScheme: "light",
+  themeColor: "#ffffff",
 };
 
 export const metadata: Metadata = {
@@ -93,23 +90,25 @@ export default async function LocaleLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <Script defer src="https://assets.onedollarstats.com/stonks.js" />
+          {/* TODO: restore `defaultTheme="system"` + `enableSystem` and remove forcedTheme when shipping dark mode again */}
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="light"
+            enableSystem={false}
+            forcedTheme="light"
             disableTransitionOnChange
           >
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
-              <main className="flex-1">{children}</main>
+              <main className="flex min-h-0 flex-1 flex-col">{children}</main>
               <TrustedByMarquee />
               <SiteFooter />
             </div>
-            <TailwindIndicator />
+            {/* <TailwindIndicator /> */}
           </ThemeProvider>
           <Toaster />
         </NextIntlClientProvider>
-      <GoogleAnalytics gaId={"G-Y0B8C93BRK"} />
+        <GoogleAnalytics gaId={"G-Y0B8C93BRK"} />
       </body>
     </html>
   );

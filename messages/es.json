@@ -207,7 +207,7 @@
     "previewHint": "Cuadrícula de solo lectura: ordenar, filtrar y buscar: los mismos límites que el límite de fila anterior."
   },
   "landing": {
-    "heroTitle": "Herramientas gratuitas, modernas, locales y seguras.",
+    "heroTitle": "Herramientas gratuitas, modernas,\nlocales y seguras.",
     "heroSubtitle": "Suelta un CSV en la cuadrícula: ordena, filtra, busca, edita, pega, deshace/rehace y añade o quita filas. Los datos permanecen en este dispositivo y se restauran al volver.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "Busca entre convertidores, visores, formateadores, utilidades de OpenAPI, herramientas PDF, herramientas de imagen y mas. Todo sigue siendo facil de explorar desde un solo lugar.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Legal",
-    "lastUpdatedLine": "Last updated: March 22, 2025",
-    "backToViewer": "Back to viewer",
+    "lastUpdatedLine": "Última actualización: 28 de marzo de 2026",
+    "backToViewer": "Volver al inicio",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
     "privacyNoticeTitle": "Privacy notice",

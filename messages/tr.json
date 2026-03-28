@@ -207,7 +207,7 @@
     "previewHint": "Salt okunur kılavuz: sıralama, filtreleme ve arama; yukarıdaki satır sınırıyla aynı sınırlar."
   },
   "landing": {
-    "heroTitle": "Ucretsiz, modern, yerel ve guvenli araclar.",
+    "heroTitle": "Ucretsiz, modern, yerel\nve guvenli araclar.",
     "heroSubtitle": "CSV dosyasını bırakın: sıralayın, filtreleyin, arayın, düzenleyin, yapıştırın, geri alın/yineleyin, satır ekleyin veya silin. Veriler bu cihazda kalır.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "Donusturuculer, goruntuleyiciler, bicimlendiriciler, OpenAPI yardimcilari, PDF araclari, gorsel araclari ve daha fazlasi arasinda arama yapin. Her sey tek bir yerden kolayca gezilebilir kalir.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Legal",
-    "lastUpdatedLine": "Last updated: March 22, 2025",
-    "backToViewer": "Back to viewer",
+    "lastUpdatedLine": "Son güncelleme: 28 Mart 2026",
+    "backToViewer": "Ana sayfaya dön",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
     "privacyNoticeTitle": "Privacy notice",

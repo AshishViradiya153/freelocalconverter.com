@@ -207,7 +207,7 @@
     "previewHint": "شبکه فقط خواندنی: مرتب‌سازی، فیلتر کردن، و جستجو, محدودیت‌های مشابه با سقف ردیف بالا."
   },
   "landing": {
-    "heroTitle": "ابزارهای رایگان، مدرن، محلی و امن.",
+    "heroTitle": "ابزارهای رایگان، مدرن،\nمحلی و امن.",
     "heroSubtitle": "فایل CSV را رها کنید: مرتب‌سازی، فیلتر، جستجو، ویرایش، چسباندن، برگردان/ازنو، افزودن یا حذف سطرها. داده‌ها روی این دستگاه می‌ماند.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "در میان تبدیل‌کننده‌ها، نمایشگرها، فرمت‌کننده‌ها، ابزارهای OpenAPI، ابزارهای PDF، ابزارهای تصویر و موارد دیگر جستجو کنید. همه چیز از یک جا به‌راحتی قابل مرور می‌ماند.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Legal",
-    "lastUpdatedLine": "Last updated: March 22, 2025",
-    "backToViewer": "Back to viewer",
+    "lastUpdatedLine": "آخرین به‌روزرسانی: ۲۸ مارس ۲۰۲۶",
+    "backToViewer": "بازگشت به خانه",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
     "privacyNoticeTitle": "Privacy notice",

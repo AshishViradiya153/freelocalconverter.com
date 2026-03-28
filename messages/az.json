@@ -207,7 +207,7 @@
     "previewHint": "Yalnız oxumaq üçün şəbəkə: çeşidləyin, filtrləyin və axtarın, yuxarıdakı sətir qapağı ilə eyni məhdudiyyətlər."
   },
   "landing": {
-    "heroTitle": "Pulsuz, muasir, lokal ve tehlukesiz alətlər.",
+    "heroTitle": "Pulsuz, muasir, lokal\nve tehlukesiz alətlər.",
     "heroSubtitle": "CSV faylını buraxın: çeşidləyin, süzün, axtarın, redaktə edin, yapışdırın, geri alın/təkrar edin, sətir əlavə və ya silin. Məlumat bu cihazda qalır.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "Ceviriciler, goruntuleyiciler, formatlayicilar, OpenAPI komekcileri, PDF alətləri, sekil alətləri ve daha coxu arasinda axtaris edin. Her seyi bir yerde rahat gezmek olur.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Hüquqi",
-    "lastUpdatedLine": "Son yenilənmə: 22 mart 2025",
-    "backToViewer": "Baxıcıya qayıt",
+    "lastUpdatedLine": "Son yenilənmə: 28 mart 2026",
+    "backToViewer": "Ana səhifəyə qayıt",
     "privacyTitle": "Məxfilik Siyasəti",
     "privacyDescription": "{name} brauzerinizdə fayllara baxdığınız zaman məlumatı necə idarə edir.",
     "privacyNoticeTitle": "Məxfilik bildirişi",

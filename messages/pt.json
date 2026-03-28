@@ -207,7 +207,7 @@
     "previewHint": "Grade somente leitura: classificar, filtrar e pesquisar – mesmos limites do limite de linha acima."
   },
   "landing": {
-    "heroTitle": "Ferramentas gratuitas, modernas, locais e seguras.",
+    "heroTitle": "Ferramentas gratuitas, modernas,\nlocais e seguras.",
     "heroSubtitle": "Solte um CSV na grelha: ordene, filtre, pesquise, edite, cole, desfaça/refaça e adicione ou remova linhas. Os dados ficam neste dispositivo e são restaurados quando voltar.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "Pesquise entre conversores, visualizadores, formatadores, utilitarios OpenAPI, ferramentas de PDF, ferramentas de imagem e muito mais. Tudo continua facil de explorar em um so lugar.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Legal",
-    "lastUpdatedLine": "Last updated: March 22, 2025",
-    "backToViewer": "Back to viewer",
+    "lastUpdatedLine": "Última atualização: 28 de março de 2026",
+    "backToViewer": "Voltar ao início",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
     "privacyNoticeTitle": "Privacy notice",

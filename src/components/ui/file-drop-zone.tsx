@@ -53,11 +53,7 @@ export interface FileDropZoneProps {
   badgeIcon?: React.ReactNode;
 }
 
-function UploadGlyph({
-  className,
-}: {
-  className?: string;
-}) {
+function UploadGlyph({ className }: { className?: string }) {
   // Repo-owned SVG upload glyph (no external icon dependency).
   return (
     <svg
@@ -221,7 +217,7 @@ export function FileDropZone({
   });
 
   const badgeClasses = cn(
-    "inline-flex items-center gap-1.5 rounded-md bg-background shadow-sm font-medium ring-1 ring-border/50",
+    "inline-flex items-center gap-1.5 rounded-md bg-background font-medium ring-1 ring-border/50",
     {
       "px-2.5 py-1 text-xs": effectiveBadgeSize === "md",
       "gap-2 px-3 py-1.5 text-sm": effectiveBadgeSize === "lg",
@@ -238,18 +234,20 @@ export function FileDropZone({
     cardPadding,
     minHeightClassName,
     "border-border bg-muted/10",
-    "hover:bg-muted/20 hover:shadow-[0_1px_0_hsl(var(--border))_inset] hover:-translate-y-px active:translate-y-0",
+    "hover:bg-muted/20 hover:-translate-y-px active:translate-y-0",
     // Radial glow + underline similar to footer link items.
     "before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:opacity-0 before:transition-opacity before:bg-[radial-gradient(120%_120%_at_20%_0%,hsl(var(--primary)/0.18),transparent_60%)] group-hover:before:opacity-100",
     "after:pointer-events-none after:absolute after:inset-x-2 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:rounded-full after:transition-transform after:bg-gradient-to-r after:from-primary/50 after:via-primary/10 after:to-transparent group-hover:after:scale-x-100",
     isDragging &&
-    "border-primary bg-primary/5 ring-1 ring-primary/30 before:opacity-100 after:scale-x-100",
+      "border-primary bg-primary/5 ring-1 ring-primary/30 before:opacity-100 after:scale-x-100",
     (disabled || busy) && "pointer-events-none opacity-60",
     fullWidth && "w-full",
     "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   );
 
-  const badgeLabel = fileName ? chooseLabelWhenFileSelected ?? chooseLabel : chooseLabel;
+  const badgeLabel = fileName
+    ? (chooseLabelWhenFileSelected ?? chooseLabel)
+    : chooseLabel;
 
   return (
     <div className={cn("flex min-w-0 flex-col gap-2", wrapperClassName)}>
@@ -271,7 +269,10 @@ export function FileDropZone({
         aria-label={ariaLabel}
       >
         <span className={iconWrapClassName} aria-hidden>
-          <FileIcon className={cn(iconClassName, "text-muted-foreground")} aria-hidden />
+          <FileIcon
+            className={cn(iconClassName, "text-muted-foreground")}
+            aria-hidden
+          />
         </span>
 
         {dropHint ? (
@@ -297,11 +298,15 @@ export function FileDropZone({
 
         <span className={badgeClasses}>
           {badgeIcon ? (
-            <span className={cn("inline-flex items-center", uploadIconClassName)}>
+            <span
+              className={cn("inline-flex items-center", uploadIconClassName)}
+            >
               {badgeIcon}
             </span>
           ) : (
-            <UploadGlyph className={cn("text-foreground", uploadIconClassName)} />
+            <UploadGlyph
+              className={cn("text-foreground", uploadIconClassName)}
+            />
           )}
           {badgeLabel}
         </span>
@@ -326,4 +331,3 @@ export function FileDropZone({
     </div>
   );
 }
-

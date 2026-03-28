@@ -207,7 +207,7 @@
     "previewHint": "Schreibgeschütztes Raster: Sortieren, Filtern und Suchen – dieselben Einschränkungen wie bei der Zeilenobergrenze oben."
   },
   "landing": {
-    "heroTitle": "Kostenlose, moderne, lokale und sichere Tools.",
+    "heroTitle": "Kostenlose, moderne, lokale\nund sichere Tools.",
     "heroSubtitle": "CSV in die Tabelle ziehen: sortieren, filtern, suchen, bearbeiten, einfügen, rückgängig/wiederholen, Zeilen hinzufügen oder entfernen. Daten bleiben auf diesem Gerät.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "Suche in Konvertern, Viewern, Formatierern, OpenAPI-Helfern, PDF-Tools, Bild-Tools und mehr. Alles bleibt von einem Ort aus leicht zu durchsuchen.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Rechtliches",
-    "lastUpdatedLine": "Zuletzt aktualisiert: 22. März 2025",
-    "backToViewer": "Zurück zum Viewer",
+    "lastUpdatedLine": "Zuletzt aktualisiert: 28. März 2026",
+    "backToViewer": "Zurück zur Startseite",
     "privacyTitle": "Datenschutzerklärung",
     "privacyDescription": "Wie {name} Informationen verarbeitet, wenn Sie Dateien in Ihrem Browser ansehen.",
     "privacyNoticeTitle": "Datenschutzhinweis",
