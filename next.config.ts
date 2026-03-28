@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   typescript: { ignoreBuildErrors: true },
   headers: async () => [
     {
+      source: "/wasm/:path*",
+      headers: [{ key: "Content-Type", value: "application/wasm" }],
+    },
+    {
       source: "/:path*",
       headers: [
         { key: "X-Content-Type-Options", value: "nosniff" },
