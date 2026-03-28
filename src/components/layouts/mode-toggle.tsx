@@ -1,42 +1,39 @@
 "use client";
 
-import { LaptopIcon, MoonIcon, SunIcon } from "lucide-react";
+import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted ? resolvedTheme === "dark" : false;
+  const nextTheme = isDark ? "light" : "dark";
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-8">
-          <SunIcon className="size-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <MoonIcon className="absolute size-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onSelect={() => setTheme("light")}>
-          <SunIcon className="mr-2 size-4" />
-          <span>Light</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => setTheme("dark")}>
-          <MoonIcon className="mr-2 size-4" />
-          <span>Dark</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => setTheme("system")}>
-          <LaptopIcon className="mr-2 size-4" />
-          <span>System</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon"
+      className="size-8"
+      onClick={() => setTheme(nextTheme)}
+      aria-label={`Switch to ${nextTheme} mode`}
+      title={`Switch to ${nextTheme} mode`}
+    >
+      <SunIcon
+        className={`size-5 transition-all ${isDark ? "-rotate-90 scale-0" : "rotate-0 scale-100"}`}
+      />
+      <MoonIcon
+        className={`absolute size-5 transition-all ${isDark ? "rotate-0 scale-100" : "rotate-90 scale-0"}`}
+      />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
   );
 }

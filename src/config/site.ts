@@ -1,9 +1,9 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Table",
+  name: "CSV Editor Online",
   description:
-    "Data grid application built with Next.js, TanStack Table, and shadcn/ui.",
+    "Free browser-based CSV, JSON, PDF, image, and data conversion tools that run locally in your browser without server uploads.",
   url: "https://csveditoronline.org/",
   copyrightYear: 2026,
   /** Set to your repository URL to show the GitHub icon in the header; leave empty to hide it. */
