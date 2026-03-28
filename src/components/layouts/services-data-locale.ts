@@ -48,6 +48,7 @@ function getLocalizedLabel(
     | "imageConverter"
     | "imageResize"
     | "heicToJpg"
+    | "linkedinBanner"
     | "colorPaletteGenerator"
     | "gradientGenerator"
     | "trendingPalettes"
@@ -604,6 +605,21 @@ function getLocalizedLabel(
         tr: "HEIC'den JPG/PNG'ye",
         zh: "HEIC 转 JPG/PNG",
       });
+    case "linkedinBanner":
+      return localizedText(locale, {
+        en: "LinkedIn Banner Maker",
+        de: "LinkedIn-Banner-Ersteller",
+        es: "Creador de banners de LinkedIn",
+        fr: "Créateur de bannière LinkedIn",
+        it: "Creatore banner LinkedIn",
+        ja: "LinkedInバナーメーカー",
+        ko: "LinkedIn 배너 메이커",
+        nl: "LinkedIn-bannermaker",
+        pt: "Criador de banner do LinkedIn",
+        ru: "Создатель баннеров LinkedIn",
+        tr: "LinkedIn Banner Olusturucu",
+        zh: "LinkedIn 横幅制作",
+      });
     case "colorPaletteGenerator":
       return localizedText(locale, {
         en: "Color Palette Generator",
@@ -714,6 +730,7 @@ function getLocalizedDescription(
     | "imageConverter"
     | "imageResize"
     | "heicToJpg"
+    | "linkedinBanner"
     | "colorPaletteGenerator"
     | "gradientGenerator"
     | "trendingPalettes"
@@ -882,6 +899,8 @@ function getLocalizedDescription(
           imageConverter: "Convert to WebP, AVIF, JPG, or PNG.",
           imageResize: "Resize, crop, convert, and rename images in bulk.",
           heicToJpg: "Convert HEIC and HEIF photos to JPG or PNG.",
+          linkedinBanner:
+            "Design LinkedIn profile and page banners in standard sizes; download PNG, JPEG, or WebP.",
           colorPaletteGenerator: "Generate palettes and export PNG or JSON.",
           gradientGenerator: "Create gradients and export PNG or JSON.",
           trendingPalettes: "Browse curated color palettes.",
@@ -1252,6 +1271,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/heic-to-jpg",
           label: getLocalizedLabel(safeLocale, "heicToJpg"),
           description: getLocalizedDescription(safeLocale, "heicToJpg"),
+        },
+        {
+          href: "/linkedin-banner",
+          label: getLocalizedLabel(safeLocale, "linkedinBanner"),
+          description: getLocalizedDescription(safeLocale, "linkedinBanner"),
         },
       ],
     },
