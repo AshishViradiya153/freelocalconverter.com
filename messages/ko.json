@@ -207,7 +207,7 @@
     "previewHint": "읽기 전용 그리드: 정렬, 필터링, 검색 - 위의 행 제한과 동일한 제한입니다."
   },
   "landing": {
-    "heroTitle": "무료, 현대적, 로컬 및 안전한 도구.",
+    "heroTitle": "무료, 현대적, 로컬\n및 안전한 도구.",
     "heroSubtitle": "CSV를 끌어다 놓고 정렬, 필터, 검색, 편집, 붙여넣기, 실행 취소/다시 실행, 행 추가·삭제를 사용하세요. 데이터는 이 기기에만 남고 다시 방문 시 복원됩니다.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "변환기, 뷰어, 포매터, OpenAPI 도우미, PDF 도구, 이미지 도구 등 다양한 항목을 검색하세요. 모든 것을 한곳에서 쉽게 둘러볼 수 있습니다.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Legal",
-    "lastUpdatedLine": "Last updated: March 22, 2025",
-    "backToViewer": "Back to viewer",
+    "lastUpdatedLine": "최종 업데이트: 2026년 3월 28일",
+    "backToViewer": "홈으로",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
     "privacyNoticeTitle": "Privacy notice",

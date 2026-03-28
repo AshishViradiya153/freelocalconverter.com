@@ -207,7 +207,7 @@
     "previewHint": "شبكة للقراءة فقط: الفرز والتصفية والبحث - نفس حدود الحد الأقصى للصف أعلاه."
   },
   "landing": {
-    "heroTitle": "ادوات مجانية وحديثة ومحلية وآمنة.",
+    "heroTitle": "ادوات مجانية وحديثة\nومحلية وآمنة.",
     "heroSubtitle": "أسقط ملف CSV في الشبكة: رتّب، صفّ، ابحث، عدّل، الصق، تراجع/أعد، وأضف أو احذف الصفوف. البيانات تبقى على هذا الجهاز.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "ابحث عبر أدوات التحويل والعرض والتنسيق ومساعدات OpenAPI وأدوات PDF وأدوات الصور وغير ذلك. يبقى كل شيء سهل التصفح من مكان واحد.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "قانوني",
-    "lastUpdatedLine": "آخر تحديث: 22 مارس 2025",
-    "backToViewer": "العودة إلى العارض",
+    "lastUpdatedLine": "آخر تحديث: 28 مارس 2026",
+    "backToViewer": "العودة إلى الرئيسية",
     "privacyTitle": "سياسة الخصوصية",
     "privacyDescription": "كيف يتعامل {name} مع المعلومات عند عرض الملفات في متصفحك.",
     "privacyNoticeTitle": "إشعار الخصوصية",

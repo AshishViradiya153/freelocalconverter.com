@@ -1,18 +1,21 @@
 "use client";
 
 import {
-  ArrowRight,
+  AlertTriangle,
   ArrowRightLeft,
   Braces,
+  ChevronRight,
   FileImage,
   FileSpreadsheet,
   FileText,
+  Filter,
   Palette,
   Search,
   Sparkles,
   TableProperties,
   Video,
 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
@@ -50,7 +53,6 @@ function buildDirectoryItems(locale: string) {
 export function HomeToolsDirectory() {
   const locale = useLocale();
   const router = useRouter();
-  const tHeader = useTranslations("header");
   const tLanding = useTranslations("landing");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const { serviceGroups, searchItems } = React.useMemo(
@@ -102,126 +104,169 @@ export function HomeToolsDirectory() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  function onResetFilters() {
+    setQuery("");
+    setActiveGroup("all");
+  }
+
   return (
-    <section className="container py-8 md:py-10">
-      <div className="relative overflow-hidden py-6 md:py-8">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-2 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
-        />
+    <section className="flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col overflow-x-hidden bg-background font-mono text-foreground [-webkit-font-smoothing:auto]">
+      <div className="mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col px-3 py-3 sm:px-4 sm:py-4 md:px-8 md:py-6">
+        {/* Room for hard shadow so the page does not gain a horizontal scrollbar */}
+        <div className="min-w-0 pr-2 pb-2 sm:pr-2.5 sm:pb-2.5 md:pr-3 md:pb-3">
+          <div
+            className={cn(
+              "grid w-full min-w-0 max-w-full flex-1 border-4 border-border bg-background shadow-brutal max-sm:shadow-brutal-sm",
+              "grid-rows-[auto_auto]",
+            )}
+          >
+            <header className="shrink-0 border-border border-b-4 bg-primary p-4 text-primary-foreground sm:p-6 md:p-10 lg:p-12">
+              <motion.h1
+                initial={{ x: -16, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="text-balance break-words font-black text-[clamp(1.75rem,8vw,3rem)] leading-[0.95] tracking-tighter uppercase sm:text-5xl md:text-7xl lg:text-8xl whitespace-pre-line"
+              >
+                {tLanding("heroTitle")}
+              </motion.h1>
+              <p className="mt-4 max-w-3xl break-words font-bold text-sm leading-snug text-primary-foreground/85 sm:mt-6 md:text-base">
+                {tLanding("directorySubtitle")}
+              </p>
+            </header>
 
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center text-center">
-          <h1 className="mt-3 max-w-4xl font-semibold text-4xl tracking-tight md:text-6xl">
-            {tLanding("heroTitle")}
-          </h1>
-          <p className="mt-4 max-w-3xl text-muted-foreground text-sm leading-relaxed md:text-base">
-            {tLanding("directorySubtitle")}
-          </p>
+            <div className="flex w-full min-w-0 flex-col lg:flex-row lg:items-stretch">
+              <aside className="w-full min-w-0 shrink-0 border-border border-b-4 bg-background p-4 sm:p-6 md:p-8 lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:border-b-0 lg:border-e-4 xl:w-80">
+                <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
+                  <div className="flex min-w-0 flex-col gap-3">
+                    <label
+                      className="flex items-center gap-2 font-black text-[11px] text-foreground uppercase tracking-widest"
+                      htmlFor="landing-tool-search"
+                    >
+                      <Search className="size-3.5 shrink-0" aria-hidden />
+                      {tLanding("directorySearchTag")}
+                    </label>
+                    <input
+                      id="landing-tool-search"
+                      ref={inputRef}
+                      type="search"
+                      value={query}
+                      onChange={(event) => setQuery(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" && topHit) {
+                          event.preventDefault();
+                          router.push(topHit.href);
+                        }
+                      }}
+                      placeholder={tLanding("directoryFilterPlaceholder")}
+                      autoComplete="off"
+                      spellCheck={false}
+                      className="w-full border-2 border-border bg-background p-3 font-bold text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:bg-foreground focus:text-background focus:ring-0"
+                    />
+                    <p className="text-end font-black text-[10px] text-muted-foreground uppercase tracking-widest">
+                      <span className="inline-block border-2 border-border bg-background px-2 py-1 text-foreground">
+                        ⌘K
+                      </span>
+                    </p>
+                  </div>
 
-          <div className="mt-8 w-full max-w-4xl">
-            <label className="sr-only" htmlFor="landing-tool-search">
-              {tLanding("directorySearchLabel")}
-            </label>
-            <div className="group flex items-center gap-3 rounded-2xl border border-border/70 bg-background px-4 py-3 shadow-sm transition focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/15">
-              <Search className="size-5 shrink-0 text-primary" aria-hidden />
-              <input
-                id="landing-tool-search"
-                ref={inputRef}
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" && topHit) {
-                    event.preventDefault();
-                    router.push(topHit.href);
-                  }
-                }}
-                placeholder={tHeader("searchPlaceholder")}
-                className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground/90 md:text-lg"
-                spellCheck={false}
-              />
-              <div className="hidden shrink-0 items-center gap-2 sm:flex">
-                <div className="rounded-xl border bg-muted/30 px-2.5 py-1 font-mono text-muted-foreground text-xs">
-                  ⌘K
+                  <div className="flex min-w-0 flex-col gap-3">
+                    <div className="flex items-center gap-2 font-black text-[11px] text-foreground uppercase tracking-widest">
+                      <Filter className="size-3.5 shrink-0" aria-hidden />
+                      {tLanding("directoryCategoriesTag")}
+                    </div>
+                    <div className="no-scrollbar flex min-w-0 flex-row gap-2 overflow-x-auto overscroll-x-contain pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+                      <CategoryBrutalistButton
+                        label={tLanding("directoryAllLabel")}
+                        count={searchItems.length}
+                        active={activeGroup === "all"}
+                        onClick={() => setActiveGroup("all")}
+                      />
+                      {serviceGroups.map((group) => {
+                        const count = searchItems.filter(
+                          (item) => item.groupId === group.id,
+                        ).length;
+
+                        return (
+                          <CategoryBrutalistButton
+                            key={group.id}
+                            label={group.title}
+                            count={count}
+                            active={activeGroup === group.id}
+                            onClick={() => setActiveGroup(group.id as GroupId)}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </aside>
+
+              <div className="flex min-w-0 flex-1 flex-col bg-brutal-canvas">
+                <div className="min-w-0 shrink-0 break-words border-border border-b-4 bg-brutal-canvas px-3 py-2.5 font-black text-[9px] text-brutal-canvas-foreground uppercase leading-tight tracking-widest sm:px-4 sm:py-3 sm:text-[10px]">
+                  {query.trim()
+                    ? tLanding("directoryResultsLabel", {
+                        count: visibleItems.length,
+                        query: query.trim(),
+                      })
+                    : tLanding("directoryReadyLabel", {
+                        count: visibleItems.length,
+                      })}
+                </div>
+
+                <div className="grid min-w-0 grid-cols-1 auto-rows-fr sm:grid-cols-2 xl:grid-cols-3">
+                  <AnimatePresence initial={false} mode="popLayout">
+                    {visibleItems.map((item) => (
+                      <ToolCardBrutalist
+                        key={`${item.groupId}-${item.href}-${item.label}`}
+                        item={item}
+                        executeLabel={tLanding("directoryExecute")}
+                      />
+                    ))}
+                    {visibleItems.length === 0 ? (
+                      <motion.div
+                        key="brutalist-directory-empty"
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="col-span-full border-border border-b-4 bg-card p-8 text-center text-card-foreground sm:p-12 md:p-24"
+                      >
+                        <AlertTriangle
+                          className="mx-auto mb-6 size-16 text-foreground"
+                          aria-hidden
+                        />
+                        <h2 className="break-words font-black text-2xl uppercase tracking-tighter sm:text-3xl md:text-4xl">
+                          {tLanding("directoryEmptyTitle")}
+                        </h2>
+                        <p className="mt-4 font-bold text-sm text-muted-foreground md:text-base">
+                          {tLanding("directoryEmptyDescription")}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={onResetFilters}
+                          className="mt-8 max-w-full border-4 border-border bg-background px-4 py-3 font-black text-foreground text-sm uppercase shadow-brutal-sm transition-colors hover:bg-foreground hover:text-background active:translate-x-1 active:translate-y-1 active:shadow-none sm:mt-10 sm:px-8 sm:py-4 sm:text-base"
+                        >
+                          {tLanding("directoryResetFilters")}
+                        </button>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="mt-8 w-full overflow-x-auto pb-2">
-            <div className="flex min-w-max items-center justify-center gap-3">
-              <CategoryChip
-                icon={groupIcons.all}
-                label={tLanding("directoryAllLabel")}
-                count={searchItems.length}
-                active={activeGroup === "all"}
-                onClick={() => setActiveGroup("all")}
-              />
-              {serviceGroups.map((group) => {
-                const Icon = groupIcons[group.id as GroupId] ?? Sparkles;
-                const count = searchItems.filter(
-                  (item) => item.groupId === group.id,
-                ).length;
-
-                return (
-                  <CategoryChip
-                    key={group.id}
-                    icon={Icon}
-                    label={group.title}
-                    count={count}
-                    active={activeGroup === group.id}
-                    onClick={() => setActiveGroup(group.id as GroupId)}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="mt-6 w-full border-border/70 border-t pt-5 text-center">
-            <div className="text-muted-foreground text-sm">
-              {query.trim()
-                ? tLanding("directoryResultsLabel", {
-                    count: visibleItems.length,
-                    query: query.trim(),
-                  })
-                : tLanding("directoryReadyLabel", {
-                    count: visibleItems.length,
-                  })}
-            </div>
-          </div>
         </div>
       </div>
-
-      <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {visibleItems.map((item) => (
-          <ToolCardLink
-            key={`${item.groupId}-${item.href}-${item.label}`}
-            item={item}
-          />
-        ))}
-      </div>
-
-      {visibleItems.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-border/80 border-dashed bg-muted/15 px-6 py-12 text-center">
-          <p className="font-medium text-lg">
-            {tLanding("directoryEmptyTitle")}
-          </p>
-          <p className="mt-2 text-muted-foreground text-sm">
-            {tLanding("directoryEmptyDescription")}
-          </p>
-        </div>
-      ) : null}
     </section>
   );
 }
 
-function CategoryChip({
-  icon: Icon,
+function CategoryBrutalistButton({
   label,
   count,
   active,
   onClick,
 }: {
-  icon: React.ComponentType<{ className?: string }>;
   label: string;
   count: number;
   active: boolean;
@@ -232,63 +277,77 @@ function CategoryChip({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-3 rounded-2xl border px-4 py-3 text-left transition",
+        "flex w-max min-w-[min(140px,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] shrink-0 items-center justify-between gap-2 border-2 border-border p-2.5 font-bold text-left text-sm transition-all sm:min-w-[140px] sm:gap-3 sm:p-3 sm:text-base lg:w-full lg:max-w-none lg:min-w-0",
         active
-          ? "border-primary/50 bg-primary/10 text-foreground shadow-[0_12px_32px_-22px_rgba(245,158,11,0.65)]"
-          : "border-border/70 bg-background/80 text-muted-foreground hover:border-primary/30 hover:text-foreground",
+          ? "translate-x-1 -translate-y-1 bg-foreground text-background shadow-brutal-offset"
+          : "bg-background text-foreground hover:bg-primary hover:text-primary-foreground",
       )}
     >
+      <span className="truncate uppercase tracking-tighter">{label}</span>
       <span
         className={cn(
-          "grid size-10 place-items-center rounded-xl border",
+          "shrink-0 border px-1.5 py-0.5 font-black text-[10px] uppercase",
           active
-            ? "border-primary/30 bg-primary/12 text-primary"
-            : "border-border/60 bg-muted/20",
+            ? "border-background bg-background text-foreground"
+            : "border-foreground bg-foreground text-background",
         )}
       >
-        <Icon className="size-5" />
-      </span>
-      <span className="min-w-0">
-        <span className="block truncate font-medium text-sm">{label}</span>
-        <span className="block text-xs opacity-80">{count}</span>
+        {count}
       </span>
     </button>
   );
 }
 
-function ToolCardLink({ item }: { item: ToolSearchItem }) {
+function ToolCardBrutalist({
+  item,
+  executeLabel,
+}: {
+  item: ToolSearchItem;
+  executeLabel: string;
+}) {
   const CardIcon = groupIcons[(item.groupId as GroupId) ?? "all"] ?? Sparkles;
 
   return (
-    <Link
-      href={item.href}
-      className="group relative flex h-full min-w-0 flex-col rounded-[1.4rem] border border-border/70 bg-card/95 p-4 shadow-[0_14px_36px_-32px_rgba(15,23,42,0.34)] transition hover:-translate-y-1 hover:border-primary/45 hover:shadow-[0_24px_54px_-34px_rgba(245,158,11,0.28)] md:p-5"
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.94 }}
+      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      className="min-h-0 min-w-0"
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="grid size-11 place-items-center rounded-xl border border-border/70 bg-muted/20 text-muted-foreground transition group-hover:border-primary/35 group-hover:text-primary">
-          <CardIcon className="size-5" aria-hidden />
+      <Link
+        href={item.href}
+        className="group flex h-full min-h-[min(260px,70dvh)] w-full min-w-0 cursor-crosshair flex-col border-border border-b-4 border-e-4 bg-card p-4 text-card-foreground transition-colors hover:bg-primary hover:text-primary-foreground sm:min-h-[280px] sm:p-6 md:min-h-[300px] md:p-8"
+      >
+        <div className="mb-6 flex items-start justify-between gap-4">
+          <div className="border-2 border-border bg-background p-4 shadow-brutal-sm transition-transform group-hover:rotate-12">
+            <CardIcon className="size-8 shrink-0" aria-hidden />
+          </div>
+          <span className="max-w-[min(11rem,45vw)] shrink-0 truncate bg-foreground px-2 py-1 text-end font-black text-[10px] text-background uppercase tracking-tighter group-hover:bg-background group-hover:text-foreground">
+            {item.group}
+          </span>
         </div>
-        <span className="rounded-full border border-border/60 bg-background/80 px-2.5 py-1 text-[10px] text-muted-foreground uppercase tracking-[0.16em]">
-          {item.group}
-        </span>
-      </div>
 
-      <div className="mt-5">
-        <h2 className="font-semibold text-xl tracking-tight transition group-hover:text-primary md:text-[1.35rem]">
-          {item.label}
-        </h2>
-        <p className="mt-2.5 text-muted-foreground text-sm leading-relaxed">
-          {item.description}
-        </p>
-      </div>
+        <div className="flex min-h-0 flex-1 flex-col gap-4">
+          <h2 className="text-balance break-words font-black text-xl leading-none tracking-tighter uppercase sm:text-2xl md:text-3xl">
+            {item.label}
+          </h2>
+          <p className="break-words font-bold text-sm leading-snug text-muted-foreground group-hover:text-primary-foreground/80">
+            {item.description}
+          </p>
+        </div>
 
-      <div className="mt-5 flex items-center gap-2 font-medium text-muted-foreground text-sm transition group-hover:text-foreground">
-        Open tool
-        <ArrowRight
-          className="size-4 transition group-hover:translate-x-1"
-          aria-hidden
-        />
-      </div>
-    </Link>
+        <div className="mt-8">
+          <span className="flex w-full min-w-0 items-center justify-center gap-2 border-4 border-border bg-background px-2 py-3 font-black text-xs uppercase shadow-brutal-sm transition-all group-hover:bg-foreground group-hover:text-background active:translate-x-1 active:translate-y-1 active:shadow-none sm:py-4 sm:text-sm">
+            <span className="truncate">{executeLabel}</span>
+            <ChevronRight
+              className="size-4 shrink-0 sm:size-[18px]"
+              aria-hidden
+            />
+          </span>
+        </div>
+      </Link>
+    </motion.div>
   );
 }
