@@ -41,6 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/image-convert",
     "/svg-to-code",
     "/image-resize",
+    "/linkedin-banner",
     "/heic-to-jpg",
     "/images-to-pdf",
     "/csv-to-parquet",
