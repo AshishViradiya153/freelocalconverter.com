@@ -32,6 +32,7 @@ export function buildOrganizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${base}/#organization`,
     name: siteConfig.name,
     url: `${base}/`,
     description: siteConfig.description,

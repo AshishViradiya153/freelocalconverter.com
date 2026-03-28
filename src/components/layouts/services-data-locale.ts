@@ -858,7 +858,8 @@ function getLocalizedDescription(
           xlsToCsv: "Turn Excel sheets into CSV.",
           jsonToExcel: "Convert JSON into XLSX.",
           jsonFormatter: "Format, minify, and validate JSON locally.",
-          curlConverter: "Convert cURL request snippets to fetch, axios, or Python.",
+          curlConverter:
+            "Convert cURL request snippets to fetch, axios, or Python.",
           fetchConverter: "Convert fetch snippets to cURL, axios, or Python.",
           axiosConverter: "Convert axios snippets to cURL, fetch, or Python.",
           pythonRequestsConverter:
@@ -874,7 +875,8 @@ function getLocalizedDescription(
           pdfToImage: "Export PDF pages to PNG, JPG, or WebP.",
           imagesToPdf: "Combine images into a single PDF.",
           pdfWatermark: "Add text or image watermarks to PDFs.",
-          bulkPdfWatermark: "Apply one watermark to many PDFs and download a ZIP.",
+          bulkPdfWatermark:
+            "Apply one watermark to many PDFs and download a ZIP.",
           videoCompressor: "Compress videos locally with bulk uploads.",
           imageCompressor: "Compress images locally in bulk.",
           imageConverter: "Convert to WebP, AVIF, JPG, or PNG.",
@@ -1019,6 +1021,7 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
 
   return [
     {
+      id: "converters",
       title: getLocalizedGroupTitle(safeLocale, "converters"),
       description: getLocalizedDescription(safeLocale, "groupConverters"),
       links: [
@@ -1063,11 +1066,12 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       ],
     },
     {
+      id: "viewers",
       title: getLocalizedGroupTitle(safeLocale, "viewers"),
       description: getLocalizedDescription(safeLocale, "groupViewers"),
       links: [
         {
-          href: "/",
+          href: "/csv-viewer",
           label: getLocalizedLabel(safeLocale, "csvViewer"),
           description: getLocalizedDescription(safeLocale, "csvViewer"),
         },
@@ -1089,6 +1093,7 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       ],
     },
     {
+      id: "excel",
       title: getLocalizedGroupTitle(safeLocale, "excel"),
       description: getLocalizedDescription(safeLocale, "groupExcel"),
       links: [
@@ -1110,6 +1115,7 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       ],
     },
     {
+      id: "developer",
       title: getLocalizedGroupTitle(safeLocale, "developer"),
       description: getLocalizedDescription(safeLocale, "groupDeveloper"),
       links: [
@@ -1164,6 +1170,7 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       ],
     },
     {
+      id: "pdf",
       title: getLocalizedGroupTitle(safeLocale, "pdf"),
       description: getLocalizedDescription(safeLocale, "groupPdf"),
       links: [
@@ -1205,14 +1212,12 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
         {
           href: "/bulk-pdf-watermark",
           label: getLocalizedLabel(safeLocale, "bulkPdfWatermark"),
-          description: getLocalizedDescription(
-            safeLocale,
-            "bulkPdfWatermark",
-          ),
+          description: getLocalizedDescription(safeLocale, "bulkPdfWatermark"),
         },
       ],
     },
     {
+      id: "video",
       title: getLocalizedGroupTitle(safeLocale, "video"),
       description: getLocalizedDescription(safeLocale, "groupVideo"),
       links: [
@@ -1224,6 +1229,7 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       ],
     },
     {
+      id: "image",
       title: getLocalizedGroupTitle(safeLocale, "image"),
       description: getLocalizedDescription(safeLocale, "groupImage"),
       links: [
@@ -1250,6 +1256,7 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       ],
     },
     {
+      id: "color",
       title: getLocalizedGroupTitle(safeLocale, "color"),
       description: getLocalizedDescription(safeLocale, "groupColor"),
       links: [

@@ -5,6 +5,7 @@ export interface ServiceLink {
 }
 
 export interface ServiceGroup {
+  id: string;
   title: string;
   description: string;
   links: ServiceLink[];
@@ -21,6 +22,7 @@ export function getServiceGroups({
 }: ServiceTranslations): ServiceGroup[] {
   return [
     {
+      id: "converters",
       title: services("groupConvertersTitle"),
       description: services("groupConvertersDescription"),
       links: [
@@ -62,11 +64,12 @@ export function getServiceGroups({
       ],
     },
     {
+      id: "viewers",
       title: services("groupViewersTitle"),
       description: services("groupViewersDescription"),
       links: [
         {
-          href: "/",
+          href: "/csv-viewer",
           label: services("csvViewerLabel"),
           description: services("csvViewerDesc"),
         },
@@ -88,6 +91,7 @@ export function getServiceGroups({
       ],
     },
     {
+      id: "excel",
       title: services("groupExcelTitle"),
       description: services("groupExcelDescription"),
       links: [
@@ -109,6 +113,7 @@ export function getServiceGroups({
       ],
     },
     {
+      id: "developer",
       title: services("groupDeveloperTitle"),
       description: services("groupDeveloperDescription"),
       links: [
@@ -160,6 +165,7 @@ export function getServiceGroups({
       ],
     },
     {
+      id: "pdf",
       title: services("groupPdfTitle"),
       description: services("groupPdfDescription"),
       links: [
@@ -206,6 +212,7 @@ export function getServiceGroups({
       ],
     },
     {
+      id: "video",
       title: services("groupVideoTitle"),
       description: services("groupVideoDescription"),
       links: [
@@ -217,6 +224,7 @@ export function getServiceGroups({
       ],
     },
     {
+      id: "image",
       title: services("groupImageTitle"),
       description: services("groupImageDescription"),
       links: [
@@ -243,6 +251,7 @@ export function getServiceGroups({
       ],
     },
     {
+      id: "color",
       title: services("groupColorTitle"),
       description: services("groupColorDescription"),
       links: [
