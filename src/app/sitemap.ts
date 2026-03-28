@@ -54,6 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/palettes/best",
     "/gradients",
     "/gradients/best",
+    "/gradient-generator",
     "/xls-to-csv",
     "/xls-viewer",
     "/parquet-viewer",

@@ -51,6 +51,7 @@ function getLocalizedLabel(
     | "linkedinBanner"
     | "colorPaletteGenerator"
     | "gradientGenerator"
+    | "meshGradientGenerator"
     | "trendingPalettes"
     | "trendingGradients",
 ) {
@@ -650,6 +651,10 @@ function getLocalizedLabel(
         tr: "Gradient Olusturucu",
         zh: "渐变生成器",
       });
+    case "meshGradientGenerator":
+      return localizedText(locale, {
+        en: "Mesh gradients",
+      });
     case "trendingPalettes":
       return localizedText(locale, {
         en: "Trending Palettes",
@@ -733,6 +738,7 @@ function getLocalizedDescription(
     | "linkedinBanner"
     | "colorPaletteGenerator"
     | "gradientGenerator"
+    | "meshGradientGenerator"
     | "trendingPalettes"
     | "trendingGradients",
 ) {
@@ -903,6 +909,7 @@ function getLocalizedDescription(
             "Design LinkedIn profile and page banners in standard sizes; download PNG, JPEG, or WebP.",
           colorPaletteGenerator: "Generate palettes and export PNG or JSON.",
           gradientGenerator: "Create gradients and export PNG or JSON.",
+          meshGradientGenerator: "Blur mesh blobs and export PNG.",
           trendingPalettes: "Browse curated color palettes.",
           trendingGradients: "Browse curated gradients.",
         }[key],
@@ -1296,6 +1303,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/gradients",
           label: getLocalizedLabel(safeLocale, "gradientGenerator"),
           description: getLocalizedDescription(safeLocale, "gradientGenerator"),
+        },
+        {
+          href: "/gradient-generator",
+          label: getLocalizedLabel(safeLocale, "meshGradientGenerator"),
+          description: getLocalizedDescription(safeLocale, "meshGradientGenerator"),
         },
         {
           href: "/palettes/best",

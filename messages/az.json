@@ -584,6 +584,8 @@
     "colorPaletteGeneratorDesc": "Generate palettes and export PNG/JSON.",
     "gradientGeneratorLabel": "Gradient Generator",
     "gradientGeneratorDesc": "Create gradients and export PNG/JSON.",
+    "meshGradientGeneratorLabel": "Mesh gradients",
+    "meshGradientGeneratorDesc": "Blur mesh blobs and export PNG.",
     "trendingPalettesLabel": "Trending Palettes",
     "trendingPalettesDesc": "Browse curated color palettes.",
     "trendingGradientsLabel": "Trending Gradients",
