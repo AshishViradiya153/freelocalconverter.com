@@ -2,15 +2,9 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
+import { ImageConvertApp } from "@/app/components/image-convert-app";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
-import { ImageConvertApp } from "@/app/components/image-convert-app";
-
-export const metadata: Metadata = {
-  title: `Image Converter · ${siteConfig.name}`,
-  description:
-    "Convert images locally in your browser. Upload multiple files or paste a direct link, choose WebP, AVIF, PNG, JPEG, SVG via Vision Cortex VTracer (WASM), and more, then download, no uploads.",
-};
 
 export async function generateMetadata({
   params,
@@ -23,7 +17,9 @@ interface ImageConvertPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function ImageConvertPage({ params }: ImageConvertPageProps) {
+export default async function ImageConvertPage({
+  params,
+}: ImageConvertPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -43,4 +39,3 @@ export default async function ImageConvertPage({ params }: ImageConvertPageProps
     </Shell>
   );
 }
-
