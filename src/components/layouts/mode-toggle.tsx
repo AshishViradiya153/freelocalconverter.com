@@ -22,7 +22,7 @@ export function ModeToggle() {
       type="button"
       variant="ghost"
       size="icon"
-      className="size-8"
+      className="relative size-8"
       onClick={() => setTheme(nextTheme)}
       aria-label={`Switch to ${nextTheme} mode`}
       title={`Switch to ${nextTheme} mode`}

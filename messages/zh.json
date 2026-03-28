@@ -207,7 +207,7 @@
     "previewHint": "只读网格：排序、过滤和搜索 - 与上面的行上限相同的限制。"
   },
   "landing": {
-    "heroTitle": "免费、现代、本地且安全的工具。",
+    "heroTitle": "免费、现代、本地\n且安全的工具。",
     "heroSubtitle": "拖入 CSV 文件，在表格中排序、筛选、搜索、编辑、粘贴、撤销/重做，并增删行。数据保留在本设备，下次访问可继续。",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "在转换器、查看器、格式化工具、OpenAPI 辅助工具、PDF 工具、图像工具等之间进行搜索。所有内容都可以在一个地方轻松浏览。",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Legal",
-    "lastUpdatedLine": "Last updated: March 22, 2025",
-    "backToViewer": "Back to viewer",
+    "lastUpdatedLine": "最后更新：2026年3月28日",
+    "backToViewer": "返回首页",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
     "privacyNoticeTitle": "Privacy notice",

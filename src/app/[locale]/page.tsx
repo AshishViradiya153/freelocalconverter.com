@@ -24,10 +24,14 @@ export async function generateMetadata({
   const { locale } = await params;
   const tLanding = await getTranslations({ locale, namespace: "landing" });
 
+  const heroTitle = tLanding("heroTitle")
+    .replace(/\s*\n\s*/g, " ")
+    .trim();
+
   return buildPageMetadata({
     locale,
     pathname: "/",
-    title: `${tLanding("heroTitle")} · ${siteConfig.name}`,
+    title: `${heroTitle} · ${siteConfig.name}`,
     description: tLanding("directorySubtitle"),
     canonicalLocale: routing.defaultLocale,
     alternateLocales: false,

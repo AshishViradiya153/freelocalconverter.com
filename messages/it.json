@@ -207,7 +207,7 @@
     "previewHint": "Griglia di sola lettura: ordina, filtra e cerca: stessi limiti del limite di riga sopra."
   },
   "landing": {
-    "heroTitle": "Strumenti gratuiti, moderni, locali e sicuri.",
+    "heroTitle": "Strumenti gratuiti, moderni,\nlocali e sicuri.",
     "heroSubtitle": "Trascina un CSV nella griglia: ordina, filtra, cerca, modifica, incolla, annulla/ripeti, aggiungi o rimuovi righe. I dati restano su questo dispositivo.",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "Cerca tra convertitori, visualizzatori, formattatori, strumenti OpenAPI, strumenti PDF, strumenti per immagini e altro ancora. Tutto resta facile da esplorare da un unico posto.",
@@ -216,6 +216,11 @@
     "directoryAllLabel": "All",
     "directoryResultsLabel": "{count} results for \"{query}\"",
     "directoryReadyLabel": "{count} tools ready to use",
+    "directoryFilterPlaceholder": "Type to filter…",
+    "directoryExecute": "Execute tool",
+    "directoryResetFilters": "Reset filters",
+    "directorySearchTag": "Search_",
+    "directoryCategoriesTag": "Categories_",
     "directoryJumpTo": "Jump to {label}",
     "directoryEmptyTitle": "No tools match that search yet.",
     "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
@@ -353,8 +358,8 @@
   },
   "legal": {
     "kicker": "Legal",
-    "lastUpdatedLine": "Last updated: March 22, 2025",
-    "backToViewer": "Back to viewer",
+    "lastUpdatedLine": "Ultimo aggiornamento: 28 marzo 2026",
+    "backToViewer": "Torna alla home",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
     "privacyNoticeTitle": "Privacy notice",

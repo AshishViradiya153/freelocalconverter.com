@@ -221,10 +221,7 @@ function DataGridSearchImpl({
   );
 
   const onReplaceAll = React.useCallback(() => {
-    propsRef.current.onSearchReplaceAll(
-      searchQuery,
-      replaceQuery,
-    );
+    propsRef.current.onSearchReplaceAll(searchQuery, replaceQuery);
   }, [propsRef, searchQuery, replaceQuery]);
 
   if (!searchOpen) return null;
@@ -233,7 +230,7 @@ function DataGridSearchImpl({
     <div
       role="search"
       data-slot="grid-search"
-      className="fade-in-0 slide-in-from-top-2 absolute end-4 top-4 z-50 flex min-w-[min(100vw-2rem,22rem)] max-w-[min(100vw-2rem,36rem)] animate-in flex-col gap-2 rounded-lg border bg-background p-2 shadow-lg"
+      className="fade-in-0 slide-in-from-top-2 absolute end-4 top-4 z-50 flex min-w-[min(100vw-2rem,22rem)] max-w-[min(100vw-2rem,36rem)] animate-in flex-col gap-2 rounded-lg border bg-background p-2"
     >
       <div className="flex items-center gap-2">
         <Button
@@ -242,9 +239,7 @@ function DataGridSearchImpl({
           size="icon"
           className="size-7 shrink-0"
           aria-expanded={replaceOpen}
-          aria-label={
-            replaceOpen ? "Hide replace field" : "Show replace field"
-          }
+          aria-label={replaceOpen ? "Hide replace field" : "Show replace field"}
           onClick={onToggleReplace}
         >
           <ChevronRight

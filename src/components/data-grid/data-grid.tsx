@@ -45,7 +45,7 @@ function DataGridColumnDragPreview<TData>({
 
   return (
     <div
-      className="pointer-events-none flex h-9 max-w-md min-w-[140px] items-center overflow-hidden rounded-md border bg-background px-3 text-sm font-medium shadow-lg"
+      className="pointer-events-none flex h-9 max-w-md min-w-[140px] items-center overflow-hidden rounded-md border bg-background px-3 text-sm font-medium"
       style={{
         width: `calc(var(--header-${header.id}-size) * 1px)`,
       }}
@@ -53,10 +53,7 @@ function DataGridColumnDragPreview<TData>({
       {header.isPlaceholder ? null : typeof header.column.columnDef.header ===
         "function" ? (
         <div className="min-w-0 flex-1 truncate px-0 py-1.5">
-          {flexRender(
-            header.column.columnDef.header,
-            header.getContext(),
-          )}
+          {flexRender(header.column.columnDef.header, header.getContext())}
         </div>
       ) : (
         <span className="truncate">{label}</span>
@@ -66,7 +63,8 @@ function DataGridColumnDragPreview<TData>({
 }
 
 interface DataGridProps<TData>
-  extends Omit<ReturnType<typeof useDataGrid<TData>>, "dir">,
+  extends
+    Omit<ReturnType<typeof useDataGrid<TData>>, "dir">,
     Omit<React.ComponentProps<"div">, "contextMenu"> {
   dir?: Direction;
   height?: number;
@@ -208,9 +206,7 @@ export function DataGrid<TData>({
         >
           {table.getHeaderGroups().map((headerGroup, rowIndex) => {
             const headers = headerGroup.headers;
-            const selectHeader = headers.find(
-              (h) => h.column.id === "select",
-            );
+            const selectHeader = headers.find((h) => h.column.id === "select");
             const reorderableHeaders = selectHeader
               ? headers.filter((h) => h.column.id !== "select")
               : [...headers];
@@ -339,9 +335,7 @@ export function DataGrid<TData>({
                 editingCell,
                 cellSelectionKeys,
                 searchMatchColumns,
-                activeSearchMatch: isActiveSearchRow
-                  ? activeSearchMatch
-                  : null,
+                activeSearchMatch: isActiveSearchRow ? activeSearchMatch : null,
                 dir,
                 adjustLayout: rowLayoutUsesTop,
                 stretchColumns,
@@ -397,7 +391,7 @@ export function DataGrid<TData>({
                     }
                     return (
                       <div
-                        className="pointer-events-none flex w-max max-w-[min(100vw-2rem,56rem)] min-w-48 items-center gap-2 rounded-md border bg-background py-2 ps-3 pe-4 text-sm shadow-lg"
+                        className="pointer-events-none flex w-max max-w-[min(100vw-2rem,56rem)] min-w-48 items-center gap-2 rounded-md border bg-background py-2 ps-3 pe-4 text-sm"
                         style={{
                           width: Math.min(
                             table.getTotalSize(),
