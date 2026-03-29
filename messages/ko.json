@@ -20,7 +20,8 @@
     "parquetToCsv": "Parquet → CSV",
     "jsonToParquet": "JSON → Parquet",
     "parquetToJson": "Parquet → JSON",
-    "csvToMarkdownTable": "CSV → 마크다운 표"
+    "csvToMarkdownTable": "CSV → 마크다운 표",
+    "csvToSql": "CSV → SQL"
   },
   "language": {
     "menuAria": "언어",
@@ -324,6 +325,37 @@
     "downloadMarkdown": ".md 다운로드",
     "downloadStarted": "다운로드 시작됨"
   },
+  "csvToSql": {
+    "heroTitle": "CSV to SQL generator",
+    "heroSubtitle": "Load a CSV (up to {mb} MB, max {maxRows} rows). Get a CREATE TABLE sketch with inferred column types plus batched INSERT statements for PostgreSQL, MySQL, or SQLite—all parsed locally in your browser.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "sqlPanel": "SQL output",
+    "sqlAria": "Generated SQL script",
+    "sqlHint": "Types follow the same sample-based rules as our CSV viewer (numbers, dates, text). Review and adjust before running on production databases.",
+    "copySql": "Copy SQL",
+    "copySuccess": "SQL copied",
+    "copyFailed": "Could not copy SQL",
+    "downloadSql": "Download .sql",
+    "downloadStarted": "Download started",
+    "optionsTitle": "SQL options",
+    "tableNameLabel": "Table name",
+    "dialectLabel": "SQL dialect",
+    "dialect": {
+      "postgresql": "PostgreSQL",
+      "mysql": "MySQL / MariaDB",
+      "sqlite": "SQLite"
+    },
+    "batchSizeLabel": "Rows per INSERT",
+    "batchSizeOption": "{n} rows",
+    "optCreateTable": "Include CREATE TABLE",
+    "optInserts": "Include INSERT statements",
+    "optEmptyAsNull": "Treat empty cells as NULL"
+  },
   "footer": {
     "kicker": "브라우저 친화 유틸리티",
     "title": "{name} 도구 디렉터리",
@@ -350,6 +382,7 @@
     "jsonToParquetDesc": "JSON을 Parquet 파일로보냅니다.",
     "parquetToJsonDesc": "Parquet을 JSON 출력으로 변환합니다.",
     "csvToMarkdownTableDesc": "CSV를 Markdown 표로 변환합니다.",
+    "csvToSqlDesc": "Generate SQL CREATE TABLE and INSERT statements from CSV.",
     "guidesDesc": "CSV 워크플로 실용 가이드.",
     "toolsDesc": "허브와 랜딩 페이지 둘러보기.",
     "blogDesc": "가이드와 제품 인사이트.",
@@ -544,10 +577,27 @@
     "jsonToParquetDesc": "JSON 데이터에서 Parquet을 생성합니다.",
     "parquetToJsonDesc": "Parquet을 JSON으로 변환합니다.",
     "csvToMarkdownTableDesc": "CSV에서 Markdown 표를 생성합니다.",
+    "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
     "xlsViewerDesc": "Excel XLS 파일을 바로 봅니다.",
     "parquetViewerDesc": "Parquet 파일을 열고 탐색합니다.",
     "jsonFormatterLabel": "JSON 포맷터",
     "jsonFormatterDesc": "JSON을 로컬에서 포맷·압축·검증합니다.",
+    "sqlFormatterLabel": "SQL formatter",
+    "sqlFormatterDesc": "Pretty-print SQL with dialect-aware parsing; read-only, runs locally.",
+    "jsonYamlConverterLabel": "JSON YAML converter",
+    "jsonYamlConverterDesc": "Convert between JSON and YAML for configs and APIs locally.",
+    "markdownHtmlConverterLabel": "Markdown HTML converter",
+    "markdownHtmlConverterDesc": "Convert Markdown and HTML with GFM tables, live preview, and safe copy.",
+    "jwtDecoderLabel": "JWT decoder",
+    "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
+    "cronParserLabel": "Cron parser",
+    "cronParserDesc": "Parse cron, preview next runs, and convert simple English phrases to schedules.",
+    "regexTesterLabel": "Regex tester",
+    "regexTesterDesc": "Test JavaScript regular expressions with flags, multiline text, and capture groups locally.",
+    "base64ConverterLabel": "Base64 encoder & decoder",
+    "base64ConverterDesc": "Encode UTF-8 or files to Base64; decode to text or download binary.",
+    "unixTimestampConverterLabel": "Unix timestamp converter",
+    "unixTimestampConverterDesc": "Convert epoch seconds or milliseconds to human dates and back with IANA timezones locally.",
     "curlConverterLabel": "cURL 변환기",
     "curlConverterDesc": "cURL 요청 스니펫을 fetch/axios/Python으로 변환합니다.",
     "fetchConverterLabel": "fetch 변환기",
@@ -620,7 +670,8 @@
     "csvViewer": {
       "title": "무료 CSV 뷰어 및 편집기(브라우저, 업로드 없음)",
       "description": "브라우저에서 대용량 CSV 열기: 정렬, 필터, 검색, 셀 편집, 붙여넣기, 실행 취소/다시 실행, 행 추가·삭제. 비공개 로컬 처리, 재방문 시 선택적 복원으로 기기에만 데이터 보관.",
-      "keywords": "csv 뷰어|csv 편집기 무료|브라우저 csv|로컬 csv|편집 가능 그리드|스프레드시트|업로드 없음|프라이버시"
+      "keywords": "csv 뷰어|csv 편집기 무료|브라우저 csv|로컬 csv|편집 가능 그리드|스프레드시트|업로드 없음|프라이버시",
+      "h1": "CSV 뷰어 및 편집기"
     },
     "meshGradient": {
       "title": "무료 메시 그라데이션 생성기 온라인",
@@ -731,6 +782,11 @@
       "description": "axios 변환기: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "axios 변환 | axios curl | axios fetch | axios python requests | 요청 변환기 | 브라우저 api 변환 | 무료 axios fetch | http 클라이언트 코드 변환"
     },
+    "base64-converter": {
+      "title": "Base64 encoder & decoder",
+      "description": "Base64 encoder & decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "base64 encode | base64 decode | base64 converter | base64url encoder | encode file base64 online | browser base64 tool | utf8 base64 encode | free base64 decoder no upload"
+    },
     "bulk-pdf-watermark": {
       "title": "대량 PDF 워터마크",
       "description": "대량 PDF 워터마크: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
@@ -755,6 +811,11 @@
       "title": "CSV를 Markdown 표로",
       "description": "CSV를 Markdown 표로: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "csv markdown | 표 생성 | md 변환 | readme | 브라우저 | 무료"
+    },
+    "csv-to-sql": {
+      "title": "CSV to SQL (INSERT & CREATE TABLE)",
+      "description": "CSV to SQL: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to sql | csv to insert statements | csv create table | generate sql from csv | csv to postgresql | csv to mysql insert | browser csv sql generator | free csv to sql online | import csv sql sketch"
     },
     "csv-to-parquet": {
       "title": "CSV를 Parquet으로",
@@ -811,11 +872,6 @@
       "description": "이미지 변환기: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "이미지 변환 | png jpg webp avif | 브라우저 | 로컬 | 무료 | 형식"
     },
-    "image-remove-background": {
-      "title": "Remove image background",
-      "description": "Remove image background: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "remove background | image background remover | transparent background | png with alpha | browser background removal | local remove bg | free background remover online | erase image background"
-    },
     "image-resize": {
       "title": "크기 조정/자르기 + 변환",
       "description": "크기 조정/자르기 + 변환: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
@@ -830,6 +886,31 @@
       "title": "JSON 포맷터",
       "description": "JSON 포맷터: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "json 포맷 | 미니파이 | 검증 | 브라우저 | 로컬 | 예쁘게 | 무료"
+    },
+    "json-yaml-converter": {
+      "title": "JSON YAML converter",
+      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
+    },
+    "markdown-html-converter": {
+      "title": "Markdown HTML converter",
+      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
+    },
+    "jwt-decoder": {
+      "title": "JWT decoder",
+      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
+    },
+    "cron-parser": {
+      "title": "Cron parser",
+      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
+    "regex-tester": {
+      "title": "Regex tester",
+      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
     },
     "json-to-csv": {
       "title": "JSON을 CSV로",
@@ -905,6 +986,16 @@
       "title": "PDF 분할",
       "description": "PDF 분할: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "pdf 분할 | 스플리터 | 페이지 | 브라우저 | 로컬 | 추출 | 무료"
+    },
+    "sql-formatter": {
+      "title": "SQL formatter",
+      "description": "SQL formatter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "sql formatter | format sql online | sql prettifier | pretty print sql | postgresql formatter | mysql sql beautifier | browser sql formatter | local sql formatter no upload | sql pretty printer | t-sql formatter | bigquery sql format"
+    },
+    "unix-timestamp-converter": {
+      "title": "Unix timestamp converter",
+      "description": "Unix timestamp converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "unix timestamp converter | epoch converter | unix time to date | timestamp to date online | milliseconds to date | epoch milliseconds | timezone timestamp | utc to local timestamp | browser epoch tool | local unix time no upload"
     },
     "video-compress": {
       "title": "동영상 압축",

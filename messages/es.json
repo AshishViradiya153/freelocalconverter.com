@@ -20,7 +20,8 @@
     "parquetToCsv": "Parquet → CSV",
     "jsonToParquet": "JSON → Parquet",
     "parquetToJson": "Parquet → JSON",
-    "csvToMarkdownTable": "CSV → Markdown Table"
+    "csvToMarkdownTable": "CSV → Markdown Table",
+    "csvToSql": "CSV → SQL"
   },
   "language": {
     "menuAria": "Idioma",
@@ -324,6 +325,37 @@
     "downloadMarkdown": "Descargar .md",
     "downloadStarted": "Descarga iniciada"
   },
+  "csvToSql": {
+    "heroTitle": "CSV to SQL generator",
+    "heroSubtitle": "Load a CSV (up to {mb} MB, max {maxRows} rows). Get a CREATE TABLE sketch with inferred column types plus batched INSERT statements for PostgreSQL, MySQL, or SQLite—all parsed locally in your browser.",
+    "dropHint": "Drop a CSV file here or browse",
+    "chooseFile": "Choose file",
+    "fileHint": "CSV only (.csv or plain-text) · up to {mb} MB · max {maxRows} rows shown",
+    "clearFile": "Clear file",
+    "previewPanel": "Preview",
+    "previewHint": "Read-only grid (sort, filter, search).",
+    "sqlPanel": "SQL output",
+    "sqlAria": "Generated SQL script",
+    "sqlHint": "Types follow the same sample-based rules as our CSV viewer (numbers, dates, text). Review and adjust before running on production databases.",
+    "copySql": "Copy SQL",
+    "copySuccess": "SQL copied",
+    "copyFailed": "Could not copy SQL",
+    "downloadSql": "Download .sql",
+    "downloadStarted": "Download started",
+    "optionsTitle": "SQL options",
+    "tableNameLabel": "Table name",
+    "dialectLabel": "SQL dialect",
+    "dialect": {
+      "postgresql": "PostgreSQL",
+      "mysql": "MySQL / MariaDB",
+      "sqlite": "SQLite"
+    },
+    "batchSizeLabel": "Rows per INSERT",
+    "batchSizeOption": "{n} rows",
+    "optCreateTable": "Include CREATE TABLE",
+    "optInserts": "Include INSERT statements",
+    "optEmptyAsNull": "Treat empty cells as NULL"
+  },
   "footer": {
     "kicker": "Local-first tools",
     "title": "{name} tool directory",
@@ -350,6 +382,7 @@
     "jsonToParquetDesc": "Exporte JSON como un archivo Parquet.",
     "parquetToJsonDesc": "Convierta Parquet en salida JSON.",
     "csvToMarkdownTableDesc": "Convierta CSV en una tabla Markdown.",
+    "csvToSqlDesc": "Generate SQL CREATE TABLE and INSERT statements from CSV.",
     "guidesDesc": "Guías prácticas para flujos de trabajo CSV.",
     "toolsDesc": "Browse workflow hubs and tool pages.",
     "blogDesc": "Guías e información sobre productos.",
@@ -544,10 +577,27 @@
     "jsonToParquetDesc": "Cree Parquet a partir de datos JSON.",
     "parquetToJsonDesc": "Convierta Parquet a JSON.",
     "csvToMarkdownTableDesc": "Genere tablas de rebajas a partir de archivos CSV.",
+    "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
     "xlsViewerDesc": "Vea archivos Excel XLS directamente.",
     "parquetViewerDesc": "Abra y explore archivos de Parquet.",
     "jsonFormatterLabel": "Formateador JSON",
     "jsonFormatterDesc": "Formatee, minimice y valide JSON localmente.",
+    "sqlFormatterLabel": "SQL formatter",
+    "sqlFormatterDesc": "Pretty-print SQL with dialect-aware parsing; read-only, runs locally.",
+    "jsonYamlConverterLabel": "JSON YAML converter",
+    "jsonYamlConverterDesc": "Convert between JSON and YAML for configs and APIs locally.",
+    "markdownHtmlConverterLabel": "Markdown HTML converter",
+    "markdownHtmlConverterDesc": "Convert Markdown and HTML with GFM tables, live preview, and safe copy.",
+    "jwtDecoderLabel": "JWT decoder",
+    "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
+    "cronParserLabel": "Cron parser",
+    "cronParserDesc": "Parse cron, preview next runs, and convert simple English phrases to schedules.",
+    "regexTesterLabel": "Regex tester",
+    "regexTesterDesc": "Test JavaScript regular expressions with flags, multiline text, and capture groups locally.",
+    "base64ConverterLabel": "Base64 encoder & decoder",
+    "base64ConverterDesc": "Encode UTF-8 or files to Base64; decode to text or download binary.",
+    "unixTimestampConverterLabel": "Unix timestamp converter",
+    "unixTimestampConverterDesc": "Convert epoch seconds or milliseconds to human dates and back with IANA timezones locally.",
     "curlConverterLabel": "Convertidor de rizos",
     "curlConverterDesc": "Convierta fragmentos de solicitud de cURL a fetch/axios/Python.",
     "fetchConverterLabel": "Obtener convertidor",
@@ -620,7 +670,8 @@
     "csvViewer": {
       "title": "Visor y editor de CSV gratuito (navegador, sin carga)",
       "description": "Abra archivos CSV grandes en su navegador: ordene, filtre, busque, edite celdas, pegue, deshacer/rehacer, agregar o eliminar filas. Procesamiento local privado; los datos permanecen en su dispositivo con restauración opcional cuando regrese.",
-      "keywords": "Visor de csv|editor de csv en línea gratis|abrir csv en el navegador|herramienta csv local|cuadrícula csv editable|visor de hojas de cálculo|csv sin carga|editor de csv de privacidad"
+      "keywords": "Visor de csv|editor de csv en línea gratis|abrir csv en el navegador|herramienta csv local|cuadrícula csv editable|visor de hojas de cálculo|csv sin carga|editor de csv de privacidad",
+      "h1": "Visor y editor de CSV"
     },
     "meshGradient": {
       "title": "Generador de gradiente de malla gratuito en línea",
@@ -731,6 +782,11 @@
       "description": "Convertidor axios: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "convertidor de axios | axios para rizar | axios para buscar | axios a solicitudes de Python | convertidor de solicitudes | convertidor de API del navegador | axios gratis para buscar convertidor | convertir el código del cliente http en línea"
     },
+    "base64-converter": {
+      "title": "Base64 encoder & decoder",
+      "description": "Base64 encoder & decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "base64 encode | base64 decode | base64 converter | base64url encoder | encode file base64 online | browser base64 tool | utf8 base64 encode | free base64 decoder no upload"
+    },
     "bulk-pdf-watermark": {
       "title": "Marca de agua PDF masiva",
       "description": "Marca de agua PDF masiva: gratis en línea en su navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
@@ -755,6 +811,11 @@
       "title": "Tabla de CSV a Markdown",
       "description": "CSV a Markdown Table: gratis en línea en su navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "csv a tabla de rebajas | convertidor de rebajas csv | generador de tablas de rebajas | convertir csv a rebajas | tabla de rebajas del navegador | csv a md | csv gratis para rebajas | tabla Léame de github desde csv"
+    },
+    "csv-to-sql": {
+      "title": "CSV to SQL (INSERT & CREATE TABLE)",
+      "description": "CSV to SQL: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to sql | csv to insert statements | csv create table | generate sql from csv | csv to postgresql | csv to mysql insert | browser csv sql generator | free csv to sql online | import csv sql sketch"
     },
     "csv-to-parquet": {
       "title": "CSV a parquet",
@@ -811,11 +872,6 @@
       "description": "Conversor de imágenes: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "convertidor de imágenes | convertir formato de imagen | convertidor png jpg webp | conversor de imágenes del navegador | conversión de imágenes locales | sin herramienta para cargar imágenes | convertidor de imágenes gratuito en línea | png a webp jpg avif"
     },
-    "image-remove-background": {
-      "title": "Remove image background",
-      "description": "Remove image background: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "remove background | image background remover | transparent background | png with alpha | browser background removal | local remove bg | free background remover online | erase image background"
-    },
     "image-resize": {
       "title": "Cambiar tamaño de imagen/recortar + convertir",
       "description": "Cambiar tamaño/recortar + convertir imagen: gratis en línea en su navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
@@ -830,6 +886,31 @@
       "title": "Formateador JSON",
       "description": "JSON Formatter: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "formateador json | embellecedor json | validador json | formato json en línea | herramienta json del navegador | formateador json local | bonita impresión json | formateador json gratuito sin carga"
+    },
+    "json-yaml-converter": {
+      "title": "JSON YAML converter",
+      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
+    },
+    "markdown-html-converter": {
+      "title": "Markdown HTML converter",
+      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
+    },
+    "jwt-decoder": {
+      "title": "JWT decoder",
+      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
+    },
+    "cron-parser": {
+      "title": "Cron parser",
+      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
+    "regex-tester": {
+      "title": "Regex tester",
+      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
     },
     "json-to-csv": {
       "title": "JSON a CSV",
@@ -905,6 +986,16 @@
       "title": "Dividir PDF",
       "description": "Dividir PDF: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "dividir pdf | divisor de pdf | dividir páginas pdf | navegador pdf dividido | divisor de pdf local | sin cargar pdf dividido | extraer páginas de pdf | pdf separado en línea gratis"
+    },
+    "sql-formatter": {
+      "title": "SQL formatter",
+      "description": "SQL formatter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "sql formatter | format sql online | sql prettifier | pretty print sql | postgresql formatter | mysql sql beautifier | browser sql formatter | local sql formatter no upload | sql pretty printer | t-sql formatter | bigquery sql format"
+    },
+    "unix-timestamp-converter": {
+      "title": "Unix timestamp converter",
+      "description": "Unix timestamp converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "unix timestamp converter | epoch converter | unix time to date | timestamp to date online | milliseconds to date | epoch milliseconds | timezone timestamp | utc to local timestamp | browser epoch tool | local unix time no upload"
     },
     "video-compress": {
       "title": "Compresor de vídeo",
