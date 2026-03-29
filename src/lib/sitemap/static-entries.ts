@@ -38,6 +38,7 @@ export const STATIC_SITEMAP_PATH_SEGMENTS: readonly string[] = [
   "/image-convert",
   "/svg-to-code",
   "/image-resize",
+  "/favicon-generator",
   "/linkedin-banner",
   "/heic-to-jpg",
   "/images-to-pdf",
