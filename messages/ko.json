@@ -588,8 +588,6 @@
     "imageConverterDesc": "WebP, AVIF, JPG, PNG로 변환합니다.",
     "imageResizeLabel": "크기 조정/자르기 + 변환",
     "imageResizeDesc": "이미지 크기 조정, 자르기, 변환, 대량 이름 바꾸기.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC를 JPG/PNG로",
     "heicToJpgDesc": "HEIC/HEIF 사진을 JPG 또는 PNG로 변환합니다.",
     "colorPaletteGeneratorLabel": "색 팔레트 생성기",

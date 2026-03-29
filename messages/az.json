@@ -588,8 +588,6 @@
     "imageConverterDesc": "WebP, AVIF, JPG və ya PNG-ə çevirin.",
     "imageResizeLabel": "Ölçü / kəsmə + çevirmə",
     "imageResizeDesc": "Şəkilləri toplu ölçüləndirin, kəsin, çevirin və yenidən adlandırın.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC-dən JPG/PNG-ə",
     "heicToJpgDesc": "HEIC/HEIF fotolarını JPG və ya PNG-ə çevirin.",
     "colorPaletteGeneratorLabel": "Rəng palitrası generatoru",

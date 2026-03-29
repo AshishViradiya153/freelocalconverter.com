@@ -588,8 +588,6 @@
     "imageConverterDesc": "В WebP, AVIF, JPG или PNG.",
     "imageResizeLabel": "Размер/кадрирование + конвертация",
     "imageResizeDesc": "Пакетно меняйте размер, кадрируйте, конвертируйте и переименовывайте.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC в JPG/PNG",
     "heicToJpgDesc": "HEIC/HEIF в JPG или PNG.",
     "colorPaletteGeneratorLabel": "Генератор палитр",

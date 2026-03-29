@@ -588,8 +588,6 @@
     "imageConverterDesc": "WebP、AVIF、JPG、PNG に変換します。",
     "imageResizeLabel": "リサイズ/切り抜き + 変換",
     "imageResizeDesc": "一括でリサイズ、切り抜き、変換、名前変更。",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC を JPG/PNG に",
     "heicToJpgDesc": "HEIC/HEIF 写真を JPG または PNG に変換します。",
     "colorPaletteGeneratorLabel": "カラーパレット生成",

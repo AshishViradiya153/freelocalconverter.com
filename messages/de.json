@@ -588,8 +588,6 @@
     "imageConverterDesc": "Nach WebP, AVIF, JPG oder PNG konvertieren.",
     "imageResizeLabel": "Größe/Zuschneiden + Konvertieren",
     "imageResizeDesc": "Bilder stapelweise skalieren, zuschneiden, konvertieren und umbenennen.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC zu JPG/PNG",
     "heicToJpgDesc": "HEIC/HEIF-Fotos nach JPG oder PNG konvertieren.",
     "colorPaletteGeneratorLabel": "Farbpaletten-Generator",

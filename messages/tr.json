@@ -588,8 +588,6 @@
     "imageConverterDesc": "WebP, AVIF, JPG veya PNG'ye dönüştürün.",
     "imageResizeLabel": "Yeniden boyutlandır/kırp + dönüştür",
     "imageResizeDesc": "Görselleri toplu olarak yeniden boyutlandırın, kırpın, dönüştürün ve yeniden adlandırın.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC'ten JPG/PNG'e",
     "heicToJpgDesc": "HEIC/HEIF fotoğraflarını JPG veya PNG'ye dönüştürün.",
     "colorPaletteGeneratorLabel": "Renk paleti oluşturucu",

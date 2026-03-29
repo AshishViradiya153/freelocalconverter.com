@@ -588,8 +588,6 @@
     "imageConverterDesc": "Converteer naar WebP, AVIF, JPG of PNG.",
     "imageResizeLabel": "Formaat/bijsnijden + converteren",
     "imageResizeDesc": "Formaat wijzigen, bijsnijden, converteren en afbeeldingen in bulk hernoemen.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC naar JPG/PNG",
     "heicToJpgDesc": "Converteer HEIC/HEIF-foto’s naar JPG of PNG.",
     "colorPaletteGeneratorLabel": "Kleurenpaletgenerator",
