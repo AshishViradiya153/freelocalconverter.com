@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
+import { Base64ConverterApp } from "@/app/components/base64-converter-app";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
 export async function generateMetadata({
   params,
-}: AxiosConverterPageProps): Promise<Metadata> {
+}: Base64ConverterPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return await buildToolPageMetadata(locale, "axios-converter");
+  return await buildToolPageMetadata(locale, "base64-converter");
 }
 
-interface AxiosConverterPageProps {
+interface Base64ConverterPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function AxiosConverterPage({
+export default async function Base64ConverterPage({
   params,
-}: AxiosConverterPageProps) {
+}: Base64ConverterPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -34,14 +34,7 @@ export default async function AxiosConverterPage({
           </div>
         }
       >
-        <ApiWebDevHelpersApp
-          initialTool="converter"
-          initialFromFormat="axios"
-          initialToFormat="python-requests"
-          showToolSwitcher={false}
-          title="axios converter"
-          subtitle="Convert axios snippets to cURL, fetch, or Python requests."
-        />
+        <Base64ConverterApp />
       </Suspense>
     </Shell>
   );

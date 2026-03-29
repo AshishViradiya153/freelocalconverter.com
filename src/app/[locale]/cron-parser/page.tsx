@@ -2,24 +2,22 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { ApiWebDevHelpersApp } from "@/app/components/api-web-dev-helpers-app";
+import { CronParserApp } from "@/app/components/cron-parser-app";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
 export async function generateMetadata({
   params,
-}: AxiosConverterPageProps): Promise<Metadata> {
+}: CronParserPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return await buildToolPageMetadata(locale, "axios-converter");
+  return await buildToolPageMetadata(locale, "cron-parser");
 }
 
-interface AxiosConverterPageProps {
+interface CronParserPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function AxiosConverterPage({
-  params,
-}: AxiosConverterPageProps) {
+export default async function CronParserPage({ params }: CronParserPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -34,14 +32,7 @@ export default async function AxiosConverterPage({
           </div>
         }
       >
-        <ApiWebDevHelpersApp
-          initialTool="converter"
-          initialFromFormat="axios"
-          initialToFormat="python-requests"
-          showToolSwitcher={false}
-          title="axios converter"
-          subtitle="Convert axios snippets to cURL, fetch, or Python requests."
-        />
+        <CronParserApp />
       </Suspense>
     </Shell>
   );

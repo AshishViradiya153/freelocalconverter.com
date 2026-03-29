@@ -2,6 +2,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
+import {
+  ToolSectionHeading,
+  toolHeroTitleClassName,
+} from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { Link, redirect } from "@/i18n/navigation";
@@ -94,22 +98,17 @@ async function BlogIndexContent({
   return (
     <div className="container max-w-3xl py-10 pb-20">
       <header className="border-border border-b pb-8">
-        <p className="font-mono font-bold text-foreground text-xs uppercase tracking-wider">
+        <p className="font-bold font-mono text-foreground text-xs uppercase tracking-wider">
           {t("label")}
         </p>
-        <h1 className="mt-2 font-semibold text-3xl tracking-tight">
-          {t("title")}
-        </h1>
+        <h1 className={cn(toolHeroTitleClassName, "mt-2")}>{t("title")}</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground text-sm leading-relaxed">
           {t("intro", { count: totalCount })}
         </p>
       </header>
 
       <section className="mt-12 space-y-4" aria-labelledby="articles-heading">
-        <h2
-          id="articles-heading"
-          className="font-semibold text-foreground text-lg tracking-tight"
-        >
+        <ToolSectionHeading id="articles-heading">
           {t("articlesHeading")}
           {pageCount > 1 ? (
             <span className="ml-2 font-normal text-muted-foreground text-sm">
@@ -120,7 +119,7 @@ async function BlogIndexContent({
               })}
             </span>
           ) : null}
-        </h2>
+        </ToolSectionHeading>
         <ul className="flex flex-col gap-6">
           {items.map(({ meta }) => (
             <li key={meta.slug}>
@@ -133,7 +132,7 @@ async function BlogIndexContent({
                     <p className="text-muted-foreground text-xs">
                       <span
                         className={cn(
-                          "rounded-none border-2 border-border px-1.5 py-0.5 font-mono font-bold text-xs uppercase tracking-tight",
+                          "rounded-none border-2 border-border px-1.5 py-0.5 font-bold font-mono text-xs uppercase tracking-tight",
                           meta.category === "guide"
                             ? "bg-primary text-primary-foreground"
                             : "bg-muted text-muted-foreground",
@@ -210,10 +209,8 @@ async function NextGuidesSection() {
   }
 
   return (
-    <div className="container max-w-3xl border-border border-t pb-20 pt-12">
-      <h2 className="font-semibold text-foreground text-lg tracking-tight">
-        {t("nextGuidesTitle")}
-      </h2>
+    <div className="container max-w-3xl border-border border-t pt-12 pb-20">
+      <ToolSectionHeading>{t("nextGuidesTitle")}</ToolSectionHeading>
       <p className="mt-2 text-muted-foreground text-sm leading-relaxed">
         {t("nextGuidesBlurb")}
       </p>
@@ -226,7 +223,7 @@ async function NextGuidesSection() {
             <p className="text-muted-foreground text-xs">
               <span
                 className={cn(
-                  "rounded-none border-2 border-border px-1.5 py-0.5 font-mono font-bold text-xs uppercase tracking-tight",
+                  "rounded-none border-2 border-border px-1.5 py-0.5 font-bold font-mono text-xs uppercase tracking-tight",
                   topic.category === "guide"
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted text-muted-foreground",

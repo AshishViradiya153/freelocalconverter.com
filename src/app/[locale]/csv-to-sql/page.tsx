@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { CsvToParquetApp } from "@/app/components/csv-to-parquet-app";
+import { CsvToSqlApp } from "@/app/components/csv-to-sql-app";
 import {
   DataGridSkeleton,
   DataGridSkeletonGrid,
@@ -13,18 +13,16 @@ import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
 export async function generateMetadata({
   params,
-}: CsvToParquetPageProps): Promise<Metadata> {
+}: CsvToSqlPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return await buildToolPageMetadata(locale, "csv-to-parquet");
+  return await buildToolPageMetadata(locale, "csv-to-sql");
 }
 
-interface CsvToParquetPageProps {
+interface CsvToSqlPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function CsvToParquetPage({
-  params,
-}: CsvToParquetPageProps) {
+export default async function CsvToSqlPage({ params }: CsvToSqlPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -38,7 +36,7 @@ export default async function CsvToParquetPage({
           </DataGridSkeleton>
         }
       >
-        <CsvToParquetApp />
+        <CsvToSqlApp />
       </Suspense>
     </Shell>
   );

@@ -21,9 +21,7 @@ interface CsvToExcelPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function CsvToExcelPage({
-  params,
-}: CsvToExcelPageProps) {
+export default async function CsvToExcelPage({ params }: CsvToExcelPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -42,4 +40,3 @@ export default async function CsvToExcelPage({
     </Shell>
   );
 }
-

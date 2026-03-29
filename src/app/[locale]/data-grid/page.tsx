@@ -20,9 +20,7 @@ export async function generateMetadata({
   return await buildToolPageMetadata(locale, "data-grid");
 }
 
-export default async function DataGridPage({
-  params,
-}: DataGridPageProps) {
+export default async function DataGridPage({ params }: DataGridPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   return (

@@ -1,23 +1,27 @@
-import { SiteHeader } from "@/components/layouts/site-header";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import type { Metadata, Viewport } from "next";
+import { notFound } from "next/navigation";
+import Script from "next/script";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
 import { SiteFooter } from "@/components/layouts/site-footer";
+import { SiteHeader } from "@/components/layouts/site-header";
 import { ThemeProvider } from "@/components/providers";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
+import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
 import { fontMono, fontSans } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
-import type { Metadata, Viewport } from "next";
 import {
   buildAbsoluteUrl,
   normalizeSiteBase,
   openGraphLocaleForSeo,
 } from "@/lib/seo/paths";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import Script from "next/script";
-import { notFound } from "next/navigation";
-import { Toaster } from "@/components/ui/sonner";
-import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 
 import "@/styles/globals.css";
 import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";

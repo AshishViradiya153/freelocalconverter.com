@@ -48,6 +48,32 @@ function isActiveHref(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/** Mega-menu: at most ~6 items per column; 2 columns if >6 links, 3 if >12. */
+function serviceGroupDropdownLayout(linkCount: number): {
+  panelClass: string;
+  listClass: string;
+} {
+  if (linkCount > 12) {
+    return {
+      panelClass:
+        "w-[min(56rem,calc(100vw-2rem))] max-w-[calc(100vw-2rem)] border-4 border-border bg-popover p-4 text-popover-foreground shadow-brutal-sm",
+      listClass: "grid grid-cols-3 gap-x-3 gap-y-1",
+    };
+  }
+  if (linkCount > 6) {
+    return {
+      panelClass:
+        "w-[min(36rem,calc(100vw-2rem))] max-w-[calc(100vw-2rem)] border-4 border-border bg-popover p-4 text-popover-foreground shadow-brutal-sm",
+      listClass: "grid grid-cols-2 gap-x-3 gap-y-1",
+    };
+  }
+  return {
+    panelClass:
+      "w-[min(26.875rem,calc(100vw-2rem))] max-w-[calc(100vw-2rem)] border-4 border-border bg-popover p-4 text-popover-foreground shadow-brutal-sm",
+    listClass: "grid grid-cols-1 gap-y-1",
+  };
+}
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -107,7 +133,7 @@ export function SiteHeader() {
           variant="default"
           size="default"
           className={cn(
-            "h-10 text-2xl! gap-0 rounded-none px-2 font-mono font-black text-base uppercase",
+            "h-10 gap-0 rounded-none px-2 font-black font-mono text-base uppercase",
             headerBarButtonClass,
             isHomeActive &&
               "border-border bg-accent text-accent-foreground hover:border-border hover:bg-accent",
@@ -119,7 +145,7 @@ export function SiteHeader() {
             href="/"
             aria-label={tNav("homeAria", { name: siteConfig.name })}
           >
-            LT
+            L.T.
           </Link>
         </Button>
 
@@ -134,6 +160,9 @@ export function SiteHeader() {
                 const groupHasActive = group.links.some((link) =>
                   isActiveHref(pathname, link.href),
                 );
+                const { panelClass, listClass } = serviceGroupDropdownLayout(
+                  group.links.length,
+                );
                 return (
                   <NavigationMenuItem key={group.title}>
                     <NavigationMenuTrigger
@@ -145,11 +174,11 @@ export function SiteHeader() {
                       {group.title}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="top-full left-0 mt-1">
-                      <div className="w-[430px] border-4 border-border bg-popover p-4 text-popover-foreground shadow-brutal-sm">
+                      <div className={panelClass}>
                         <p className="px-2 pb-2 text-muted-foreground text-xs">
                           {group.description}
                         </p>
-                        <ul className="space-y-1">
+                        <ul className={listClass}>
                           {group.links.map((link) => (
                             <li key={`${link.href}-${link.label}`}>
                               <NavigationMenuLink asChild>
@@ -201,7 +230,7 @@ export function SiteHeader() {
           {showHeaderSearch ? (
             <Button
               variant="ghost"
-              className="group h-9 w-[220px] justify-between rounded-none font-mono font-bold text-muted-foreground uppercase tracking-tighter"
+              className="group h-9 w-[220px] justify-between rounded-none font-bold font-mono text-muted-foreground uppercase tracking-tighter"
               onClick={() => setOpen(true)}
             >
               <span className="inline-flex items-center gap-2">
@@ -241,7 +270,7 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[88vw] overflow-y-auto border-s-4 border-border sm:max-w-md"
+              className="w-[88vw] overflow-y-auto border-border border-s-4 sm:max-w-md"
             >
               <SheetHeader>
                 <SheetTitle>{tHeader("exploreTools")}</SheetTitle>
@@ -254,7 +283,7 @@ export function SiteHeader() {
                       href={link.href}
                       prefetch={false}
                       className={cn(
-                        "block border-2 border-transparent px-2 py-1.5 font-mono font-bold text-sm uppercase tracking-tight transition-colors hover:border-border hover:bg-accent",
+                        "block border-2 border-transparent px-2 py-1.5 font-bold font-mono text-sm uppercase tracking-tight transition-colors hover:border-border hover:bg-accent",
                         isActiveHref(pathname, link.href) &&
                           "border-border bg-accent text-accent-foreground",
                       )}
@@ -265,7 +294,7 @@ export function SiteHeader() {
                 </div>
                 {serviceGroups.map((group) => (
                   <section key={group.title} className="space-y-2">
-                    <h3 className="font-mono font-black text-xs uppercase tracking-widest">
+                    <h3 className="font-black font-mono text-xs uppercase tracking-widest">
                       {group.title}
                     </h3>
                     <ul className="space-y-1">

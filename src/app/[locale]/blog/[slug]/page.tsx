@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { getAllPostSlugs, getPostBySlug } from "@/lib/blog/registry";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { cn } from "@/lib/utils";
 
 interface BlogPostPageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -86,9 +88,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
             {categoryLabel} · {t("readMin", { n: meta.readTimeMinutes })}
           </p>
-          <h1 className="mt-2 font-semibold text-3xl tracking-tight">
-            {meta.title}
-          </h1>
+          <h1 className={cn(toolHeroTitleClassName, "mt-2")}>{meta.title}</h1>
           <p className="mt-3 max-w-2xl text-muted-foreground text-sm leading-relaxed">
             {meta.description}
           </p>

@@ -17,7 +17,9 @@ interface CurlConverterPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function CurlConverterPage({ params }: CurlConverterPageProps) {
+export default async function CurlConverterPage({
+  params,
+}: CurlConverterPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -44,4 +46,3 @@ export default async function CurlConverterPage({ params }: CurlConverterPagePro
     </Shell>
   );
 }
-
