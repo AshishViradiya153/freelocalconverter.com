@@ -271,13 +271,6 @@ export function HomeToolsDirectory() {
                           />
                         );
                       })}
-                      <CategoryBrutalistButton
-                        icon={Star}
-                        label={tLanding("directoryFavoritesLabel")}
-                        count={pinnedHrefs.length}
-                        active={activeGroup === "favorites"}
-                        onClick={() => setActiveGroup("favorites")}
-                      />
                     </div>
                   </div>
                 </div>
