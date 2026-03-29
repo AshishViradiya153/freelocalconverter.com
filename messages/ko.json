@@ -749,6 +749,8 @@
     "imageConverterDesc": "WebP, AVIF, JPG, PNG로 변환합니다.",
     "imageResizeLabel": "크기 조정/자르기 + 변환",
     "imageResizeDesc": "이미지 크기 조정, 자르기, 변환, 대량 이름 바꾸기.",
+    "faviconGeneratorLabel": "Favicon generator",
+    "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
     "imageRemoveBackgroundLabel": "Remove background",
     "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC를 JPG/PNG로",
@@ -777,6 +779,26 @@
     "faq3Question": "{from}에서 {to}로 변환하는 것이 메인 이미지 변환기와 같나요?",
     "faq3Answer": "네. /image-convert에 전체 도구가 있고, 이 URL은 기본 출력을 {to}로 두어 이미 소스가 {from}인 사용자를 위한 페이지입니다. 도구에서 다른 출력 형식으로 바꿀 수 있습니다.",
     "keywordsLine": "{from}에서 {to}로 | {from} {to} 변환 무료 온라인 | 업로드 없음 | 브라우저 비공개 {from} {to} | 로컬 {from} {to}"
+  },
+  "faviconGenerator": {
+    "heroTitle": "Favicon generator",
+    "heroDescription": "Upload a square or rectangular logo. We center-crop to a square, scale to standard sizes, build a multi-size favicon.ico, and package everything in a ZIP—same layout as typical favicon.io exports. All processing runs in your browser.",
+    "sectionInput": "Source image",
+    "dropTitle": "Drop an image here or click to browse",
+    "dropHint": "PNG, JPG, WebP, GIF, AVIF, HEIC, and more · one file",
+    "chooseLabel": "Choose image",
+    "chooseReplace": "Replace image",
+    "fileHint": "No uploads: resizing and ZIP creation stay on your device.",
+    "previewLabel": "Preview",
+    "ctaDownload": "Download favicon pack (ZIP)",
+    "ctaWorking": "Working…",
+    "ctaClear": "Clear",
+    "toastNotImage": "Please choose an image file.",
+    "toastNoFile": "Choose an image first.",
+    "toastSuccess": "ZIP downloaded.",
+    "toastError": "Could not build the favicon pack. Try another image.",
+    "sectionZip": "ZIP contents",
+    "zipNote": "Edit name and short_name inside site.webmanifest after unzipping. Place files in your site root or follow your framework’s icon conventions (for example Next.js app/icon.png)."
   },
   "pageMeta": {
     "breadcrumbHome": "홈",
@@ -935,6 +957,11 @@
       "description": "CSV를 Parquet으로: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "csv parquet | 변환 | 브라우저 |보내기 | 로컬 | apache | 무료"
     },
+    "cron-parser": {
+      "title": "Cron parser",
+      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
     "curl-converter": {
       "title": "cURL 변환기",
       "description": "cURL 변환기: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
@@ -959,6 +986,11 @@
       "title": "fetch 변환기",
       "description": "fetch 변환기: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "fetch 변환 | curl | axios | python requests | 자바스크립트 | 브라우저 | 무료"
+    },
+    "favicon-generator": {
+      "title": "Favicon generator",
+      "description": "Favicon generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "favicon generator | favicon zip download | create favicon from image | android chrome icons | apple touch icon generator | site.webmanifest icons | browser favicon maker | free favicon generator no upload"
     },
     "graphql-tools": {
       "title": "GraphQL 도구",
@@ -990,11 +1022,6 @@
       "description": "크기 조정/자르기 + 변환: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "리사이즈 | 크롭 | 이미지 | 브라우저 편집 | 일괄보내기 | 무료"
     },
-    "image-remove-background": {
-      "title": "Remove image background",
-      "description": "Remove image background: free online in your browser. Private, on-device AI segmentation; your files are not uploaded to our servers.",
-      "keywords": "remove background from image | image background remover | transparent background png | browser background removal | local remove bg | free background remover online | cut out image background | ai background removal browser"
-    },
     "images-to-pdf": {
       "title": "이미지를 PDF로",
       "description": "이미지를 PDF로: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
@@ -1004,36 +1031,6 @@
       "title": "JSON 포맷터",
       "description": "JSON 포맷터: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "json 포맷 | 미니파이 | 검증 | 브라우저 | 로컬 | 예쁘게 | 무료"
-    },
-    "json-yaml-converter": {
-      "title": "JSON YAML converter",
-      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
-    },
-    "markdown-html-converter": {
-      "title": "Markdown HTML converter",
-      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
-    },
-    "jwt-decoder": {
-      "title": "JWT decoder",
-      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
-    },
-    "cron-parser": {
-      "title": "Cron parser",
-      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
-    },
-    "uuid-generator": {
-      "title": "UUID / GUID generator",
-      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
-    },
-    "regex-tester": {
-      "title": "Regex tester",
-      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
     },
     "json-to-csv": {
       "title": "JSON을 CSV로",
@@ -1049,6 +1046,21 @@
       "title": "JSON을 Parquet으로",
       "description": "JSON을 Parquet으로: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "json parquet | 변환 | 브라우저 | 로컬 |보내기 | 무료"
+    },
+    "json-yaml-converter": {
+      "title": "JSON YAML converter",
+      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
+    },
+    "jwt-decoder": {
+      "title": "JWT decoder",
+      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
+    },
+    "markdown-html-converter": {
+      "title": "Markdown HTML converter",
+      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
     },
     "merge-pdf": {
       "title": "PDF 병합",
@@ -1105,6 +1117,11 @@
       "description": "API 변환기: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "api 변환 | curl fetch axios | python requests | 스니펫 | 브라우저 | http"
     },
+    "regex-tester": {
+      "title": "Regex tester",
+      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
+    },
     "split-pdf": {
       "title": "PDF 분할",
       "description": "PDF 분할: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
@@ -1119,6 +1136,11 @@
       "title": "Unix timestamp converter",
       "description": "Unix timestamp converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "unix timestamp converter | epoch converter | unix time to date | timestamp to date online | milliseconds to date | epoch milliseconds | timezone timestamp | utc to local timestamp | browser epoch tool | local unix time no upload"
+    },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
     },
     "video-compress": {
       "title": "동영상 압축",

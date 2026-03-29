@@ -749,6 +749,8 @@
     "imageConverterDesc": "Convierta a WebP, AVIF, JPG o PNG.",
     "imageResizeLabel": "Cambiar tamaño/Recortar + Convertir",
     "imageResizeDesc": "Cambie el tamaño, recorte, convierta y cambie el nombre de imágenes de forma masiva.",
+    "faviconGeneratorLabel": "Favicon generator",
+    "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
     "imageRemoveBackgroundLabel": "Remove background",
     "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC a JPG/PNG",
@@ -777,6 +779,26 @@
     "faq3Question": "¿Es {from} a {to} lo mismo que el convertidor de imágenes principal?",
     "faq3Answer": "Sí. El centro en /image-convert enumera la herramienta completa; esta URL establece la salida predeterminada en {to} y se dirige a personas que ya saben que su fuente es {from}. Aún puedes cambiar el formato de salida en la herramienta si necesitas una exportación diferente.",
     "keywordsLine": "{from} a {to} | convertir {from} a {to} en línea gratis | Convertidor de {from} a {to} | gratis {from} a {to} sin subir | navegador {from} a {to} privado | locales {from} a {to}"
+  },
+  "faviconGenerator": {
+    "heroTitle": "Favicon generator",
+    "heroDescription": "Upload a square or rectangular logo. We center-crop to a square, scale to standard sizes, build a multi-size favicon.ico, and package everything in a ZIP—same layout as typical favicon.io exports. All processing runs in your browser.",
+    "sectionInput": "Source image",
+    "dropTitle": "Drop an image here or click to browse",
+    "dropHint": "PNG, JPG, WebP, GIF, AVIF, HEIC, and more · one file",
+    "chooseLabel": "Choose image",
+    "chooseReplace": "Replace image",
+    "fileHint": "No uploads: resizing and ZIP creation stay on your device.",
+    "previewLabel": "Preview",
+    "ctaDownload": "Download favicon pack (ZIP)",
+    "ctaWorking": "Working…",
+    "ctaClear": "Clear",
+    "toastNotImage": "Please choose an image file.",
+    "toastNoFile": "Choose an image first.",
+    "toastSuccess": "ZIP downloaded.",
+    "toastError": "Could not build the favicon pack. Try another image.",
+    "sectionZip": "ZIP contents",
+    "zipNote": "Edit name and short_name inside site.webmanifest after unzipping. Place files in your site root or follow your framework’s icon conventions (for example Next.js app/icon.png)."
   },
   "pageMeta": {
     "breadcrumbHome": "Hogar",
@@ -935,6 +957,11 @@
       "description": "CSV a Parquet: gratis online en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "csv a parquet | convertir csv a parquet | convertidor de parquet | navegador csv a parquet | exportación de parquet csv | herramienta local para parquet | csv gratis a parquet online | parquet apache desde csv"
     },
+    "cron-parser": {
+      "title": "Cron parser",
+      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
     "curl-converter": {
       "title": "convertidor de rizos",
       "description": "Convertidor cURL: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
@@ -959,6 +986,11 @@
       "title": "buscar convertidor",
       "description": "buscar convertidor: gratis en línea en su navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "buscar convertidor | buscar para rizar | buscar a axios | buscar solicitudes de Python | convertidor de solicitudes | convertidor de API del navegador | javascript buscar para rizar | convertidor de API de recuperación gratuita"
+    },
+    "favicon-generator": {
+      "title": "Favicon generator",
+      "description": "Favicon generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "favicon generator | favicon zip download | create favicon from image | android chrome icons | apple touch icon generator | site.webmanifest icons | browser favicon maker | free favicon generator no upload"
     },
     "graphql-tools": {
       "title": "Herramientas GraphQL",
@@ -990,11 +1022,6 @@
       "description": "Cambiar tamaño/recortar + convertir imagen: gratis en línea en su navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "cambiar el tamaño de la imagen | recorte de imagen | convertir cambio de tamaño de imagen | editor de imágenes del navegador | cambio de tamaño de imagen masiva | herramienta de cambio de tamaño de imagen local | cambiar el tamaño de imágenes en línea gratis | recortar y exportar imágenes"
     },
-    "image-remove-background": {
-      "title": "Remove image background",
-      "description": "Remove image background: free online in your browser. Private, on-device AI segmentation; your files are not uploaded to our servers.",
-      "keywords": "remove background from image | image background remover | transparent background png | browser background removal | local remove bg | free background remover online | cut out image background | ai background removal browser"
-    },
     "images-to-pdf": {
       "title": "Imágenes a PDF",
       "description": "Imágenes a PDF: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
@@ -1004,36 +1031,6 @@
       "title": "Formateador JSON",
       "description": "JSON Formatter: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "formateador json | embellecedor json | validador json | formato json en línea | herramienta json del navegador | formateador json local | bonita impresión json | formateador json gratuito sin carga"
-    },
-    "json-yaml-converter": {
-      "title": "JSON YAML converter",
-      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
-    },
-    "markdown-html-converter": {
-      "title": "Markdown HTML converter",
-      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
-    },
-    "jwt-decoder": {
-      "title": "JWT decoder",
-      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
-    },
-    "cron-parser": {
-      "title": "Cron parser",
-      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
-    },
-    "uuid-generator": {
-      "title": "UUID / GUID generator",
-      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
-    },
-    "regex-tester": {
-      "title": "Regex tester",
-      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
     },
     "json-to-csv": {
       "title": "JSON a CSV",
@@ -1049,6 +1046,21 @@
       "title": "JSON a parquet",
       "description": "JSON a Parquet: gratis online en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "json a parquet | convertir json a parquet | convertidor json parquet | navegador json a parquet | exportación local de parquet | herramienta de navegación de parquet | json gratis para parquet | líneas json a parquet"
+    },
+    "json-yaml-converter": {
+      "title": "JSON YAML converter",
+      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
+    },
+    "jwt-decoder": {
+      "title": "JWT decoder",
+      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
+    },
+    "markdown-html-converter": {
+      "title": "Markdown HTML converter",
+      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
     },
     "merge-pdf": {
       "title": "Fusionar PDF",
@@ -1105,6 +1117,11 @@
       "description": "Convertidor API: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "convertidor de API | convertidor de solicitudes | convertidor curl fetch axios | convertidor de solicitudes de Python | herramienta API del navegador | solicitar convertidor de fragmentos | curl para buscar axios en línea | traductor de solicitud http"
     },
+    "regex-tester": {
+      "title": "Regex tester",
+      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
+    },
     "split-pdf": {
       "title": "Dividir PDF",
       "description": "Dividir PDF: gratis en línea en tu navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
@@ -1119,6 +1136,11 @@
       "title": "Unix timestamp converter",
       "description": "Unix timestamp converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "unix timestamp converter | epoch converter | unix time to date | timestamp to date online | milliseconds to date | epoch milliseconds | timezone timestamp | utc to local timestamp | browser epoch tool | local unix time no upload"
+    },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
     },
     "video-compress": {
       "title": "Compresor de vídeo",
