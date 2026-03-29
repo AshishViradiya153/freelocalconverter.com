@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "csvcn",
+  "name": "localtool",
   "homepage": "https://csveditoronline.org/",
   "items": [
     {

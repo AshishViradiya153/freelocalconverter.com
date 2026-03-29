@@ -233,7 +233,9 @@
     "sampleMissing": "Αποτυχία φόρτωσης δείγματος. Βεβαιωθείτε ότι υπάρχει το public/samples/products-10000.csv.",
     "sampleError": "Αποτυχία φόρτωσης δεδομένων δείγματος.",
     "largeFileTitle": "Μεγάλο αρχείο περικόπηκε",
-    "largeFileDescription": "Εμφάνιση {shown} γραμμών (όριο {total} στο αρχείο)."
+    "largeFileDescription": "Εμφάνιση {shown} γραμμών (όριο {total} στο αρχείο).",
+    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
+    "collectionPageName": "{name}: tool directory"
   },
   "csvToParquet": {
     "heroTitle": "CSV σε Parquet",
@@ -425,12 +427,15 @@
     "crumbHome": "Αρχική",
     "crumbGuides": "Οδηγοί",
     "crumbTools": "Εργαλεία",
+    "hubDiscoveryIntro": "More hubs:",
+    "crumbImageConverter": "Image converter",
     "guidesHubTitle": "Οδηγοί CSV και πλεγμάτων δεδομένων",
     "guidesHubDescription": "Δομημένοι οδηγοί για μεγάλα CSV, καθαρισμό εξαγωγών και τοπική χρήση του Table πριν από μεταφόρτωση υπολογιστικών φύλλων ή συγχρονισμό ERP.",
     "toolsHubTitle": "Εργαλεία και κόμβοι ροών εργασίας",
     "toolsHubDescription": "Σελίδες ευθυγραμμισμένες με πρόθεση αναζήτησης για έλεγχο CSV στον browser, εξαγωγές e-commerce και σχετικές ροές, με δομημένα δεδομένα και συνεπή μεταδεδομένα.",
     "toolsHubSectionsTitle": "Περιήγηση ανά κατηγορία",
     "relatedPagesTitle": "Σχετικές σελίδες",
+    "relatedImageConvertTitle": "Related conversions",
     "contentLocaleNotice": "Το κύριο περιεχόμενο είναι στα αγγλικά. Η διεπαφή στη γλώσσα που επιλέξατε για πλοήγηση και προσβασιμότητα.",
     "faqHeading": "Συχνές ερωτήσεις",
     "badgeGuide": "Οδηγός",
@@ -583,6 +588,8 @@
     "imageConverterDesc": "Convert to WebP, AVIF, JPG, or PNG.",
     "imageResizeLabel": "Resize/Crop + Convert",
     "imageResizeDesc": "Resize, crop, convert, and rename images in bulk.",
+    "imageRemoveBackgroundLabel": "Remove background",
+    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
     "heicToJpgLabel": "HEIC to JPG/PNG",
     "heicToJpgDesc": "Convert HEIC/HEIF photos to JPG or PNG.",
     "colorPaletteGeneratorLabel": "Color Palette Generator",
@@ -594,6 +601,332 @@
     "trendingPalettesLabel": "Trending Palettes",
     "trendingPalettesDesc": "Browse curated color palettes.",
     "trendingGradientsLabel": "Trending Gradients",
-    "trendingGradientsDesc": "Browse curated gradients."
+    "trendingGradientsDesc": "Browse curated gradients.",
+    "trendingMeshGradientsLabel": "Trending mesh gradients",
+    "trendingMeshGradientsDesc": "Browse 500 mesh-style blob gradients."
+  },
+  "imageConvertPair": {
+    "subtitle": "Convert {from} to {to} locally in your browser. No uploads. Output defaults to {to}.",
+    "intro1": "People search for {from} to {to} when they need a smaller file, a format their CMS accepts, or a pixel layout editors can open without extra plugins. This page runs the same Localtool image converter as the main hub, preset to {to} output.",
+    "intro2": "Decoding and encoding happen in your browser tab. Nothing is uploaded to our servers for conversion. Use fast mode for PNG, JPG, WebP, and AVIF when your browser supports it, or enable the advanced path for GIF, BMP, TIFF, ICO, HEIC, or traced SVG when needed.",
+    "faq1Question": "How do I convert {from} to {to} without uploading my files?",
+    "faq1Answer": "Open this page, add images from your device or a CORS-enabled direct link, keep output on {to}, then download. Processing stays in your browser; we do not receive your image bytes for conversion.",
+    "faq2Question": "Will {from} to {to} reduce image quality?",
+    "faq2Answer": "Lossy formats (such as JPG, WebP, or AVIF) use a quality slider. Lossless formats (such as PNG or SVG from tracing) avoid photo compression but may produce larger files. Pick the format that matches your next step, not only the smallest size.",
+    "faq3Question": "Is {from} to {to} the same as the main image converter?",
+    "faq3Answer": "Yes. The hub at /image-convert lists the full tool; this URL sets the default output to {to} and targets people who already know their source is {from}. You can still change output format in the tool if you need a different export.",
+    "keywordsLine": "{from} to {to} | convert {from} to {to} online free | {from} to {to} converter | free {from} to {to} no upload | browser {from} to {to} private | local {from} to {to}"
+  },
+  "pageMeta": {
+    "breadcrumbHome": "Home",
+    "csvViewer": {
+      "title": "Free CSV viewer & editor (browser, no upload)",
+      "description": "Open large CSV files in your browser: sort, filter, search, edit cells, paste, undo/redo, add or remove rows. Private local processing; data stays on your device with optional restore when you return.",
+      "keywords": "csv viewer|csv editor online free|open csv in browser|local csv tool|editable csv grid|spreadsheet viewer|csv no upload|privacy csv editor"
+    },
+    "meshGradient": {
+      "title": "Free mesh gradient generator online",
+      "description": "Design soft mesh-style gradients from blurred color blobs on canvas. Harmonious palettes, film grain, and PNG export, all in your browser with no file uploads.",
+      "keywords": "mesh gradient generator|blob gradient maker|free gradient wallpaper|canvas gradient tool|png gradient export|aesthetic background gradient|mesh gradient online",
+      "breadcrumbLabel": "Mesh gradient generator",
+      "jsonLdName": "Mesh gradient generator",
+      "jsonLdDescription": "Generate soft mesh-style gradients with harmonious colors, blur, and film grain; export PNG.",
+      "browseTrending": "Browse 500 trending mesh gradients"
+    },
+    "meshGradientTrending": {
+      "title": "500+ trending mesh gradients (free presets)",
+      "description": "Browse hundreds of harmonious mesh-style gradients with soft blurred blobs. Click any preset to open it in the free mesh gradient generator and export PNG locally.",
+      "keywords": "trending mesh gradients|mesh gradient presets|blob gradient ideas|free gradient backgrounds|canvas mesh wallpaper|aesthetic mesh gradient pack",
+      "h1": "Trending mesh gradients",
+      "intro": "Seeded harmonious palettes and blob positions. Click a card to open that look in the mesh gradient generator, then tweak text, grain, blur, and export PNG.",
+      "loadingFallback": "Loading mesh gradients…",
+      "breadcrumbLabel": "Trending mesh",
+      "linkToGenerator": "Open mesh gradient generator",
+      "openInGenerator": "Open in mesh generator",
+      "downloadPng": "Download gradient image (PNG)",
+      "jsonLdName": "Trending mesh gradients",
+      "jsonLdDescription": "Browse curated mesh-style gradients and open presets in the mesh gradient generator.",
+      "faq1Question": "Are these mesh gradients free to use?",
+      "faq1Answer": "Yes. Browse the gallery, open any preset in the mesh gradient generator, and export PNG in your browser. Processing stays on your device; we do not upload your files for conversion.",
+      "faq2Question": "How do I customize a preset?",
+      "faq2Answer": "Click a card to load that look in the mesh gradient generator. From there you can change colors, blur, grain, optional text, and export again without leaving the page.",
+      "faq3Question": "Is this different from the main mesh gradient tool?",
+      "faq3Answer": "This page is a curated preset gallery. The standalone mesh gradient generator is the full editor; cards here open that tool with the same harmonious seeds so you can tweak colors, blur, and grain before export."
+    },
+    "linkedinBanner": {
+      "title": "Free LinkedIn banner maker (profile & page)",
+      "description": "Create LinkedIn profile and company page banners in your browser. Standard 1584×396 and related sizes, editable colors and layouts, optional logo, and export PNG, JPEG, or WebP without uploading to a server.",
+      "keywords": "linkedin banner maker|linkedin cover photo size|free linkedin banner|profile banner generator|linkedin header template|banner maker online|linkedin background image"
+    },
+    "svgToCode": {
+      "title": "SVG to JSX, React & XML (free, local)",
+      "description": "Turn SVG into JSX, a typed React component, or pretty XML in your browser. Paste or upload, copy code instantly. Client-side only, no cloud upload.",
+      "keywords": "svg to jsx|svg to react component|svg converter online|svg to typescript react|pretty print svg|browser svg tool|svg codegen free"
+    },
+    "gradients": {
+      "title": "CSS gradient generator (free online)",
+      "description": "Build trending multi-stop gradients from any base color. Lock stops, copy CSS linear-gradient, export PNG or JSON, and see WCAG contrast hints per stop, all locally in your browser.",
+      "keywords": "css gradient generator|linear gradient maker|free gradient tool|trending gradients|gradient export png|wcag contrast gradient|ui gradient generator|color stops css",
+      "breadcrumbLabel": "Gradients",
+      "jsonLdName": "Gradient generator",
+      "jsonLdDescription": "Generate trending gradients from any base color with lockable stops and PNG/CSS/JSON export.",
+      "faq1Question": "Can I lock a stop and regenerate the gradient?",
+      "faq1Answer": "Yes. Click the lock icon on any stop to keep it fixed while you change harmony mode, base color, or sliders.",
+      "faq2Question": "How does contrast guidance work here?",
+      "faq2Answer": "For each stop we compute the best text color (black/white) using WCAG contrast ratio, and show an AA/AAA badge.",
+      "faq3Question": "What can I export?",
+      "faq3Answer": "Copy CSS linear-gradient, and download PNG, JSON, and a CSS file containing variables plus the full gradient."
+    },
+    "gradientsBest": {
+      "title": "Best CSS gradients library (500 curated)",
+      "description": "Explore 500 curated, accessibility-conscious gradients with strong contrast. Reuse any preset in the free gradient generator and export CSS or PNG in your browser.",
+      "keywords": "best css gradients|curated gradients|accessible gradients|ui gradient presets|linear gradient library|free gradient inspiration|wcag friendly gradients",
+      "h1": "Best gradients",
+      "intro": "Curated to be distinct and keep readable contrast across stops. Pick any card to reuse it in the gradient generator.",
+      "loadingFallback": "Loading best gradients…",
+      "breadcrumbLabel": "Best gradients",
+      "jsonLdName": "Best CSS gradients library",
+      "jsonLdDescription": "Five hundred curated linear gradients with contrast-aware stops; open any preset in the free gradient generator.",
+      "faq1Question": "What makes these \"best\" gradients?",
+      "faq1Answer": "They are hand-curated to look distinct and to keep stronger contrast between stops so type and UI elements stay readable when you reuse them in the generator.",
+      "faq2Question": "How do I use a preset?",
+      "faq2Answer": "Click a card to open that gradient in the free CSS gradient generator. From there you can lock stops, copy linear-gradient CSS, and export PNG or JSON locally.",
+      "faq3Question": "Can I edit a preset after opening it?",
+      "faq3Answer": "Yes. Harmony modes, locks, sliders, and exports work the same as when you build a gradient from scratch; the preset is only a starting point."
+    },
+    "palettesTrending": {
+      "title": "Free color palette generator online",
+      "description": "Generate harmonious color palettes from any base color. Lock swatches, copy hex and CSS custom properties, export PNG or JSON, and see quick WCAG contrast guidance; runs locally in your browser.",
+      "keywords": "color palette generator|hex palette maker|trending color schemes|css color variables|accessible color palette|ui palette tool|free palette generator|brand colors generator",
+      "breadcrumbLabel": "Palettes",
+      "jsonLdName": "Color palettes generator",
+      "jsonLdDescription": "Generate trending color palettes from any base color with lock swatches, copy, and PNG/JSON export.",
+      "faq1Question": "Can I lock a color and re-generate the rest?",
+      "faq1Answer": "Yes. Use the lock button on any swatch to keep it fixed while you shuffle or change harmony mode.",
+      "faq2Question": "Does the tool help with accessibility contrast?",
+      "faq2Answer": "For each color, we show the best text color (black/white) based on WCAG contrast ratio and a quick AA/AAA badge.",
+      "faq3Question": "What can I export from the palette?",
+      "faq3Answer": "You can copy CSS variables, and download a PNG image or a JSON file with the palette hex values.",
+      "loadingFallback": "Loading palette…"
+    },
+    "palettesBest": {
+      "title": "Best color palettes (500 curated hex sets)",
+      "description": "Browse 500 curated palettes tuned for contrast and variety. Open any set in the free palette generator to tweak, copy hex, and export assets without uploading files.",
+      "keywords": "best color palettes|curated hex palettes|accessible color schemes|ui palette inspiration|brand palette ideas|free color combinations|web design palettes",
+      "h1": "Best color palettes",
+      "intro": "Curated to look distinct and keep readable contrast. Pick any card to reuse it in the palette generator.",
+      "loadingFallback": "Loading best palettes…",
+      "breadcrumbLabel": "Best palettes",
+      "jsonLdName": "Best color palettes library",
+      "jsonLdDescription": "Five hundred curated hex palettes with contrast in mind; open any set in the free palette generator to edit or export.",
+      "faq1Question": "How were these palettes chosen?",
+      "faq1Answer": "The set emphasizes variety and readable contrast between swatches so the colors work for UI mockups, branding exploration, and design inspiration.",
+      "faq2Question": "How do I open a palette in the editor?",
+      "faq2Answer": "Click any card to load those swatches in the palette generator. You can lock colors, shuffle the rest, copy CSS variables, and download PNG or JSON without uploading files.",
+      "faq3Question": "Is this the same tool as the main palette page?",
+      "faq3Answer": "Yes. The generator lives on the main palette page; this gallery is a fixed curated set, while trending flows focus on generating new harmonies from a base color."
+    }
+  },
+  "toolMeta": {
+    "axios-converter": {
+      "title": "axios converter",
+      "description": "axios converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "axios converter | axios to curl | axios to fetch | axios to python requests | request converter | browser api converter | free axios to fetch converter | convert http client code online"
+    },
+    "bulk-pdf-watermark": {
+      "title": "Bulk PDF Watermark",
+      "description": "Bulk PDF Watermark: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "bulk pdf watermark | watermark multiple pdf files | batch pdf watermark tool | pdf watermark no upload | watermark pdf with text | watermark pdf with image | free pdf watermark online | watermark pdf in browser"
+    },
+    "compare": {
+      "title": "Compare CSV files",
+      "description": "Compare CSV files: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "compare csv files | csv diff tool | csv compare online | compare two csv files | browser csv diff | csv changes viewer | free csv diff online | side by side csv compare"
+    },
+    "csv-to-excel": {
+      "title": "CSV to Excel",
+      "description": "CSV to Excel: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to excel | csv to xlsx | csv converter | batch csv to excel | browser csv to xlsx | csv excel export | free csv to excel converter | convert csv to spreadsheet online"
+    },
+    "csv-to-json": {
+      "title": "CSV to JSON",
+      "description": "CSV to JSON: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to json | csv json converter | convert csv to json | browser csv to json | csv to json online | local csv converter | free csv to json | csv to json no upload"
+    },
+    "csv-to-markdown-table": {
+      "title": "CSV to Markdown Table",
+      "description": "CSV to Markdown Table: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to markdown table | csv markdown converter | markdown table generator | convert csv to markdown | browser markdown table | csv to md | free csv to markdown | github readme table from csv"
+    },
+    "csv-to-parquet": {
+      "title": "CSV to Parquet",
+      "description": "CSV to Parquet: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to parquet | convert csv to parquet | parquet converter | browser csv to parquet | csv parquet export | local parquet tool | free csv to parquet online | apache parquet from csv"
+    },
+    "curl-converter": {
+      "title": "cURL converter",
+      "description": "cURL converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "curl converter | curl to fetch | curl to axios | curl to python requests | request code converter | browser curl converter | free curl to fetch | convert curl command online"
+    },
+    "data-grid": {
+      "title": "Data Grid Demo",
+      "description": "Data Grid Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "data grid demo | react data grid | editable data grid | browser data table | grid demo | data grid example | tanstack table demo | interactive data grid browser"
+    },
+    "data-grid-live": {
+      "title": "Live Data Grid Demo",
+      "description": "Live Data Grid Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "live data grid demo | real time data grid | react data grid live | browser data grid demo | sync data grid | data grid live example | websocket data grid demo | live updating table ui"
+    },
+    "data-grid-render": {
+      "title": "Data Grid Render Demo",
+      "description": "Data Grid Render Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "data grid render demo | grid rendering demo | react grid performance | render data grid | browser grid benchmark | data grid render example | virtualized grid performance | large dataset table render"
+    },
+    "fetch-converter": {
+      "title": "fetch converter",
+      "description": "fetch converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "fetch converter | fetch to curl | fetch to axios | fetch to python requests | request converter | browser api converter | javascript fetch to curl | free fetch api converter"
+    },
+    "graphql-tools": {
+      "title": "GraphQL tools",
+      "description": "GraphQL tools: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "graphql tools | graphql formatter | graphql introspection viewer | graphql schema explorer | browser graphql tool | graphql query formatter | free graphql playground browser | format graphql query online"
+    },
+    "heic-to-jpg": {
+      "title": "HEIC to JPG/PNG",
+      "description": "HEIC to JPG/PNG: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "heic to jpg | heic to png | heif converter | iphone photo converter | browser heic converter | convert heic locally | free heic converter online | heic to jpeg no upload"
+    },
+    "http-explainer": {
+      "title": "HTTP status + headers explainer",
+      "description": "HTTP status + headers explainer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "http status explainer | http headers explainer | http status codes | http headers guide | browser http reference | learn http status | http status code list | what is http header"
+    },
+    "image-compress": {
+      "title": "Image Compressor",
+      "description": "Image Compressor: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image compressor | compress images | bulk image compression | browser image compressor | local image compress | no upload image compression | free compress images online | reduce image file size"
+    },
+    "image-convert": {
+      "title": "Image converter",
+      "description": "Image converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image converter | convert image format | png jpg webp converter | browser image converter | local image conversion | no upload image tool | free image converter online | png to webp jpg avif"
+    },
+    "image-remove-background": {
+      "title": "Remove image background",
+      "description": "Remove image background: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "remove background | image background remover | transparent background | png with alpha | browser background removal | local remove bg | free background remover online | erase image background"
+    },
+    "image-resize": {
+      "title": "Image Resize/Crop + Convert",
+      "description": "Image Resize/Crop + Convert: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image resize | image crop | image resize convert | browser image editor | bulk image resize | local image resize tool | resize images online free | crop and export images"
+    },
+    "images-to-pdf": {
+      "title": "Images to PDF",
+      "description": "Images to PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "images to pdf | jpg to pdf | png to pdf | convert images to pdf | browser image pdf tool | no upload image to pdf | merge photos to pdf | free jpg png to pdf"
+    },
+    "json-formatter": {
+      "title": "JSON Formatter",
+      "description": "JSON Formatter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json formatter | json beautifier | json validator | format json online | browser json tool | local json formatter | pretty print json | free json formatter no upload"
+    },
+    "json-to-csv": {
+      "title": "JSON to CSV",
+      "description": "JSON to CSV: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to csv | convert json to csv | json csv converter | browser json to csv | local json converter | json export csv | free json to csv online | json array to spreadsheet"
+    },
+    "json-to-excel": {
+      "title": "JSON to Excel",
+      "description": "JSON to Excel: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to excel | json to xlsx | convert json to excel | browser json to xlsx | json excel converter | local json export | free json to xlsx | export json to spreadsheet"
+    },
+    "json-to-parquet": {
+      "title": "JSON to Parquet",
+      "description": "JSON to Parquet: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to parquet | convert json to parquet | json parquet converter | browser json to parquet | local parquet export | parquet browser tool | free json to parquet | json lines to parquet"
+    },
+    "merge-pdf": {
+      "title": "Merge PDF",
+      "description": "Merge PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "merge pdf | combine pdf | pdf merger | browser pdf merge | local pdf merger | no upload pdf merge | join pdf files online free | merge multiple pdf"
+    },
+    "openapi-viewer": {
+      "title": "OpenAPI Viewer",
+      "description": "OpenAPI Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | swagger viewer | openapi browser | api spec viewer | swagger file viewer | browser openapi tool | free swagger ui alternative | view openapi yaml json"
+    },
+    "parquet-to-csv": {
+      "title": "Parquet to CSV",
+      "description": "Parquet to CSV: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet to csv | convert parquet to csv | parquet csv converter | browser parquet to csv | local parquet converter | parquet export csv | open parquet as csv | parquet file to csv online"
+    },
+    "parquet-to-json": {
+      "title": "Parquet to JSON",
+      "description": "Parquet to JSON: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet to json | convert parquet to json | parquet json converter | browser parquet to json | local parquet converter | parquet export json | free parquet to json | read parquet in browser"
+    },
+    "parquet-viewer": {
+      "title": "Parquet Viewer",
+      "description": "Parquet Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | open parquet file | parquet editor | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
+    },
+    "pdf-to-image": {
+      "title": "PDF to Image",
+      "description": "PDF to Image: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf to image | pdf to png | pdf to jpg | convert pdf pages to images | browser pdf converter | local pdf to image | extract images from pdf | pdf page to png jpg free"
+    },
+    "pdf-to-word": {
+      "title": "PDF to Word",
+      "description": "PDF to Word: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf to word | pdf to docx | convert pdf to word | browser pdf to docx | local pdf converter | no upload pdf to word | free pdf to docx online | editable word from pdf"
+    },
+    "pdf-watermark": {
+      "title": "PDF Watermark",
+      "description": "PDF Watermark: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf watermark | watermark pdf | pdf watermark text | pdf watermark image | browser pdf watermark | no upload pdf watermark | add watermark to pdf free | stamp pdf online"
+    },
+    "python-requests-converter": {
+      "title": "Python requests converter",
+      "description": "Python requests converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "python requests converter | python requests to curl | python requests to fetch | python requests to axios | request converter | browser api converter | requests to httpx curl | convert python http code"
+    },
+    "reorder-pdf": {
+      "title": "Reorder PDF Pages",
+      "description": "Reorder PDF Pages: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "reorder pdf pages | pdf page reorder | organize pdf pages | browser pdf reorder | local pdf page tool | no upload pdf organizer | rearrange pdf pages online | change pdf page order free"
+    },
+    "request-converter": {
+      "title": "API converter",
+      "description": "API converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "api converter | request converter | curl fetch axios converter | python requests converter | browser api tool | request snippet converter | curl to fetch axios online | http request translator"
+    },
+    "split-pdf": {
+      "title": "Split PDF",
+      "description": "Split PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "split pdf | pdf splitter | split pdf pages | browser pdf split | local pdf splitter | no upload pdf split | extract pages from pdf | separate pdf online free"
+    },
+    "video-compress": {
+      "title": "Video Compressor",
+      "description": "Video Compressor: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "video compressor | compress video | browser video compressor | local video compression | no upload video compress | video size reducer | shrink mp4 online free | client side video compression"
+    },
+    "webhook-viewer": {
+      "title": "Webhook payload Viewer",
+      "description": "Webhook payload Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook payload viewer | json payload viewer | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
+    },
+    "xls-to-csv": {
+      "title": "Excel to CSV batch",
+      "description": "Excel to CSV batch: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel to csv | xls to csv | xlsx to csv | batch excel to csv | browser excel converter | local xls converter | free excel to csv online | convert spreadsheet to csv"
+    },
+    "xls-viewer": {
+      "title": "Excel Viewer",
+      "description": "Excel Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
+    }
   }
 }

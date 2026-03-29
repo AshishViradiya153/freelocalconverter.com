@@ -20,7 +20,7 @@
     "parquetToCsv": "Parquet → CSV",
     "jsonToParquet": "JSON → Parquet",
     "parquetToJson": "Parquet → JSON",
-    "csvToMarkdownTable": "CSV → Markdown Table"
+    "csvToMarkdownTable": "CSV → Markdown-Tabelle"
   },
   "language": {
     "menuAria": "Sprache",
@@ -28,10 +28,10 @@
   },
   "compare": {
     "heroTitle": "Vergleichen Sie zwei CSV-Dateien",
-    "heroSubtitle": "Wählen Sie eine linke und eine rechte Datei aus. ",
+    "heroSubtitle": "Wählen Sie eine linke und eine rechte Datei aus. Wir analysieren beide in Ihrem Browser (jeweils bis zu {mb} MB, maximal {maxRows} Zeilen pro Datei). Gleichen Sie Zeilen nach Position oder einer Schlüsselspalte ab, ignorieren Sie optional Leerzeichen oder Groß-/Kleinschreibung, synchronisieren Sie das Scrollen, markieren Sie abweichende Zellen, filtern Sie auf geänderte Zeilen und laden Sie einen CSV-Diff-Bericht herunter.",
     "leftFile": "Linke Datei",
-    "rightFile": "Richtige Datei",
-    "dropHint": "Legen Sie hier eine CSV-Datei ab oder stöbern Sie",
+    "rightFile": "Rechte Datei",
+    "dropHint": "CSV-Datei hier ablegen oder durchsuchen",
     "chooseFile": "Datei auswählen",
     "changeFile": "Datei ändern",
     "swapSides": "Links und rechts tauschen",
@@ -40,12 +40,12 @@
     "summaryRows": "Zeilen: {left} (links) · {right} (rechts)",
     "summaryCols": "Spalten: {left} (links) · {right} (rechts)",
     "summaryStructureMatch": "Spaltenlayout stimmt überein.",
-    "summaryColumnsReordered": "Spalten haben dieselben Felder; ",
-    "summaryStructureMismatch": "Spaltenüberschriften oder Felder unterscheiden sich, daher ist die automatische Zell-für-Zelle-Differenz deaktiviert. ",
+    "summaryColumnsReordered": "Die Spalten haben dieselben Felder; die rechte Datei wurde für den Vergleich an die linke angepasst.",
+    "summaryStructureMismatch": "Spaltenüberschriften oder Felder unterscheiden sich, daher ist der automatische Zell-für-Zelle-Vergleich deaktiviert. Nutzen Sie die Raster für einen visuellen Vergleich.",
     "summaryIdentical": "Keine unterschiedlichen Zellen in überlappenden Zeilen.",
     "summaryDiffCells": "{cells} Zellen unterscheiden sich in {rows} Zeilen.",
     "diffOnlyLabel": "Nur Zeilen mit Unterschieden anzeigen",
-    "optionsTitle": "Vergleichen Sie Optionen",
+    "optionsTitle": "Vergleichsoptionen",
     "optTrim": "Ignorieren Sie führende/nachgestellte Leerzeichen",
     "optIgnoreCase": "Groß- und Kleinschreibung ignorieren",
     "optSyncScroll": "Synchronisieren Sie den Bildlauf zwischen Rastern",
@@ -58,11 +58,11 @@
     "exportDiffCsv": "Diff-Bericht herunterladen (CSV)",
     "exportDiffStarted": "Der Download des Diff-Berichts wurde gestartet",
     "exportDiffUnavailable": "Aktivieren Sie ein gültiges Spaltenlayout, um einen Diff-Bericht zu exportieren.",
-    "reset": "Löschen Sie beide Dateien"
+    "reset": "Beide Dateien löschen"
   },
   "csvToJson": {
     "heroTitle": "CSV-zu-JSON-Viewer und -Editor",
-    "heroSubtitle": "Importieren Sie eine CSV-Datei (bis zu {mb} MB, maximal {maxRows} geladene Zeilen). ",
+    "heroSubtitle": "Importieren Sie eine CSV-Datei (bis zu {mb} MB, maximal {maxRows} geladene Zeilen). Das linke Panel ist ein schreibgeschütztes Raster; das rechte zeigt JSON mit Ihren Spaltenüberschriften als Schlüssel. Bearbeiten Sie JSON und wenden Sie es an, um das Raster zu aktualisieren, oder setzen Sie JSON aus der aktuellen CSV zurück.",
     "fileHint": "Kopfzeile erforderlich, dieselben Regeln wie beim Haupt-CSV-Viewer.",
     "csvPanel": "CSV (Raster)",
     "jsonPanel": "JSON",
@@ -70,7 +70,7 @@
     "resetFromCsv": "Von CSV zurücksetzen",
     "resetFromCsvToast": "JSON wurde zurückgesetzt, um der geladenen CSV-Datei zu entsprechen.",
     "formatJson": "Format",
-    "copyJson": "Kopie",
+    "copyJson": "Kopieren",
     "copySuccess": "JSON kopiert",
     "copyFailed": "Konnte nicht kopiert werden",
     "downloadJson": "Laden Sie .json herunter",
@@ -78,8 +78,8 @@
     "excelBatchTitle": "CSV-zu-Excel-Stapelkonverter",
     "excelBatchSubtitle": "Fügen Sie bis zu {max} CSV-Dateien hinzu, konvertieren Sie sie und laden Sie dann jede Excel-Datei einzeln herunter.",
     "excelBatchAddFiles": "CSV-Dateien hinzufügen",
-    "excelBatchConvertAll": "Beginnen Sie mit der Konvertierung",
-    "excelBatchClearList": "Übersichtliche Liste",
+    "excelBatchConvertAll": "Konvertierung starten",
+    "excelBatchClearList": "Liste leeren",
     "excelBatchCount": "{count}/{max} Dateien",
     "excelBatchEmpty": "Es wurden noch keine Dateien hinzugefügt.",
     "excelBatchStatusPending": "Ausstehend",
@@ -94,13 +94,13 @@
     "clearFile": "Datei löschen",
     "jsonAria": "JSON-Array-Editor",
     "jsonEditorLoading": "JSON-Editor wird geladen…",
-    "jsonHint": "Vollständiger JSON-Editor: Baummodus mit Erweitern/Reduzieren, Text- und Tabellenmodi, Suchen, Rückgängigmachen/Wiederherstellen, Sortieren, Transformieren und Reparieren (verwenden Sie das integrierte Menü). ",
-    "jsonInvalid": "Ungültiger JSON. ",
+    "jsonHint": "Vollständiger JSON-Editor: Baummodus mit Erweitern/Reduzieren, Text- und Tabellenmodi, Suchen, Rückgängigmachen/Wiederherstellen, Sortieren, Transformieren und Reparieren (verwenden Sie das integrierte Menü). Ihre Daten müssen ein JSON-Array von Objekten bleiben, damit es zum CSV-Raster passt. Verwenden Sie Anwenden, um das Raster nach Bearbeitungen neu aufzubauen.",
+    "jsonInvalid": "Ungültiges JSON. Korrigieren Sie die Syntax und versuchen Sie es erneut.",
     "applySuccess": "Raster von JSON aktualisiert"
   },
   "jsonToCsv": {
     "heroTitle": "JSON-zu-CSV-Konverter",
-    "heroSubtitle": "Importieren Sie eine JSON-Datei (bis zu {mb} MB, maximal {maxRows} geladene Zeilen). ",
+    "heroSubtitle": "Importieren Sie eine JSON-Datei (bis zu {mb} MB, maximal {maxRows} geladene Zeilen). Im linken Panel bearbeiten Sie ein JSON-Array von Objekten; rechts sehen Sie die erzeugte CSV-Ausgabe und eine schreibgeschützte Rastervorschau.",
     "dropHint": "Legen Sie hier eine JSON-Datei ab oder durchsuchen Sie sie",
     "chooseFile": "Datei auswählen",
     "fileHint": "Verwenden Sie ein JSON-Array von Objekten mit einem Objekt pro Zeile und konsistenten Schlüsseln.",
@@ -119,14 +119,14 @@
     "jsonAria": "JSON-Array-Editor",
     "csvAria": "Vorschau der CSV-Ausgabe",
     "jsonEditorLoading": "JSON-Editor wird geladen…",
-    "jsonHint": "Ihre Daten müssen ein JSON-Array von Objekten bleiben, um in CSV-Zeilen konvertiert zu werden. ",
+    "jsonHint": "Ihre Daten müssen ein JSON-Array von Objekten bleiben, um in CSV-Zeilen konvertiert zu werden. Verwenden Sie nach Bearbeitungen Anwenden.",
     "csvHint": "Die CSV-Ausgabe wird nach jedem Anwenden aus dem JSON-Bedienfeld neu generiert.",
-    "jsonInvalid": "Ungültiger JSON. ",
+    "jsonInvalid": "Ungültiges JSON. Korrigieren Sie die Syntax und versuchen Sie es erneut.",
     "applySuccess": "CSV-Ausgabe von JSON aktualisiert"
   },
   "jsonToExcel": {
     "heroTitle": "JSON-zu-Excel-Konverter",
-    "heroSubtitle": "Importieren Sie eine JSON-Datei (bis zu {mb} MB, maximal {maxRows} geladene Zeilen). ",
+    "heroSubtitle": "Importieren Sie eine JSON-Datei (bis zu {mb} MB, maximal {maxRows} geladene Zeilen). Bearbeiten Sie ein JSON-Array von Objekten, wenden Sie Änderungen an, sehen Sie die Zeilen in der Vorschau und laden Sie Excel herunter.",
     "dropHint": "Legen Sie hier eine JSON-Datei ab oder durchsuchen Sie sie",
     "chooseFile": "Datei auswählen",
     "fileHint": "Verwenden Sie ein JSON-Array von Objekten mit einem Objekt pro Zeile und konsistenten Schlüsseln.",
@@ -140,9 +140,9 @@
     "copyJsonFailed": "JSON konnte nicht kopiert werden",
     "downloadXlsx": "Laden Sie .xlsx herunter",
     "jsonAria": "JSON-Array-Editor",
-    "jsonHint": "Ihre Daten müssen ein JSON-Array von Objekten bleiben. ",
+    "jsonHint": "Ihre Daten müssen ein JSON-Array von Objekten bleiben. Verwenden Sie Anwenden, um die Vorschau zu aktualisieren.",
     "previewHint": "Diese Vorschau zeigt die Zeilen, die nach Excel exportiert werden.",
-    "jsonInvalid": "Ungültiger JSON. ",
+    "jsonInvalid": "Ungültiges JSON. Korrigieren Sie die Syntax und versuchen Sie es erneut.",
     "applySuccess": "Vorschau von JSON aktualisiert"
   },
   "csvToExcel": {
@@ -151,8 +151,8 @@
     "dropzoneTitle": "Ziehen Sie CSV-Dateien hierher und legen Sie sie dort ab, oder klicken Sie zum Durchsuchen",
     "dropzoneHint": "Nur CSV (.csv oder durch Kommas getrennter Klartext) · bis zu {mb} MB pro Datei · Kopfzeile erforderlich · max. {maxRows} Zeilen werden pro Datei angezeigt",
     "addFiles": "CSV-Dateien hinzufügen",
-    "convertAll": "Beginnen Sie mit der Konvertierung",
-    "clearList": "Übersichtliche Liste",
+    "convertAll": "Alle konvertieren",
+    "clearList": "Liste leeren",
     "count": "{count} Dateien",
     "empty": "Es wurden noch keine Dateien hinzugefügt.",
     "statusPending": "Ausstehend",
@@ -171,7 +171,7 @@
     "dropzoneHint": "Nur Excel (.xls/.xlsx/.xlsm/.xlsb) · bis zu {mb} MB pro Datei · Header-Verarbeitung optional · max. {maxRows} Zeilen pro Datei geladen",
     "addFiles": "Dateien hinzufügen",
     "convertAll": "Alle konvertieren",
-    "clearList": "Übersichtliche Liste",
+    "clearList": "Liste leeren",
     "count": "{count} Dateien",
     "empty": "Es wurden noch keine Dateien hinzugefügt.",
     "statusPending": "Ausstehend",
@@ -209,21 +209,21 @@
   "landing": {
     "heroTitle": "Kostenlose, moderne, lokale\nund sichere Tools.",
     "heroSubtitle": "CSV in die Tabelle ziehen: sortieren, filtern, suchen, bearbeiten, einfügen, rückgängig/wiederholen, Zeilen hinzufügen oder entfernen. Daten bleiben auf diesem Gerät.",
-    "directoryKicker": "Tool Directory",
-    "directorySubtitle": "Suche in Konvertern, Viewern, Formatierern, OpenAPI-Helfern, PDF-Tools, Bild-Tools und mehr. Alles bleibt von einem Ort aus leicht zu durchsuchen.",
-    "directorySearchLabel": "Search tools",
-    "directoryTopHit": "Press Enter to open {label}",
-    "directoryAllLabel": "All",
-    "directoryResultsLabel": "{count} results for \"{query}\"",
-    "directoryReadyLabel": "{count} tools ready to use",
-    "directoryFilterPlaceholder": "Type to filter…",
-    "directoryExecute": "Execute tool",
-    "directoryResetFilters": "Reset filters",
-    "directorySearchTag": "Search_",
-    "directoryCategoriesTag": "Categories_",
-    "directoryJumpTo": "Jump to {label}",
-    "directoryEmptyTitle": "No tools match that search yet.",
-    "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
+    "directoryKicker": "Toolverzeichnis",
+    "directorySubtitle": "Suche in Konvertern, Viewern, Formatierern, OpenAPI-Helfern, PDF-, Bild- und weiteren Tools. Alles bleibt von einem Ort aus übersichtlich.",
+    "directorySearchLabel": "Tools durchsuchen",
+    "directoryTopHit": "Enter drücken, um {label} zu öffnen",
+    "directoryAllLabel": "Alle",
+    "directoryResultsLabel": "{count} Ergebnisse für „{query}“",
+    "directoryReadyLabel": "{count} Tools bereit",
+    "directoryFilterPlaceholder": "Zum Filtern tippen…",
+    "directoryExecute": "Tool ausführen",
+    "directoryResetFilters": "Filter zurücksetzen",
+    "directorySearchTag": "Suche_",
+    "directoryCategoriesTag": "Kategorien_",
+    "directoryJumpTo": "Zu {label} springen",
+    "directoryEmptyTitle": "Keine Tools passen zu dieser Suche.",
+    "directoryEmptyDescription": "Versuchen Sie einen allgemeineren Begriff wie CSV, JSON, PDF, Bild oder Konverter.",
     "loadingSheet": "Tabelle wird geladen…",
     "dropzoneTitle": "CSV hier ablegen oder klicken zum Durchsuchen",
     "dropzoneHint": "Nur CSV (.csv oder Text) · bis {mb} MB · Kopfzeile erforderlich · max. {maxRows} Zeilen",
@@ -233,7 +233,9 @@
     "sampleMissing": "Beispieldatei konnte nicht geladen werden. Prüfen Sie public/samples/products-10000.csv.",
     "sampleError": "Beispieldaten konnten nicht geladen werden.",
     "largeFileTitle": "Große Datei gekürzt",
-    "largeFileDescription": "{shown} Zeilen angezeigt (Limit {total} in der Datei)."
+    "largeFileDescription": "{shown} Zeilen angezeigt (Limit {total} in der Datei).",
+    "metaKeywords": "kostenloser CSV-Viewer online | CSV-Editor-Browser | CSV-Dateien vergleichen | CSV-Diff-Tool | JSON-zu-CSV-Konverter | CSV-zu-JSON-Konverter | JSON-Formatierer online | csv nach Excel | json zu Excel | Excel in CSV | XLS-Viewer | Tabellenkalkulations-Viewer | Parkettbetrachter online | csv in Parkett | Parkett in CSV | json zu Parkett | Parkett zu JSON | PDF online zusammenführen | PDF teilen | PDF-Wasserzeichen | pdf zum Bild | pdf zu Word | Bildkompressor | Bildgröße online ändern | heic in jpg | SVG zum Code | Browser-Dateikonverter | lokale Tools kein Upload | Datenschutzfreundlicher Konverter | Datenkonvertierungstools | OpenAPI-Viewer | Curl-Konverter | API-Konverter abrufen | GraphQL-Tools | Webhook-Viewer",
+    "collectionPageName": "{name}: Toolverzeichnis"
   },
   "csvToParquet": {
     "heroTitle": "CSV zu Parquet",
@@ -354,7 +356,7 @@
     "privacyDesc": "So gehen wir mit Daten und Datenschutz um.",
     "termsDesc": "Geschäftsbedingungen.",
     "copyright": "© {year} {name}. Alle Rechte vorbehalten.",
-    "processingNotice": "We do not store your uploaded files. Processing happens in your browser."
+    "processingNotice": "Wir speichern Ihre hochgeladenen Dateien nicht. Die Verarbeitung erfolgt in Ihrem Browser."
   },
   "legal": {
     "kicker": "Rechtliches",
@@ -381,7 +383,7 @@
       "name": "Name",
       "age": "Alter",
       "email": "E-Mail",
-      "website": "Website",
+      "website": "Webseite",
       "notes": "Notizen",
       "salary": "Gehalt",
       "department": "Abteilung",
@@ -425,12 +427,15 @@
     "crumbHome": "Start",
     "crumbGuides": "Anleitungen",
     "crumbTools": "Werkzeuge",
+    "hubDiscoveryIntro": "Weitere Hubs:",
+    "crumbImageConverter": "Bildkonverter",
     "guidesHubTitle": "CSV- und Datenraster-Anleitungen",
-    "guidesHubDescription": "Strukturierte Anleitungen zum Öffnen großer CSV-Dateien, Bereinigen von Exporten und lokaler Nutzung von Table vor Upload oder ERP-Sync.",
+    "guidesHubDescription": "Strukturierte Anleitungen zum Öffnen großer CSV-Dateien, Bereinigen von Exporten, zum lokalen Vergleich zweier CSV-Dateien im Browser und zur Nutzung von Localtool vor dem Hochladen von Tabellen oder der ERP-Synchronisation.",
     "toolsHubTitle": "Tools und Workflow-Hubs",
     "toolsHubDescription": "Intent-orientierte Seiten für CSV-Prüfung im Browser, E-Commerce-Exporte und verwandte Abläufe, mit strukturierten Daten und konsistenten Metadaten.",
     "toolsHubSectionsTitle": "Nach Kategorie stöbern",
     "relatedPagesTitle": "Verwandte Seiten",
+    "relatedImageConvertTitle": "Verwandte Konvertierungen",
     "contentLocaleNotice": "Der Hauptinhalt ist auf Englisch. Die Oberfläche nutzt Ihre gewählte Sprache für Navigation und Barrierefreiheit.",
     "faqHeading": "Häufige Fragen",
     "badgeGuide": "Anleitung",
@@ -448,10 +453,10 @@
   "csv": {
     "rowsColumns": "{rowCount} Zeilen · {columnCount} Spalten",
     "importCapped": "(Import begrenzt auf {imported} von {total} Zeilen aus der Datei)",
-    "clear": "Klar",
+    "clear": "Leeren",
     "clearDialogTitle": "Gespeicherte Daten löschen?",
     "clearDialogDescription": "Dadurch werden die geladene CSV-Datei und Ihre Änderungen aus dem Speicher dieses Browsers auf diesem Gerät entfernt. ",
-    "clearConfirm": "Klar",
+    "clearConfirm": "Leeren",
     "download": "Herunterladen",
     "exportCsv": "Durch Kommas getrennt (.csv)",
     "exportJson": "JSON (.json)",
@@ -497,103 +502,431 @@
     "toastRowsDeleted": "{count} Zeilen gelöscht"
   },
   "header": {
-    "searchButton": "Search services...",
-    "openSearch": "Open search",
-    "openMenu": "Open menu",
-    "exploreTools": "Explore tools",
-    "searchTitle": "Search services",
-    "searchDescription": "Search tools and open pages quickly",
-    "searchPlaceholder": "Search tools, pages, or categories...",
-    "closeSearch": "Close search",
-    "noResults": "No results found.",
-    "topResults": "Top results"
+    "searchButton": "Dienste durchsuchen…",
+    "openSearch": "Suche öffnen",
+    "openMenu": "Menü öffnen",
+    "exploreTools": "Tools entdecken",
+    "searchTitle": "Dienste durchsuchen",
+    "searchDescription": "Tools und Seiten schnell finden und öffnen",
+    "searchPlaceholder": "Tools, Seiten oder Kategorien durchsuchen…",
+    "closeSearch": "Suche schließen",
+    "noResults": "Keine Treffer.",
+    "topResults": "Top-Ergebnisse"
   },
   "services": {
-    "groupConvertersTitle": "Converters",
-    "groupConvertersDescription": "Convert between CSV, JSON, and Parquet instantly.",
-    "groupViewersTitle": "Viewers",
-    "groupViewersDescription": "Preview and inspect files in your browser.",
+    "groupConvertersTitle": "Konverter",
+    "groupConvertersDescription": "Sofort zwischen CSV, JSON und Parquet wechseln.",
+    "groupViewersTitle": "Viewer",
+    "groupViewersDescription": "Dateien im Browser ansehen und prüfen.",
     "groupExcelTitle": "Excel",
-    "groupExcelDescription": "Import and export between CSV, JSON, and Excel.",
-    "groupDeveloperTitle": "Developer",
-    "groupDeveloperDescription": "API and text utilities for everyday web development.",
+    "groupExcelDescription": "CSV, JSON und Excel importieren und exportieren.",
+    "groupDeveloperTitle": "Entwicklung",
+    "groupDeveloperDescription": "API- und Text-Hilfen für die tägliche Webentwicklung.",
     "groupPdfTitle": "PDF",
-    "groupPdfDescription": "PDF tools: convert, split, merge, and watermark locally.",
+    "groupPdfDescription": "PDF-Tools: konvertieren, teilen, zusammenfügen und Wasserzeichen – lokal.",
     "groupVideoTitle": "Video",
-    "groupVideoDescription": "Video tools: optimize media directly in the browser.",
-    "groupImageTitle": "Image",
-    "groupImageDescription": "Image tools: compress, convert, and resize locally.",
-    "groupColorTitle": "Color",
-    "groupColorDescription": "Color tools: generators and trending galleries.",
-    "csvViewerLabel": "CSV Viewer",
-    "csvViewerDesc": "Open and inspect CSV data quickly.",
-    "csvCompareLabel": "CSV Compare",
-    "csvCompareDesc": "Compare two CSV files side by side.",
-    "csvToExcelDesc": "Convert CSV to XLSX files.",
-    "xlsToCsvDesc": "Turn Excel sheets into CSV.",
-    "jsonToExcelDesc": "Convert JSON into XLSX.",
-    "csvToJsonDesc": "Convert CSV files to JSON.",
-    "jsonToCsvDesc": "Convert JSON to CSV format.",
-    "csvToParquetDesc": "Turn CSV data into Parquet files.",
-    "parquetToCsvDesc": "Convert Parquet files back to CSV.",
-    "jsonToParquetDesc": "Create Parquet from JSON data.",
-    "parquetToJsonDesc": "Convert Parquet into JSON.",
-    "csvToMarkdownTableDesc": "Generate markdown tables from CSV files.",
-    "xlsViewerDesc": "View Excel XLS files directly.",
-    "parquetViewerDesc": "Open and browse Parquet files.",
-    "jsonFormatterLabel": "JSON Formatter",
-    "jsonFormatterDesc": "Format, minify, and validate JSON locally.",
-    "curlConverterLabel": "cURL Converter",
-    "curlConverterDesc": "Convert cURL request snippets to fetch/axios/Python.",
-    "fetchConverterLabel": "Fetch Converter",
-    "fetchConverterDesc": "Convert fetch snippets to cURL/axios/Python.",
-    "axiosConverterLabel": "Axios Converter",
-    "axiosConverterDesc": "Convert axios snippets to cURL/fetch/Python.",
-    "pythonRequestsConverterLabel": "Python Requests Converter",
-    "pythonRequestsConverterDesc": "Convert Python requests snippets to cURL/fetch/axios.",
-    "httpExplainerLabel": "HTTP Explainer",
-    "httpExplainerDesc": "Explain status codes and common HTTP headers.",
-    "openapiViewerLabel": "OpenAPI Viewer",
-    "openapiViewerDesc": "Load OpenAPI specs and browse endpoints.",
-    "graphqlToolsLabel": "GraphQL Tools",
-    "graphqlToolsDesc": "Format queries and inspect schema types.",
-    "webhookViewerLabel": "Webhook Viewer",
-    "webhookViewerDesc": "Pretty-print payloads and search JSONPath.",
-    "pdfToWordLabel": "PDF to Word",
-    "pdfToWordDesc": "Convert PDFs to DOCX files.",
-    "splitPdfLabel": "Split PDF",
-    "splitPdfDesc": "Split PDF files by page or range.",
-    "reorderPdfLabel": "Reorder PDF Pages",
-    "reorderPdfDesc": "Reorder or remove pages, then save a new PDF.",
-    "mergePdfLabel": "Merge PDF",
-    "mergePdfDesc": "Combine multiple PDFs into one.",
-    "pdfToImageLabel": "PDF to Image",
-    "pdfToImageDesc": "Export PDF pages to PNG/JPG/WebP.",
-    "imagesToPdfLabel": "Images to PDF",
-    "imagesToPdfDesc": "Combine images into a single PDF.",
-    "pdfWatermarkLabel": "PDF Watermark",
-    "pdfWatermarkDesc": "Add text or image watermarks to PDFs.",
-    "bulkPdfWatermarkLabel": "Bulk PDF Watermark",
-    "bulkPdfWatermarkDesc": "Apply one watermark to many PDFs and download ZIP.",
-    "videoCompressorLabel": "Video Compressor",
-    "videoCompressorDesc": "Compress videos locally with bulk uploads.",
-    "imageCompressorLabel": "Image Compressor",
-    "imageCompressorDesc": "Compress images locally in bulk.",
-    "imageConverterLabel": "Image Converter",
-    "imageConverterDesc": "Convert to WebP, AVIF, JPG, or PNG.",
-    "imageResizeLabel": "Resize/Crop + Convert",
-    "imageResizeDesc": "Resize, crop, convert, and rename images in bulk.",
-    "heicToJpgLabel": "HEIC to JPG/PNG",
-    "heicToJpgDesc": "Convert HEIC/HEIF photos to JPG or PNG.",
-    "colorPaletteGeneratorLabel": "Color Palette Generator",
-    "colorPaletteGeneratorDesc": "Generate palettes and export PNG/JSON.",
-    "gradientGeneratorLabel": "Gradient Generator",
-    "gradientGeneratorDesc": "Create gradients and export PNG/JSON.",
-    "meshGradientGeneratorLabel": "Mesh gradients",
-    "meshGradientGeneratorDesc": "Blur mesh blobs and export PNG.",
-    "trendingPalettesLabel": "Trending Palettes",
-    "trendingPalettesDesc": "Browse curated color palettes.",
-    "trendingGradientsLabel": "Trending Gradients",
-    "trendingGradientsDesc": "Browse curated gradients."
+    "groupVideoDescription": "Video-Tools: Medien direkt im Browser optimieren.",
+    "groupImageTitle": "Bild",
+    "groupImageDescription": "Bild-Tools: komprimieren, konvertieren und skalieren – lokal.",
+    "groupColorTitle": "Farbe",
+    "groupColorDescription": "Farbtools: Generatoren und kuratierte Galerien.",
+    "csvViewerLabel": "CSV-Viewer",
+    "csvViewerDesc": "CSV-Daten schnell öffnen und prüfen.",
+    "csvCompareLabel": "CSV-Vergleich",
+    "csvCompareDesc": "Zwei CSV-Dateien nebeneinander vergleichen.",
+    "csvToExcelDesc": "CSV in XLSX-Dateien umwandeln.",
+    "xlsToCsvDesc": "Excel-Tabellen in CSV umwandeln.",
+    "jsonToExcelDesc": "JSON in XLSX umwandeln.",
+    "csvToJsonDesc": "CSV-Dateien in JSON umwandeln.",
+    "jsonToCsvDesc": "JSON ins CSV-Format konvertieren.",
+    "csvToParquetDesc": "CSV-Daten als Parquet-Dateien speichern.",
+    "parquetToCsvDesc": "Parquet zurück in CSV umwandeln.",
+    "jsonToParquetDesc": "Parquet aus JSON-Daten erzeugen.",
+    "parquetToJsonDesc": "Parquet in JSON-Ausgabe umwandeln.",
+    "csvToMarkdownTableDesc": "Markdown-Tabellen aus CSV erzeugen.",
+    "xlsViewerDesc": "Excel-Dateien direkt ansehen.",
+    "parquetViewerDesc": "Parquet-Dateien öffnen und durchsuchen.",
+    "jsonFormatterLabel": "JSON-Formatierer",
+    "jsonFormatterDesc": "JSON lokal formatieren, minifizieren und validieren.",
+    "curlConverterLabel": "cURL-Konverter",
+    "curlConverterDesc": "cURL-Snippets nach fetch/axios/Python konvertieren.",
+    "fetchConverterLabel": "Fetch-Konverter",
+    "fetchConverterDesc": "fetch-Snippets nach cURL/axios/Python konvertieren.",
+    "axiosConverterLabel": "Axios-Konverter",
+    "axiosConverterDesc": "axios-Snippets nach cURL/fetch/Python konvertieren.",
+    "pythonRequestsConverterLabel": "Python-requests-Konverter",
+    "pythonRequestsConverterDesc": "Python-requests-Snippets nach cURL/fetch/axios konvertieren.",
+    "httpExplainerLabel": "HTTP-Erklärer",
+    "httpExplainerDesc": "Statuscodes und gängige HTTP-Header erklären.",
+    "openapiViewerLabel": "OpenAPI-Viewer",
+    "openapiViewerDesc": "OpenAPI-Spezifikationen laden und Endpunkte durchsuchen.",
+    "graphqlToolsLabel": "GraphQL-Tools",
+    "graphqlToolsDesc": "Abfragen formatieren und Schema-Typen prüfen.",
+    "webhookViewerLabel": "Webhook-Viewer",
+    "webhookViewerDesc": "Payloads formatieren und per JSONPath suchen.",
+    "pdfToWordLabel": "PDF zu Word",
+    "pdfToWordDesc": "PDFs in DOCX-Dateien umwandeln.",
+    "splitPdfLabel": "PDF teilen",
+    "splitPdfDesc": "PDFs nach Seite oder Bereich aufteilen.",
+    "reorderPdfLabel": "PDF-Seiten sortieren",
+    "reorderPdfDesc": "Seiten neu ordnen oder entfernen, neues PDF speichern.",
+    "mergePdfLabel": "PDF zusammenführen",
+    "mergePdfDesc": "Mehrere PDFs zu einer Datei kombinieren.",
+    "pdfToImageLabel": "PDF zu Bild",
+    "pdfToImageDesc": "PDF-Seiten als PNG/JPG/WebP exportieren.",
+    "imagesToPdfLabel": "Bilder zu PDF",
+    "imagesToPdfDesc": "Bilder zu einer PDF-Datei zusammenfügen.",
+    "pdfWatermarkLabel": "PDF-Wasserzeichen",
+    "pdfWatermarkDesc": "Text- oder Bild-Wasserzeichen zu PDFs hinzufügen.",
+    "bulkPdfWatermarkLabel": "PDF-Wasserzeichen (Stapel)",
+    "bulkPdfWatermarkDesc": "Ein Wasserzeichen auf viele PDFs anwenden und ZIP laden.",
+    "videoCompressorLabel": "Video-Kompressor",
+    "videoCompressorDesc": "Videos lokal mit Stapel-Uploads komprimieren.",
+    "imageCompressorLabel": "Bildkompressor",
+    "imageCompressorDesc": "Bilder lokal stapelweise komprimieren.",
+    "imageConverterLabel": "Bildkonverter",
+    "imageConverterDesc": "Nach WebP, AVIF, JPG oder PNG konvertieren.",
+    "imageResizeLabel": "Größe/Zuschneiden + Konvertieren",
+    "imageResizeDesc": "Bilder stapelweise skalieren, zuschneiden, konvertieren und umbenennen.",
+    "imageRemoveBackgroundLabel": "Remove background",
+    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
+    "heicToJpgLabel": "HEIC zu JPG/PNG",
+    "heicToJpgDesc": "HEIC/HEIF-Fotos nach JPG oder PNG konvertieren.",
+    "colorPaletteGeneratorLabel": "Farbpaletten-Generator",
+    "colorPaletteGeneratorDesc": "Paletten erzeugen und PNG/JSON exportieren.",
+    "gradientGeneratorLabel": "Verlauf-Generator",
+    "gradientGeneratorDesc": "Verläufe erstellen und PNG/JSON exportieren.",
+    "meshGradientGeneratorLabel": "Mesh-Verläufe",
+    "meshGradientGeneratorDesc": "Mesh-Blobs weichzeichnen und PNG exportieren.",
+    "trendingPalettesLabel": "Trend-Paletten",
+    "trendingPalettesDesc": "Kuratierte Farbpaletten durchsuchen.",
+    "trendingGradientsLabel": "Trend-Verläufe",
+    "trendingGradientsDesc": "Kuratierte Verläufe durchsuchen.",
+    "trendingMeshGradientsLabel": "Trendige Mesh-Verläufe",
+    "trendingMeshGradientsDesc": "Durchsuchen Sie 500 Blob-Verläufe im Mesh-Stil."
+  },
+  "imageConvertPair": {
+    "subtitle": "{from} zu {to} lokal im Browser konvertieren. Keine Uploads. Standardausgabe: {to}.",
+    "intro1": "Nutzer suchen nach {from} zu {to}, wenn sie eine kleinere Datei brauchen, ein Format, das ihr CMS akzeptiert, oder Pixelgrafiken, die Editoren ohne Plugins öffnen. Diese Seite nutzt denselben Localtool-Bildkonverter wie der Haupt-Hub, mit Voreinstellung {to}.",
+    "intro2": "Dekodierung und Kodierung laufen in Ihrem Browser-Tab. Für die Konvertierung wird nichts auf unsere Server hochgeladen. Nutzen Sie den Schnellmodus für PNG, JPG, WebP und AVIF, wenn Ihr Browser es unterstützt, oder den erweiterten Pfad für GIF, BMP, TIFF, ICO, HEIC oder nachverfolgtes SVG.",
+    "faq1Question": "Wie konvertiere ich {from} zu {to}, ohne Dateien hochzuladen?",
+    "faq1Answer": "Seite öffnen, Bilder vom Gerät oder per CORS-fähigem Direktlink hinzufügen, Ausgabe auf {to} lassen, herunterladen. Die Verarbeitung bleibt im Browser; wir erhalten Ihre Bildbytes nicht.",
+    "faq2Question": "Verschlechtert {from} zu {to} die Bildqualität?",
+    "faq2Answer": "Verlustbehaftete Formate (z. B. JPG, WebP, AVIF) nutzen einen Qualitätsregler. Verlustfreie Formate (z. B. PNG oder SVG aus Tracing) vermeiden Fotokompression, können aber größere Dateien ergeben. Wählen Sie das Format passend zum nächsten Schritt, nicht nur nach kleinster Dateigröße.",
+    "faq3Question": "Ist {from} zu {to} dasselbe wie der Haupt-Bildkonverter?",
+    "faq3Answer": "Ja. Unter /image-convert steht das vollständige Tool; diese URL setzt die Standardausgabe auf {to} und richtet sich an Nutzer, die ihre Quelle bereits als {from} kennen. Sie können im Tool weiterhin ein anderes Ausgabeformat wählen.",
+    "keywordsLine": "{from} bis {to} | Konvertieren Sie {from} in {to} online kostenlos | {from} zu {to} Konverter | kostenlos {from} bis {to} kein Upload | Browser {from} bis {to} privat | lokal {from} bis {to}"
+  },
+  "pageMeta": {
+    "breadcrumbHome": "Heim",
+    "csvViewer": {
+      "title": "Kostenloser CSV-Viewer und -Editor (Browser, kein Upload)",
+      "description": "Öffnen Sie große CSV-Dateien in Ihrem Browser: Sortieren, Filtern, Suchen, Bearbeiten von Zellen, Einfügen, Rückgängigmachen/Wiederherstellen, Hinzufügen oder Entfernen von Zeilen. Private lokale Verarbeitung; Die Daten bleiben auf Ihrem Gerät und können bei Ihrer Rückkehr optional wiederhergestellt werden.",
+      "keywords": "CSV-Viewer|CSV-Editor online kostenlos|CSV im Browser öffnen|lokales CSV-Tool|bearbeitbares CSV-Raster|Tabellenkalkulations-Viewer|CSV kein Upload|Datenschutz-CSV-Editor"
+    },
+    "meshGradient": {
+      "title": "Kostenloser Mesh-Gradientengenerator online",
+      "description": "Entwerfen Sie weiche Farbverläufe im Mesh-Stil aus verschwommenen Farbklecksen auf der Leinwand. Harmonische Paletten, Filmkörnung und PNG-Export, alles in Ihrem Browser, ohne Datei-Uploads.",
+      "keywords": "Mesh-Gradienten-Generator|Blob-Gradienten-Maker|kostenloses Verlaufs-Hintergrundbild|Leinwand-Gradienten-Tool|PNG-Gradienten-Export|ästhetischer Hintergrund-Gradient|Mesh-Gradient online",
+      "breadcrumbLabel": "Mesh-Gradientengenerator",
+      "jsonLdName": "Mesh-Gradientengenerator",
+      "jsonLdDescription": "Erzeugen Sie weiche Farbverläufe im Mesh-Stil mit harmonischen Farben, Unschärfe und Filmkörnung. PNG exportieren.",
+      "browseTrending": "Durchsuchen Sie 500 trendige Mesh-Verläufe"
+    },
+    "meshGradientTrending": {
+      "title": "Über 500 trendige Mesh-Verläufe (kostenlose Voreinstellungen)",
+      "description": "Durchsuchen Sie Hunderte harmonischer Farbverläufe im Mesh-Stil mit weichen, verschwommenen Klecksen. Klicken Sie auf eine beliebige Voreinstellung, um sie im kostenlosen Netzverlaufsgenerator zu öffnen und PNG lokal zu exportieren.",
+      "keywords": "Trendige Mesh-Verläufe|Mesh-Verlaufsvoreinstellungen|Blob-Verlaufsideen|kostenlose Verlaufshintergründe|Canvas-Mesh-Hintergrundbild|Ästhetisches Mesh-Verlaufspaket",
+      "h1": "Trendige Mesh-Verläufe",
+      "intro": "Harmonische Paletten und Blob-Positionen gesetzt. Klicken Sie auf eine Karte, um diesen Look im Mesh-Verlaufsgenerator zu öffnen, und optimieren Sie dann Text, Körnung, Unschärfe und exportieren Sie PNG.",
+      "loadingFallback": "Netzverläufe werden geladen…",
+      "breadcrumbLabel": "Trendiges Mesh",
+      "linkToGenerator": "Offener Mesh-Gradientengenerator",
+      "openInGenerator": "Im Netzgenerator öffnen",
+      "downloadPng": "Verlaufsbild herunterladen (PNG)",
+      "jsonLdName": "Trendige Mesh-Verläufe",
+      "jsonLdDescription": "Durchsuchen Sie kuratierte Farbverläufe im Netzstil und öffnen Sie Voreinstellungen im Netzverlaufsgenerator.",
+      "faq1Question": "Können diese Netzverläufe kostenlos verwendet werden?",
+      "faq1Answer": "Ja. Durchsuchen Sie die Galerie, öffnen Sie eine beliebige Voreinstellung im Netzverlaufsgenerator und exportieren Sie PNG in Ihrem Browser. Die Verarbeitung bleibt auf Ihrem Gerät; Wir laden Ihre Dateien nicht zur Konvertierung hoch.",
+      "faq2Question": "Wie passe ich eine Voreinstellung an?",
+      "faq2Answer": "Klicken Sie auf eine Karte, um diesen Look in den Netzverlaufsgenerator zu laden. Von dort aus können Sie Farben, Unschärfe, Körnung und optionalen Text ändern und erneut exportieren, ohne die Seite zu verlassen.",
+      "faq3Question": "Unterscheidet sich dies vom Hauptwerkzeug für den Netzverlauf?",
+      "faq3Answer": "Diese Seite ist eine kuratierte voreingestellte Galerie. Der eigenständige Mesh-Gradientengenerator ist der vollständige Editor; Karten hier öffnen dieses Werkzeug mit den gleichen harmonischen Ausgangswerten, sodass Sie Farben, Unschärfe und Körnung vor dem Export optimieren können."
+    },
+    "linkedinBanner": {
+      "title": "Kostenloser LinkedIn-Banner-Ersteller (Profil und Seite)",
+      "description": "Erstellen Sie LinkedIn-Profil- und Unternehmensseitenbanner in Ihrem Browser. Standardgröße 1584 x 396 und verwandte Größen, bearbeitbare Farben und Layouts, optionales Logo und Export in PNG, JPEG oder WebP ohne Hochladen auf einen Server.",
+      "keywords": "Linkedin-Banner-Ersteller | Linkedin-Titelbildgröße | kostenloses Linkedin-Banner | Profil-Banner-Generator | Linkedin-Header-Vorlage | Banner-Ersteller online | Linkedin-Hintergrundbild"
+    },
+    "svgToCode": {
+      "title": "SVG zu JSX, React & XML (kostenlos, lokal)",
+      "description": "Verwandeln Sie SVG in JSX, eine typisierte React-Komponente oder hübsches XML in Ihrem Browser. Code einfügen oder hochladen, sofort kopieren. Nur clientseitig, kein Cloud-Upload.",
+      "keywords": "SVG zu jsx|SVG zur Reaktionskomponente|SVG-Konverter online|SVG zu Typoskript-Reaktion|Pretty Print SVG|Browser-SVG-Tool|SVG-Codegen kostenlos"
+    },
+    "gradients": {
+      "title": "CSS-Gradientengenerator (kostenlos online)",
+      "description": "Erstellen Sie trendige Multi-Stop-Verläufe aus jeder Grundfarbe. Sperren Sie Stopps, kopieren Sie CSS mit linearem Farbverlauf, exportieren Sie PNG oder JSON und sehen Sie WCAG-Kontrasthinweise pro Stopp – alles lokal in Ihrem Browser.",
+      "keywords": "CSS-Verlaufsgenerator|Linearer Verlaufsgenerator|kostenloses Verlaufswerkzeug|Trendverläufe|Verlaufsexport PNG|wcag-Kontrastverlauf|UI-Verlaufsgenerator|Farbe stoppt CSS",
+      "breadcrumbLabel": "Farbverläufe",
+      "jsonLdName": "Gradientengenerator",
+      "jsonLdDescription": "Generieren Sie Trendverläufe aus jeder Grundfarbe mit arretierbaren Stopps und PNG/CSS/JSON-Export.",
+      "faq1Question": "Kann ich eine Haltestelle sperren und das Gefälle regenerieren?",
+      "faq1Answer": "Ja. Klicken Sie auf das Schlosssymbol an einem beliebigen Stopp, damit dieser fixiert bleibt, während Sie den Harmoniemodus, die Grundfarbe oder die Schieberegler ändern.",
+      "faq2Question": "Wie funktioniert hier die Kontrastführung?",
+      "faq2Answer": "Für jeden Stopp berechnen wir anhand des WCAG-Kontrastverhältnisses die beste Textfarbe (Schwarz/Weiß) und zeigen ein AA/AAA-Abzeichen.",
+      "faq3Question": "Was kann ich exportieren?",
+      "faq3Answer": "Kopieren Sie CSS linear-gradient und laden Sie PNG, JSON und eine CSS-Datei herunter, die Variablen sowie den vollständigen Farbverlauf enthält."
+    },
+    "gradientsBest": {
+      "title": "Beste CSS-Verlaufsbibliothek (500 kuratiert)",
+      "description": "Entdecken Sie 500 kuratierte, barrierefreie Farbverläufe mit starkem Kontrast. Verwenden Sie alle Voreinstellungen im kostenlosen Verlaufsgenerator wieder und exportieren Sie CSS oder PNG in Ihren Browser.",
+      "keywords": "beste CSS-Verläufe | kuratierte Verläufe | zugängliche Verläufe | UI-Verlaufsvoreinstellungen | lineare Verlaufsbibliothek | kostenlose Inspiration für Verläufe | wcag-freundliche Verläufe",
+      "h1": "Beste Steigungen",
+      "intro": "Kuratiert, um deutlich zu sein und einen lesbaren Kontrast über die Haltestellen hinweg beizubehalten. Wählen Sie eine beliebige Karte aus, um sie im Verlaufsgenerator wiederzuverwenden.",
+      "loadingFallback": "Die besten Farbverläufe werden geladen…",
+      "breadcrumbLabel": "Beste Steigungen",
+      "jsonLdName": "Beste CSS-Verlaufsbibliothek",
+      "jsonLdDescription": "Fünfhundert kuratierte lineare Farbverläufe mit kontrastbewussten Stopps; Öffnen Sie eine beliebige Voreinstellung im kostenlosen Farbverlaufsgenerator.",
+      "faq1Question": "Was macht diese „besten“ Farbverläufe aus?",
+      "faq1Answer": "Sie werden von Hand zusammengestellt, um ein klares Erscheinungsbild zu gewährleisten und einen stärkeren Kontrast zwischen den Stopps zu gewährleisten, sodass Typ- und Benutzeroberflächenelemente lesbar bleiben, wenn Sie sie im Generator wiederverwenden.",
+      "faq2Question": "Wie verwende ich eine Voreinstellung?",
+      "faq2Answer": "Klicken Sie auf eine Karte, um diesen Verlauf im kostenlosen CSS-Verlaufsgenerator zu öffnen. Von dort aus können Sie Stopps sperren, CSS mit linearem Farbverlauf kopieren und PNG oder JSON lokal exportieren.",
+      "faq3Question": "Kann ich eine Voreinstellung bearbeiten, nachdem ich sie geöffnet habe?",
+      "faq3Answer": "Ja. Harmony-Modi, Sperren, Schieberegler und Exporte funktionieren genauso wie beim Erstellen eines Farbverlaufs von Grund auf; Die Voreinstellung ist nur ein Ausgangspunkt."
+    },
+    "palettesTrending": {
+      "title": "Kostenloser Online-Farbpalettengenerator",
+      "description": "Generieren Sie harmonische Farbpaletten aus jeder Grundfarbe. Sperren Sie Farbfelder, kopieren Sie benutzerdefinierte Hex- und CSS-Eigenschaften, exportieren Sie PNG oder JSON und sehen Sie sich die schnelle Anleitung zum WCAG-Kontrast an. läuft lokal in Ihrem Browser.",
+      "keywords": "Farbpalettengenerator|Hex-Palettenhersteller|Trendfarbschemata|CSS-Farbvariablen|zugängliche Farbpalette|UI-Palettentool|kostenloser Palettengenerator|Markenfarbgenerator",
+      "breadcrumbLabel": "Paletten",
+      "jsonLdName": "Farbpalettengenerator",
+      "jsonLdDescription": "Generieren Sie Trendfarbpaletten aus jeder Grundfarbe mit Sperrmustern, Kopieren und PNG/JSON-Export.",
+      "faq1Question": "Kann ich eine Farbe sperren und den Rest neu generieren?",
+      "faq1Answer": "Ja. Verwenden Sie die Sperrtaste an einem beliebigen Farbfeld, um es festzuhalten, während Sie mischen oder den Harmoniemodus ändern.",
+      "faq2Question": "Hilft das Tool beim Barrierefreiheitskontrast?",
+      "faq2Answer": "Für jede Farbe zeigen wir die beste Textfarbe (Schwarz/Weiß) basierend auf dem WCAG-Kontrastverhältnis und einem schnellen AA/AAA-Abzeichen.",
+      "faq3Question": "Was kann ich aus der Palette exportieren?",
+      "faq3Answer": "Sie können CSS-Variablen kopieren und ein PNG-Bild oder eine JSON-Datei mit den Hex-Werten der Palette herunterladen.",
+      "loadingFallback": "Palette wird geladen…"
+    },
+    "palettesBest": {
+      "title": "Beste Farbpaletten (500 kuratierte Hex-Sets)",
+      "description": "Stöbern Sie in 500 kuratierten Paletten, die auf Kontrast und Abwechslung abgestimmt sind. Öffnen Sie einen beliebigen Satz im kostenlosen Palettengenerator, um Elemente zu optimieren, zu kopieren und zu exportieren, ohne Dateien hochladen zu müssen.",
+      "keywords": "beste Farbpaletten | kuratierte Hex-Paletten | zugängliche Farbschemata | Inspiration für UI-Paletten | Ideen für Markenpaletten | kostenlose Farbkombinationen | Webdesign-Paletten",
+      "h1": "Beste Farbpaletten",
+      "intro": "Kuratiert, um eindeutig auszusehen und einen lesbaren Kontrast beizubehalten. Wählen Sie eine beliebige Karte aus, um sie im Palettengenerator wiederzuverwenden.",
+      "loadingFallback": "Die besten Paletten werden geladen…",
+      "breadcrumbLabel": "Beste Paletten",
+      "jsonLdName": "Beste Farbpalettenbibliothek",
+      "jsonLdDescription": "Fünfhundert kuratierte Hex-Paletten mit Blick auf den Kontrast; Öffnen Sie einen beliebigen Satz im kostenlosen Palettengenerator, um ihn zu bearbeiten oder zu exportieren.",
+      "faq1Question": "Wie wurden diese Paletten ausgewählt?",
+      "faq1Answer": "Das Set legt Wert auf Vielfalt und lesbaren Kontrast zwischen den Farbfeldern, sodass die Farben für UI-Modelle, Branding-Erkundungen und Design-Inspirationen geeignet sind.",
+      "faq2Question": "Wie öffne ich eine Palette im Editor?",
+      "faq2Answer": "Klicken Sie auf eine beliebige Karte, um diese Farbfelder in den Palettengenerator zu laden. Sie können Farben sperren, den Rest mischen, CSS-Variablen kopieren und PNG oder JSON herunterladen, ohne Dateien hochladen zu müssen.",
+      "faq3Question": "Ist das dasselbe Werkzeug wie die Hauptpalettenseite?",
+      "faq3Answer": "Ja. Der Generator befindet sich auf der Hauptpalettenseite. Bei dieser Galerie handelt es sich um ein fest kuratiertes Set, während sich Trending Flows darauf konzentrieren, aus einer Grundfarbe neue Harmonien zu generieren."
+    }
+  },
+  "toolMeta": {
+    "axios-converter": {
+      "title": "Axios-Konverter",
+      "description": "Axios-Konverter: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "Axios-Konverter | Axios zum Einrollen | Zu holende Axios | Axios zu Python-Anfragen | Anfragekonverter | Browser-API-Konverter | kostenloser Axios-zu-Fetch-Konverter | Konvertieren Sie den HTTP-Client-Code online"
+    },
+    "bulk-pdf-watermark": {
+      "title": "Massen-PDF-Wasserzeichen",
+      "description": "Massen-PDF-Wasserzeichen: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "Massen-PDF-Wasserzeichen | Mehrere PDF-Dateien mit Wasserzeichen versehen | Batch-PDF-Wasserzeichen-Tool | PDF-Wasserzeichen kein Upload | Wasserzeichen-PDF mit Text | Wasserzeichen-PDF mit Bild | kostenloses PDF-Wasserzeichen online | Wasserzeichen-PDF im Browser"
+    },
+    "compare": {
+      "title": "Vergleichen Sie CSV-Dateien",
+      "description": "CSV-Dateien vergleichen: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "CSV-Dateien vergleichen | CSV-Diff-Tool | csv online vergleichen | zwei CSV-Dateien vergleichen | Browser-CSV-Diff | CSV-Änderungsanzeiger | Kostenloses CSV-Diff online | nebeneinander CSV vergleichen"
+    },
+    "csv-to-excel": {
+      "title": "CSV nach Excel",
+      "description": "CSV zu Excel: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "csv nach Excel | csv nach xlsx | CSV-Konverter | Batch-CSV nach Excel | Browser-CSV nach XLSX | CSV-Excel-Export | Kostenloser CSV-zu-Excel-Konverter | Konvertieren Sie CSV online in eine Tabellenkalkulation"
+    },
+    "csv-to-json": {
+      "title": "CSV zu JSON",
+      "description": "CSV zu JSON: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "csv nach json | CSV-JSON-Konverter | CSV in JSON konvertieren | Browser-CSV in JSON | csv in json online | lokaler CSV-Konverter | Kostenloses CSV in JSON | CSV zu JSON, kein Upload"
+    },
+    "csv-to-markdown-table": {
+      "title": "CSV zur Markdown-Tabelle",
+      "description": "CSV in Markdown-Tabelle: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "csv in Markdown-Tabelle | CSV-Markdown-Konverter | Markdown-Tabellengenerator | CSV in Markdown konvertieren | Browser-Markdown-Tabelle | csv nach md | Kostenlose CSV-Datei zum Markdown | Github-Readme-Tabelle aus CSV"
+    },
+    "csv-to-parquet": {
+      "title": "CSV zu Parkett",
+      "description": "CSV zu Parquet: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "csv in Parkett | CSV in Parkett konvertieren | Parkettkonverter | Browser-CSV in Parkett | CSV-Parkettexport | lokales Parkettwerkzeug | Kostenloses CSV in Parkett online | Apache-Parkett von CSV"
+    },
+    "curl-converter": {
+      "title": "cURL-Konverter",
+      "description": "cURL-Konverter: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "Curl-Konverter | Curl zum Abrufen | Curl zu Axios | Curl zu Python-Anfragen | Anforderungscode-Konverter | Browser-Curl-Konverter | Free Curl zum Abrufen | Curl-Befehl online konvertieren"
+    },
+    "data-grid": {
+      "title": "Data Grid-Demo",
+      "description": "Data Grid-Demo: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "Datenraster-Demo | Reagieren Sie auf das Datenraster | editierbares Datenraster | Browser-Datentabelle | Grid-Demo | Beispiel für ein Datenraster | Tanstack-Tisch-Demo | Interaktiver Datenraster-Browser"
+    },
+    "data-grid-live": {
+      "title": "Live-Data-Grid-Demo",
+      "description": "Live Data Grid-Demo: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "Live-Datenraster-Demo | Echtzeit-Datenraster | Reagieren Sie live auf das Datenraster | Browser-Datenraster-Demo | Datenraster synchronisieren | Live-Beispiel für ein Datenraster | WebSocket-Data-Grid-Demo | Live-Aktualisierung der Tabellen-Benutzeroberfläche"
+    },
+    "data-grid-render": {
+      "title": "Data Grid Render-Demo",
+      "description": "Data Grid Render Demo: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "Datenraster-Rendering-Demo | Raster-Rendering-Demo | Reagieren Sie auf die Netzleistung | Datenraster rendern | Browser-Raster-Benchmark | Beispiel für das Rendern eines Datenrasters | virtualisierte Grid-Leistung | Rendern einer großen Datensatztabelle"
+    },
+    "fetch-converter": {
+      "title": "Fetch-Konverter",
+      "description": "Fetch-Konverter: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
+      "keywords": "fetch converter | fetch to curl | fetch to axios | fetch to python requests | request converter | browser api converter | javascript fetch to curl | free fetch api converter"
+    },
+    "graphql-tools": {
+      "title": "GraphQL tools",
+      "description": "GraphQL tools: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "graphql tools | graphql formatter | graphql introspection viewer | graphql schema explorer | browser graphql tool | graphql query formatter | free graphql playground browser | format graphql query online"
+    },
+    "heic-to-jpg": {
+      "title": "HEIC to JPG/PNG",
+      "description": "HEIC to JPG/PNG: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "heic to jpg | heic to png | heif converter | iphone photo converter | browser heic converter | convert heic locally | free heic converter online | heic to jpeg no upload"
+    },
+    "http-explainer": {
+      "title": "HTTP status + headers explainer",
+      "description": "HTTP status + headers explainer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "http status explainer | http headers explainer | http status codes | http headers guide | browser http reference | learn http status | http status code list | what is http header"
+    },
+    "image-compress": {
+      "title": "Image Compressor",
+      "description": "Image Compressor: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image compressor | compress images | bulk image compression | browser image compressor | local image compress | no upload image compression | free compress images online | reduce image file size"
+    },
+    "image-convert": {
+      "title": "Image converter",
+      "description": "Image converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image converter | convert image format | png jpg webp converter | browser image converter | local image conversion | no upload image tool | free image converter online | png to webp jpg avif"
+    },
+    "image-remove-background": {
+      "title": "Remove image background",
+      "description": "Remove image background: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "remove background | image background remover | transparent background | png with alpha | browser background removal | local remove bg | free background remover online | erase image background"
+    },
+    "image-resize": {
+      "title": "Image Resize/Crop + Convert",
+      "description": "Image Resize/Crop + Convert: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image resize | image crop | image resize convert | browser image editor | bulk image resize | local image resize tool | resize images online free | crop and export images"
+    },
+    "images-to-pdf": {
+      "title": "Images to PDF",
+      "description": "Images to PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "images to pdf | jpg to pdf | png to pdf | convert images to pdf | browser image pdf tool | no upload image to pdf | merge photos to pdf | free jpg png to pdf"
+    },
+    "json-formatter": {
+      "title": "JSON Formatter",
+      "description": "JSON Formatter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json formatter | json beautifier | json validator | format json online | browser json tool | local json formatter | pretty print json | free json formatter no upload"
+    },
+    "json-to-csv": {
+      "title": "JSON to CSV",
+      "description": "JSON to CSV: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to csv | convert json to csv | json csv converter | browser json to csv | local json converter | json export csv | free json to csv online | json array to spreadsheet"
+    },
+    "json-to-excel": {
+      "title": "JSON to Excel",
+      "description": "JSON to Excel: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to excel | json to xlsx | convert json to excel | browser json to xlsx | json excel converter | local json export | free json to xlsx | export json to spreadsheet"
+    },
+    "json-to-parquet": {
+      "title": "JSON to Parquet",
+      "description": "JSON to Parquet: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to parquet | convert json to parquet | json parquet converter | browser json to parquet | local parquet export | parquet browser tool | free json to parquet | json lines to parquet"
+    },
+    "merge-pdf": {
+      "title": "Merge PDF",
+      "description": "Merge PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "merge pdf | combine pdf | pdf merger | browser pdf merge | local pdf merger | no upload pdf merge | join pdf files online free | merge multiple pdf"
+    },
+    "openapi-viewer": {
+      "title": "OpenAPI Viewer",
+      "description": "OpenAPI Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | swagger viewer | openapi browser | api spec viewer | swagger file viewer | browser openapi tool | free swagger ui alternative | view openapi yaml json"
+    },
+    "parquet-to-csv": {
+      "title": "Parquet to CSV",
+      "description": "Parquet to CSV: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet to csv | convert parquet to csv | parquet csv converter | browser parquet to csv | local parquet converter | parquet export csv | open parquet as csv | parquet file to csv online"
+    },
+    "parquet-to-json": {
+      "title": "Parquet to JSON",
+      "description": "Parquet to JSON: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet to json | convert parquet to json | parquet json converter | browser parquet to json | local parquet converter | parquet export json | free parquet to json | read parquet in browser"
+    },
+    "parquet-viewer": {
+      "title": "Parquet Viewer",
+      "description": "Parquet Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | open parquet file | parquet editor | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
+    },
+    "pdf-to-image": {
+      "title": "PDF to Image",
+      "description": "PDF to Image: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf to image | pdf to png | pdf to jpg | convert pdf pages to images | browser pdf converter | local pdf to image | extract images from pdf | pdf page to png jpg free"
+    },
+    "pdf-to-word": {
+      "title": "PDF to Word",
+      "description": "PDF to Word: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf to word | pdf to docx | convert pdf to word | browser pdf to docx | local pdf converter | no upload pdf to word | free pdf to docx online | editable word from pdf"
+    },
+    "pdf-watermark": {
+      "title": "PDF Watermark",
+      "description": "PDF Watermark: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf watermark | watermark pdf | pdf watermark text | pdf watermark image | browser pdf watermark | no upload pdf watermark | add watermark to pdf free | stamp pdf online"
+    },
+    "python-requests-converter": {
+      "title": "Python requests converter",
+      "description": "Python requests converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "python requests converter | python requests to curl | python requests to fetch | python requests to axios | request converter | browser api converter | requests to httpx curl | convert python http code"
+    },
+    "reorder-pdf": {
+      "title": "Reorder PDF Pages",
+      "description": "Reorder PDF Pages: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "reorder pdf pages | pdf page reorder | organize pdf pages | browser pdf reorder | local pdf page tool | no upload pdf organizer | rearrange pdf pages online | change pdf page order free"
+    },
+    "request-converter": {
+      "title": "API converter",
+      "description": "API converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "api converter | request converter | curl fetch axios converter | python requests converter | browser api tool | request snippet converter | curl to fetch axios online | http request translator"
+    },
+    "split-pdf": {
+      "title": "Split PDF",
+      "description": "Split PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "split pdf | pdf splitter | split pdf pages | browser pdf split | local pdf splitter | no upload pdf split | extract pages from pdf | separate pdf online free"
+    },
+    "video-compress": {
+      "title": "Video Compressor",
+      "description": "Video Compressor: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "video compressor | compress video | browser video compressor | local video compression | no upload video compress | video size reducer | shrink mp4 online free | client side video compression"
+    },
+    "webhook-viewer": {
+      "title": "Webhook payload Viewer",
+      "description": "Webhook payload Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook payload viewer | json payload viewer | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
+    },
+    "xls-to-csv": {
+      "title": "Excel to CSV batch",
+      "description": "Excel to CSV batch: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel to csv | xls to csv | xlsx to csv | batch excel to csv | browser excel converter | local xls converter | free excel to csv online | convert spreadsheet to csv"
+    },
+    "xls-viewer": {
+      "title": "Excel Viewer",
+      "description": "Excel Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
+    }
   }
 }

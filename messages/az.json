@@ -20,7 +20,7 @@
     "parquetToCsv": "Parquet → CSV",
     "jsonToParquet": "JSON → Parquet",
     "parquetToJson": "Parquet → JSON",
-    "csvToMarkdownTable": "CSV → Markdown Table"
+    "csvToMarkdownTable": "CSV → Markdown cədvəli"
   },
   "language": {
     "menuAria": "Dil",
@@ -28,7 +28,7 @@
   },
   "compare": {
     "heroTitle": "İki CSV faylını müqayisə edin",
-    "heroSubtitle": "Sol və sağ fayl seçin. ",
+    "heroSubtitle": "Sol və sağ fayl seçin. Hər iki faylı brauzerinizdə təhlil edirik (hər biri {mb} MB-a qədər, fayl başına maksimum {maxRows} sətir). Sətirləri mövqeyə və ya əsas sütuna görə düzəldin, istəyə bağlı olaraq boşluqları və ya böyük/kiçik hərfi nəzərə almayın, sürüşdürməni sinxronlaşdırın, fərqli xanaları vurğulayın, yalnız dəyişmiş sətirləri süzün və CSV fərq hesabatını yükləyin.",
     "leftFile": "Sol fayl",
     "rightFile": "Sağ fayl",
     "dropHint": "CSV-ni bura buraxın və ya gözdən keçirin",
@@ -40,12 +40,12 @@
     "summaryRows": "Sıralar: {left} (solda) · {right} (sağda)",
     "summaryCols": "Sütunlar: {left} (solda) · {right} (sağda)",
     "summaryStructureMatch": "Sütun düzəni uyğun gəlir.",
-    "summaryColumnsReordered": "Sütunlar eyni sahələri paylaşır; ",
-    "summaryStructureMismatch": "Sütun başlıqları və ya sahələr fərqlidir, ona görə də avtomatik xana-xana fərqi qeyri-aktivdir. ",
+    "summaryColumnsReordered": "Sütunlar eyni sahələri paylaşır; müqayisə üçün sağ fayl sola uyğun yenidən sıralanıb.",
+    "summaryStructureMismatch": "Sütun başlıqları və ya sahələr fərqlidir, ona görə də avtomatik xana-xana fərq söndürülüb. Vizual müqayisə üçün şəbəkələrdən istifadə edin.",
     "summaryIdentical": "Üst-üstə düşən cərgələrdə fərqli xanalar yoxdur.",
     "summaryDiffCells": "{cells} xanalar {rows} sətirdə fərqlənir.",
     "diffOnlyLabel": "Yalnız fərqləri olan sıraları göstərin",
-    "optionsTitle": "Variantları müqayisə edin",
+    "optionsTitle": "Müqayisə seçimləri",
     "optTrim": "Aparıcı/arxadakı boşluqlara məhəl qoymayın",
     "optIgnoreCase": "Məktub halına məhəl qoymayın",
     "optSyncScroll": "Şəbəkələr arasında sürüşdürün",
@@ -56,15 +56,15 @@
     "alignKeyLabel": "Əsas sütun",
     "alignKeyPlaceholder": "Sütun seçin",
     "exportDiffCsv": "Fərq hesabatını yükləyin (CSV)",
-    "exportDiffStarted": "Fərqli hesabatın yüklənməsi başladı",
+    "exportDiffStarted": "Fərq hesabatının yüklənməsi başladı",
     "exportDiffUnavailable": "Fərq hesabatını ixrac etmək üçün etibarlı sütun düzəni aktivləşdirin.",
     "reset": "Hər iki faylı silin"
   },
   "csvToJson": {
     "heroTitle": "CSV-dən JSON görüntüləyicisinə və redaktoruna",
-    "heroSubtitle": "CSV import edin ({mb} MB-a qədər, maksimum {maxRows} sətir yüklənib). ",
+    "heroSubtitle": "CSV idxal edin ({mb} MB-a qədər, maksimum {maxRows} sətir yüklənir). Sol panel yalnız oxunan şəbəkədir; sağ panel sütun başlıqlarınızla açarlı JSON göstərir. JSON-u redaktə edin və şəbəkəni yeniləmək üçün tətbiq edin və ya cari CSV-dən JSON-u sıfırlayın.",
     "fileHint": "Başlıq sırası tələb olunur, əsas CSV görüntüləyicisi ilə eyni qaydalar.",
-    "csvPanel": "CSV (tor)",
+    "csvPanel": "CSV (şəbəkə)",
     "jsonPanel": "JSON",
     "applyJson": "JSON-u şəbəkəyə tətbiq edin",
     "resetFromCsv": "CSV-dən sıfırlayın",
@@ -94,16 +94,16 @@
     "clearFile": "Faylı təmizləyin",
     "jsonAria": "JSON massiv redaktoru",
     "jsonEditorLoading": "JSON redaktoru yüklənir...",
-    "jsonHint": "Tam JSON redaktoru: genişləndirmə/yığdırma, mətn və cədvəl rejimləri ilə ağac rejimi, axtarış, ləğv/təkrar, çeşidləmə, çevirmə və təmir (daxili menyudan istifadə edin). ",
-    "jsonInvalid": "Yanlış JSON. ",
+    "jsonHint": "Tam JSON redaktoru: genişləndirmə/yığdırma, mətn və cədvəl rejimləri ilə ağac rejimi, axtarış, ləğv/təkrar, çeşidləmə, çevirmə və təmir (daxili menyudan istifadə edin). Məlumatlarınız CSV şəbəkəsinə uyğun gəlməsi üçün obyektlərin JSON massivi olaraq qalmalıdır. Redaktələrdən sonra şəbəkəni yenidən qurmaq üçün Tətbiq etdən istifadə edin.",
+    "jsonInvalid": "Yanlış JSON. Sintaksisi düzəldin və yenidən cəhd edin.",
     "applySuccess": "Şəbəkə JSON-dan yeniləndi"
   },
   "jsonToCsv": {
     "heroTitle": "JSON-dan CSV-yə çevirici",
-    "heroSubtitle": "JSON faylını idxal edin ({mb} MB-a qədər, maksimum {maxRows} sıra yüklənib). ",
-    "dropHint": "JSON faylını bura buraxın və ya gözdən keçirin",
+    "heroSubtitle": "JSON faylını idxal edin ({mb} MB-a qədər, maksimum {maxRows} sətir yüklənir). Sol paneldə obyektlərin JSON massivini redaktə edirsiniz; sağda yaradılan CSV çıxışı və yalnız oxunan şəbəkə önizləməsi göstərilir.",
+    "dropHint": "JSON faylını bura buraxın və ya fayl seçin",
     "chooseFile": "Fayl seçin",
-    "fileHint": "Hər cərgədə bir obyekt və ardıcıl düymələri olan JSON obyekt massivindən istifadə edin.",
+    "fileHint": "Hər sətirdə bir obyekt və sabit açarları olan obyektlərin JSON massivindən istifadə edin.",
     "clearFile": "Faylı təmizləyin",
     "jsonPanel": "JSON",
     "csvPanel": "CSV çıxışı",
@@ -119,17 +119,17 @@
     "jsonAria": "JSON massiv redaktoru",
     "csvAria": "CSV çıxışına baxış",
     "jsonEditorLoading": "JSON redaktoru yüklənir...",
-    "jsonHint": "CSV sıralarına çevirmək üçün məlumatlarınız JSON obyekt massivi olaraq qalmalıdır. ",
+    "jsonHint": "CSV sətirlərinə çevirmək üçün məlumatlarınız obyektlərin JSON massivi olaraq qalmalıdır. Redaktədən sonra Tətbiq etdən istifadə edin.",
     "csvHint": "CSV çıxışı hər Tətbiqdən sonra JSON panelindən bərpa olunur.",
-    "jsonInvalid": "Yanlış JSON. ",
+    "jsonInvalid": "Yanlış JSON. Sintaksisi düzəldin və yenidən cəhd edin.",
     "applySuccess": "CSV çıxışı JSON-dan yeniləndi"
   },
   "jsonToExcel": {
     "heroTitle": "JSON-dan Excelə çevirici",
-    "heroSubtitle": "JSON faylını idxal edin ({mb} MB-a qədər, maksimum {maxRows} sıra yüklənib). ",
-    "dropHint": "JSON faylını bura buraxın və ya gözdən keçirin",
+    "heroSubtitle": "JSON faylını idxal edin ({mb} MB-a qədər, maksimum {maxRows} sətir yüklənir). Obyektlərin JSON massivini redaktə edin, dəyişiklikləri tətbiq edin, sətirlərə baxın, sonra Excel yükləyin.",
+    "dropHint": "JSON faylını bura buraxın və ya fayl seçin",
     "chooseFile": "Fayl seçin",
-    "fileHint": "Hər cərgədə bir obyekt və ardıcıl düymələri olan JSON obyekt massivindən istifadə edin.",
+    "fileHint": "Hər sətirdə bir obyekt və sabit açarları olan obyektlərin JSON massivindən istifadə edin.",
     "clearFile": "Faylı təmizləyin",
     "jsonPanel": "JSON",
     "previewPanel": "Önizləmə",
@@ -140,9 +140,9 @@
     "copyJsonFailed": "JSON kopyalana bilmədi",
     "downloadXlsx": ".xlsx yükləyin",
     "jsonAria": "JSON massiv redaktoru",
-    "jsonHint": "Məlumatlarınız obyektlərin JSON massivi olaraq qalmalıdır. ",
+    "jsonHint": "Məlumatlarınız obyektlərin JSON massivi olaraq qalmalıdır. Önizləməni yeniləmək üçün Tətbiq etdən istifadə edin.",
     "previewHint": "Bu önizləmə Excel-ə ixrac ediləcək sətirləri göstərir.",
-    "jsonInvalid": "Yanlış JSON. ",
+    "jsonInvalid": "Yanlış JSON. Sintaksisi düzəldin və yenidən cəhd edin.",
     "applySuccess": "Önizləmə JSON-dan yeniləndi"
   },
   "csvToExcel": {
@@ -168,7 +168,7 @@
     "heroTitle": "Excel-dən CSV-yə toplu çevirmə",
     "heroSubtitle": "Excel faylları əlavə edin (hər biri {mb} MB-a qədər, seçilmiş vərəqdən yüklənmiş maksimum {maxRows} sətir). ",
     "dropzoneTitle": "Excel fayllarını bura sürükləyib buraxın və ya gözdən keçirmək üçün klikləyin",
-    "dropzoneHint": "Yalnız Excel (.xls/.xlsx/.xlsm/.xlsb) · hər fayl üçün {mb} MB-a qədər · başlıqların idarə edilməsi isteğe bağlıdır · fayl başına yüklənmiş maksimum {maxRows} sıra",
+    "dropzoneHint": "Yalnız Excel (.xls/.xlsx/.xlsm/.xlsb) · hər fayl üçün {mb} MB-a qədər · başlıqların idarə edilməsi istəyə bağlıdır · fayl başına yüklənmiş maksimum {maxRows} sıra",
     "addFiles": "Fayllar əlavə et",
     "convertAll": "Hamısını çevir",
     "clearList": "Siyahını təmizləyin",
@@ -207,23 +207,23 @@
     "previewHint": "Yalnız oxumaq üçün şəbəkə: çeşidləyin, filtrləyin və axtarın, yuxarıdakı sətir qapağı ilə eyni məhdudiyyətlər."
   },
   "landing": {
-    "heroTitle": "Pulsuz, muasir, lokal\nve tehlukesiz alətlər.",
-    "heroSubtitle": "CSV faylını buraxın: çeşidləyin, süzün, axtarın, redaktə edin, yapışdırın, geri alın/təkrar edin, sətir əlavə və ya silin. Məlumat bu cihazda qalır.",
-    "directoryKicker": "Tool Directory",
-    "directorySubtitle": "Ceviriciler, goruntuleyiciler, formatlayicilar, OpenAPI komekcileri, PDF alətləri, sekil alətləri ve daha coxu arasinda axtaris edin. Her seyi bir yerde rahat gezmek olur.",
-    "directorySearchLabel": "Search tools",
-    "directoryTopHit": "Press Enter to open {label}",
-    "directoryAllLabel": "All",
-    "directoryResultsLabel": "{count} results for \"{query}\"",
-    "directoryReadyLabel": "{count} tools ready to use",
-    "directoryFilterPlaceholder": "Type to filter…",
-    "directoryExecute": "Execute tool",
-    "directoryResetFilters": "Reset filters",
-    "directorySearchTag": "Search_",
-    "directoryCategoriesTag": "Categories_",
-    "directoryJumpTo": "Jump to {label}",
-    "directoryEmptyTitle": "No tools match that search yet.",
-    "directoryEmptyDescription": "Try a broader term like CSV, JSON, PDF, image, or converter.",
+    "heroTitle": "Pulsuz, müasir, lokal\nvə təhlükəsiz alətlər.",
+    "heroSubtitle": "CSV faylını şəbəkədə kəşf etmək üçün buraxın: çeşidləyin, süzün, axtarın, redaktə edin, yapışdırın, geri alın/təkrar edin, sətir əlavə edin və ya silin. Məlumat bu cihazda qalır və qayıtdığınızda bərpa oluna bilər.",
+    "directoryKicker": "Alət kataloqu",
+    "directorySubtitle": "Çeviricilər, görüntüləyicilər, formatlayıcılar, OpenAPI köməkçiləri, PDF, şəkil və digər alətlər arasında axtarın. Hər şeyi bir yerdən rahat gəzə bilərsiniz.",
+    "directorySearchLabel": "Alətlərdə axtar",
+    "directoryTopHit": "{label} açmaq üçün Enter basın",
+    "directoryAllLabel": "Hamısı",
+    "directoryResultsLabel": "\"{query}\" üçün {count} nəticə",
+    "directoryReadyLabel": "{count} alət istifadəyə hazırdır",
+    "directoryFilterPlaceholder": "Süzmək üçün yazın…",
+    "directoryExecute": "Aləti işə sal",
+    "directoryResetFilters": "Filtrləri sıfırla",
+    "directorySearchTag": "Axtarış_",
+    "directoryCategoriesTag": "Kateqoriyalar_",
+    "directoryJumpTo": "{label} bölməsinə keç",
+    "directoryEmptyTitle": "Bu axtarışa uyğun alət tapılmadı.",
+    "directoryEmptyDescription": "CSV, JSON, PDF, şəkil və ya çevirici kimi daha ümumi söz yazmağı sınayın.",
     "loadingSheet": "Cədvəl yüklənir…",
     "dropzoneTitle": "CSV-ni bura sürüyün və ya seçmək üçün klikləyin",
     "dropzoneHint": "Yalnız CSV (.csv və ya mətn) · max {mb} MB · başlıq sətiri tələb olunur · max {maxRows} sətir",
@@ -233,7 +233,9 @@
     "sampleMissing": "Nümunə fayl yüklənmədi. public/samples/products-10000.csv olduğunu yoxlayın.",
     "sampleError": "Nümunə məlumatları yüklənmədi.",
     "largeFileTitle": "Böyük fayl qısaldıldı",
-    "largeFileDescription": "{shown} sətir göstərilir (faylda limit {total})."
+    "largeFileDescription": "{shown} sətir göstərilir (faylda limit {total}).",
+    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
+    "collectionPageName": "{name}: alət kataloqu"
   },
   "csvToParquet": {
     "heroTitle": "CSV-dən Parquet-ə",
@@ -425,12 +427,15 @@
     "crumbHome": "Ana səhifə",
     "crumbGuides": "Bələdçilər",
     "crumbTools": "Alətlər",
+    "hubDiscoveryIntro": "More hubs:",
+    "crumbImageConverter": "Image converter",
     "guidesHubTitle": "CSV və data cədvəli bələdçiləri",
     "guidesHubDescription": "Böyük CSV açmaq, ixracları təmizləmək və cədvəli yükləmədən və ya ERP ilə sinxronlaşdırmadan əvvəl Table-ı lokal istifadə etmək üçün bələdçilər.",
     "toolsHubTitle": "Alətlər və iş axını mərkəzləri",
     "toolsHubDescription": "Brauzerdə CSV yoxlaması, e-ticarət ixracları və əlaqəli axınlar üçün məqsədə uyğun səhifələr; strukturlaşdırılmış məlumat və tutarlı metaverilənlər.",
     "toolsHubSectionsTitle": "Kateqoriyaya görə bax",
     "relatedPagesTitle": "Əlaqəli səhifələr",
+    "relatedImageConvertTitle": "Related conversions",
     "contentLocaleNotice": "Əsas məzmun ingilis dilindədir. Naviqasiya və əlçatanlıq üçün interfeys seçdiyiniz dildədir.",
     "faqHeading": "Tez-tez verilən suallar",
     "badgeGuide": "Bələdçi",
@@ -497,103 +502,431 @@
     "toastRowsDeleted": "{count} sətir silindi"
   },
   "header": {
-    "searchButton": "Search services...",
-    "openSearch": "Open search",
-    "openMenu": "Open menu",
-    "exploreTools": "Explore tools",
-    "searchTitle": "Search services",
-    "searchDescription": "Search tools and open pages quickly",
-    "searchPlaceholder": "Search tools, pages, or categories...",
-    "closeSearch": "Close search",
-    "noResults": "No results found.",
-    "topResults": "Top results"
+    "searchButton": "Xidmətlərdə axtar…",
+    "openSearch": "Axtarışı aç",
+    "openMenu": "Menyunu aç",
+    "exploreTools": "Alətləri kəşf et",
+    "searchTitle": "Xidmətlərdə axtar",
+    "searchDescription": "Alətləri və səhifələri tez tapın və açın",
+    "searchPlaceholder": "Alət, səhifə və ya kateqoriya axtarın…",
+    "closeSearch": "Axtarışı bağla",
+    "noResults": "Nəticə tapılmadı.",
+    "topResults": "Əsas nəticələr"
   },
   "services": {
-    "groupConvertersTitle": "Converters",
-    "groupConvertersDescription": "Convert between CSV, JSON, and Parquet instantly.",
-    "groupViewersTitle": "Viewers",
-    "groupViewersDescription": "Preview and inspect files in your browser.",
+    "groupConvertersTitle": "Çeviricilər",
+    "groupConvertersDescription": "CSV, JSON və Parquet arasında dərhal çevirin.",
+    "groupViewersTitle": "Görüntüləyicilər",
+    "groupViewersDescription": "Faylları brauzerinizdə önizləyin və yoxlayın.",
     "groupExcelTitle": "Excel",
-    "groupExcelDescription": "Import and export between CSV, JSON, and Excel.",
-    "groupDeveloperTitle": "Developer",
-    "groupDeveloperDescription": "API and text utilities for everyday web development.",
+    "groupExcelDescription": "CSV, JSON və Excel arasında idxal və ixrac.",
+    "groupDeveloperTitle": "Tərtibatçı",
+    "groupDeveloperDescription": "Gündəlik veb tərtibatı üçün API və mətn alətləri.",
     "groupPdfTitle": "PDF",
-    "groupPdfDescription": "PDF tools: convert, split, merge, and watermark locally.",
+    "groupPdfDescription": "PDF alətləri: çevirmə, bölmə, birləşdirmə və su nişanı; lokal olaraq.",
     "groupVideoTitle": "Video",
-    "groupVideoDescription": "Video tools: optimize media directly in the browser.",
-    "groupImageTitle": "Image",
-    "groupImageDescription": "Image tools: compress, convert, and resize locally.",
-    "groupColorTitle": "Color",
-    "groupColorDescription": "Color tools: generators and trending galleries.",
-    "csvViewerLabel": "CSV Viewer",
-    "csvViewerDesc": "Open and inspect CSV data quickly.",
-    "csvCompareLabel": "CSV Compare",
-    "csvCompareDesc": "Compare two CSV files side by side.",
-    "csvToExcelDesc": "Convert CSV to XLSX files.",
-    "xlsToCsvDesc": "Turn Excel sheets into CSV.",
-    "jsonToExcelDesc": "Convert JSON into XLSX.",
-    "csvToJsonDesc": "Convert CSV files to JSON.",
-    "jsonToCsvDesc": "Convert JSON to CSV format.",
-    "csvToParquetDesc": "Turn CSV data into Parquet files.",
-    "parquetToCsvDesc": "Convert Parquet files back to CSV.",
-    "jsonToParquetDesc": "Create Parquet from JSON data.",
-    "parquetToJsonDesc": "Convert Parquet into JSON.",
-    "csvToMarkdownTableDesc": "Generate markdown tables from CSV files.",
-    "xlsViewerDesc": "View Excel XLS files directly.",
-    "parquetViewerDesc": "Open and browse Parquet files.",
-    "jsonFormatterLabel": "JSON Formatter",
-    "jsonFormatterDesc": "Format, minify, and validate JSON locally.",
-    "curlConverterLabel": "cURL Converter",
-    "curlConverterDesc": "Convert cURL request snippets to fetch/axios/Python.",
-    "fetchConverterLabel": "Fetch Converter",
-    "fetchConverterDesc": "Convert fetch snippets to cURL/axios/Python.",
-    "axiosConverterLabel": "Axios Converter",
-    "axiosConverterDesc": "Convert axios snippets to cURL/fetch/Python.",
-    "pythonRequestsConverterLabel": "Python Requests Converter",
-    "pythonRequestsConverterDesc": "Convert Python requests snippets to cURL/fetch/axios.",
-    "httpExplainerLabel": "HTTP Explainer",
-    "httpExplainerDesc": "Explain status codes and common HTTP headers.",
-    "openapiViewerLabel": "OpenAPI Viewer",
-    "openapiViewerDesc": "Load OpenAPI specs and browse endpoints.",
-    "graphqlToolsLabel": "GraphQL Tools",
-    "graphqlToolsDesc": "Format queries and inspect schema types.",
-    "webhookViewerLabel": "Webhook Viewer",
-    "webhookViewerDesc": "Pretty-print payloads and search JSONPath.",
-    "pdfToWordLabel": "PDF to Word",
-    "pdfToWordDesc": "Convert PDFs to DOCX files.",
-    "splitPdfLabel": "Split PDF",
-    "splitPdfDesc": "Split PDF files by page or range.",
-    "reorderPdfLabel": "Reorder PDF Pages",
-    "reorderPdfDesc": "Reorder or remove pages, then save a new PDF.",
-    "mergePdfLabel": "Merge PDF",
-    "mergePdfDesc": "Combine multiple PDFs into one.",
-    "pdfToImageLabel": "PDF to Image",
-    "pdfToImageDesc": "Export PDF pages to PNG/JPG/WebP.",
-    "imagesToPdfLabel": "Images to PDF",
-    "imagesToPdfDesc": "Combine images into a single PDF.",
-    "pdfWatermarkLabel": "PDF Watermark",
-    "pdfWatermarkDesc": "Add text or image watermarks to PDFs.",
-    "bulkPdfWatermarkLabel": "Bulk PDF Watermark",
-    "bulkPdfWatermarkDesc": "Apply one watermark to many PDFs and download ZIP.",
-    "videoCompressorLabel": "Video Compressor",
-    "videoCompressorDesc": "Compress videos locally with bulk uploads.",
-    "imageCompressorLabel": "Image Compressor",
-    "imageCompressorDesc": "Compress images locally in bulk.",
-    "imageConverterLabel": "Image Converter",
-    "imageConverterDesc": "Convert to WebP, AVIF, JPG, or PNG.",
-    "imageResizeLabel": "Resize/Crop + Convert",
-    "imageResizeDesc": "Resize, crop, convert, and rename images in bulk.",
-    "heicToJpgLabel": "HEIC to JPG/PNG",
-    "heicToJpgDesc": "Convert HEIC/HEIF photos to JPG or PNG.",
-    "colorPaletteGeneratorLabel": "Color Palette Generator",
-    "colorPaletteGeneratorDesc": "Generate palettes and export PNG/JSON.",
-    "gradientGeneratorLabel": "Gradient Generator",
-    "gradientGeneratorDesc": "Create gradients and export PNG/JSON.",
-    "meshGradientGeneratorLabel": "Mesh gradients",
-    "meshGradientGeneratorDesc": "Blur mesh blobs and export PNG.",
-    "trendingPalettesLabel": "Trending Palettes",
-    "trendingPalettesDesc": "Browse curated color palettes.",
-    "trendingGradientsLabel": "Trending Gradients",
-    "trendingGradientsDesc": "Browse curated gradients."
+    "groupVideoDescription": "Video alətləri: medianı birbaşa brauzerdə optimallaşdırın.",
+    "groupImageTitle": "Şəkil",
+    "groupImageDescription": "Şəkil alətləri: sıxışdırma, çevirmə və ölçüləndirmə; lokal olaraq.",
+    "groupColorTitle": "Rəng",
+    "groupColorDescription": "Rəng alətləri: generatorlar və seçilmiş qalereyalar.",
+    "csvViewerLabel": "CSV görüntüləyicisi",
+    "csvViewerDesc": "CSV məlumatlarını tez açın və yoxlayın.",
+    "csvCompareLabel": "CSV müqayisəsi",
+    "csvCompareDesc": "İki CSV faylını yan-yana müqayisə edin.",
+    "csvToExcelDesc": "CSV-ni XLSX fayllarına çevirin.",
+    "xlsToCsvDesc": "Excel vərəqlərini CSV-yə çevirin.",
+    "jsonToExcelDesc": "JSON-u XLSX-ə çevirin.",
+    "csvToJsonDesc": "CSV fayllarını JSON-a çevirin.",
+    "jsonToCsvDesc": "JSON-u CSV formatına çevirin.",
+    "csvToParquetDesc": "CSV məlumatını Parquet fayllarına çevirin.",
+    "parquetToCsvDesc": "Parquet fayllarını yenidən CSV-yə çevirin.",
+    "jsonToParquetDesc": "JSON məlumatından Parquet yaradın.",
+    "parquetToJsonDesc": "Parquet-i JSON-a çevirin.",
+    "csvToMarkdownTableDesc": "CSV fayllarından Markdown cədvəlləri yaradın.",
+    "xlsViewerDesc": "Excel XLS fayllarına birbaşa baxın.",
+    "parquetViewerDesc": "Parquet fayllarını açın və gəzə bilin.",
+    "jsonFormatterLabel": "JSON formatlayıcı",
+    "jsonFormatterDesc": "JSON-u lokal olaraq formatlayın, minifikasiya edin və yoxlayın.",
+    "curlConverterLabel": "cURL çeviricisi",
+    "curlConverterDesc": "cURL sorğu parçalarını fetch/axios/Python-a çevirin.",
+    "fetchConverterLabel": "Fetch çeviricisi",
+    "fetchConverterDesc": "Fetch parçalarını cURL/axios/Python-a çevirin.",
+    "axiosConverterLabel": "Axios çeviricisi",
+    "axiosConverterDesc": "Axios parçalarını cURL/fetch/Python-a çevirin.",
+    "pythonRequestsConverterLabel": "Python Requests çeviricisi",
+    "pythonRequestsConverterDesc": "Python requests parçalarını cURL/fetch/axios-a çevirin.",
+    "httpExplainerLabel": "HTTP izahçısı",
+    "httpExplainerDesc": "Status kodları və ümumi HTTP başlıqlarını izah edin.",
+    "openapiViewerLabel": "OpenAPI görüntüləyicisi",
+    "openapiViewerDesc": "OpenAPI spesifikasiyalarını yükləyin və endpoint-lərə baxın.",
+    "graphqlToolsLabel": "GraphQL alətləri",
+    "graphqlToolsDesc": "Sorğuları formatlayın və sxema tiplərini yoxlayın.",
+    "webhookViewerLabel": "Webhook görüntüləyicisi",
+    "webhookViewerDesc": "Yükü gözəl çap edin və JSONPath ilə axtarın.",
+    "pdfToWordLabel": "PDF-dən Word-ə",
+    "pdfToWordDesc": "PDF-ləri DOCX fayllarına çevirin.",
+    "splitPdfLabel": "PDF bölmə",
+    "splitPdfDesc": "PDF fayllarını səhifə və ya aralığa görə bölün.",
+    "reorderPdfLabel": "PDF səhifələrini yenidən sırala",
+    "reorderPdfDesc": "Səhifələri yenidən sıralayın və ya silin, yeni PDF saxlayın.",
+    "mergePdfLabel": "PDF birləşdirmə",
+    "mergePdfDesc": "Bir neçə PDF-i bir faylda birləşdirin.",
+    "pdfToImageLabel": "PDF-dən şəkilə",
+    "pdfToImageDesc": "PDF səhifələrini PNG/JPG/WebP kimi ixrac edin.",
+    "imagesToPdfLabel": "Şəkillərdən PDF-ə",
+    "imagesToPdfDesc": "Şəkilləri tək PDF-də birləşdirin.",
+    "pdfWatermarkLabel": "PDF su nişanı",
+    "pdfWatermarkDesc": "PDF-lərə mətn və ya şəkil su nişanı əlavə edin.",
+    "bulkPdfWatermarkLabel": "Toplu PDF su nişanı",
+    "bulkPdfWatermarkDesc": "Bir su nişanını bir çox PDF-ə tətbiq edin və ZIP yükləyin.",
+    "videoCompressorLabel": "Video kompressoru",
+    "videoCompressorDesc": "Videoları lokal olaraq toplu yükləmələrlə sıxın.",
+    "imageCompressorLabel": "Şəkil kompressoru",
+    "imageCompressorDesc": "Şəkilləri lokal olaraq toplu sıxın.",
+    "imageConverterLabel": "Şəkil çeviricisi",
+    "imageConverterDesc": "WebP, AVIF, JPG və ya PNG-ə çevirin.",
+    "imageResizeLabel": "Ölçü / kəsmə + çevirmə",
+    "imageResizeDesc": "Şəkilləri toplu ölçüləndirin, kəsin, çevirin və yenidən adlandırın.",
+    "imageRemoveBackgroundLabel": "Remove background",
+    "imageRemoveBackgroundDesc": "Remove image backgrounds in your browser; export PNG with transparency.",
+    "heicToJpgLabel": "HEIC-dən JPG/PNG-ə",
+    "heicToJpgDesc": "HEIC/HEIF fotolarını JPG və ya PNG-ə çevirin.",
+    "colorPaletteGeneratorLabel": "Rəng palitrası generatoru",
+    "colorPaletteGeneratorDesc": "Palitralar yaradın və PNG/JSON ixrac edin.",
+    "gradientGeneratorLabel": "Qradiyent generatoru",
+    "gradientGeneratorDesc": "Qradiyentlər yaradın və PNG/JSON ixrac edin.",
+    "meshGradientGeneratorLabel": "Mesh qradiyentlər",
+    "meshGradientGeneratorDesc": "Mesh ləkələrini bulanıqlaşdırın və PNG ixrac edin.",
+    "trendingPalettesLabel": "Trend palitralar",
+    "trendingPalettesDesc": "Seçilmiş rəng palitralarına baxın.",
+    "trendingGradientsLabel": "Trend qradiyentlər",
+    "trendingGradientsDesc": "Seçilmiş qradiyentlərə baxın.",
+    "trendingMeshGradientsLabel": "Trending mesh gradients",
+    "trendingMeshGradientsDesc": "Browse 500 mesh-style blob gradients."
+  },
+  "imageConvertPair": {
+    "subtitle": "{from} formatını {to} formatına brauzerinizdə lokal çevirin. Yükləmə yoxdur. Defolt çıxış: {to}.",
+    "intro1": "İstifadəçilər daha kiçik fayl, CMS-in qəbul etdiyi format və ya redaktorların əlavə plaginsiz aça biləcəyi piksel tərtibatı lazım olduqda {from} → {to} axtarır. Bu səhifə əsas mərkəzdəki eyni Localtool şəkil çeviricisini işlədir, çıxış əvvəlcədən {to} olaraq təyin olunub.",
+    "intro2": "Dekodlama və kodlama brauzer vərəqinizdə baş verir. Çevirmə üçün heç nə serverlərimizə göndərilmir. Brauzeriniz dəstəklədikdə PNG, JPG, WebP və AVIF üçün sürətli rejimdən istifadə edin və ya ehtiyac olduqda GIF, BMP, TIFF, ICO, HEIC və ya izlənmiş SVG üçün genişləndirilmiş yolu aktivləşdirin.",
+    "faq1Question": "Faylları yükləmədən {from}-i {to}-ya necə çevirməliyəm?",
+    "faq1Answer": "Bu səhifəni açın, cihazınızdan və ya CORS dəstəklənən birbaşa linkdən şəkillər əlavə edin, çıxışı {to} saxlayın, sonra yükləyin. Emal brauzerinizdə qalır; çevirmə üçün şəkil baytlarınız bizə çatmır.",
+    "faq2Question": "{from} → {to} şəkil keyfiyyətini azaldacaqmı?",
+    "faq2Answer": "İtkili formatlar (məsələn JPG, WebP, AVIF) keyfiyyət sürüşdüricisindən istifadə edir. İtkisiz formatlar (məsələn PNG və ya izləmədən SVG) foto sıxışdırmadan qaçır, amma faylı böyüdə bilər. Yalnız ən kiçik ölçüyə deyil, növbəti addımınıza uyğun format seçin.",
+    "faq3Question": "{from} → {to} əsas şəkil çeviricisi ilə eynidirmi?",
+    "faq3Answer": "Bəli. /image-convert ünvanında tam alət var; bu URL defolt çıxışı {to} edir və mənbəsini artıq {from} kimi bilən istifadəçilərə yönəldir. Fərqli ixrac lazımdırsa, alətdə çıxış formatını dəyişə bilərsiniz.",
+    "keywordsLine": "{from} to {to} | convert {from} to {to} online free | {from} to {to} converter | free {from} to {to} no upload | browser {from} to {to} private | local {from} to {to}"
+  },
+  "pageMeta": {
+    "breadcrumbHome": "Home",
+    "csvViewer": {
+      "title": "Free CSV viewer & editor (browser, no upload)",
+      "description": "Open large CSV files in your browser: sort, filter, search, edit cells, paste, undo/redo, add or remove rows. Private local processing; data stays on your device with optional restore when you return.",
+      "keywords": "csv viewer|csv editor online free|open csv in browser|local csv tool|editable csv grid|spreadsheet viewer|csv no upload|privacy csv editor"
+    },
+    "meshGradient": {
+      "title": "Free mesh gradient generator online",
+      "description": "Design soft mesh-style gradients from blurred color blobs on canvas. Harmonious palettes, film grain, and PNG export, all in your browser with no file uploads.",
+      "keywords": "mesh gradient generator|blob gradient maker|free gradient wallpaper|canvas gradient tool|png gradient export|aesthetic background gradient|mesh gradient online",
+      "breadcrumbLabel": "Mesh gradient generator",
+      "jsonLdName": "Mesh gradient generator",
+      "jsonLdDescription": "Generate soft mesh-style gradients with harmonious colors, blur, and film grain; export PNG.",
+      "browseTrending": "Browse 500 trending mesh gradients"
+    },
+    "meshGradientTrending": {
+      "title": "500+ trending mesh gradients (free presets)",
+      "description": "Browse hundreds of harmonious mesh-style gradients with soft blurred blobs. Click any preset to open it in the free mesh gradient generator and export PNG locally.",
+      "keywords": "trending mesh gradients|mesh gradient presets|blob gradient ideas|free gradient backgrounds|canvas mesh wallpaper|aesthetic mesh gradient pack",
+      "h1": "Trending mesh gradients",
+      "intro": "Seeded harmonious palettes and blob positions. Click a card to open that look in the mesh gradient generator, then tweak text, grain, blur, and export PNG.",
+      "loadingFallback": "Loading mesh gradients…",
+      "breadcrumbLabel": "Trending mesh",
+      "linkToGenerator": "Open mesh gradient generator",
+      "openInGenerator": "Open in mesh generator",
+      "downloadPng": "Download gradient image (PNG)",
+      "jsonLdName": "Trending mesh gradients",
+      "jsonLdDescription": "Browse curated mesh-style gradients and open presets in the mesh gradient generator.",
+      "faq1Question": "Are these mesh gradients free to use?",
+      "faq1Answer": "Yes. Browse the gallery, open any preset in the mesh gradient generator, and export PNG in your browser. Processing stays on your device; we do not upload your files for conversion.",
+      "faq2Question": "How do I customize a preset?",
+      "faq2Answer": "Click a card to load that look in the mesh gradient generator. From there you can change colors, blur, grain, optional text, and export again without leaving the page.",
+      "faq3Question": "Is this different from the main mesh gradient tool?",
+      "faq3Answer": "This page is a curated preset gallery. The standalone mesh gradient generator is the full editor; cards here open that tool with the same harmonious seeds so you can tweak colors, blur, and grain before export."
+    },
+    "linkedinBanner": {
+      "title": "Free LinkedIn banner maker (profile & page)",
+      "description": "Create LinkedIn profile and company page banners in your browser. Standard 1584×396 and related sizes, editable colors and layouts, optional logo, and export PNG, JPEG, or WebP without uploading to a server.",
+      "keywords": "linkedin banner maker|linkedin cover photo size|free linkedin banner|profile banner generator|linkedin header template|banner maker online|linkedin background image"
+    },
+    "svgToCode": {
+      "title": "SVG to JSX, React & XML (free, local)",
+      "description": "Turn SVG into JSX, a typed React component, or pretty XML in your browser. Paste or upload, copy code instantly. Client-side only, no cloud upload.",
+      "keywords": "svg to jsx|svg to react component|svg converter online|svg to typescript react|pretty print svg|browser svg tool|svg codegen free"
+    },
+    "gradients": {
+      "title": "CSS gradient generator (free online)",
+      "description": "Build trending multi-stop gradients from any base color. Lock stops, copy CSS linear-gradient, export PNG or JSON, and see WCAG contrast hints per stop, all locally in your browser.",
+      "keywords": "css gradient generator|linear gradient maker|free gradient tool|trending gradients|gradient export png|wcag contrast gradient|ui gradient generator|color stops css",
+      "breadcrumbLabel": "Gradients",
+      "jsonLdName": "Gradient generator",
+      "jsonLdDescription": "Generate trending gradients from any base color with lockable stops and PNG/CSS/JSON export.",
+      "faq1Question": "Can I lock a stop and regenerate the gradient?",
+      "faq1Answer": "Yes. Click the lock icon on any stop to keep it fixed while you change harmony mode, base color, or sliders.",
+      "faq2Question": "How does contrast guidance work here?",
+      "faq2Answer": "For each stop we compute the best text color (black/white) using WCAG contrast ratio, and show an AA/AAA badge.",
+      "faq3Question": "What can I export?",
+      "faq3Answer": "Copy CSS linear-gradient, and download PNG, JSON, and a CSS file containing variables plus the full gradient."
+    },
+    "gradientsBest": {
+      "title": "Best CSS gradients library (500 curated)",
+      "description": "Explore 500 curated, accessibility-conscious gradients with strong contrast. Reuse any preset in the free gradient generator and export CSS or PNG in your browser.",
+      "keywords": "best css gradients|curated gradients|accessible gradients|ui gradient presets|linear gradient library|free gradient inspiration|wcag friendly gradients",
+      "h1": "Best gradients",
+      "intro": "Curated to be distinct and keep readable contrast across stops. Pick any card to reuse it in the gradient generator.",
+      "loadingFallback": "Loading best gradients…",
+      "breadcrumbLabel": "Best gradients",
+      "jsonLdName": "Best CSS gradients library",
+      "jsonLdDescription": "Five hundred curated linear gradients with contrast-aware stops; open any preset in the free gradient generator.",
+      "faq1Question": "What makes these \"best\" gradients?",
+      "faq1Answer": "They are hand-curated to look distinct and to keep stronger contrast between stops so type and UI elements stay readable when you reuse them in the generator.",
+      "faq2Question": "How do I use a preset?",
+      "faq2Answer": "Click a card to open that gradient in the free CSS gradient generator. From there you can lock stops, copy linear-gradient CSS, and export PNG or JSON locally.",
+      "faq3Question": "Can I edit a preset after opening it?",
+      "faq3Answer": "Yes. Harmony modes, locks, sliders, and exports work the same as when you build a gradient from scratch; the preset is only a starting point."
+    },
+    "palettesTrending": {
+      "title": "Free color palette generator online",
+      "description": "Generate harmonious color palettes from any base color. Lock swatches, copy hex and CSS custom properties, export PNG or JSON, and see quick WCAG contrast guidance; runs locally in your browser.",
+      "keywords": "color palette generator|hex palette maker|trending color schemes|css color variables|accessible color palette|ui palette tool|free palette generator|brand colors generator",
+      "breadcrumbLabel": "Palettes",
+      "jsonLdName": "Color palettes generator",
+      "jsonLdDescription": "Generate trending color palettes from any base color with lock swatches, copy, and PNG/JSON export.",
+      "faq1Question": "Can I lock a color and re-generate the rest?",
+      "faq1Answer": "Yes. Use the lock button on any swatch to keep it fixed while you shuffle or change harmony mode.",
+      "faq2Question": "Does the tool help with accessibility contrast?",
+      "faq2Answer": "For each color, we show the best text color (black/white) based on WCAG contrast ratio and a quick AA/AAA badge.",
+      "faq3Question": "What can I export from the palette?",
+      "faq3Answer": "You can copy CSS variables, and download a PNG image or a JSON file with the palette hex values.",
+      "loadingFallback": "Loading palette…"
+    },
+    "palettesBest": {
+      "title": "Best color palettes (500 curated hex sets)",
+      "description": "Browse 500 curated palettes tuned for contrast and variety. Open any set in the free palette generator to tweak, copy hex, and export assets without uploading files.",
+      "keywords": "best color palettes|curated hex palettes|accessible color schemes|ui palette inspiration|brand palette ideas|free color combinations|web design palettes",
+      "h1": "Best color palettes",
+      "intro": "Curated to look distinct and keep readable contrast. Pick any card to reuse it in the palette generator.",
+      "loadingFallback": "Loading best palettes…",
+      "breadcrumbLabel": "Best palettes",
+      "jsonLdName": "Best color palettes library",
+      "jsonLdDescription": "Five hundred curated hex palettes with contrast in mind; open any set in the free palette generator to edit or export.",
+      "faq1Question": "How were these palettes chosen?",
+      "faq1Answer": "The set emphasizes variety and readable contrast between swatches so the colors work for UI mockups, branding exploration, and design inspiration.",
+      "faq2Question": "How do I open a palette in the editor?",
+      "faq2Answer": "Click any card to load those swatches in the palette generator. You can lock colors, shuffle the rest, copy CSS variables, and download PNG or JSON without uploading files.",
+      "faq3Question": "Is this the same tool as the main palette page?",
+      "faq3Answer": "Yes. The generator lives on the main palette page; this gallery is a fixed curated set, while trending flows focus on generating new harmonies from a base color."
+    }
+  },
+  "toolMeta": {
+    "axios-converter": {
+      "title": "axios converter",
+      "description": "axios converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "axios converter | axios to curl | axios to fetch | axios to python requests | request converter | browser api converter | free axios to fetch converter | convert http client code online"
+    },
+    "bulk-pdf-watermark": {
+      "title": "Bulk PDF Watermark",
+      "description": "Bulk PDF Watermark: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "bulk pdf watermark | watermark multiple pdf files | batch pdf watermark tool | pdf watermark no upload | watermark pdf with text | watermark pdf with image | free pdf watermark online | watermark pdf in browser"
+    },
+    "compare": {
+      "title": "Compare CSV files",
+      "description": "Compare CSV files: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "compare csv files | csv diff tool | csv compare online | compare two csv files | browser csv diff | csv changes viewer | free csv diff online | side by side csv compare"
+    },
+    "csv-to-excel": {
+      "title": "CSV to Excel",
+      "description": "CSV to Excel: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to excel | csv to xlsx | csv converter | batch csv to excel | browser csv to xlsx | csv excel export | free csv to excel converter | convert csv to spreadsheet online"
+    },
+    "csv-to-json": {
+      "title": "CSV to JSON",
+      "description": "CSV to JSON: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to json | csv json converter | convert csv to json | browser csv to json | csv to json online | local csv converter | free csv to json | csv to json no upload"
+    },
+    "csv-to-markdown-table": {
+      "title": "CSV to Markdown Table",
+      "description": "CSV to Markdown Table: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to markdown table | csv markdown converter | markdown table generator | convert csv to markdown | browser markdown table | csv to md | free csv to markdown | github readme table from csv"
+    },
+    "csv-to-parquet": {
+      "title": "CSV to Parquet",
+      "description": "CSV to Parquet: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "csv to parquet | convert csv to parquet | parquet converter | browser csv to parquet | csv parquet export | local parquet tool | free csv to parquet online | apache parquet from csv"
+    },
+    "curl-converter": {
+      "title": "cURL converter",
+      "description": "cURL converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "curl converter | curl to fetch | curl to axios | curl to python requests | request code converter | browser curl converter | free curl to fetch | convert curl command online"
+    },
+    "data-grid": {
+      "title": "Data Grid Demo",
+      "description": "Data Grid Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "data grid demo | react data grid | editable data grid | browser data table | grid demo | data grid example | tanstack table demo | interactive data grid browser"
+    },
+    "data-grid-live": {
+      "title": "Live Data Grid Demo",
+      "description": "Live Data Grid Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "live data grid demo | real time data grid | react data grid live | browser data grid demo | sync data grid | data grid live example | websocket data grid demo | live updating table ui"
+    },
+    "data-grid-render": {
+      "title": "Data Grid Render Demo",
+      "description": "Data Grid Render Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "data grid render demo | grid rendering demo | react grid performance | render data grid | browser grid benchmark | data grid render example | virtualized grid performance | large dataset table render"
+    },
+    "fetch-converter": {
+      "title": "fetch converter",
+      "description": "fetch converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "fetch converter | fetch to curl | fetch to axios | fetch to python requests | request converter | browser api converter | javascript fetch to curl | free fetch api converter"
+    },
+    "graphql-tools": {
+      "title": "GraphQL tools",
+      "description": "GraphQL tools: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "graphql tools | graphql formatter | graphql introspection viewer | graphql schema explorer | browser graphql tool | graphql query formatter | free graphql playground browser | format graphql query online"
+    },
+    "heic-to-jpg": {
+      "title": "HEIC to JPG/PNG",
+      "description": "HEIC to JPG/PNG: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "heic to jpg | heic to png | heif converter | iphone photo converter | browser heic converter | convert heic locally | free heic converter online | heic to jpeg no upload"
+    },
+    "http-explainer": {
+      "title": "HTTP status + headers explainer",
+      "description": "HTTP status + headers explainer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "http status explainer | http headers explainer | http status codes | http headers guide | browser http reference | learn http status | http status code list | what is http header"
+    },
+    "image-compress": {
+      "title": "Image Compressor",
+      "description": "Image Compressor: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image compressor | compress images | bulk image compression | browser image compressor | local image compress | no upload image compression | free compress images online | reduce image file size"
+    },
+    "image-convert": {
+      "title": "Image converter",
+      "description": "Image converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image converter | convert image format | png jpg webp converter | browser image converter | local image conversion | no upload image tool | free image converter online | png to webp jpg avif"
+    },
+    "image-remove-background": {
+      "title": "Remove image background",
+      "description": "Remove image background: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "remove background | image background remover | transparent background | png with alpha | browser background removal | local remove bg | free background remover online | erase image background"
+    },
+    "image-resize": {
+      "title": "Image Resize/Crop + Convert",
+      "description": "Image Resize/Crop + Convert: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image resize | image crop | image resize convert | browser image editor | bulk image resize | local image resize tool | resize images online free | crop and export images"
+    },
+    "images-to-pdf": {
+      "title": "Images to PDF",
+      "description": "Images to PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "images to pdf | jpg to pdf | png to pdf | convert images to pdf | browser image pdf tool | no upload image to pdf | merge photos to pdf | free jpg png to pdf"
+    },
+    "json-formatter": {
+      "title": "JSON Formatter",
+      "description": "JSON Formatter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json formatter | json beautifier | json validator | format json online | browser json tool | local json formatter | pretty print json | free json formatter no upload"
+    },
+    "json-to-csv": {
+      "title": "JSON to CSV",
+      "description": "JSON to CSV: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to csv | convert json to csv | json csv converter | browser json to csv | local json converter | json export csv | free json to csv online | json array to spreadsheet"
+    },
+    "json-to-excel": {
+      "title": "JSON to Excel",
+      "description": "JSON to Excel: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to excel | json to xlsx | convert json to excel | browser json to xlsx | json excel converter | local json export | free json to xlsx | export json to spreadsheet"
+    },
+    "json-to-parquet": {
+      "title": "JSON to Parquet",
+      "description": "JSON to Parquet: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to parquet | convert json to parquet | json parquet converter | browser json to parquet | local parquet export | parquet browser tool | free json to parquet | json lines to parquet"
+    },
+    "merge-pdf": {
+      "title": "Merge PDF",
+      "description": "Merge PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "merge pdf | combine pdf | pdf merger | browser pdf merge | local pdf merger | no upload pdf merge | join pdf files online free | merge multiple pdf"
+    },
+    "openapi-viewer": {
+      "title": "OpenAPI Viewer",
+      "description": "OpenAPI Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | swagger viewer | openapi browser | api spec viewer | swagger file viewer | browser openapi tool | free swagger ui alternative | view openapi yaml json"
+    },
+    "parquet-to-csv": {
+      "title": "Parquet to CSV",
+      "description": "Parquet to CSV: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet to csv | convert parquet to csv | parquet csv converter | browser parquet to csv | local parquet converter | parquet export csv | open parquet as csv | parquet file to csv online"
+    },
+    "parquet-to-json": {
+      "title": "Parquet to JSON",
+      "description": "Parquet to JSON: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet to json | convert parquet to json | parquet json converter | browser parquet to json | local parquet converter | parquet export json | free parquet to json | read parquet in browser"
+    },
+    "parquet-viewer": {
+      "title": "Parquet Viewer",
+      "description": "Parquet Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | open parquet file | parquet editor | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
+    },
+    "pdf-to-image": {
+      "title": "PDF to Image",
+      "description": "PDF to Image: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf to image | pdf to png | pdf to jpg | convert pdf pages to images | browser pdf converter | local pdf to image | extract images from pdf | pdf page to png jpg free"
+    },
+    "pdf-to-word": {
+      "title": "PDF to Word",
+      "description": "PDF to Word: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf to word | pdf to docx | convert pdf to word | browser pdf to docx | local pdf converter | no upload pdf to word | free pdf to docx online | editable word from pdf"
+    },
+    "pdf-watermark": {
+      "title": "PDF Watermark",
+      "description": "PDF Watermark: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "pdf watermark | watermark pdf | pdf watermark text | pdf watermark image | browser pdf watermark | no upload pdf watermark | add watermark to pdf free | stamp pdf online"
+    },
+    "python-requests-converter": {
+      "title": "Python requests converter",
+      "description": "Python requests converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "python requests converter | python requests to curl | python requests to fetch | python requests to axios | request converter | browser api converter | requests to httpx curl | convert python http code"
+    },
+    "reorder-pdf": {
+      "title": "Reorder PDF Pages",
+      "description": "Reorder PDF Pages: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "reorder pdf pages | pdf page reorder | organize pdf pages | browser pdf reorder | local pdf page tool | no upload pdf organizer | rearrange pdf pages online | change pdf page order free"
+    },
+    "request-converter": {
+      "title": "API converter",
+      "description": "API converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "api converter | request converter | curl fetch axios converter | python requests converter | browser api tool | request snippet converter | curl to fetch axios online | http request translator"
+    },
+    "split-pdf": {
+      "title": "Split PDF",
+      "description": "Split PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "split pdf | pdf splitter | split pdf pages | browser pdf split | local pdf splitter | no upload pdf split | extract pages from pdf | separate pdf online free"
+    },
+    "video-compress": {
+      "title": "Video Compressor",
+      "description": "Video Compressor: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "video compressor | compress video | browser video compressor | local video compression | no upload video compress | video size reducer | shrink mp4 online free | client side video compression"
+    },
+    "webhook-viewer": {
+      "title": "Webhook payload Viewer",
+      "description": "Webhook payload Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook payload viewer | json payload viewer | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
+    },
+    "xls-to-csv": {
+      "title": "Excel to CSV batch",
+      "description": "Excel to CSV batch: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel to csv | xls to csv | xlsx to csv | batch excel to csv | browser excel converter | local xls converter | free excel to csv online | convert spreadsheet to csv"
+    },
+    "xls-viewer": {
+      "title": "Excel Viewer",
+      "description": "Excel Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
+    }
   }
 }
