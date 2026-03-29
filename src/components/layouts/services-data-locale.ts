@@ -76,23 +76,23 @@ function getLocalizedLabel(
   switch (key) {
     case "csvViewer":
       return localizedText(locale, {
-        en: "CSV Viewer",
-        de: "CSV-Viewer",
-        es: "Visor CSV",
-        fr: "Visionneuse CSV",
-        it: "Visualizzatore CSV",
-        ja: "CSVビューア",
-        ko: "CSV 뷰어",
-        nl: "CSV-viewer",
-        pt: "Visualizador CSV",
-        ru: "Просмотр CSV",
-        tr: "CSV Goruntuleyici",
-        zh: "CSV 查看器",
-        ar: "عارض CSV",
-        fa: "نمایشگر CSV",
-        he: "מציג CSV",
-        az: "CSV goruntuleyici",
-        el: "Προβολη CSV",
+        en: "CSV viewer & editor",
+        de: "CSV-Viewer & Editor",
+        es: "Visor y editor CSV",
+        fr: "Visionneuse et éditeur CSV",
+        it: "Visualizzatore e editor CSV",
+        ja: "CSVビューアとエディタ",
+        ko: "CSV 뷰어·편집기",
+        nl: "CSV-viewer en editor",
+        pt: "Visualizador e editor CSV",
+        ru: "Просмотр и редактирование CSV",
+        tr: "CSV goruntuleyici ve duzenleyici",
+        zh: "CSV 查看器与编辑器",
+        ar: "عارض ومحرر CSV",
+        fa: "نمایشگر و ویرایشگر CSV",
+        he: "מציג ועורך CSV",
+        az: "CSV baxıcı və redaktor",
+        el: "Προβολη και επεξεργασια CSV",
       });
     case "csvCompare":
       return localizedText(locale, {
@@ -236,33 +236,33 @@ function getLocalizedLabel(
       });
     case "xlsViewer":
       return localizedText(locale, {
-        en: "Excel Viewer",
-        de: "Excel-Viewer",
-        es: "Visor de Excel",
-        fr: "Visionneuse Excel",
-        it: "Visualizzatore Excel",
-        ja: "Excelビューア",
-        ko: "Excel 뷰어",
-        nl: "Excel-viewer",
-        pt: "Visualizador de Excel",
-        ru: "Просмотр Excel",
-        tr: "Excel Goruntuleyici",
-        zh: "Excel 查看器",
+        en: "Excel viewer & editor",
+        de: "Excel-Viewer & Editor",
+        es: "Visor y editor de Excel",
+        fr: "Visionneuse et éditeur Excel",
+        it: "Visualizzatore e editor Excel",
+        ja: "Excelビューアとエディタ",
+        ko: "Excel 뷰어·편집기",
+        nl: "Excel-viewer en editor",
+        pt: "Visualizador e editor Excel",
+        ru: "Просмотр и редактирование Excel",
+        tr: "Excel goruntuleyici ve duzenleyici",
+        zh: "Excel 查看器与编辑器",
       });
     case "parquetViewer":
       return localizedText(locale, {
-        en: "Parquet Viewer",
-        de: "Parquet-Viewer",
-        es: "Visor Parquet",
-        fr: "Visionneuse Parquet",
-        it: "Visualizzatore Parquet",
-        ja: "Parquetビューア",
-        ko: "Parquet 뷰어",
-        nl: "Parquet-viewer",
-        pt: "Visualizador Parquet",
-        ru: "Просмотр Parquet",
-        tr: "Parquet Goruntuleyici",
-        zh: "Parquet 查看器",
+        en: "Parquet viewer & editor",
+        de: "Parquet-Viewer & Editor",
+        es: "Visor y editor Parquet",
+        fr: "Visionneuse et éditeur Parquet",
+        it: "Visualizzatore e editor Parquet",
+        ja: "Parquetビューアとエディタ",
+        ko: "Parquet 뷰어·편집기",
+        nl: "Parquet-viewer en editor",
+        pt: "Visualizador e editor Parquet",
+        ru: "Просмотр и редактирование Parquet",
+        tr: "Parquet goruntuleyici ve duzenleyici",
+        zh: "Parquet 查看器与编辑器",
       });
     case "csvToExcel":
       return localizedText(locale, {
@@ -546,18 +546,18 @@ function getLocalizedLabel(
       });
     case "openapiViewer":
       return localizedText(locale, {
-        en: "OpenAPI Viewer",
-        de: "OpenAPI-Viewer",
-        es: "Visor OpenAPI",
-        fr: "Visionneuse OpenAPI",
-        it: "Visualizzatore OpenAPI",
-        ja: "OpenAPIビューア",
-        ko: "OpenAPI 뷰어",
-        nl: "OpenAPI-viewer",
-        pt: "Visualizador OpenAPI",
-        ru: "Просмотр OpenAPI",
-        tr: "OpenAPI Goruntuleyici",
-        zh: "OpenAPI 查看器",
+        en: "OpenAPI viewer & editor",
+        de: "OpenAPI-Viewer & Editor",
+        es: "Visor y editor OpenAPI",
+        fr: "Visionneuse et éditeur OpenAPI",
+        it: "Visualizzatore e editor OpenAPI",
+        ja: "OpenAPIビューアとエディタ",
+        ko: "OpenAPI 뷰어·편집기",
+        nl: "OpenAPI-viewer en editor",
+        pt: "Visualizador e editor OpenAPI",
+        ru: "Просмотр и правка OpenAPI",
+        tr: "OpenAPI goruntuleyici ve duzenleyici",
+        zh: "OpenAPI 查看器与编辑器",
       });
     case "graphqlTools":
       return localizedText(locale, {
@@ -576,18 +576,18 @@ function getLocalizedLabel(
       });
     case "webhookViewer":
       return localizedText(locale, {
-        en: "Webhook Viewer",
-        de: "Webhook-Viewer",
-        es: "Visor de Webhooks",
-        fr: "Visionneuse Webhook",
-        it: "Visualizzatore Webhook",
-        ja: "Webhookビューア",
-        ko: "Webhook 뷰어",
-        nl: "Webhook-viewer",
-        pt: "Visualizador de Webhook",
-        ru: "Просмотр Webhook",
-        tr: "Webhook Goruntuleyici",
-        zh: "Webhook 查看器",
+        en: "Webhook viewer & editor",
+        de: "Webhook-Viewer & Editor",
+        es: "Visor y editor de webhooks",
+        fr: "Visionneuse et éditeur webhook",
+        it: "Visualizzatore e editor webhook",
+        ja: "Webhookビューアとエディタ",
+        ko: "Webhook 뷰어·편집기",
+        nl: "Webhook-viewer en editor",
+        pt: "Visualizador e editor de webhook",
+        ru: "Просмотр и правка webhook",
+        tr: "Webhook goruntuleyici ve duzenleyici",
+        zh: "Webhook 查看器与编辑器",
       });
     case "pdfToWord":
       return localizedText(locale, {
@@ -1077,18 +1077,18 @@ function getLocalizedDescription(
       });
     case "groupViewers":
       return localizedText(locale, {
-        en: "Preview and inspect files in your browser.",
-        de: "Dateien direkt im Browser ansehen und prufen.",
-        es: "Previsualiza e inspecciona archivos en tu navegador.",
-        fr: "Previsualisez et inspectez les fichiers dans votre navigateur.",
-        it: "Anteprima e controllo dei file nel browser.",
-        ja: "ブラウザでファイルをプレビューして確認。",
-        ko: "브라우저에서 파일을 미리 보고 확인합니다.",
-        nl: "Bekijk en inspecteer bestanden in je browser.",
-        pt: "Visualize e inspecione arquivos no navegador.",
-        ru: "Просматривайте и проверяйте файлы в браузере.",
-        tr: "Dosyalari tarayicinizda onizleyin ve inceleyin.",
-        zh: "在浏览器中预览并检查文件。",
+        en: "Open, search, and edit locally—editable grids, specs, and JSON payloads in your browser.",
+        de: "Lokal oeffnen, suchen und bearbeiten: editierbare Tabellen, Spezifikationen und JSON-Nutzdaten im Browser.",
+        es: "Abre, busca y edita en local: rejillas, especificaciones y JSON en el navegador.",
+        fr: "Ouvrez, cherchez et modifiez en local : grilles, specs et JSON dans le navigateur.",
+        it: "Apri, cerca e modifica in locale: griglie, spec e payload JSON nel browser.",
+        ja: "ブラウザでローカルに開く・検索・編集（表、仕様、JSON）。",
+        ko: "브라우저에서 로컬로 열기·검색·편집—편집 가능한 그리드, 스펙, JSON 페이로드.",
+        nl: "Open, zoek en bewerk lokaal: bewerkbare grids, specs en JSON in je browser.",
+        pt: "Abra, pesquise e edite localmente: grades editaveis, specs e JSON no navegador.",
+        ru: "Открывайте, ищите и правьте локально: редактируемые таблицы, спеки и JSON в браузере.",
+        tr: "Yerelde acin, arayin ve duzenleyin: tarayicida duzenlenebilir izgaralar, spec ve JSON.",
+        zh: "在浏览器本地打开、搜索和编辑—可编辑表格、规格与 JSON 负载。",
       });
     case "groupExcel":
       return localizedText(locale, {
@@ -1288,7 +1288,8 @@ function getLocalizedDescription(
     default:
       return localizedText(locale, {
         en: {
-          csvViewer: "Open and inspect CSV data quickly.",
+          csvViewer:
+            "Open CSV in an editable grid, search and export—runs locally in your browser.",
           csvCompare: "Compare two CSV files side by side.",
           csvToJson: "Convert CSV files to JSON.",
           jsonToCsv: "Convert JSON to CSV format.",
@@ -1299,8 +1300,10 @@ function getLocalizedDescription(
           csvToMarkdownTable: "Generate Markdown tables from CSV files.",
           csvToSql:
             "Generate CREATE TABLE and INSERT statements from CSV (PostgreSQL, MySQL, SQLite).",
-          xlsViewer: "View Excel files directly in a grid.",
-          parquetViewer: "Open and browse Parquet files.",
+          xlsViewer:
+            "Open Excel in an editable grid; edit cells and export locally.",
+          parquetViewer:
+            "Browse Parquet in an editable grid and export back to .parquet locally.",
           csvToExcel: "Convert CSV to XLSX files.",
           xlsToCsv: "Turn Excel sheets into CSV.",
           jsonToExcel: "Convert JSON into XLSX.",
@@ -1330,9 +1333,12 @@ function getLocalizedDescription(
           pythonRequestsConverter:
             "Convert Python requests snippets to cURL, fetch, or axios.",
           httpExplainer: "Explain status codes and common HTTP headers.",
-          openapiViewer: "Load OpenAPI specs and browse endpoints.",
-          graphqlTools: "Format queries and inspect schema types.",
-          webhookViewer: "Pretty-print payloads and search JSONPath.",
+          openapiViewer:
+            "Paste or load OpenAPI YAML/JSON, edit the spec, and browse paths and operations.",
+          graphqlTools:
+            "Write and format GraphQL queries; load schema JSON and inspect types locally.",
+          webhookViewer:
+            "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
           pdfToWord: "Convert PDFs to DOCX files.",
           splitPdf: "Split PDF files by page or range.",
           reorderPdf: "Reorder or remove pages, then save a new PDF.",
@@ -1393,18 +1399,18 @@ function getLocalizedGroupTitle(
       });
     case "viewers":
       return localizedText(locale, {
-        en: "Viewers",
-        de: "Viewer",
-        es: "Visores",
-        fr: "Visionneuses",
-        it: "Visualizzatori",
-        ja: "ビューア",
-        ko: "뷰어",
-        nl: "Viewers",
-        pt: "Visualizadores",
-        ru: "Просмотр",
-        tr: "Goruntuleyiciler",
-        zh: "查看器",
+        en: "Viewers & editors",
+        de: "Viewer & Editoren",
+        es: "Visores y editores",
+        fr: "Visionneuses et éditeurs",
+        it: "Visualizzatori e editor",
+        ja: "ビューアとエディタ",
+        ko: "뷰어·편집기",
+        nl: "Viewers en editors",
+        pt: "Visualizadores e editores",
+        ru: "Просмотр и редакторы",
+        tr: "Goruntuleyiciler ve duzenleyiciler",
+        zh: "查看与编辑",
       });
     case "excel":
       return localizedText(locale, {

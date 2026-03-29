@@ -37,8 +37,8 @@ export default async function WebhookViewerPage({
         <ApiWebDevHelpersApp
           initialTool="webhook"
           showToolSwitcher={false}
-          title="Webhook payload viewer"
-          subtitle="Inspect webhook payloads with a pretty JSON view and JSONPath search."
+          title="Webhook payload viewer & editor"
+          subtitle="Paste, edit, and prettify JSON; inspect payloads with a pretty view and JSONPath search."
         />
       </Suspense>
     </Shell>

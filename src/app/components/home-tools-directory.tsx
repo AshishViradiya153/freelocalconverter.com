@@ -20,6 +20,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
+import { LandingFeatures } from "@/app/components/landing-features";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import {
   flattenServiceGroups,
@@ -84,7 +85,7 @@ export function HomeToolsDirectory() {
   );
 
   const [query, setQuery] = React.useState("");
-  const [activeGroup, setActiveGroup] = React.useState<GroupId>("all");
+  const [activeGroup, setActiveGroup] = React.useState<GroupId>("viewers");
 
   React.useLayoutEffect(() => {
     function syncQueryFromUrl() {
@@ -162,7 +163,7 @@ export function HomeToolsDirectory() {
       urlSyncTimeoutRef.current = null;
     }
     setQuery("");
-    setActiveGroup("all");
+    setActiveGroup("viewers");
     replaceSearchParamQ("");
   }
 
@@ -182,11 +183,11 @@ export function HomeToolsDirectory() {
                 initial={{ x: -16, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="whitespace-pre-line text-balance break-words font-black text-[clamp(1.75rem,8vw,3rem)] uppercase leading-[0.95] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl"
+                className="whitespace-pre-line text-balance wrap-break-word font-black text-[clamp(1.75rem,8vw,3rem)] uppercase leading-[0.95] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl"
               >
                 {tLanding("heroTitle")}
               </motion.h1>
-              <p className="mt-4 max-w-3xl break-words font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-6 md:text-base">
+              <p className="mt-4 max-w-3xl wrap-break-word font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-6 md:text-base">
                 {tLanding("directorySubtitle")}
               </p>
             </header>
@@ -243,17 +244,17 @@ export function HomeToolsDirectory() {
                     </div>
                     <div className="no-scrollbar flex min-w-0 flex-row gap-2 overflow-x-auto overscroll-x-contain pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
                       <CategoryBrutalistButton
-                        label={tLanding("directoryAllLabel")}
-                        count={searchItems.length}
-                        active={activeGroup === "all"}
-                        onClick={() => setActiveGroup("all")}
-                      />
-                      <CategoryBrutalistButton
                         icon={Star}
                         label={tLanding("directoryFavoritesLabel")}
                         count={pinnedHrefs.length}
                         active={activeGroup === "favorites"}
                         onClick={() => setActiveGroup("favorites")}
+                      />
+                      <CategoryBrutalistButton
+                        label={tLanding("directoryAllLabel")}
+                        count={searchItems.length}
+                        active={activeGroup === "all"}
+                        onClick={() => setActiveGroup("all")}
                       />
                       {serviceGroups.map((group) => {
                         const count = searchItems.filter(
@@ -270,13 +271,20 @@ export function HomeToolsDirectory() {
                           />
                         );
                       })}
+                      <CategoryBrutalistButton
+                        icon={Star}
+                        label={tLanding("directoryFavoritesLabel")}
+                        count={pinnedHrefs.length}
+                        active={activeGroup === "favorites"}
+                        onClick={() => setActiveGroup("favorites")}
+                      />
                     </div>
                   </div>
                 </div>
               </aside>
 
               <div className="flex min-w-0 flex-1 flex-col bg-brutal-canvas">
-                <div className="min-w-0 shrink-0 break-words border-border border-b-4 bg-brutal-canvas px-3 py-2.5 font-black text-[9px] text-brutal-canvas-foreground uppercase leading-tight tracking-widest sm:px-4 sm:py-3 sm:text-[10px]">
+                <div className="min-w-0 shrink-0 wrap-break-word border-border border-b-4 bg-brutal-canvas px-3 py-2.5 font-black text-[9px] text-brutal-canvas-foreground uppercase leading-tight tracking-widest sm:px-4 sm:py-3 sm:text-[10px]">
                   {query.trim()
                     ? tLanding("directoryResultsLabel", {
                         count: visibleItems.length,
@@ -313,7 +321,7 @@ export function HomeToolsDirectory() {
                           className="mx-auto mb-6 size-16 text-foreground"
                           aria-hidden
                         />
-                        <h2 className="break-words font-black text-2xl uppercase tracking-tighter sm:text-3xl md:text-4xl">
+                        <h2 className="wrap-break-word font-black text-2xl uppercase tracking-tighter sm:text-3xl md:text-4xl">
                           {activeGroup === "favorites" &&
                           !normalizeSearchValue(query)
                             ? tLanding("directoryFavoritesEmptyTitle")
@@ -338,6 +346,8 @@ export function HomeToolsDirectory() {
                 </div>
               </div>
             </div>
+
+            <LandingFeatures />
           </div>
         </div>
       </div>
@@ -447,10 +457,10 @@ function ToolCardBrutalist({
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col gap-4">
-          <h2 className="text-balance break-words font-black text-xl uppercase leading-none tracking-tighter sm:text-2xl md:text-3xl">
+          <h2 className="text-balance wrap-break-word font-black text-xl uppercase leading-none tracking-tighter sm:text-2xl md:text-3xl">
             {item.label}
           </h2>
-          <p className="break-words font-bold text-muted-foreground text-sm leading-snug group-hover:text-primary-foreground/80">
+          <p className="wrap-break-word font-bold text-muted-foreground text-sm leading-snug group-hover:text-primary-foreground/80">
             {item.description}
           </p>
         </div>

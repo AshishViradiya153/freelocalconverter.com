@@ -7,8 +7,8 @@
     "csvToExcel": "CSV→エクセル",
     "jsonToExcel": "JSON → Excel",
     "xlsToCsv": "エクセル→CSV",
-    "xlsViewer": "Excelビューア",
-    "parquetViewer": "Parquet ビューア",
+    "xlsViewer": "Excel viewer & editor",
+    "parquetViewer": "Parquet viewer & editor",
     "guides": "ガイド",
     "tools": "ツール",
     "blog": "ブログ",
@@ -210,6 +210,24 @@
   "landing": {
     "heroTitle": "無料でモダン、\nローカルで安全なツール。",
     "heroSubtitle": "CSV をドロップしてグリッドで並べ替え、フィルター、検索、編集、貼り付け、元に戻す/やり直し、行の追加・削除。データはこの端末に留まり、次回も復元されます。",
+    "featuresAria": "Product features",
+    "featuresKicker": "Features",
+    "featuresTitle": "Designed for fast, private work",
+    "featuresSubtitle": "Brutalist UI, smooth interactions, and client-side processing. Browse tools, pin favorites, and move data between formats without leaving the page.",
+    "featuresItems": {
+      "localTitle": "Local-first by default",
+      "localDescription": "Most tools run in your browser tab—no uploads for processing.",
+      "fastTitle": "Fast even on big files",
+      "fastDescription": "Responsive grids, search, and previews tuned for large datasets.",
+      "searchTitle": "Find tools instantly",
+      "searchDescription": "Search by name, category, or workflow. Jump with Enter.",
+      "favoritesTitle": "Pin your favorites",
+      "favoritesDescription": "Star tools to keep a personal shortlist on this device.",
+      "convertTitle": "Convert & export",
+      "convertDescription": "CSV, JSON, Excel, Parquet, PDF, images, video—export in one click.",
+      "polishTitle": "Nice details everywhere",
+      "polishDescription": "Keyboard shortcuts, sensible defaults, and a UI that stays out of your way."
+    },
     "directoryKicker": "ツールディレクトリ",
     "directorySubtitle": "コンバーター、ビューアー、フォーマッター、OpenAPI ヘルパー、PDF・画像などのツールを検索できます。すべて一か所から見つけやすく整理されています。",
     "directorySearchLabel": "ツールを検索",
@@ -367,15 +385,15 @@
     "subtitle": "上のカテゴリからコンバーター、ビューアー、PDF・画像・動画・カラー関連ツール、開発者向けヘルパーなどをご利用ください。ブラウザー内で動く機能では、ファイルは通常お使いの端末に留まり、その処理のために当社へアップロードされることはありません。",
     "groupConvertersTitle": "コンバーター",
     "groupConvertersDescription": "形式間のスムーズな受け渡し用ツール。",
-    "groupViewersTitle": "ビューアーと比較",
-    "groupViewersDescription": "ローカルで確認・検索・差分の把握。",
+    "groupViewersTitle": "Viewers, editors & compare",
+    "groupViewersDescription": "Inspect, search, edit grids and payloads, and spot CSV differences locally.",
     "groupExcelTitle": "Excel ワークフロー",
     "groupExcelDescription": "ブラウザー内のまま CSV/Excel/JSON を行き来。",
     "groupCompanyTitle": "学習とプロダクト",
     "groupCompanyDescription": "ドキュメント、ハブ、主要ページ。",
     "viewerDesc": "CSV を開き編集しローカルに書き出します。",
     "compareDesc": "フィルター付きの並列 CSV 差分。",
-    "xlsViewerDesc": "グリッドで Excel を開く（ローカル解析）。",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
     "parquetViewerDesc": "グリッドで Parquet を開きローカル編集し、.parquet に書き戻します。",
     "csvToExcelDesc": "CSV を一括で .xlsx に変換します。",
     "xlsToCsvDesc": "Excel シートを CSV 出力に変換します。",
@@ -584,8 +602,8 @@
   "services": {
     "groupConvertersTitle": "コンバーター",
     "groupConvertersDescription": "CSV、JSON、Parquet をすばやく相互変換します。",
-    "groupViewersTitle": "ビューアー",
-    "groupViewersDescription": "ブラウザーでファイルをプレビューして確認します。",
+    "groupViewersTitle": "Viewers & editors",
+    "groupViewersDescription": "Open, search, and edit locally—editable grids, OpenAPI specs, webhook JSON, and more in your browser.",
     "groupExcelTitle": "Excel",
     "groupExcelDescription": "CSV、JSON、Excel の間でインポート・エクスポート。",
     "groupDeveloperTitle": "開発者向け",
@@ -598,8 +616,8 @@
     "groupImageDescription": "画像ツール: 圧縮、変換、リサイズをローカルで。",
     "groupColorTitle": "カラー",
     "groupColorDescription": "カラーツール: ジェネレーターとトレンドギャラリー。",
-    "csvViewerLabel": "CSV ビューアー",
-    "csvViewerDesc": "CSV データをすばやく開いて確認します。",
+    "csvViewerLabel": "CSV viewer & editor",
+    "csvViewerDesc": "Open CSV in an editable grid, search and export—runs locally in your browser.",
     "csvCompareLabel": "CSV 比較",
     "csvCompareDesc": "2 つの CSV ファイルを並べて比較します。",
     "csvToExcelDesc": "CSV を XLSX に変換します。",
@@ -613,8 +631,8 @@
     "parquetToJsonDesc": "Parquet を JSON に変換します。",
     "csvToMarkdownTableDesc": "CSV から Markdown 表を生成します。",
     "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
-    "xlsViewerDesc": "Excel XLS を直接表示します。",
-    "parquetViewerDesc": "Parquet を開いて閲覧します。",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
+    "parquetViewerDesc": "Browse Parquet in an editable grid and export back to .parquet locally.",
     "jsonFormatterLabel": "JSON フォーマッター",
     "jsonFormatterDesc": "JSON をローカルで整形・圧縮・検証します。",
     "sqlFormatterLabel": "SQL formatter",
@@ -645,12 +663,12 @@
     "pythonRequestsConverterDesc": "Python requests を cURL/fetch/axios に変換します。",
     "httpExplainerLabel": "HTTP 解説",
     "httpExplainerDesc": "ステータスコードと一般的な HTTP ヘッダーを説明します。",
-    "openapiViewerLabel": "OpenAPI ビューアー",
-    "openapiViewerDesc": "OpenAPI 仕様を読み込みエンドポイントを閲覧します。",
+    "openapiViewerLabel": "OpenAPI viewer & editor",
+    "openapiViewerDesc": "Paste or load OpenAPI YAML/JSON, edit the spec, and browse paths and operations.",
     "graphqlToolsLabel": "GraphQL ツール",
-    "graphqlToolsDesc": "クエリを整形しスキーマ型を確認します。",
-    "webhookViewerLabel": "Webhook ビューアー",
-    "webhookViewerDesc": "ペイロードを整形表示し JSONPath で検索します。",
+    "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
+    "webhookViewerLabel": "Webhook viewer & editor",
+    "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
     "pdfToWordLabel": "PDF を Word に",
     "pdfToWordDesc": "PDF を DOCX に変換します。",
     "splitPdfLabel": "PDF 分割",
@@ -982,9 +1000,9 @@
       "keywords": "pdf 結合 | マージ | ブラウザー | ローカル | アップロードなし | 複数 | 無料"
     },
     "openapi-viewer": {
-      "title": "OpenAPI ビューアー",
-      "description": "OpenAPI ビューアー: ブラウザーで無料。プライベートにローカル処理され、ファイルは当社サーバーにアップロードされません。",
-      "keywords": "openapi | swagger | 仕様 | エンドポイント | ブラウザー | yaml json"
+      "title": "OpenAPI viewer & editor",
+      "description": "OpenAPI/Swagger viewer and editor: paste or upload YAML/JSON, edit the spec, and browse paths and operations locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | openapi editor | swagger viewer | swagger editor | openapi browser | api spec viewer | edit openapi yaml | browser openapi tool | free swagger ui alternative | view openapi yaml json"
     },
     "parquet-to-csv": {
       "title": "Parquet を CSV に",
@@ -997,9 +1015,9 @@
       "keywords": "parquet json | 変換 | ブラウザー | ローカル | 無料"
     },
     "parquet-viewer": {
-      "title": "Parquet ビューアー",
-      "description": "Parquet ビューアー: ブラウザーで無料。プライベートにローカル処理され、ファイルは当社サーバーにアップロードされません。",
-      "keywords": "parquet | 開く | 編集 | ブラウザー | ローカル | グリッド | 無料"
+      "title": "Parquet viewer & editor",
+      "description": "Parquet viewer and editor: open .parquet in an editable grid, search and tweak values, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | parquet editor | open parquet file | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
     },
     "pdf-to-image": {
       "title": "PDF を画像に",
@@ -1052,9 +1070,9 @@
       "keywords": "動画圧縮 | ブラウザー | ローカル | アップロードなし | mp4 縮小 | 無料 | クライアント"
     },
     "webhook-viewer": {
-      "title": "Webhook ペイロード ビューアー",
-      "description": "Webhook ペイロード ビューアー: ブラウザーで無料。プライベートにローカル処理され、ファイルは当社サーバーにアップロードされません。",
-      "keywords": "webhook | ペイロード | json | jsonpath | ブラウザー | stripe | デバッグ"
+      "title": "Webhook payload viewer & editor",
+      "description": "Webhook payload viewer and editor: paste, edit, and prettify JSON; search with JSONPath locally in your browser. Private, client-side processing; your payloads are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook editor | webhook payload viewer | json payload editor | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
     },
     "xls-to-csv": {
       "title": "Excel を CSV に一括",
@@ -1062,9 +1080,9 @@
       "keywords": "excel csv | xls xlsx | 一括 | ブラウザー | ローカル | 無料 | スプレッドシート"
     },
     "xls-viewer": {
-      "title": "Excel ビューアー",
-      "description": "Excel ビューアー: ブラウザーで無料。プライベートにローカル処理され、ファイルは当社サーバーにアップロードされません。",
-      "keywords": "excel ビューアー | xlsx xls | ブラウザー | 編集グリッド | ローカル | excel 不要 | 無料"
+      "title": "Excel viewer & editor",
+      "description": "Excel viewer and editor: open XLS/XLSX in an editable grid, edit cells, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | excel editor | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
     }
   }
 }
