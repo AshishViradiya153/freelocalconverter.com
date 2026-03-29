@@ -20,7 +20,7 @@ const root = join(__dirname, "..");
 const outDir = join(root, "public/trusted-by/logos");
 
 const UA =
-  "tablecn-logo-fetch/1.0 (https://csveditoronline.org/; educational project; respects rate limits)";
+  "localtool-logo-fetch/1.0 (https://csveditoronline.org/; educational project; respects rate limits)";
 
 /** @type {Record<string, string>} Verified Commons titles (omit hand-curated / wordmark IDs). */
 const idToTitle = {
