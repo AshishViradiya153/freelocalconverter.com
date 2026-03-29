@@ -43,7 +43,9 @@ const expectedPaths = stringLeafPaths(en).sort();
 let failed = false;
 for (const name of fs.readdirSync(messagesDir)) {
   if (!name.endsWith(".json") || name === "en.json") continue;
-  const data = JSON.parse(fs.readFileSync(path.join(messagesDir, name), "utf8"));
+  const data = JSON.parse(
+    fs.readFileSync(path.join(messagesDir, name), "utf8"),
+  );
   const missing = [];
   const empty = [];
   for (const pathStr of expectedPaths) {
@@ -54,15 +56,34 @@ for (const name of fs.readdirSync(messagesDir)) {
   const extra = stringLeafPaths(data).filter((p) => !expectedPaths.includes(p));
   if (missing.length || empty.length || extra.length) {
     console.error(`${name}:`);
-    if (missing.length) console.error("  missing:", missing.slice(0, 20).join(", "), missing.length > 20 ? `… (+${missing.length - 20})` : "");
-    if (empty.length) console.error("  empty:", empty.slice(0, 20).join(", "), empty.length > 20 ? `… (+${empty.length - 20})` : "");
-    if (extra.length) console.error("  extra (not in en):", extra.slice(0, 15).join(", "), extra.length > 15 ? `… (+${extra.length - 15})` : "");
+    if (missing.length)
+      console.error(
+        "  missing:",
+        missing.slice(0, 20).join(", "),
+        missing.length > 20 ? `… (+${missing.length - 20})` : "",
+      );
+    if (empty.length)
+      console.error(
+        "  empty:",
+        empty.slice(0, 20).join(", "),
+        empty.length > 20 ? `… (+${empty.length - 20})` : "",
+      );
+    if (extra.length)
+      console.error(
+        "  extra (not in en):",
+        extra.slice(0, 15).join(", "),
+        extra.length > 15 ? `… (+${extra.length - 15})` : "",
+      );
     failed = true;
   }
 }
 
 if (failed) {
-  console.error("\nFix: run `node scripts/sync-messages-from-en.mjs` then translate new strings.");
+  console.error(
+    "\nFix: run `node scripts/sync-messages-from-en.mjs` then translate new strings.",
+  );
   process.exit(1);
 }
-console.log(`messages parity OK: ${expectedPaths.length} string leaves × ${fs.readdirSync(messagesDir).filter((f) => f.endsWith(".json")).length - 1} locales`);
+console.log(
+  `messages parity OK: ${expectedPaths.length} string leaves × ${fs.readdirSync(messagesDir).filter((f) => f.endsWith(".json")).length - 1} locales`,
+);

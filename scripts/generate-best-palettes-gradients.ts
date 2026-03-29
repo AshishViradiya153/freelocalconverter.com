@@ -17,18 +17,17 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-
+import { generateGradientFromBase } from "@/lib/color-gradients";
 import {
   bestTextColorOn,
   contrastRatio,
   generatePaletteFromBase,
+  type HarmonyMode,
   hexToRgb,
   hslToRgb,
-  rgbToHsl,
   rgbToHex,
-  type HarmonyMode,
+  rgbToHsl,
 } from "@/lib/color-palette";
-import { generateGradientFromBase } from "@/lib/color-gradients";
 
 type Args = {
   count: number;
@@ -38,7 +37,7 @@ type Args = {
 
 function parseArgs(argv: string[]): Args {
   function readNumber(flag: string, fallback: number): number {
-    const idx = argv.findIndex((a) => a === flag);
+    const idx = argv.indexOf(flag);
     if (idx === -1) return fallback;
     const raw = argv[idx + 1];
     const n = raw ? Number(raw) : NaN;
@@ -64,24 +63,31 @@ function mulberry32(seed: number) {
 }
 
 function pick<T>(arr: T[], rng: () => number): T {
-  return arr[Math.floor(rng() * arr.length)]!;
+  if (arr.length === 0) throw new Error("pick: empty array");
+  const el = arr[Math.floor(rng() * arr.length)];
+  if (el === undefined) throw new Error("pick: invalid index");
+  return el;
 }
 
-function randomBaseHex(rng: () => number): string {
+function _randomBaseHex(rng: () => number): string {
   // Bias toward darker and lighter bases so WCAG text contrast improves.
   const h = rng() * 360;
   const s = 0.45 + rng() * 0.5; // 0.45..0.95
-  const l = rng() < 0.5
-    ? 0.08 + rng() * 0.35 // 0.08..0.43
-    : 0.55 + rng() * 0.35; // 0.55..0.90
+  const l =
+    rng() < 0.5
+      ? 0.08 + rng() * 0.35 // 0.08..0.43
+      : 0.55 + rng() * 0.35; // 0.55..0.90
   return rgbToHex(hslToRgb({ h, s, l }));
 }
 
-function minPairwiseContrast(hexes: string[]): number {
+function _minPairwiseContrast(hexes: string[]): number {
   let min = Infinity;
   for (let i = 0; i < hexes.length; i++) {
     for (let j = i + 1; j < hexes.length; j++) {
-      const c = contrastRatio(hexes[i]!, hexes[j]!);
+      const a = hexes[i];
+      const b = hexes[j];
+      if (a === undefined || b === undefined) continue;
+      const c = contrastRatio(a, b);
       if (c < min) min = c;
     }
   }
@@ -92,7 +98,10 @@ function pairwiseContrastQuantile(hexes: string[], q: number): number {
   const pairs: number[] = [];
   for (let i = 0; i < hexes.length; i++) {
     for (let j = i + 1; j < hexes.length; j++) {
-      pairs.push(contrastRatio(hexes[i]!, hexes[j]!));
+      const a = hexes[i];
+      const b = hexes[j];
+      if (a === undefined || b === undefined) continue;
+      pairs.push(contrastRatio(a, b));
     }
   }
   if (pairs.length === 0) return 0;
@@ -105,8 +114,11 @@ function rgbMinDistanceNormalized(hexes: string[]): number {
   let min = Infinity;
   for (let i = 0; i < hexes.length; i++) {
     for (let j = i + 1; j < hexes.length; j++) {
-      const a = hexToRgb(hexes[i]!);
-      const b = hexToRgb(hexes[j]!);
+      const hi = hexes[i];
+      const hj = hexes[j];
+      if (hi === undefined || hj === undefined) continue;
+      const a = hexToRgb(hi);
+      const b = hexToRgb(hj);
       const dr = a.r - b.r;
       const dg = a.g - b.g;
       const db = a.b - b.b;
@@ -136,8 +148,9 @@ function hslRanges(hexes: string[]): {
   const hues = hsls.map((h) => h.h).sort((a, b) => a - b);
   let maxGap = 0;
   for (let i = 0; i < hues.length; i++) {
-    const a = hues[i]!;
-    const b = hues[(i + 1) % hues.length]!;
+    const a = hues[i];
+    const b = hues[(i + 1) % hues.length];
+    if (a === undefined || b === undefined) continue;
     const next = i === hues.length - 1 ? b + 360 : b;
     maxGap = Math.max(maxGap, next - a);
   }
@@ -227,10 +240,7 @@ type ColorTag =
   | "gray"
   | "black";
 
-const COLOR_FAMILY_CENTERS: Record<
-  Exclude<ColorFamily, "neutral">,
-  number
-> = {
+const COLOR_FAMILY_CENTERS: Record<Exclude<ColorFamily, "neutral">, number> = {
   red: 0,
   orange: 30,
   yellow: 60,
@@ -272,11 +282,14 @@ const NOUNS = [
   "Bloom",
 ];
 
-function clamp(n: number, min: number, max: number) {
+function _clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function pickWeighted<A>(choices: Array<{ v: A; w: number }>, rng: () => number) {
+function pickWeighted<A>(
+  choices: Array<{ v: A; w: number }>,
+  rng: () => number,
+) {
   const total = choices.reduce((s, c) => s + c.w, 0);
   const r = rng() * total;
   let acc = 0;
@@ -284,7 +297,7 @@ function pickWeighted<A>(choices: Array<{ v: A; w: number }>, rng: () => number)
     acc += c.w;
     if (r <= acc) return c.v;
   }
-  return choices[choices.length - 1]!.v;
+  return choices[choices.length - 1]?.v;
 }
 
 function sampleHueNearCenter(
@@ -305,10 +318,7 @@ function familyFromHue(hue: number): ColorFamily {
   let best: { family: Exclude<ColorFamily, "neutral">; dist: number } | null =
     null;
   for (const [family, center] of sCenters) {
-    const diff = Math.min(
-      Math.abs(hue - center),
-      360 - Math.abs(hue - center),
-    );
+    const diff = Math.min(Math.abs(hue - center), 360 - Math.abs(hue - center));
     if (!best || diff < best.dist) best = { family, dist: diff };
   }
   return best ? best.family : "neutral";
@@ -336,19 +346,20 @@ function sampleBaseFor(
   lightnessMul: number;
 } {
   const isNeutral = family === "neutral";
-  const hue =
-    isNeutral
-      ? rng() * 360
-      : sampleHueNearCenter(rng, COLOR_FAMILY_CENTERS[family], 22);
+  const hue = isNeutral
+    ? rng() * 360
+    : sampleHueNearCenter(rng, COLOR_FAMILY_CENTERS[family], 22);
 
   const sat = (() => {
-    if (aesthetic === "dark-modern") return isNeutral ? 0.2 + rng() * 0.25 : 0.65 + rng() * 0.25;
+    if (aesthetic === "dark-modern")
+      return isNeutral ? 0.2 + rng() * 0.25 : 0.65 + rng() * 0.25;
     // classic
     return isNeutral ? 0.15 + rng() * 0.35 : 0.25 + rng() * 0.35;
   })();
 
   const l = (() => {
-    if (aesthetic === "dark-modern") return isNeutral ? 0.08 + rng() * 0.2 : 0.05 + rng() * 0.22;
+    if (aesthetic === "dark-modern")
+      return isNeutral ? 0.08 + rng() * 0.2 : 0.05 + rng() * 0.22;
     // classic
     return isNeutral ? 0.28 + rng() * 0.32 : 0.32 + rng() * 0.32;
   })();
@@ -388,16 +399,14 @@ function makePaletteName({
   mode: HarmonyMode;
 }) {
   const adj = (() => {
-    if (family === "neutral") return aesthetic === "classic" ? "Gilded" : "Obsidian";
+    if (family === "neutral")
+      return aesthetic === "classic" ? "Gilded" : "Obsidian";
     return pick(FAMILY_ADJECTIVES[family], rng);
   })();
   const mod = AESTHETIC_LABELS[aesthetic] ?? "";
   const noun = pick(NOUNS, rng);
   const maybeMode = mode === "monochrome" ? "Monochrome" : "";
-  const core =
-    aesthetic === "classic"
-      ? `${adj} ${mod}`
-      : `${mod} ${adj}`;
+  const core = aesthetic === "classic" ? `${adj} ${mod}` : `${mod} ${adj}`;
   const suffix = maybeMode ? ` ${maybeMode}` : "";
   return `${core} ${noun}${suffix}`.trim();
 }
@@ -455,25 +464,25 @@ type GradientCandidate = {
 };
 
 function generateBestPalettes({ count, candidates, seed }: Args) {
-  const rng = mulberry32(seed);
+  const _rng = mulberry32(seed);
   // Bias: more cold colors, and favor the most common "brand-ish" families.
   // (Weights only affect distribution; scoring/constraints still decide "best".)
   const hueFamilyWeights: Array<{
     family: Exclude<ColorFamily, "neutral">;
     weight: number;
   }> = [
-      // Cold-heavy, but keep all requested families populated for filters.
-      // Total weight = 1.00
-      { family: "teal", weight: 0.24 },
-      { family: "blue", weight: 0.22 },
-      { family: "green", weight: 0.16 },
-      { family: "purple", weight: 0.14 },
-      { family: "brown", weight: 0.10 },
-      { family: "pink", weight: 0.06 },
-      { family: "red", weight: 0.03 },
-      { family: "orange", weight: 0.03 },
-      { family: "yellow", weight: 0.02 },
-    ];
+    // Cold-heavy, but keep all requested families populated for filters.
+    // Total weight = 1.00
+    { family: "teal", weight: 0.24 },
+    { family: "blue", weight: 0.22 },
+    { family: "green", weight: 0.16 },
+    { family: "purple", weight: 0.14 },
+    { family: "brown", weight: 0.1 },
+    { family: "pink", weight: 0.06 },
+    { family: "red", weight: 0.03 },
+    { family: "orange", weight: 0.03 },
+    { family: "yellow", weight: 0.02 },
+  ];
   const hueFamilies = hueFamilyWeights.map((x) => x.family);
   const totalWeight = hueFamilyWeights.reduce((s, x) => s + x.weight, 0);
   const usedHue = Math.floor(count * 0.7);
@@ -507,9 +516,14 @@ function generateBestPalettes({ count, candidates, seed }: Args) {
     desired: number,
   ): PaletteCandidate[] {
     const out: PaletteCandidate[] = [];
-    const localRng = mulberry32(seed + family.length * 1000 + family.charCodeAt(0));
+    const localRng = mulberry32(
+      seed + family.length * 1000 + family.charCodeAt(0),
+    );
 
-    const loopCandidates = Math.max(candidates / hueFamilies.length, desired * 700);
+    const loopCandidates = Math.max(
+      candidates / hueFamilies.length,
+      desired * 700,
+    );
 
     let shouldRelax = false;
 
@@ -520,12 +534,8 @@ function generateBestPalettes({ count, candidates, seed }: Args) {
 
       const mode = pick(MODES, localRng);
       const aesthetic = pickAesthetic(localRng);
-      const {
-        baseHex,
-        colorFamily,
-        saturationMul,
-        lightnessMul,
-      } = sampleBaseFor(localRng, family, aesthetic);
+      const { baseHex, colorFamily, saturationMul, lightnessMul } =
+        sampleBaseFor(localRng, family, aesthetic);
 
       // Ensure we really stay in the family (unless sampled as neutral).
       if (colorFamily !== family && colorFamily !== "neutral") continue;
@@ -566,15 +576,9 @@ function generateBestPalettes({ count, candidates, seed }: Args) {
       if (mode !== "monochrome" && hueSpread < hueSpreadThreshold) continue;
 
       // Aesthetic constraints.
-      if (
-        aesthetic === "dark-modern" &&
-        avgL >= (shouldRelax ? 0.44 : 0.36)
-      )
+      if (aesthetic === "dark-modern" && avgL >= (shouldRelax ? 0.44 : 0.36))
         continue;
-      if (
-        aesthetic === "classic" &&
-        avgL < (shouldRelax ? 0.26 : 0.34)
-      )
+      if (aesthetic === "classic" && avgL < (shouldRelax ? 0.26 : 0.34))
         continue;
 
       const score =
@@ -653,16 +657,15 @@ function generateBestPalettes({ count, candidates, seed }: Args) {
       const mode = pick(MODES, localRng);
       const aesthetic = pickAesthetic(localRng);
       const family = pickWeighted(
-        hueFamilyWeights.map(({ family, weight }) => ({ v: family, w: weight })),
+        hueFamilyWeights.map(({ family, weight }) => ({
+          v: family,
+          w: weight,
+        })),
         localRng,
       );
 
-      const {
-        baseHex,
-        colorFamily,
-        saturationMul,
-        lightnessMul,
-      } = sampleBaseFor(localRng, family, aesthetic);
+      const { baseHex, colorFamily, saturationMul, lightnessMul } =
+        sampleBaseFor(localRng, family, aesthetic);
 
       if (colorFamily !== family && colorFamily !== "neutral") continue;
 
@@ -701,10 +704,7 @@ function generateBestPalettes({ count, candidates, seed }: Args) {
       if (luminanceRange < luminanceRangeThreshold) continue;
       if (mode !== "monochrome" && hueSpread < hueSpreadThreshold) continue;
 
-      if (
-        aesthetic === "dark-modern" &&
-        avgL >= (shouldRelax ? 0.45 : 0.36)
-      )
+      if (aesthetic === "dark-modern" && avgL >= (shouldRelax ? 0.45 : 0.36))
         continue;
       if (aesthetic === "classic" && avgL < (shouldRelax ? 0.25 : 0.34))
         continue;
@@ -771,18 +771,18 @@ function generateBestGradients({ count, candidates, seed }: Args) {
     family: Exclude<ColorFamily, "neutral">;
     weight: number;
   }> = [
-      // Cold-heavy, but keep all requested families populated for filters.
-      // Total weight = 1.00
-      { family: "teal", weight: 0.24 },
-      { family: "blue", weight: 0.22 },
-      { family: "green", weight: 0.16 },
-      { family: "purple", weight: 0.14 },
-      { family: "brown", weight: 0.10 },
-      { family: "pink", weight: 0.06 },
-      { family: "red", weight: 0.03 },
-      { family: "orange", weight: 0.03 },
-      { family: "yellow", weight: 0.02 },
-    ];
+    // Cold-heavy, but keep all requested families populated for filters.
+    // Total weight = 1.00
+    { family: "teal", weight: 0.24 },
+    { family: "blue", weight: 0.22 },
+    { family: "green", weight: 0.16 },
+    { family: "purple", weight: 0.14 },
+    { family: "brown", weight: 0.1 },
+    { family: "pink", weight: 0.06 },
+    { family: "red", weight: 0.03 },
+    { family: "orange", weight: 0.03 },
+    { family: "yellow", weight: 0.02 },
+  ];
   const hueFamilies = hueFamilyWeights.map((x) => x.family);
   const totalWeight = hueFamilyWeights.reduce((s, x) => s + x.weight, 0);
   const usedHue = Math.floor(count * 0.7);
@@ -796,8 +796,7 @@ function generateBestGradients({ count, candidates, seed }: Args) {
     return { family: x.family, desired };
   });
 
-  let remaining =
-    count - familyAllocations.reduce((s, x) => s + x.desired, 0);
+  let remaining = count - familyAllocations.reduce((s, x) => s + x.desired, 0);
 
   const seen = new Set<string>();
   const accepted: GradientCandidate[] = [];
@@ -833,7 +832,8 @@ function generateBestGradients({ count, candidates, seed }: Args) {
       const mode = pick(MODES, localRng);
       const aesthetic = pickAesthetic(localRng);
       const base = sampleBaseFor(localRng, family, aesthetic);
-      if (base.colorFamily !== family && base.colorFamily !== "neutral") continue;
+      if (base.colorFamily !== family && base.colorFamily !== "neutral")
+        continue;
 
       const angle = Math.floor(localRng() * 360);
 
@@ -864,7 +864,10 @@ function generateBestGradients({ count, candidates, seed }: Args) {
 
       let adjacentContrastMin = Infinity;
       for (let j = 0; j < stops.length - 1; j++) {
-        const c = contrastRatio(stops[j]!, stops[j + 1]!);
+        const s0 = stops[j];
+        const s1 = stops[j + 1];
+        if (s0 === undefined || s1 === undefined) continue;
+        const c = contrastRatio(s0, s1);
         if (c < adjacentContrastMin) adjacentContrastMin = c;
       }
       if (adjacentContrastMin === Infinity) adjacentContrastMin = 0;
@@ -883,15 +886,9 @@ function generateBestGradients({ count, candidates, seed }: Args) {
       if (adjacentContrastMin < adjacentThreshold) continue;
       if (mode !== "monochrome" && hueSpread < hueSpreadThreshold) continue;
 
-      if (
-        aesthetic === "dark-modern" &&
-        avgL >= (shouldRelax ? 0.46 : 0.4)
-      )
+      if (aesthetic === "dark-modern" && avgL >= (shouldRelax ? 0.46 : 0.4))
         continue;
-      if (
-        aesthetic === "classic" &&
-        avgL < (shouldRelax ? 0.26 : 0.32)
-      )
+      if (aesthetic === "classic" && avgL < (shouldRelax ? 0.26 : 0.32))
         continue;
 
       const score =
@@ -975,7 +972,10 @@ function generateBestGradients({ count, candidates, seed }: Args) {
       const mode = pick(MODES, localRng);
       const aesthetic = pickAesthetic(localRng);
       const family = pickWeighted(
-        hueFamilyWeights.map(({ family, weight }) => ({ v: family, w: weight })),
+        hueFamilyWeights.map(({ family, weight }) => ({
+          v: family,
+          w: weight,
+        })),
         localRng,
       );
       const base = sampleBaseFor(localRng, family, aesthetic);
@@ -1011,7 +1011,10 @@ function generateBestGradients({ count, candidates, seed }: Args) {
 
       let adjacentContrastMin = Infinity;
       for (let j = 0; j < stops.length - 1; j++) {
-        const c = contrastRatio(stops[j]!, stops[j + 1]!);
+        const s0 = stops[j];
+        const s1 = stops[j + 1];
+        if (s0 === undefined || s1 === undefined) continue;
+        const c = contrastRatio(s0, s1);
         if (c < adjacentContrastMin) adjacentContrastMin = c;
       }
       if (adjacentContrastMin === Infinity) adjacentContrastMin = 0;
@@ -1030,15 +1033,9 @@ function generateBestGradients({ count, candidates, seed }: Args) {
       if (adjacentContrastMin < adjacentThreshold) continue;
       if (mode !== "monochrome" && hueSpread < hueSpreadThreshold) continue;
 
-      if (
-        aesthetic === "dark-modern" &&
-        avgL >= (shouldRelax ? 0.46 : 0.4)
-      )
+      if (aesthetic === "dark-modern" && avgL >= (shouldRelax ? 0.46 : 0.4))
         continue;
-      if (
-        aesthetic === "classic" &&
-        avgL < (shouldRelax ? 0.26 : 0.32)
-      )
+      if (aesthetic === "classic" && avgL < (shouldRelax ? 0.26 : 0.32))
         continue;
 
       const score =
@@ -1139,7 +1136,8 @@ function writePalettesCsv(outPath: string, palettes: PaletteCandidate[]) {
   lines.push(header.join(","));
 
   for (let i = 0; i < palettes.length; i++) {
-    const p = palettes[i]!;
+    const p = palettes[i];
+    if (p === undefined) continue;
     const idx = i + 1;
     const name = p.name;
     lines.push(
@@ -1174,7 +1172,7 @@ function writePalettesCsv(outPath: string, palettes: PaletteCandidate[]) {
     );
   }
 
-  fs.writeFileSync(outPath, lines.join("\n") + "\n", "utf8");
+  fs.writeFileSync(outPath, `${lines.join("\n")}\n`, "utf8");
 }
 
 function writeGradientsCsv(outPath: string, gradients: GradientCandidate[]) {
@@ -1215,7 +1213,8 @@ function writeGradientsCsv(outPath: string, gradients: GradientCandidate[]) {
   lines.push(header.join(","));
 
   for (let i = 0; i < gradients.length; i++) {
-    const g = gradients[i]!;
+    const g = gradients[i];
+    if (g === undefined) continue;
     const idx = i + 1;
     const name = g.name;
     lines.push(
@@ -1252,7 +1251,7 @@ function writeGradientsCsv(outPath: string, gradients: GradientCandidate[]) {
     );
   }
 
-  fs.writeFileSync(outPath, lines.join("\n") + "\n", "utf8");
+  fs.writeFileSync(outPath, `${lines.join("\n")}\n`, "utf8");
 }
 
 async function main() {
@@ -1263,12 +1262,7 @@ async function main() {
 
   const root = path.join(process.cwd());
   const palettesOut = path.join(root, "public", "data", "best-palettes.csv");
-  const gradientsOut = path.join(
-    root,
-    "public",
-    "data",
-    "best-gradients.csv",
-  );
+  const gradientsOut = path.join(root, "public", "data", "best-gradients.csv");
 
   writePalettesCsv(palettesOut, palettes);
   writeGradientsCsv(gradientsOut, gradients);
@@ -1279,4 +1273,3 @@ async function main() {
 }
 
 void main();
-

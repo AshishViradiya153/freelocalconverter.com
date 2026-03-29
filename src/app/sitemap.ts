@@ -3,6 +3,7 @@ import { siteConfig } from "@/config/site";
 import { toolCategories } from "@/data/pseo/tool-categories";
 import { routing } from "@/i18n/routing";
 import { getAllPostSlugs } from "@/lib/blog/registry";
+
 function buildUrl(locale: string, path: string): string {
   const base = siteConfig.url.replace(/\/$/, "");
   const p = path === "" ? "" : path.startsWith("/") ? path : `/${path}`;
@@ -24,9 +25,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/csv-to-json",
     "/json-to-csv",
     "/json-formatter",
+    "/sql-formatter",
+    "/json-yaml-converter",
+    "/jwt-decoder",
+    "/cron-parser",
+    "/uuid-generator",
+    "/regex-tester",
     "/curl-converter",
     "/fetch-converter",
     "/axios-converter",
+    "/base64-converter",
+    "/unix-timestamp-converter",
     "/python-requests-converter",
     "/pdf-to-image",
     "/pdf-to-word",
@@ -48,6 +57,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/json-to-parquet",
     "/parquet-to-json",
     "/csv-to-markdown-table",
+    "/markdown-html-converter",
+    "/csv-to-sql",
     "/csv-to-excel",
     "/palettes/trending",
     "/palettes/best",

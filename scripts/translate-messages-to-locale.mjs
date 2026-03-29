@@ -123,7 +123,8 @@ function shouldSkipPath(pathStr, val) {
   if (!t) return true;
   if (SKIP_EXACT.has(t.toLowerCase())) return true;
   if (pathStr.startsWith("nav.") && t.includes("→")) return true;
-  if (pathStr.endsWith(".keywords") && t.length < 12 && !/\s/.test(t)) return true;
+  if (pathStr.endsWith(".keywords") && t.length < 12 && !/\s/.test(t))
+    return true;
   return false;
 }
 
@@ -200,7 +201,9 @@ async function translateViaGtx(masked, locale) {
     let chunkAttempts = 0;
     let piece = "";
     while (chunkAttempts < maxAttempts) {
-      const url = new URL("https://translate.googleapis.com/translate_a/single");
+      const url = new URL(
+        "https://translate.googleapis.com/translate_a/single",
+      );
       url.searchParams.set("client", "gtx");
       url.searchParams.set("sl", "en");
       url.searchParams.set("tl", tl);
@@ -302,7 +305,9 @@ async function translateViaMyMemory(masked, langpair) {
     if (res.status === 429 || res.status === 503) {
       attempt++;
       const waitMs = Math.min(120_000, 4000 * 2 ** Math.min(attempt, 5));
-      console.warn(`  MyMemory HTTP ${res.status} — backing off ${waitMs}ms (${attempt}/${maxAttempts})`);
+      console.warn(
+        `  MyMemory HTTP ${res.status} — backing off ${waitMs}ms (${attempt}/${maxAttempts})`,
+      );
       await sleep(waitMs);
       continue;
     }
@@ -317,7 +322,9 @@ async function translateViaMyMemory(masked, langpair) {
     if (isQuotaOrRateLimitResponse(data, translated)) {
       attempt++;
       const waitMs = Math.min(180_000, 8000 * 2 ** Math.min(attempt, 4));
-      console.warn(`  MyMemory quota — backing off ${waitMs}ms (${attempt}/${maxAttempts})`);
+      console.warn(
+        `  MyMemory quota — backing off ${waitMs}ms (${attempt}/${maxAttempts})`,
+      );
       await sleep(waitMs);
       continue;
     }
@@ -386,7 +393,8 @@ function parseDelayMs(args) {
 function parseProvider(args) {
   const raw = args.find((a) => a.startsWith("--provider="));
   const v = raw?.slice("--provider=".length).toLowerCase();
-  if (v === "mymemory" || v === "libre" || v === "gtx" || v === "auto") return v;
+  if (v === "mymemory" || v === "libre" || v === "gtx" || v === "auto")
+    return v;
   return "gtx";
 }
 
@@ -404,7 +412,9 @@ async function main() {
     process.exit(1);
   }
 
-  const en = JSON.parse(fs.readFileSync(path.join(messagesDir, "en.json"), "utf8"));
+  const en = JSON.parse(
+    fs.readFileSync(path.join(messagesDir, "en.json"), "utf8"),
+  );
   const enFlat = Object.fromEntries(flattenStrings(en));
 
   const locales =
@@ -413,7 +423,10 @@ async function main() {
       : targets.filter((t) => LANGPAIR[t]);
 
   if (locales.length === 0) {
-    console.error("Unknown locale(s). Known:", Object.keys(LANGPAIR).join(", "));
+    console.error(
+      "Unknown locale(s). Known:",
+      Object.keys(LANGPAIR).join(", "),
+    );
     process.exit(1);
   }
 
@@ -430,7 +443,8 @@ async function main() {
     const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
     const flat = flattenStrings(data);
     const toTranslate = flat.filter(
-      ([pathStr, val]) => enFlat[pathStr] === val && !shouldSkipPath(pathStr, val),
+      ([pathStr, val]) =>
+        enFlat[pathStr] === val && !shouldSkipPath(pathStr, val),
     );
 
     console.log({ locale, identicalToEn: toTranslate.length });

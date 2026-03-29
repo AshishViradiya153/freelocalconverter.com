@@ -26,4 +26,3 @@ main().catch((e) => {
   console.error(e?.stack || String(e));
   process.exitCode = 1;
 });
-

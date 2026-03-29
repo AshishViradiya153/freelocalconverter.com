@@ -158,7 +158,9 @@ function parseCsvToItems(text: string): TrendingMeshGradientItem[] {
           cy: Number(c.cy),
         };
       });
-      if (circles.some((c) => !Number.isFinite(c.cx) || !Number.isFinite(c.cy))) {
+      if (
+        circles.some((c) => !Number.isFinite(c.cx) || !Number.isFinite(c.cy))
+      ) {
         throw new Error("invalid cx/cy");
       }
     } catch {
@@ -200,7 +202,11 @@ async function modeJsonToCsv() {
     throw new Error("Invalid JSON: missing items array");
   }
   await writeCsv(data.items);
-  console.log({ mode: "json-to-csv", wroteCsv: OUT_CSV, count: data.items.length });
+  console.log({
+    mode: "json-to-csv",
+    wroteCsv: OUT_CSV,
+    count: data.items.length,
+  });
 }
 
 async function modeGenerate() {
