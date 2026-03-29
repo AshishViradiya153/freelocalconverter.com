@@ -11,7 +11,6 @@ import {
 import { SiteFooter } from "@/components/layouts/site-footer";
 import { SiteHeader } from "@/components/layouts/site-header";
 import { ThemeProvider } from "@/components/providers";
-import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
@@ -24,6 +23,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import "@/styles/globals.css";
+import { RelatedAppTools } from "@/app/components/related-app-tools";
 import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";
 
 export function generateStaticParams() {
@@ -146,7 +146,10 @@ export default async function LocaleLayout({
           >
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
-              <main className="flex min-h-0 flex-1 flex-col">{children}</main>
+              <main className="flex min-h-0 flex-1 flex-col">
+                {children}
+                <RelatedAppTools />
+              </main>
               <TrustedByMarquee />
               <SiteFooter />
             </div>

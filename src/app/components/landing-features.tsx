@@ -257,7 +257,6 @@ export function LandingFeatures({ className }: { className?: string }) {
         className,
       )}
     >
-      {/* Typography probes: Pretext font string + line-height must match visible text (see @chenglou/pretext). */}
       <div
         className="sr-only"
         aria-hidden

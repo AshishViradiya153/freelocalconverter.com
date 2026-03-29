@@ -4,12 +4,15 @@ import {
   Image as ImageIcon,
   Loader2,
   Package,
+  Smile,
   Trash2,
+  Type,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
 
+import { FaviconDesignStudio } from "@/app/components/favicon-design-studio";
 import {
   FaviconCropEditor,
   type FaviconCropEditorLabels,
@@ -23,6 +26,7 @@ import {
 } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { downloadBlob } from "@/lib/download-blob";
 import { buildFaviconZipFromImageFile } from "@/lib/favicon-pack/build-favicon-zip";
 import type { CenterSquareCrop } from "@/lib/favicon-pack/render-square-png";
@@ -43,8 +47,11 @@ function ImageGlyph(props: {
   );
 }
 
+type SourceMode = "text" | "emoji" | "image";
+
 export function FaviconGeneratorApp() {
   const t = useTranslations("faviconGenerator");
+  const [sourceMode, setSourceMode] = React.useState<SourceMode>("image");
   const [file, setFile] = React.useState<File | null>(null);
   const [busy, setBusy] = React.useState(false);
   const [imgMeta, setImgMeta] = React.useState<{
@@ -64,6 +71,14 @@ export function FaviconGeneratorApp() {
     },
     [previewUrl],
   );
+
+  React.useEffect(() => {
+    if (sourceMode !== "image") {
+      setFile(null);
+      setImgMeta(null);
+      setCrop(null);
+    }
+  }, [sourceMode]);
 
   React.useEffect(() => {
     if (!previewUrl) {
@@ -162,24 +177,65 @@ export function FaviconGeneratorApp() {
 
       <ToolCard className="flex flex-col gap-6">
         <ToolSectionHeading>{t("sectionInput")}</ToolSectionHeading>
-        <FileDropZone
-          disabled={busy}
-          busy={busy}
-          inputId="favicon-generator-input"
-          accept="image/*,.png,.jpg,.jpeg,.webp,.avif,.gif,.bmp,.tif,.tiff,.heic,.heif"
-          multiple={false}
-          onFiles={onPickFiles}
-          fileIcon={ImageGlyph}
-          dropTitle={t("dropTitle")}
-          dropHint={t("dropHint")}
-          chooseLabel={t("chooseLabel")}
-          chooseLabelWhenFileSelected={t("chooseReplace")}
-          fileName={file?.name ?? null}
-          fileHint={t("fileHint")}
-          size="md"
-        />
+        <div className="flex flex-col gap-2">
+          <span className="text-muted-foreground text-xs uppercase tracking-wide">
+            {t("sourceModeLabel")}
+          </span>
+          <ToggleGroup
+            type="single"
+            value={sourceMode}
+            onValueChange={(v) => {
+              if (v === "text" || v === "emoji" || v === "image") {
+                setSourceMode(v);
+              }
+            }}
+            variant="outline"
+            size="sm"
+            className="flex flex-wrap gap-1"
+            disabled={busy}
+          >
+            <ToggleGroupItem value="text" className="gap-1.5 font-mono text-xs">
+              <Type className="size-3.5" aria-hidden />
+              {t("sourceModeText")}
+            </ToggleGroupItem>
+            <ToggleGroupItem value="emoji" className="gap-1.5 font-mono text-xs">
+              <Smile className="size-3.5" aria-hidden />
+              {t("sourceModeEmoji")}
+            </ToggleGroupItem>
+            <ToggleGroupItem value="image" className="gap-1.5 font-mono text-xs">
+              <ImageIcon className="size-3.5" aria-hidden />
+              {t("sourceModeImage")}
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
 
-        {file && previewUrl && imgMeta && crop ? (
+        {sourceMode === "text" || sourceMode === "emoji" ? (
+          <FaviconDesignStudio
+            sourceMode={sourceMode}
+            disabled={busy}
+          />
+        ) : null}
+
+        {sourceMode === "image" ? (
+          <FileDropZone
+            disabled={busy}
+            busy={busy}
+            inputId="favicon-generator-input"
+            accept="image/*,.png,.jpg,.jpeg,.webp,.avif,.gif,.bmp,.tif,.tiff,.heic,.heif"
+            multiple={false}
+            onFiles={onPickFiles}
+            fileIcon={ImageGlyph}
+            dropTitle={t("dropTitle")}
+            dropHint={t("dropHint")}
+            chooseLabel={t("chooseLabel")}
+            chooseLabelWhenFileSelected={t("chooseReplace")}
+            fileName={file?.name ?? null}
+            fileHint={t("fileHint")}
+            size="md"
+          />
+        ) : null}
+
+        {sourceMode === "image" && file && previewUrl && imgMeta && crop ? (
           <ToolPane className="gap-6 border-border/60 border-t pt-4">
             <FaviconCropEditor
               imageUrl={previewUrl}
