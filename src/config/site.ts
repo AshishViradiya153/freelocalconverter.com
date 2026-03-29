@@ -21,7 +21,7 @@ export const siteConfig = {
   name: "Localtool",
   description:
     "Localtool: free browser-based CSV, JSON, PDF, image, and data conversion tools that run locally in your browser without server uploads.",
-  url: "https://csveditoronline.org/",
+  url: "https://csveditoronline.com/",
   copyrightYear: 2026,
   /**
    * Public logo path (served from `/public`). Used for Organization `logo` JSON-LD

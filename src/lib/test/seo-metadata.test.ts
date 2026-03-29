@@ -31,9 +31,9 @@ describe("buildPageMetadata", () => {
     });
     const langs = meta.alternates?.languages;
     expect(langs).toBeDefined();
-    expect(langs?.["x-default"]).toBe("https://csveditoronline.org/compare");
-    expect(langs?.en).toBe("https://csveditoronline.org/compare");
-    expect(langs?.de).toBe("https://csveditoronline.org/de/compare");
+    expect(langs?.["x-default"]).toBe("https://csveditoronline.com/compare");
+    expect(langs?.en).toBe("https://csveditoronline.com/compare");
+    expect(langs?.de).toBe("https://csveditoronline.com/de/compare");
   });
 
   it("omits hreflang map when alternateLocales is false", () => {

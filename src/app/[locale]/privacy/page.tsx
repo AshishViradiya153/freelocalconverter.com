@@ -3,6 +3,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
+import {
+  LEGAL_PRIVACY_SECTION_KEYS,
+  legalParagraphs,
+} from "@/lib/legal-sections";
 import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
@@ -48,15 +52,31 @@ export default async function PrivacyPage({
       </header>
 
       <div className="mt-10 space-y-10 text-muted-foreground text-sm leading-relaxed">
-        <section className="space-y-3" aria-labelledby="privacy-notice">
-          <h2
-            id="privacy-notice"
-            className="font-medium text-base text-foreground"
-          >
-            {t("privacyNoticeTitle")}
-          </h2>
-          <p>{t("privacyNoticeBody", { name: siteConfig.name })}</p>
-        </section>
+        {LEGAL_PRIVACY_SECTION_KEYS.map(([titleKey, bodyKey]) => {
+          const body = t(bodyKey, {
+            name: siteConfig.name,
+            url: siteConfig.url,
+          });
+          return (
+            <section
+              key={bodyKey}
+              className="space-y-3"
+              aria-labelledby={bodyKey}
+            >
+              <h2
+                id={bodyKey}
+                className="font-medium text-base text-foreground"
+              >
+                {t(titleKey)}
+              </h2>
+              <div className="space-y-3">
+                {legalParagraphs(body).map((paragraph, index) => (
+                  <p key={`${bodyKey}-${index}`}>{paragraph}</p>
+                ))}
+              </div>
+            </section>
+          );
+        })}
 
         <nav className="flex flex-wrap gap-x-6 gap-y-2 border-border border-t pt-8 text-foreground text-sm">
           <Link
