@@ -20,6 +20,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
+import { LandingFaq } from "@/app/components/landing-faq";
 import { LandingFeatures } from "@/app/components/landing-features";
 import { LandingHowItWorks } from "@/app/components/landing-how-it-works";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
@@ -347,6 +348,7 @@ export function HomeToolsDirectory() {
 
             <LandingHowItWorks />
             <LandingFeatures />
+            <LandingFaq />
           </div>
         </div>
       </div>
