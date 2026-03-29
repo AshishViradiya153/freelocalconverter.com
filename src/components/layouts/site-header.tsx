@@ -1,6 +1,7 @@
 "use client";
 
 import { MenuIcon, SearchIcon, XIcon } from "lucide-react";
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { Icons } from "@/components/icons";
@@ -130,7 +131,7 @@ export function SiteHeader() {
           variant="default"
           size="default"
           className={cn(
-            "h-10 gap-0 rounded-none px-2 font-black font-mono text-base uppercase",
+            "h-10 gap-0 rounded-none px-1.5",
             headerBarButtonClass,
             isHomeActive &&
               "border-border bg-accent text-accent-foreground hover:border-border hover:bg-accent",
@@ -138,11 +139,18 @@ export function SiteHeader() {
           asChild
         >
           <Link
-            className="tracking-[0px]"
+            className="flex items-center justify-center"
             href="/"
             aria-label={tNav("homeAria", { name: siteConfig.name })}
           >
-            L.T.
+            <Image
+              src={siteConfig.brandLogoPath}
+              alt=""
+              width={32}
+              height={32}
+              className="size-8"
+              priority
+            />
           </Link>
         </Button>
 

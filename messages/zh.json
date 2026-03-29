@@ -749,6 +749,8 @@
     "imageConverterDesc": "转换为WebP、AVIF、JPG或PNG。",
     "imageResizeLabel": "调整大小/裁剪+转换",
     "imageResizeDesc": "批量调整图像大小、裁剪、转换以及重命名图像。",
+    "faviconGeneratorLabel": "Favicon generator",
+    "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
     "imageRemoveBackgroundLabel": "Remove background",
     "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC转JPG/PNG",
@@ -777,6 +779,26 @@
     "faq3Question": "{from}到{to}与主图像转换器相同吗？",
     "faq3Answer": "是的。 /image-convert 的中心列出了完整的工具；此 URL 将默认输出设置为 {to}，并针对已经知道其来源为 {from} 的用户。如果需要不同的导出，您仍然可以在工具中更改输出格式。",
     "keywordsLine": "{from} 至 {to} |免费在线将 {from} 转换为 {to} | {from} 至 {to} 转换器 |免费 {from} 至 {to} 无需上传 |浏览器 {from} 至 {to} 私人 |本地 {from} 至 {to}"
+  },
+  "faviconGenerator": {
+    "heroTitle": "Favicon generator",
+    "heroDescription": "Upload a square or rectangular logo. We center-crop to a square, scale to standard sizes, build a multi-size favicon.ico, and package everything in a ZIP—same layout as typical favicon.io exports. All processing runs in your browser.",
+    "sectionInput": "Source image",
+    "dropTitle": "Drop an image here or click to browse",
+    "dropHint": "PNG, JPG, WebP, GIF, AVIF, HEIC, and more · one file",
+    "chooseLabel": "Choose image",
+    "chooseReplace": "Replace image",
+    "fileHint": "No uploads: resizing and ZIP creation stay on your device.",
+    "previewLabel": "Preview",
+    "ctaDownload": "Download favicon pack (ZIP)",
+    "ctaWorking": "Working…",
+    "ctaClear": "Clear",
+    "toastNotImage": "Please choose an image file.",
+    "toastNoFile": "Choose an image first.",
+    "toastSuccess": "ZIP downloaded.",
+    "toastError": "Could not build the favicon pack. Try another image.",
+    "sectionZip": "ZIP contents",
+    "zipNote": "Edit name and short_name inside site.webmanifest after unzipping. Place files in your site root or follow your framework’s icon conventions (for example Next.js app/icon.png)."
   },
   "pageMeta": {
     "breadcrumbHome": "家",
@@ -935,6 +957,11 @@
       "description": "CSV 到 Parquet：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "csv 到镶木地板 |将 csv 转换为镶木地板 |镶木地板转换器|浏览器 csv 到 parquet | csv 镶木地板导出 |本地镶木地板工具|免费 csv 在线镶木地板 |来自 csv 的 apache parquet"
     },
+    "cron-parser": {
+      "title": "Cron parser",
+      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
     "curl-converter": {
       "title": "卷曲转换器",
       "description": "cURL 转换器：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
@@ -959,6 +986,11 @@
       "title": "获取转换器",
       "description": "获取转换器：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "获取转换器|获取到卷曲|获取到 axios |获取 python 请求 |请求转换器|浏览器 API 转换器 | javascript 获取到curl |免费获取 api 转换器"
+    },
+    "favicon-generator": {
+      "title": "Favicon generator",
+      "description": "Favicon generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "favicon generator | favicon zip download | create favicon from image | android chrome icons | apple touch icon generator | site.webmanifest icons | browser favicon maker | free favicon generator no upload"
     },
     "graphql-tools": {
       "title": "GraphQL 工具",
@@ -990,11 +1022,6 @@
       "description": "图像调整大小/裁剪 + 转换：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "图像调整大小 |图像裁剪 |图像调整大小转换 |浏览器图像编辑器|批量调整图像大小 |本地图像调整工具|免费在线调整图像大小|裁剪和导出图像"
     },
-    "image-remove-background": {
-      "title": "Remove image background",
-      "description": "Remove image background: free online in your browser. Private, on-device AI segmentation; your files are not uploaded to our servers.",
-      "keywords": "remove background from image | image background remover | transparent background png | browser background removal | local remove bg | free background remover online | cut out image background | ai background removal browser"
-    },
     "images-to-pdf": {
       "title": "图像转PDF",
       "description": "图像转 PDF：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
@@ -1004,36 +1031,6 @@
       "title": "JSON 格式化程序",
       "description": "JSON Formatter：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "json 格式化程序 | json 美化器 | json 验证器 |在线格式化json |浏览器json工具|本地 json 格式化程序 |漂亮的打印 json |免费 json 格式化程序，无需上传"
-    },
-    "json-yaml-converter": {
-      "title": "JSON YAML converter",
-      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
-    },
-    "markdown-html-converter": {
-      "title": "Markdown HTML converter",
-      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
-    },
-    "jwt-decoder": {
-      "title": "JWT decoder",
-      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
-    },
-    "cron-parser": {
-      "title": "Cron parser",
-      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
-    },
-    "uuid-generator": {
-      "title": "UUID / GUID generator",
-      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
-    },
-    "regex-tester": {
-      "title": "Regex tester",
-      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
     },
     "json-to-csv": {
       "title": "JSON 到 CSV",
@@ -1049,6 +1046,21 @@
       "title": "JSON 到 Parquet",
       "description": "JSON 到 Parquet：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "json 到镶木地板 |将 json 转换为 parquet | json 镶木地板转换器 |浏览器 json 到 parquet |本地实木复合地板出口|镶木地板浏览器工具|免费 json 到 parquet | json 线到镶木地板"
+    },
+    "json-yaml-converter": {
+      "title": "JSON YAML converter",
+      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
+    },
+    "jwt-decoder": {
+      "title": "JWT decoder",
+      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
+    },
+    "markdown-html-converter": {
+      "title": "Markdown HTML converter",
+      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
     },
     "merge-pdf": {
       "title": "合并PDF",
@@ -1105,6 +1117,11 @@
       "description": "API 转换器：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "API 转换器 |请求转换器|卷曲获取 axios 转换器 | python 请求转换器 |浏览器API工具|请求片段转换器|在线获取axios的curl | http请求翻译器"
     },
+    "regex-tester": {
+      "title": "Regex tester",
+      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
+    },
     "split-pdf": {
       "title": "分割PDF",
       "description": "分割 PDF：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
@@ -1119,6 +1136,11 @@
       "title": "Unix timestamp converter",
       "description": "Unix timestamp converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "unix timestamp converter | epoch converter | unix time to date | timestamp to date online | milliseconds to date | epoch milliseconds | timezone timestamp | utc to local timestamp | browser epoch tool | local unix time no upload"
+    },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
     },
     "video-compress": {
       "title": "视频压缩器",

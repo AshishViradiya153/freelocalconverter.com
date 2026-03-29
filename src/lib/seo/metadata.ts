@@ -42,7 +42,7 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
     publishedTime,
     modifiedTime,
     alternateLocales = true,
-    ogImagePath = "/og.jpg",
+    ogImagePath = "/og.png",
     noindex = false,
   } = input;
 

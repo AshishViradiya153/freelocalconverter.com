@@ -57,6 +57,7 @@ function getLocalizedLabel(
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
+    | "faviconGenerator"
     | "imageRemoveBackground"
     | "heicToJpg"
     | "linkedinBanner"
@@ -769,6 +770,21 @@ function getLocalizedLabel(
         tr: "Boyutlandir/Kirp + Donustur",
         zh: "调整大小/裁剪 + 转换",
       });
+    case "faviconGenerator":
+      return localizedText(locale, {
+        en: "Favicon generator",
+        de: "Favicon-Generator",
+        es: "Generador de favicon",
+        fr: "Generateur de favicon",
+        it: "Generatore favicon",
+        ja: "ファビコン生成",
+        ko: "파비콘 생성기",
+        nl: "Favicon-generator",
+        pt: "Gerador de favicon",
+        ru: "Генератор favicon",
+        tr: "Favicon uretici",
+        zh: "网站图标生成器",
+      });
     case "imageRemoveBackground":
       return localizedText(locale, {
         en: "Remove background",
@@ -1042,6 +1058,7 @@ function getLocalizedDescription(
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
+    | "faviconGenerator"
     | "imageRemoveBackground"
     | "heicToJpg"
     | "linkedinBanner"
@@ -1352,6 +1369,8 @@ function getLocalizedDescription(
           imageCompressor: "Compress images locally in bulk.",
           imageConverter: "Convert to WebP, AVIF, JPG, or PNG.",
           imageResize: "Resize, crop, convert, and rename images in bulk.",
+          faviconGenerator:
+            "Upload one image; download a ZIP with favicon.ico, PNG sizes, and site.webmanifest.",
           imageRemoveBackground:
             "Remove backgrounds with on-device AI; download transparent PNG.",
           heicToJpg: "Convert HEIC and HEIF photos to JPG or PNG.",
@@ -1796,6 +1815,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/image-resize",
           label: getLocalizedLabel(safeLocale, "imageResize"),
           description: getLocalizedDescription(safeLocale, "imageResize"),
+        },
+        {
+          href: "/favicon-generator",
+          label: getLocalizedLabel(safeLocale, "faviconGenerator"),
+          description: getLocalizedDescription(safeLocale, "faviconGenerator"),
         },
         {
           href: "/image-remove-background",

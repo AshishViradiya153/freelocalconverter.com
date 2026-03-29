@@ -24,8 +24,8 @@ export const siteConfig = {
   url: "https://csveditoronline.com/",
   copyrightYear: 2026,
   /**
-   * Public logo path (served from `/public`). Used for Organization `logo` JSON-LD
-   * and should match `icons.icon` in the root layout when possible.
+   * Logo URL path (`app/icon.png` → `/icon.png`). Used for Organization `logo` JSON-LD
+   * and should match the primary `icons.icon` entry in the locale layout when possible.
    */
   brandLogoPath: "/icon.png",
   /**

@@ -15,6 +15,7 @@ export type ToolPageSlug =
   | "csv-to-parquet"
   | "cron-parser"
   | "curl-converter"
+  | "favicon-generator"
   | "data-grid"
   | "data-grid-live"
   | "data-grid-render"
@@ -640,6 +641,45 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Demo αποδοσης πλεγματος δεδομενων";
           default:
             return "Data Grid Render Demo";
+        }
+      });
+    case "favicon-generator":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "网站图标生成器";
+          case "es":
+            return "Generador de favicon";
+          case "pt":
+            return "Gerador de favicon";
+          case "fr":
+            return "Generateur de favicon";
+          case "de":
+            return "Favicon-Generator";
+          case "nl":
+            return "Favicon-generator";
+          case "it":
+            return "Generatore di favicon";
+          case "ja":
+            return "ファビコンジェネレータ";
+          case "tr":
+            return "Favicon uretici";
+          case "az":
+            return "Favicon generatoru";
+          case "ko":
+            return "파비콘 생성기";
+          case "ar":
+            return "مولّد أيقونة الموقع";
+          case "fa":
+            return "تولیدکننده فاویکون";
+          case "ru":
+            return "Генератор favicon";
+          case "he":
+            return "מחולל favicon";
+          case "el":
+            return "Γεννητρια favicon";
+          default:
+            return "Favicon generator";
         }
       });
     case "fetch-converter":
@@ -1569,6 +1609,20 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser api converter",
       "javascript fetch to curl",
       "free fetch api converter",
+    ],
+  },
+  "favicon-generator": {
+    pathname: "/favicon-generator",
+    titleByLocale: localizedTitle("favicon-generator"),
+    keywords: [
+      "favicon generator",
+      "favicon zip download",
+      "create favicon from image",
+      "android chrome icons",
+      "apple touch icon generator",
+      "site.webmanifest icons",
+      "browser favicon maker",
+      "free favicon generator no upload",
     ],
   },
   "graphql-tools": {
