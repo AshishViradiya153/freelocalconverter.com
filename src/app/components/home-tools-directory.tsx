@@ -1,21 +1,6 @@
 "use client";
 
-import {
-  AlertTriangle,
-  ArrowRightLeft,
-  Braces,
-  ChevronRight,
-  FileImage,
-  FileSpreadsheet,
-  FileText,
-  Filter,
-  Palette,
-  Search,
-  Sparkles,
-  Star,
-  TableProperties,
-  Video,
-} from "lucide-react";
+import { AlertTriangle, ChevronRight, Filter, Search, Star } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
@@ -23,6 +8,10 @@ import * as React from "react";
 import { LandingFaq } from "@/app/components/landing-faq";
 import { LandingFeatures } from "@/app/components/landing-features";
 import { LandingHowItWorks } from "@/app/components/landing-how-it-works";
+import {
+  type ToolDirectoryGroupId,
+  toolDirectoryGroupIcons,
+} from "@/app/components/tool-directory-group-icons";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import {
   flattenServiceGroups,
@@ -33,21 +22,6 @@ import {
 import { usePinnedTools } from "@/hooks/use-pinned-tools";
 import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-
-const groupIcons = {
-  all: Sparkles,
-  favorites: Star,
-  converters: ArrowRightLeft,
-  viewers: TableProperties,
-  excel: FileSpreadsheet,
-  developer: Braces,
-  pdf: FileText,
-  video: Video,
-  image: FileImage,
-  color: Palette,
-} as const;
-
-type GroupId = keyof typeof groupIcons;
 
 function buildDirectoryItems(locale: string) {
   const serviceGroups = getLocalizedServiceGroups(locale);
@@ -87,7 +61,8 @@ export function HomeToolsDirectory() {
   );
 
   const [query, setQuery] = React.useState("");
-  const [activeGroup, setActiveGroup] = React.useState<GroupId>("viewers");
+  const [activeGroup, setActiveGroup] =
+    React.useState<ToolDirectoryGroupId>("viewers");
 
   React.useLayoutEffect(() => {
     function syncQueryFromUrl() {
@@ -273,7 +248,9 @@ export function HomeToolsDirectory() {
                             label={group.title}
                             count={count}
                             active={activeGroup === group.id}
-                            onClick={() => setActiveGroup(group.id as GroupId)}
+                            onClick={() =>
+                              setActiveGroup(group.id as ToolDirectoryGroupId)
+                            }
                           />
                         );
                       })}
@@ -413,7 +390,9 @@ function ToolCardBrutalist({
   unpinAriaLabel: string;
   onTogglePin: () => void;
 }) {
-  const CardIcon = groupIcons[(item.groupId as GroupId) ?? "all"] ?? Sparkles;
+  const CardIcon =
+    toolDirectoryGroupIcons[(item.groupId as ToolDirectoryGroupId) ?? "all"] ??
+    toolDirectoryGroupIcons.all;
 
   return (
     <motion.div

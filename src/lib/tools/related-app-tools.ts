@@ -47,8 +47,8 @@ function buildHrefToGroupId(
 export interface RelatedAppToolsPick {
   links: ServiceLink[];
   categoryTitle: string | null;
+  groupId: string | null;
 }
-
 
 export function pickRelatedAppTools(args: {
   pathname: string;
@@ -65,12 +65,12 @@ export function pickRelatedAppTools(args: {
     hrefToGroup.get(normalized) ?? EXTRA_APP_TOOL_PATH_TO_GROUP[normalized];
 
   if (!groupId || EXCLUDED_RELATED_DIRECTORY_GROUP_IDS.has(groupId)) {
-    return { links: [], categoryTitle: null };
+    return { links: [], categoryTitle: null, groupId: null };
   }
 
   const group = groups.find((g) => g.id === groupId);
   if (!group) {
-    return { links: [], categoryTitle: null };
+    return { links: [], categoryTitle: null, groupId: null };
   }
 
   const candidates = group.links.filter((link) => {
@@ -84,5 +84,6 @@ export function pickRelatedAppTools(args: {
   return {
     links: candidates.slice(0, limit),
     categoryTitle: group.title,
+    groupId,
   };
 }
