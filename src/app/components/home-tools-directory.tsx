@@ -21,6 +21,7 @@ import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
 import { LandingFeatures } from "@/app/components/landing-features";
+import { LandingHowItWorks } from "@/app/components/landing-how-it-works";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import {
   flattenServiceGroups,
@@ -344,6 +345,7 @@ export function HomeToolsDirectory() {
               </div>
             </div>
 
+            <LandingHowItWorks />
             <LandingFeatures />
           </div>
         </div>
