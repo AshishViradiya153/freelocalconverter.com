@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { pseoPages } from "@/lib/pseo/registry";
 import {
-  buildPseoSitemapUrls,
+  buildProgrammaticSitemapUrls,
   getPseoSitemapChunk,
   getPseoSitemapChunkCount,
   PSEO_SITEMAP_CHUNK_SIZE,
@@ -9,8 +9,8 @@ import {
 import { pickRelatedPseoPages } from "@/lib/seo/linking";
 
 describe("pSEO sitemap chunks", () => {
-  it("chunked getPseoSitemapChunk matches full buildPseoSitemapUrls order and coverage", () => {
-    const full = buildPseoSitemapUrls(pseoPages);
+  it("chunked getPseoSitemapChunk matches full programmatic URL order and coverage", () => {
+    const full = buildProgrammaticSitemapUrls();
     const chunkCount = getPseoSitemapChunkCount();
     if (full.length === 0) {
       expect(chunkCount).toBe(0);
