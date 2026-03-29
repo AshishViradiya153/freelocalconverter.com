@@ -49,10 +49,6 @@ You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, 
 - Use dynamic loading for non-critical components.
 - Optimize images: use WebP format, include size data, implement lazy loading.
 
-## User-facing copy
-
-- Never use meta-phrases such as "as a human writer", "as an AI", or other assistant or authorship disclaimers in UI strings, `messages/*.json`, SEO blurbs, or docs meant for end users.
-
 ## Key Conventions
 
 - Optimize Web Vitals (LCP, CLS, FID).

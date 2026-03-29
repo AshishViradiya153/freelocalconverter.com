@@ -784,8 +784,6 @@
     "imageResizeDesc": "Redimensionnez, recadrez, convertissez et renommez des images en masse.",
     "faviconGeneratorLabel": "Favicon generator",
     "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC vers JPG/PNG",
     "heicToJpgDesc": "Convertissez les photos HEIC/HEIF en JPG ou PNG.",
     "colorPaletteGeneratorLabel": "Générateur de palette de couleurs",

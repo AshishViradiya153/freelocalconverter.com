@@ -784,8 +784,6 @@
     "imageResizeDesc": "Görselleri toplu olarak yeniden boyutlandırın, kırpın, dönüştürün ve yeniden adlandırın.",
     "faviconGeneratorLabel": "Favicon generator",
     "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC'ten JPG/PNG'e",
     "heicToJpgDesc": "HEIC/HEIF fotoğraflarını JPG veya PNG'ye dönüştürün.",
     "colorPaletteGeneratorLabel": "Renk paleti oluşturucu",

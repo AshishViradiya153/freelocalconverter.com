@@ -784,8 +784,6 @@
     "imageResizeDesc": "이미지 크기 조정, 자르기, 변환, 대량 이름 바꾸기.",
     "faviconGeneratorLabel": "Favicon generator",
     "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC를 JPG/PNG로",
     "heicToJpgDesc": "HEIC/HEIF 사진을 JPG 또는 PNG로 변환합니다.",
     "colorPaletteGeneratorLabel": "색 팔레트 생성기",

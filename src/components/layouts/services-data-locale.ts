@@ -58,7 +58,6 @@ function getLocalizedLabel(
     | "imageConverter"
     | "imageResize"
     | "faviconGenerator"
-    | "imageRemoveBackground"
     | "heicToJpg"
     | "linkedinBanner"
     | "colorPaletteGenerator"
@@ -785,21 +784,6 @@ function getLocalizedLabel(
         tr: "Favicon uretici",
         zh: "网站图标生成器",
       });
-    case "imageRemoveBackground":
-      return localizedText(locale, {
-        en: "Remove background",
-        de: "Hintergrund entfernen",
-        es: "Quitar fondo",
-        fr: "Supprimer le fond",
-        it: "Rimuovi sfondo",
-        ja: "背景削除",
-        ko: "배경 제거",
-        nl: "Achtergrond verwijderen",
-        pt: "Remover fundo",
-        ru: "Удалить фон",
-        tr: "Arka plani kaldir",
-        zh: "去除背景",
-      });
     case "heicToJpg":
       return localizedText(locale, {
         en: "HEIC to JPG/PNG",
@@ -1059,7 +1043,6 @@ function getLocalizedDescription(
     | "imageConverter"
     | "imageResize"
     | "faviconGenerator"
-    | "imageRemoveBackground"
     | "heicToJpg"
     | "linkedinBanner"
     | "colorPaletteGenerator"
@@ -1169,18 +1152,18 @@ function getLocalizedDescription(
       });
     case "groupImage":
       return localizedText(locale, {
-        en: "Image tools: compress, convert, resize, and remove backgrounds locally.",
-        de: "Bildwerkzeuge: lokal komprimieren, konvertieren, skalieren und Hintergrunde entfernen.",
-        es: "Herramientas de imagen: comprime, convierte, cambia tamano y quita fondos localmente.",
-        fr: "Outils image : compresser, convertir, redimensionner et supprimer l'arriere-plan localement.",
-        it: "Strumenti immagine: comprimi, converti, ridimensiona e rimuovi lo sfondo in locale.",
-        ja: "画像ツール：ローカルで圧縮、変換、リサイズ、背景削除。",
-        ko: "이미지 도구: 로컬에서 압축, 변환, 크기 조정, 배경 제거.",
-        nl: "Afbeeldingstools: lokaal comprimeren, converteren, schalen en achtergronden verwijderen.",
-        pt: "Ferramentas de imagem: comprima, converta, redimensione e remova fundos localmente.",
-        ru: "Инструменты для изображений: сжатие, конвертация, изменение размера и удаление фона локально.",
-        tr: "Gorsel araclari: yerelde sikistir, donustur, boyutlandir ve arka plani kaldir.",
-        zh: "图片工具：本地压缩、转换、调整大小并去除背景。",
+        en: "Image tools: compress, convert, and resize locally.",
+        de: "Bildwerkzeuge: lokal komprimieren, konvertieren und skalieren.",
+        es: "Herramientas de imagen: comprime, convierte y cambia tamano localmente.",
+        fr: "Outils image : compresser, convertir et redimensionner localement.",
+        it: "Strumenti immagine: comprimi, converti e ridimensiona in locale.",
+        ja: "画像ツール：ローカルで圧縮、変換、リサイズ。",
+        ko: "이미지 도구: 로컬에서 압축, 변환, 크기 조정.",
+        nl: "Afbeeldingstools: lokaal comprimeren, converteren en schalen.",
+        pt: "Ferramentas de imagem: comprima, converta e redimensione localmente.",
+        ru: "Инструменты для изображений: сжатие, конвертация и изменение размера локально.",
+        tr: "Gorsel araclari: yerelde sikistir, donustur ve boyutlandir.",
+        zh: "图片工具：本地压缩、转换和调整大小。",
       });
     case "groupColor":
       return localizedText(locale, {
@@ -1371,8 +1354,6 @@ function getLocalizedDescription(
           imageResize: "Resize, crop, convert, and rename images in bulk.",
           faviconGenerator:
             "Upload one image; download a ZIP with favicon.ico, PNG sizes, and site.webmanifest.",
-          imageRemoveBackground:
-            "Remove backgrounds with on-device AI; download transparent PNG.",
           heicToJpg: "Convert HEIC and HEIF photos to JPG or PNG.",
           linkedinBanner:
             "Design LinkedIn profile and page banners in standard sizes; download PNG, JPEG, or WebP.",
@@ -1820,11 +1801,6 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/favicon-generator",
           label: getLocalizedLabel(safeLocale, "faviconGenerator"),
           description: getLocalizedDescription(safeLocale, "faviconGenerator"),
-        },
-        {
-          href: "/image-remove-background",
-          label: getLocalizedLabel(safeLocale, "imageRemoveBackground"),
-          description: getLocalizedDescription(safeLocale, "imageRemoveBackground"),
         },
         {
           href: "/heic-to-jpg",

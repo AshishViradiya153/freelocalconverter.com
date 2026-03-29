@@ -784,8 +784,6 @@
     "imageResizeDesc": "一括でリサイズ、切り抜き、変換、名前変更。",
     "faviconGeneratorLabel": "Favicon generator",
     "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC を JPG/PNG に",
     "heicToJpgDesc": "HEIC/HEIF 写真を JPG または PNG に変換します。",
     "colorPaletteGeneratorLabel": "カラーパレット生成",

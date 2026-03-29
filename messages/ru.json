@@ -784,8 +784,6 @@
     "imageResizeDesc": "Пакетно меняйте размер, кадрируйте, конвертируйте и переименовывайте.",
     "faviconGeneratorLabel": "Favicon generator",
     "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC в JPG/PNG",
     "heicToJpgDesc": "HEIC/HEIF в JPG или PNG.",
     "colorPaletteGeneratorLabel": "Генератор палитр",

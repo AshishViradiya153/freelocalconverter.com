@@ -784,8 +784,6 @@
     "imageResizeDesc": "Şəkilləri toplu ölçüləndirin, kəsin, çevirin və yenidən adlandırın.",
     "faviconGeneratorLabel": "Favicon generator",
     "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC-dən JPG/PNG-ə",
     "heicToJpgDesc": "HEIC/HEIF fotolarını JPG və ya PNG-ə çevirin.",
     "colorPaletteGeneratorLabel": "Rəng palitrası generatoru",
