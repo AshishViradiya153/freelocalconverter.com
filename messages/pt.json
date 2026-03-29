@@ -236,7 +236,12 @@
     "largeFileTitle": "Ficheiro grande truncado",
     "largeFileDescription": "A mostrar {shown} linhas (limite {total} no ficheiro).",
     "metaKeywords": "visualizador csv gratuito on-line | navegador editor csv | comparar arquivos csv | ferramenta de comparação csv | conversor json para csv | conversor de csv para json | formatador json on-line | csv para excel | JSON para Excel | excel para csv | visualizador de xls | visualizador de planilhas | visualizador de parquet online | csv para parquet | parquete para csv | json para parquet | parquete para json | mesclar pdf online | dividir pdf | marca d'água pdf | pdf para imagem | pdf para palavra | compressor de imagem | redimensionar imagem on-line | heic para jpg | svg para codificar | conversor de arquivo do navegador | ferramentas locais sem upload | conversor amigável para privacidade | ferramentas de conversão de dados | visualizador openapi | conversor de cachos | buscar conversor de API | ferramentas gráficas | visualizador de webhook",
-    "collectionPageName": "{name}: diretório de ferramentas"
+    "collectionPageName": "{name}: diretório de ferramentas",
+    "directoryFavoritesLabel": "Favoritos",
+    "directoryPinToolAria": "Adicionar aos favoritos",
+    "directoryUnpinToolAria": "Remover dos favoritos",
+    "directoryFavoritesEmptyTitle": "Ainda sem favoritos",
+    "directoryFavoritesEmptyDescription": "Use a estrela no cartão da ferramenta para guardar aqui. Os favoritos ficam só neste dispositivo."
   },
   "csvToParquet": {
     "heroTitle": "CSV para Parquet",
@@ -592,6 +597,8 @@
     "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
     "cronParserLabel": "Cron parser",
     "cronParserDesc": "Parse cron, preview next runs, and convert simple English phrases to schedules.",
+    "uuidGeneratorLabel": "UUID / GUID generator",
+    "uuidGeneratorDesc": "Generate v1, v4, v7, or nil UUIDs in bulk with copy-friendly formats for apps and tests.",
     "regexTesterLabel": "Regex tester",
     "regexTesterDesc": "Test JavaScript regular expressions with flags, multiline text, and capture groups locally.",
     "base64ConverterLabel": "Base64 encoder & decoder",
@@ -906,6 +913,11 @@
       "title": "Cron parser",
       "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
     },
     "regex-tester": {
       "title": "Regex tester",

@@ -60,14 +60,8 @@
           "level": "warn",
           "fix": "safe",
           "options": {
-            "attributes": [
-              "classList"
-            ],
-            "functions": [
-              "clsx",
-              "cva",
-              "tw"
-            ]
+            "attributes": ["classList"],
+            "functions": ["clsx", "cva", "tw"]
           }
         }
       }
@@ -75,9 +69,7 @@
   },
   "overrides": [
     {
-      "includes": [
-        "**/*.test.ts"
-      ]
+      "includes": ["**/*.test.ts"]
     }
   ],
   "vcs": {

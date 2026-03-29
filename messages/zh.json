@@ -236,7 +236,12 @@
     "largeFileTitle": "大文件已截断",
     "largeFileDescription": "显示 {shown} 行（文件中最多 {total} 行）。",
     "metaKeywords": "免费在线 csv 查看器 | csv 编辑器浏览器 |比较 csv 文件 | csv 差异工具 | json 到 csv 转换器 | csv 到 json 转换器 |在线 json 格式化程序 | csv 到 excel | json 到 Excel | excel 转 csv | xls 查看器 |电子表格查看器|在线镶木地板查看器| csv 到镶木地板 |镶木地板到 csv | json 到镶木地板 |镶木地板到 json |在线合并pdf |拆分 pdf | pdf水印| pdf 到图像 | pdf 到 word |图像压缩器|在线调整图像大小 | jpg 格式svg 到代码 |浏览器文件转换器|本地工具无法上传|隐私友好转换器|数据转换工具| openapi 查看器 |卷曲转换器 |获取 api 转换器 | graphql 工具 |网络钩子查看器",
-    "collectionPageName": "{name}：工具目录"
+    "collectionPageName": "{name}：工具目录",
+    "directoryFavoritesLabel": "收藏",
+    "directoryPinToolAria": "加入收藏",
+    "directoryUnpinToolAria": "取消收藏",
+    "directoryFavoritesEmptyTitle": "暂无收藏",
+    "directoryFavoritesEmptyDescription": "点击工具卡片上的星形图标即可保存到此。收藏仅保存在本设备。"
   },
   "csvToParquet": {
     "heroTitle": "CSV到Parquet",
@@ -592,6 +597,8 @@
     "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
     "cronParserLabel": "Cron parser",
     "cronParserDesc": "Parse cron, preview next runs, and convert simple English phrases to schedules.",
+    "uuidGeneratorLabel": "UUID / GUID generator",
+    "uuidGeneratorDesc": "Generate v1, v4, v7, or nil UUIDs in bulk with copy-friendly formats for apps and tests.",
     "regexTesterLabel": "Regex tester",
     "regexTesterDesc": "Test JavaScript regular expressions with flags, multiline text, and capture groups locally.",
     "base64ConverterLabel": "Base64 encoder & decoder",
@@ -906,6 +913,11 @@
       "title": "Cron parser",
       "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
     },
     "regex-tester": {
       "title": "Regex tester",

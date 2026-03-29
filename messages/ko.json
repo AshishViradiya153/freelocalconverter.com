@@ -236,7 +236,12 @@
     "largeFileTitle": "큰 파일이 잘렸습니다",
     "largeFileDescription": "{shown}행 표시(파일에는 최대 {total}행).",
     "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
-    "collectionPageName": "{name}: 도구 디렉터리"
+    "collectionPageName": "{name}: 도구 디렉터리",
+    "directoryFavoritesLabel": "즐겨찾기",
+    "directoryPinToolAria": "즐겨찾기에 추가",
+    "directoryUnpinToolAria": "즐겨찾기에서 제거",
+    "directoryFavoritesEmptyTitle": "즐겨찾기가 없습니다",
+    "directoryFavoritesEmptyDescription": "도구 카드의 별표로 여기에 저장하세요. 즐겨찾기는 이 기기에만 저장됩니다."
   },
   "csvToParquet": {
     "heroTitle": "CSV를 Parquet로",
@@ -592,6 +597,8 @@
     "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
     "cronParserLabel": "Cron parser",
     "cronParserDesc": "Parse cron, preview next runs, and convert simple English phrases to schedules.",
+    "uuidGeneratorLabel": "UUID / GUID generator",
+    "uuidGeneratorDesc": "Generate v1, v4, v7, or nil UUIDs in bulk with copy-friendly formats for apps and tests.",
     "regexTesterLabel": "Regex tester",
     "regexTesterDesc": "Test JavaScript regular expressions with flags, multiline text, and capture groups locally.",
     "base64ConverterLabel": "Base64 encoder & decoder",
@@ -906,6 +913,11 @@
       "title": "Cron parser",
       "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
     },
     "regex-tester": {
       "title": "Regex tester",

@@ -236,7 +236,12 @@
     "largeFileTitle": "Große Datei gekürzt",
     "largeFileDescription": "{shown} Zeilen angezeigt (Limit {total} in der Datei).",
     "metaKeywords": "kostenloser CSV-Viewer online | CSV-Editor-Browser | CSV-Dateien vergleichen | CSV-Diff-Tool | JSON-zu-CSV-Konverter | CSV-zu-JSON-Konverter | JSON-Formatierer online | csv nach Excel | json zu Excel | Excel in CSV | XLS-Viewer | Tabellenkalkulations-Viewer | Parkettbetrachter online | csv in Parkett | Parkett in CSV | json zu Parkett | Parkett zu JSON | PDF online zusammenführen | PDF teilen | PDF-Wasserzeichen | pdf zum Bild | pdf zu Word | Bildkompressor | Bildgröße online ändern | heic in jpg | SVG zum Code | Browser-Dateikonverter | lokale Tools kein Upload | Datenschutzfreundlicher Konverter | Datenkonvertierungstools | OpenAPI-Viewer | Curl-Konverter | API-Konverter abrufen | GraphQL-Tools | Webhook-Viewer",
-    "collectionPageName": "{name}: Toolverzeichnis"
+    "collectionPageName": "{name}: Toolverzeichnis",
+    "directoryFavoritesLabel": "Favoriten",
+    "directoryPinToolAria": "Zu Favoriten hinzufügen",
+    "directoryUnpinToolAria": "Aus Favoriten entfernen",
+    "directoryFavoritesEmptyTitle": "Noch keine Favoriten",
+    "directoryFavoritesEmptyDescription": "Speichern Sie Tools über den Stern auf der Karte. Favoriten bleiben nur auf diesem Gerät."
   },
   "csvToParquet": {
     "heroTitle": "CSV zu Parquet",
@@ -592,6 +597,8 @@
     "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
     "cronParserLabel": "Cron parser",
     "cronParserDesc": "Parse cron, preview next runs, and convert simple English phrases to schedules.",
+    "uuidGeneratorLabel": "UUID / GUID generator",
+    "uuidGeneratorDesc": "Generate v1, v4, v7, or nil UUIDs in bulk with copy-friendly formats for apps and tests.",
     "regexTesterLabel": "Regex tester",
     "regexTesterDesc": "Test JavaScript regular expressions with flags, multiline text, and capture groups locally.",
     "base64ConverterLabel": "Base64 encoder & decoder",
@@ -906,6 +913,11 @@
       "title": "Cron parser",
       "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
     },
     "regex-tester": {
       "title": "Regex tester",
