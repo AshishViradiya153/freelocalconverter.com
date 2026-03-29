@@ -5,8 +5,6 @@ import {
 } from "@/lib/pseo/sitemap";
 import { escapeXmlForSitemap } from "@/lib/sitemap";
 
-export const revalidate = 3600;
-
 export async function GET() {
   const chunkCount = getPseoSitemapChunkCount();
   if (chunkCount === 0) {

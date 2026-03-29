@@ -11,7 +11,6 @@ interface MeshGradientPreviewProps {
   className?: string;
 }
 
-/** Scaled stage (Gradii-style) so text `px` offsets match export resolution. */
 export function MeshGradientPreview({ className }: MeshGradientPreviewProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.5);

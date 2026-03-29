@@ -234,8 +234,7 @@ function buildInsertChunks(
   for (let start = 0; start < session.rows.length; start += rowsPerInsert) {
     const end = Math.min(start + rowsPerInsert, session.rows.length);
     const valueRows: string[] = [];
-    for (let r = start; r < end; r++) {
-      const row = session.rows[r];
+    for (const row of session.rows.slice(start, end)) {
       const values = session.columnKeys.map((key, i) => {
         const kind = session.columnKinds[i] ?? "short-text";
         return formatInsertScalar(dialect, kind, row[key], emptyAsNull);

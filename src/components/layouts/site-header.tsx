@@ -85,10 +85,7 @@ export function SiteHeader() {
   const showHeaderSearch = pathname !== "/";
   const isHomeActive = isActiveHref(pathname, "/");
 
-  const quickLinks = [
-    { href: "/guides", label: tNav("guides") },
-    { href: "/blog", label: tNav("blog") },
-  ];
+  const quickLinks: Array<{ href: string; label: string }> = [];
   const serviceGroups = useMemo(
     () => getLocalizedServiceGroups(locale),
     [locale],

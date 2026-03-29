@@ -4,8 +4,6 @@ import {
   staticChildSitemapUrl,
 } from "@/lib/sitemap";
 
-export const revalidate = 3600;
-
 export async function GET() {
   const entries = buildStaticSitemapEntries();
   const body = `<?xml version="1.0" encoding="UTF-8"?>

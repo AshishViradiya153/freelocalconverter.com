@@ -396,6 +396,36 @@
     "copyright": "© {year} {name}.保留所有权利。",
     "processingNotice": "我们不会存储您上传的文件。处理过程在您的浏览器中进行。"
   },
+  "contactUs": {
+    "metaTitle": "Contact us",
+    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "kicker": "Contact",
+    "heroTitle": "Contact us",
+    "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser—we do not submit anything to our servers from this page.",
+    "fieldName": "Name (optional)",
+    "fieldNamePlaceholder": "Your name",
+    "fieldEmail": "Email (optional)",
+    "fieldEmailPlaceholder": "you@example.com",
+    "fieldMessage": "Message",
+    "fieldMessagePlaceholder": "What would you like us to know?",
+    "linksGroupLabel": "Profile links (optional)",
+    "fieldLinkX": "X (Twitter)",
+    "fieldLinkXPlaceholder": "https://x.com/yourhandle",
+    "fieldLinkGithub": "GitHub",
+    "fieldLinkGithubPlaceholder": "https://github.com/yourhandle",
+    "fieldLinkLinkedin": "LinkedIn",
+    "fieldLinkLinkedinPlaceholder": "https://linkedin.com/in/yourprofile",
+    "submit": "Continue on GitHub",
+    "submitting": "Sending…",
+    "submitToast": "Opened GitHub in a new tab.",
+    "errorEmpty": "Please add a message.",
+    "errorTooLong": "Keep your message under {max} characters.",
+    "errorEmailInvalid": "Please enter a valid email address, or leave it blank.",
+    "errorLinkInvalid": "Please enter a full link starting with https://, or leave profile fields blank.",
+    "errorSendFailed": "Something went wrong sending your message. Please try again in a moment.",
+    "errorUnavailable": "The contact form is not available right now. Please try again later."
+  },
   "legal": {
     "kicker": "法务",
     "lastUpdatedLine": "最后更新：2026年3月28日",
@@ -645,6 +675,8 @@
     "imageConverterDesc": "转换为WebP、AVIF、JPG或PNG。",
     "imageResizeLabel": "调整大小/裁剪+转换",
     "imageResizeDesc": "批量调整图像大小、裁剪、转换以及重命名图像。",
+    "imageRemoveBackgroundLabel": "Remove background",
+    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
     "heicToJpgLabel": "HEIC转JPG/PNG",
     "heicToJpgDesc": "将HEIC/HEIF照片转换为JPG或PNG。",
     "colorPaletteGeneratorLabel": "调色板生成器",
@@ -883,6 +915,11 @@
       "title": "图像调整大小/裁剪 + 转换",
       "description": "图像调整大小/裁剪 + 转换：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "图像调整大小 |图像裁剪 |图像调整大小转换 |浏览器图像编辑器|批量调整图像大小 |本地图像调整工具|免费在线调整图像大小|裁剪和导出图像"
+    },
+    "image-remove-background": {
+      "title": "Remove image background",
+      "description": "Remove image background: free online in your browser. Private, on-device AI segmentation; your files are not uploaded to our servers.",
+      "keywords": "remove background from image | image background remover | transparent background png | browser background removal | local remove bg | free background remover online | cut out image background | ai background removal browser"
     },
     "images-to-pdf": {
       "title": "图像转PDF",
