@@ -1,9 +1,19 @@
 import type { PixelSourceCrop } from "./norm-source-crop";
 
-export type ResizePipelineMode = "none" | "width" | "height" | "fit";
-export type FitPipelineMode = "contain" | "cover";
+export const RESIZE_PIPELINE_MODES = [
+  "fit",
+  "width",
+  "height",
+  "none",
+] as const;
 
-export function computeTargetSize(args: {
+export type ResizePipelineMode = (typeof RESIZE_PIPELINE_MODES)[number];
+
+export const FIT_PIPELINE_MODES = ["contain", "cover"] as const;
+
+export type FitPipelineMode = (typeof FIT_PIPELINE_MODES)[number];
+
+function computeTargetSize(args: {
   sw: number;
   sh: number;
   resizeMode: ResizePipelineMode;

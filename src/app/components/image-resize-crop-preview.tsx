@@ -14,7 +14,6 @@ import {
   minCropWidthForRatio,
   normToPixel,
   pixelToNorm,
-  resolveCropForImageSize,
   resizeCropFromCorner,
   scalePixelCropWidth,
   translatePixelCrop,
@@ -22,15 +21,14 @@ import {
   type ImageResizeCropPreset,
   type NormSourceCrop,
 } from "@/lib/image-resize/norm-source-crop";
+import { renderImageFileToPipelineCanvas } from "@/lib/image-resize/render-from-file";
 import {
-  drawPipelineToCanvas,
   type FitPipelineMode,
   type ResizePipelineMode,
 } from "@/lib/image-resize/render-pipeline";
 import { cn } from "@/lib/utils";
 
 const OUTPUT_PREVIEW_MAX = 240;
-/** Display px inset so corner handles do not steal the whole pan area */
 const CENTER_INSET = 14;
 
 interface ImageResizeCropPreviewProps {
@@ -95,8 +93,6 @@ export function ImageResizeCropPreview({
 
   const displayScale =
     containerWidth > 0 ? Math.min(1, containerWidth / sw) : 1;
-  // One dimension from scale, the other derived so box aspect matches sw/sh exactly
-  // (independent rounding caused slight mismatch → image “leaking” past the frame).
   const dw = Math.max(1, Math.round(sw * displayScale));
   const dh = Math.max(1, Math.round((sh / sw) * dw));
 
@@ -129,28 +125,17 @@ export function ImageResizeCropPreview({
 
     void (async () => {
       try {
-        const bitmap = await createImageBitmap(file);
-        if (cancelled) {
-          bitmap.close();
-          return;
-        }
-        const crop = resolveCropForImageSize({
-          norm: normCrop,
-          refSw: sw,
-          refSh: sh,
-          sw: bitmap.width,
-          sh: bitmap.height,
-          preset: cropPreset,
-        });
-        const out = drawPipelineToCanvas({
-          bitmap,
-          crop,
+        const out = await renderImageFileToPipelineCanvas({
+          file,
+          cropPreset,
+          normCrop,
+          refDimensions: { sw, sh },
           resizeMode,
           fitMode,
           width: targetWidth,
           height: targetHeight,
         });
-        bitmap.close();
+        if (cancelled) return;
 
         const ow = out.width;
         const oh = out.height;

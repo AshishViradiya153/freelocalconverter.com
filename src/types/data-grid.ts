@@ -149,13 +149,8 @@ declare module "@tanstack/react-table" {
 }
 
 export interface CellPosition {
-  /**
-   * For search matches: index in `getPrePaginationRowModel().rows` (all filtered/sorted rows).
-   * Otherwise: virtual row index on the current table row model.
-   */
   rowIndex: number;
   columnId: string;
-  /** Search: index in the full `data` array; used to jump pages when navigating matches. */
   dataRowIndex?: number;
 }
 

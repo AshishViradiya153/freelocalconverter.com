@@ -20,25 +20,28 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { ImageResizeCropPreview } from "@/app/components/image-resize-crop-preview";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 import {
   clampPixelCrop,
   defaultPixelCropForPreset,
-  normToPixel,
+  IMAGE_RESIZE_CROP_PRESETS,
   pixelToNorm,
-  resolveCropForImageSize,
   type ImageResizeCropPreset,
   type NormSourceCrop,
 } from "@/lib/image-resize/norm-source-crop";
-import { drawPipelineToCanvas } from "@/lib/image-resize/render-pipeline";
+import { renderImageFileToPipelineCanvas } from "@/lib/image-resize/render-from-file";
+import {
+  FIT_PIPELINE_MODES,
+  RESIZE_PIPELINE_MODES,
+  type FitPipelineMode,
+  type ResizePipelineMode,
+} from "@/lib/image-resize/render-pipeline";
 import { cn } from "@/lib/utils";
 
 type OutputFormat = "webp" | "avif" | "jpeg" | "png";
 type ConvertEngine = "auto" | "browser" | "ffmpeg";
 type ItemStatus = "queued" | "running" | "done" | "error";
-
-type ResizeMode = "none" | "width" | "height" | "fit";
-type FitMode = "contain" | "cover";
 
 interface ImageItem {
   id: string;
@@ -52,9 +55,25 @@ interface ImageItem {
   outputName: string | null;
 }
 
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
+const CROP_PRESET_LABELS: Record<ImageResizeCropPreset, string> = {
+  none: "None",
+  "1:1": "1:1",
+  "4:3": "4:3",
+  "16:9": "16:9",
+  "9:16": "9:16",
+};
+
+const RESIZE_MODE_LABELS: Record<ResizePipelineMode, string> = {
+  fit: "Fit to box",
+  width: "Width only",
+  height: "Height only",
+  none: "No resize",
+};
+
+const FIT_MODE_LABELS: Record<FitPipelineMode, string> = {
+  contain: "Contain",
+  cover: "Cover",
+};
 
 function formatBytes(bytes: number) {
   const k = 1024;
@@ -195,58 +214,23 @@ async function renderToPngBytes(args: {
   normCrop: NormSourceCrop | null;
   /** First-queue reference dimensions so crop zoom/center transfers across mixed sizes. */
   refDimensions: { sw: number; sh: number } | null;
-  resizeMode: ResizeMode;
-  fitMode: FitMode;
+  resizeMode: ResizePipelineMode;
+  fitMode: FitPipelineMode;
   width: number;
   height: number;
 }) {
-  const bitmap = await createImageBitmap(args.file);
-  try {
-    const sw = bitmap.width;
-    const sh = bitmap.height;
-    if (sw <= 0 || sh <= 0) {
-      throw new Error("Could not decode image dimensions.");
-    }
-
-    const norm =
-      args.normCrop ??
-      pixelToNorm(
-        clampPixelCrop(
-          sw,
-          sh,
-          defaultPixelCropForPreset(sw, sh, args.cropPreset),
-        ),
-        sw,
-        sh,
-      );
-    const ref = args.refDimensions;
-    const hasRef =
-      ref !== null && ref.sw > 0 && ref.sh > 0;
-    const crop = hasRef
-      ? resolveCropForImageSize({
-        norm,
-        refSw: ref.sw,
-        refSh: ref.sh,
-        sw,
-        sh,
-        preset: args.cropPreset,
-      })
-      : clampPixelCrop(sw, sh, normToPixel(norm, sw, sh));
-
-    const canvas = drawPipelineToCanvas({
-      bitmap,
-      crop,
-      resizeMode: args.resizeMode,
-      fitMode: args.fitMode,
-      width: args.width,
-      height: args.height,
-    });
-
-    const blob = await canvasToBlob(canvas, "image/png");
-    return new Uint8Array(await blob.arrayBuffer());
-  } finally {
-    bitmap.close();
-  }
+  const canvas = await renderImageFileToPipelineCanvas({
+    file: args.file,
+    cropPreset: args.cropPreset,
+    normCrop: args.normCrop,
+    refDimensions: args.refDimensions,
+    resizeMode: args.resizeMode,
+    fitMode: args.fitMode,
+    width: args.width,
+    height: args.height,
+  });
+  const blob = await canvasToBlob(canvas, "image/png");
+  return new Uint8Array(await blob.arrayBuffer());
 }
 
 function ImageThumb(props: { url: string }) {
@@ -282,8 +266,9 @@ export function ImageResizeConvertApp() {
     sw: number;
     sh: number;
   } | null>(null);
-  const [resizeMode, setResizeMode] = React.useState<ResizeMode>("fit");
-  const [fitMode, setFitMode] = React.useState<FitMode>("contain");
+  const [resizeMode, setResizeMode] =
+    React.useState<ResizePipelineMode>("fit");
+  const [fitMode, setFitMode] = React.useState<FitPipelineMode>("contain");
   const [width, setWidth] = React.useState(1920);
   const [height, setHeight] = React.useState(1080);
 
@@ -328,7 +313,7 @@ export function ImageResizeConvertApp() {
     return () => {
       cancelled = true;
     };
-  }, [firstItem?.id, firstItem?.file]);
+  }, [firstItem]);
 
   React.useEffect(() => {
     if (!previewMeta || !firstItem) return;
@@ -339,7 +324,7 @@ export function ImageResizeConvertApp() {
       defaultPixelCropForPreset(sw, sh, cropPreset),
     );
     setNormCrop(pixelToNorm(pixel, sw, sh));
-  }, [previewMeta, cropPreset, firstItem?.id]);
+  }, [previewMeta, cropPreset, firstItem]);
 
   function addFiles(files: FileList | null) {
     if (!files?.length) return;
@@ -727,11 +712,11 @@ export function ImageResizeConvertApp() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="none">None</SelectItem>
-                      <SelectItem value="1:1">1:1</SelectItem>
-                      <SelectItem value="4:3">4:3</SelectItem>
-                      <SelectItem value="16:9">16:9</SelectItem>
-                      <SelectItem value="9:16">9:16</SelectItem>
+                      {IMAGE_RESIZE_CROP_PRESETS.map((preset) => (
+                        <SelectItem key={preset} value={preset}>
+                          {CROP_PRESET_LABELS[preset]}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -740,16 +725,19 @@ export function ImageResizeConvertApp() {
                   <Label className="text-sm">Resize</Label>
                   <Select
                     value={resizeMode}
-                    onValueChange={(v) => setResizeMode(v as ResizeMode)}
+                    onValueChange={(v) =>
+                      setResizeMode(v as ResizePipelineMode)
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="fit">Fit to box</SelectItem>
-                      <SelectItem value="width">Width only</SelectItem>
-                      <SelectItem value="height">Height only</SelectItem>
-                      <SelectItem value="none">No resize</SelectItem>
+                      {RESIZE_PIPELINE_MODES.map((mode) => (
+                        <SelectItem key={mode} value={mode}>
+                          {RESIZE_MODE_LABELS[mode]}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -758,15 +746,18 @@ export function ImageResizeConvertApp() {
                   <Label className="text-sm">Fit</Label>
                   <Select
                     value={fitMode}
-                    onValueChange={(v) => setFitMode(v as FitMode)}
+                    onValueChange={(v) => setFitMode(v as FitPipelineMode)}
                     disabled={resizeMode !== "fit"}
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="contain">Contain</SelectItem>
-                      <SelectItem value="cover">Cover</SelectItem>
+                      {FIT_PIPELINE_MODES.map((mode) => (
+                        <SelectItem key={mode} value={mode}>
+                          {FIT_MODE_LABELS[mode]}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>

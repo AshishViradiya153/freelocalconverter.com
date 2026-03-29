@@ -1,9 +1,15 @@
+import { clamp } from "@/lib/clamp";
+
+export const IMAGE_RESIZE_CROP_PRESETS = [
+  "none",
+  "1:1",
+  "4:3",
+  "16:9",
+  "9:16",
+] as const;
+
 export type ImageResizeCropPreset =
-  | "none"
-  | "1:1"
-  | "4:3"
-  | "16:9"
-  | "9:16";
+  (typeof IMAGE_RESIZE_CROP_PRESETS)[number];
 
 export interface PixelSourceCrop {
   sx: number;
@@ -19,10 +25,6 @@ export interface NormSourceCrop {
   nh: number;
 }
 
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
-
 export function cropRatio(preset: ImageResizeCropPreset): number | null {
   if (preset === "1:1") return 1;
   if (preset === "4:3") return 4 / 3;
@@ -31,7 +33,7 @@ export function cropRatio(preset: ImageResizeCropPreset): number | null {
   return null;
 }
 
-export function computeSourceCrop(args: {
+function computeSourceCrop(args: {
   sw: number;
   sh: number;
   ratio: number | null;
