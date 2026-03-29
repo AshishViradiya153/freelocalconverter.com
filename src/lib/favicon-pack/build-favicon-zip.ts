@@ -2,6 +2,7 @@ import { zipSync } from "fflate";
 
 import { buildIcoFromPngEntries } from "./build-ico-from-pngs";
 import {
+  type CenterSquareCrop,
   loadImageFromFile,
   renderFaviconPngMap,
 } from "./render-square-png";
@@ -31,7 +32,6 @@ const WEB_MANIFEST_JSON = JSON.stringify(
 );
 
 export interface BuildFaviconZipResult {
-  /** Suggested download filename (no extension) */
   baseName: string;
   zipBytes: Uint8Array;
 }
@@ -42,12 +42,9 @@ function baseNameFromFileName(name: string): string {
   return safe || "favicon";
 }
 
-/**
- * Generates favicon_io-style assets and returns a ZIP (all processing in-browser).
- * Uses a single downscaled square master (max 512px) then parallel PNG exports.
- */
 export async function buildFaviconZipFromImageFile(
   file: File,
+  crop?: CenterSquareCrop,
 ): Promise<BuildFaviconZipResult> {
   const img = await loadImageFromFile(file);
   const w = img.naturalWidth;
@@ -56,7 +53,7 @@ export async function buildFaviconZipFromImageFile(
     throw new Error("Image has invalid dimensions");
   }
 
-  const png = await renderFaviconPngMap(img, w, h);
+  const png = await renderFaviconPngMap(img, w, h, crop);
 
   const ico = buildIcoFromPngEntries([
     { width: 16, height: 16, data: png[16] },
