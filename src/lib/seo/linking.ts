@@ -1,3 +1,5 @@
+import type { ImageConvertPair } from "@/lib/image/image-convert-pairs";
+import { getAllImageConvertPairs } from "@/lib/image/image-convert-pairs";
 import type { PseoPageRecord } from "@/lib/pseo/types";
 
 interface LinkingIndex {
@@ -90,4 +92,46 @@ export function hubPathForToolCategory(categorySlug: string): string {
 
 export function guideHubPath(): string {
   return "/guides";
+}
+
+export function toolsHubPath(): string {
+  return "/tools";
+}
+
+let cachedSortedImageConvertPairs: ImageConvertPair[] | null = null;
+
+function sortedImageConvertPairs(): ImageConvertPair[] {
+  if (!cachedSortedImageConvertPairs) {
+    cachedSortedImageConvertPairs = getAllImageConvertPairs()
+      .slice()
+      .sort((a, b) => a.pairSlug.localeCompare(b.pairSlug));
+  }
+  return cachedSortedImageConvertPairs;
+}
+
+/**
+ * Hub-and-spoke for `/image-convert/*`: prefer same output format, then same input, cap length.
+ */
+export function pickRelatedImageConvertPairs(
+  current: ImageConvertPair,
+  limit = 8,
+): ImageConvertPair[] {
+  const all = sortedImageConvertPairs();
+  const out: ImageConvertPair[] = [];
+  const seen = new Set<string>([current.pairSlug]);
+
+  const sameTo = all.filter(
+    (p) => p.to === current.to && p.pairSlug !== current.pairSlug,
+  );
+  const sameFrom = all.filter(
+    (p) => p.from === current.from && p.pairSlug !== current.pairSlug,
+  );
+
+  for (const p of [...sameTo, ...sameFrom, ...all]) {
+    if (out.length >= limit) break;
+    if (seen.has(p.pairSlug)) continue;
+    out.push(p);
+    seen.add(p.pairSlug);
+  }
+  return out.slice(0, limit);
 }

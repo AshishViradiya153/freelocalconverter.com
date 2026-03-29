@@ -157,6 +157,12 @@ export function bestTextColorOn(
   return { textHex: "#000000", ratio: blackRatio };
 }
 
+export function wcagContrastBadge(ratio: number): "AAA" | "AA" | "Low" {
+  if (ratio >= 7) return "AAA";
+  if (ratio >= 4.5) return "AA";
+  return "Low";
+}
+
 function offsetsForMode(mode: HarmonyMode, count: number): number[] {
   if (count <= 1) return [0]!;
 

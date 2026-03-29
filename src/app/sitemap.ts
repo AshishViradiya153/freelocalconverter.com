@@ -3,7 +3,6 @@ import { siteConfig } from "@/config/site";
 import { toolCategories } from "@/data/pseo/tool-categories";
 import { routing } from "@/i18n/routing";
 import { getAllPostSlugs } from "@/lib/blog/registry";
-
 function buildUrl(locale: string, path: string): string {
   const base = siteConfig.url.replace(/\/$/, "");
   const p = path === "" ? "" : path.startsWith("/") ? path : `/${path}`;
@@ -15,8 +14,8 @@ function buildUrl(locale: string, path: string): string {
 
 /**
  * Core sitemap: static routes, blog, and pSEO hub URLs. Programmatic leaf pages
- * (`/guides/[topic]`, `/tools/[category]/[slug]`) are listed in chunked XML at
- * `/sitemaps/pseo/{n}.xml` so the file stays under search-engine URL limits at scale.
+ * (`/guides/[topic]`, `/tools/[category]/[slug]`, `/image-convert/{pair}`) are listed in
+ * chunked XML at `/sitemaps/pseo/{n}.xml` so this index stays small at scale.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
@@ -55,6 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/gradients",
     "/gradients/best",
     "/gradient-generator",
+    "/gradient-generator/trending",
     "/xls-to-csv",
     "/xls-viewer",
     "/parquet-viewer",

@@ -4,16 +4,21 @@ import { Suspense } from "react";
 
 import { SvgToCodeApp } from "@/app/components/svg-to-code-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
-
-export const metadata: Metadata = {
-  title: `SVG to Code · ${siteConfig.name}`,
-  description:
-    "Convert SVG files to JSX, a React component with SVGProps, or pretty XML locally in your browser. Paste or upload, copy code, no uploads.",
-};
+import { buildPageMetaFromMessages } from "@/lib/seo/page-meta-messages";
 
 interface SvgToCodePageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: SvgToCodePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetaFromMessages({
+    locale,
+    pathname: "/svg-to-code",
+    group: "svgToCode",
+  });
 }
 
 export default async function SvgToCodePage({ params }: SvgToCodePageProps) {

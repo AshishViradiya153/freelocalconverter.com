@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: MergePdfPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "merge-pdf");
+  return await buildToolPageMetadata(locale, "merge-pdf");
 }
 
 interface MergePdfPageProps {

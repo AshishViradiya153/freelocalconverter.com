@@ -13,7 +13,9 @@ import {
   buildArticleJsonLd,
   buildBreadcrumbListJsonLd,
   buildFaqPageJsonLd,
+  buildHowToJsonLd,
   buildJsonLdGraph,
+  buildOrganizationJsonLd,
 } from "@/lib/seo/schema";
 
 interface GuidePageTemplateProps {
@@ -43,7 +45,13 @@ export function GuidePageTemplate({
 
   const breadcrumbJson = buildBreadcrumbListJsonLd(schemaBreadcrumbs);
 
-  const graph = buildJsonLdGraph([
+  const howToSteps = page.sections.map((section) => ({
+    name: section.heading,
+    text: section.paragraphs.join("\n\n"),
+  }));
+
+  const graphNodes: Record<string, unknown>[] = [
+    buildOrganizationJsonLd() as unknown as Record<string, unknown>,
     breadcrumbJson as unknown as Record<string, unknown>,
     buildArticleJsonLd({
       headline: page.heroHeading,
@@ -52,8 +60,16 @@ export function GuidePageTemplate({
       datePublished: page.publishedAt,
       dateModified: page.updatedAt,
     }) as unknown as Record<string, unknown>,
+    buildHowToJsonLd({
+      name: page.heroHeading,
+      description: page.metaDescription,
+      url: pageUrl,
+      steps: howToSteps,
+    }) as unknown as Record<string, unknown>,
     buildFaqPageJsonLd(page.faqs) as unknown as Record<string, unknown>,
-  ]);
+  ];
+
+  const graph = buildJsonLdGraph(graphNodes);
 
   return (
     <>

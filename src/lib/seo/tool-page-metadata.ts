@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { type AppLocale, routing } from "@/i18n/routing";
 import { buildPageMetadata } from "./metadata";
 
-type ToolPageSlug =
+export type ToolPageSlug =
   | "axios-converter"
   | "bulk-pdf-watermark"
   | "compare"
@@ -1046,6 +1048,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "axios to python requests",
       "request converter",
       "browser api converter",
+      "free axios to fetch converter",
+      "convert http client code online",
     ],
   },
   "bulk-pdf-watermark": {
@@ -1076,6 +1080,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "pdf watermark no upload",
       "watermark pdf with text",
       "watermark pdf with image",
+      "free pdf watermark online",
+      "watermark pdf in browser",
     ],
   },
   compare: {
@@ -1088,6 +1094,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "compare two csv files",
       "browser csv diff",
       "csv changes viewer",
+      "free csv diff online",
+      "side by side csv compare",
     ],
   },
   "csv-to-excel": {
@@ -1100,6 +1108,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "batch csv to excel",
       "browser csv to xlsx",
       "csv excel export",
+      "free csv to excel converter",
+      "convert csv to spreadsheet online",
     ],
   },
   "csv-to-json": {
@@ -1112,6 +1122,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser csv to json",
       "csv to json online",
       "local csv converter",
+      "free csv to json",
+      "csv to json no upload",
     ],
   },
   "csv-to-markdown-table": {
@@ -1124,6 +1136,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "convert csv to markdown",
       "browser markdown table",
       "csv to md",
+      "free csv to markdown",
+      "github readme table from csv",
     ],
   },
   "csv-to-parquet": {
@@ -1136,6 +1150,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser csv to parquet",
       "csv parquet export",
       "local parquet tool",
+      "free csv to parquet online",
+      "apache parquet from csv",
     ],
   },
   "curl-converter": {
@@ -1148,6 +1164,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "curl to python requests",
       "request code converter",
       "browser curl converter",
+      "free curl to fetch",
+      "convert curl command online",
     ],
   },
   "data-grid": {
@@ -1160,6 +1178,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser data table",
       "grid demo",
       "data grid example",
+      "tanstack table demo",
+      "interactive data grid browser",
     ],
   },
   "data-grid-live": {
@@ -1172,6 +1192,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser data grid demo",
       "sync data grid",
       "data grid live example",
+      "websocket data grid demo",
+      "live updating table ui",
     ],
   },
   "data-grid-render": {
@@ -1184,6 +1206,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "render data grid",
       "browser grid benchmark",
       "data grid render example",
+      "virtualized grid performance",
+      "large dataset table render",
     ],
   },
   "fetch-converter": {
@@ -1196,6 +1220,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "fetch to python requests",
       "request converter",
       "browser api converter",
+      "javascript fetch to curl",
+      "free fetch api converter",
     ],
   },
   "graphql-tools": {
@@ -1208,6 +1234,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "graphql schema explorer",
       "browser graphql tool",
       "graphql query formatter",
+      "free graphql playground browser",
+      "format graphql query online",
     ],
   },
   "heic-to-jpg": {
@@ -1220,6 +1248,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "iphone photo converter",
       "browser heic converter",
       "convert heic locally",
+      "free heic converter online",
+      "heic to jpeg no upload",
     ],
   },
   "http-explainer": {
@@ -1232,6 +1262,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "http headers guide",
       "browser http reference",
       "learn http status",
+      "http status code list",
+      "what is http header",
     ],
   },
   "image-compress": {
@@ -1244,6 +1276,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser image compressor",
       "local image compress",
       "no upload image compression",
+      "free compress images online",
+      "reduce image file size",
     ],
   },
   "image-convert": {
@@ -1256,6 +1290,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser image converter",
       "local image conversion",
       "no upload image tool",
+      "free image converter online",
+      "png to webp jpg avif",
     ],
   },
   "image-resize": {
@@ -1268,6 +1304,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser image editor",
       "bulk image resize",
       "local image resize tool",
+      "resize images online free",
+      "crop and export images",
     ],
   },
   "images-to-pdf": {
@@ -1280,6 +1318,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "convert images to pdf",
       "browser image pdf tool",
       "no upload image to pdf",
+      "merge photos to pdf",
+      "free jpg png to pdf",
     ],
   },
   "json-formatter": {
@@ -1292,6 +1332,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "format json online",
       "browser json tool",
       "local json formatter",
+      "pretty print json",
+      "free json formatter no upload",
     ],
   },
   "json-to-csv": {
@@ -1304,6 +1346,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser json to csv",
       "local json converter",
       "json export csv",
+      "free json to csv online",
+      "json array to spreadsheet",
     ],
   },
   "json-to-excel": {
@@ -1316,6 +1360,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser json to xlsx",
       "json excel converter",
       "local json export",
+      "free json to xlsx",
+      "export json to spreadsheet",
     ],
   },
   "json-to-parquet": {
@@ -1328,6 +1374,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser json to parquet",
       "local parquet export",
       "parquet browser tool",
+      "free json to parquet",
+      "json lines to parquet",
     ],
   },
   "merge-pdf": {
@@ -1340,6 +1388,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser pdf merge",
       "local pdf merger",
       "no upload pdf merge",
+      "join pdf files online free",
+      "merge multiple pdf",
     ],
   },
   "openapi-viewer": {
@@ -1352,6 +1402,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "api spec viewer",
       "swagger file viewer",
       "browser openapi tool",
+      "free swagger ui alternative",
+      "view openapi yaml json",
     ],
   },
   "parquet-to-csv": {
@@ -1364,6 +1416,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser parquet to csv",
       "local parquet converter",
       "parquet export csv",
+      "open parquet as csv",
+      "parquet file to csv online",
     ],
   },
   "parquet-to-json": {
@@ -1376,6 +1430,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser parquet to json",
       "local parquet converter",
       "parquet export json",
+      "free parquet to json",
+      "read parquet in browser",
     ],
   },
   "parquet-viewer": {
@@ -1388,6 +1444,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser parquet viewer",
       "local parquet tool",
       "editable parquet grid",
+      "view parquet without python",
+      "parquet preview online",
     ],
   },
   "pdf-to-image": {
@@ -1400,6 +1458,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "convert pdf pages to images",
       "browser pdf converter",
       "local pdf to image",
+      "extract images from pdf",
+      "pdf page to png jpg free",
     ],
   },
   "pdf-to-word": {
@@ -1412,6 +1472,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser pdf to docx",
       "local pdf converter",
       "no upload pdf to word",
+      "free pdf to docx online",
+      "editable word from pdf",
     ],
   },
   "pdf-watermark": {
@@ -1424,6 +1486,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "pdf watermark image",
       "browser pdf watermark",
       "no upload pdf watermark",
+      "add watermark to pdf free",
+      "stamp pdf online",
     ],
   },
   "python-requests-converter": {
@@ -1436,6 +1500,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "python requests to axios",
       "request converter",
       "browser api converter",
+      "requests to httpx curl",
+      "convert python http code",
     ],
   },
   "reorder-pdf": {
@@ -1448,6 +1514,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser pdf reorder",
       "local pdf page tool",
       "no upload pdf organizer",
+      "rearrange pdf pages online",
+      "change pdf page order free",
     ],
   },
   "request-converter": {
@@ -1460,6 +1528,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "python requests converter",
       "browser api tool",
       "request snippet converter",
+      "curl to fetch axios online",
+      "http request translator",
     ],
   },
   "split-pdf": {
@@ -1472,6 +1542,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser pdf split",
       "local pdf splitter",
       "no upload pdf split",
+      "extract pages from pdf",
+      "separate pdf online free",
     ],
   },
   "video-compress": {
@@ -1484,6 +1556,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "local video compression",
       "no upload video compress",
       "video size reducer",
+      "shrink mp4 online free",
+      "client side video compression",
     ],
   },
   "webhook-viewer": {
@@ -1496,6 +1570,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "jsonpath webhook tool",
       "browser webhook inspector",
       "webhook json formatter",
+      "stripe webhook payload viewer",
+      "debug webhook json",
     ],
   },
   "xls-to-csv": {
@@ -1508,6 +1584,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "batch excel to csv",
       "browser excel converter",
       "local xls converter",
+      "free excel to csv online",
+      "convert spreadsheet to csv",
     ],
   },
   "xls-viewer": {
@@ -1520,6 +1598,8 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser excel viewer",
       "editable excel grid",
       "local spreadsheet viewer",
+      "open xlsx without excel",
+      "view excel online free",
     ],
   },
 };
@@ -1528,47 +1608,108 @@ const DESCRIPTION_TEMPLATE: Record<
   AppLocale,
   (title: string) => string
 > = {
-  en: (title) => `Use ${title} in your browser. Local processing, no uploads.`,
-  zh: (title) => `在浏览器中使用${title}。本地处理，无需上传。`,
+  en: (title) =>
+    `${title}: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.`,
+  zh: (title) =>
+    `${title}：免费在线浏览器工具，本地私密处理，文件不会上传到服务器。`,
   es: (title) =>
-    `Usa ${title} en tu navegador. Procesamiento local, sin subir archivos.`,
-  pt: (title) => `Use ${title} no navegador. Processamento local, sem upload.`,
+    `${title}: gratis en el navegador. Procesamiento local y privado; no subimos tus archivos a nuestros servidores.`,
+  pt: (title) =>
+    `${title}: gratuito no navegador. Processamento local e privado; seus arquivos não são enviados aos nossos servidores.`,
   fr: (title) =>
-    `Utilisez ${title} dans votre navigateur. Traitement local, sans envoi.`,
-  de: (title) => `Nutze ${title} im Browser. Lokale Verarbeitung, kein Upload.`,
+    `${title} : gratuit dans le navigateur. Traitement local et privé ; vos fichiers ne sont pas envoyés à nos serveurs.`,
+  de: (title) =>
+    `${title}: kostenlos im Browser. Private Verarbeitung lokal; Ihre Dateien werden nicht auf unsere Server hochgeladen.`,
   nl: (title) =>
-    `Gebruik ${title} in je browser. Lokale verwerking, zonder upload.`,
+    `${title}: gratis in je browser. Privé, lokaal verwerkt; je bestanden worden niet naar onze servers geüpload.`,
   it: (title) =>
-    `Usa ${title} nel browser. Elaborazione locale, senza upload.`,
-  ja: (title) => `ブラウザで${title}を使えます。ローカル処理で、アップロード不要。`,
+    `${title}: gratuito nel browser. Elaborazione locale e privata; i file non vengono caricati sui nostri server.`,
+  ja: (title) =>
+    `${title}をブラウザで無料利用。端末内でプライベートに処理し、当社サーバーへファイルはアップロードされません。`,
   tr: (title) =>
-    `${title} aracını tarayıcıda kullanın. Yerel işlem, yükleme yok.`,
+    `${title}: tarayıcıda ücretsiz. Gizli, yerel işlem; dosyalarınız sunucularımıza yüklenmez.`,
   az: (title) =>
-    `${title} alətini brauzerdə istifadə edin. Yerli emal, yükləmə yoxdur.`,
+    `${title}: brauzerdə pulsuz. Şəxsi, yerli emal; fayllarınız serverlərimizə yüklənmir.`,
   ko: (title) =>
-    `브라우저에서 ${title}를 사용하세요. 로컬 처리, 업로드 없음.`,
-  ar: (title) => `استخدم ${title} داخل المتصفح. معالجة محلية، بدون رفع.`,
-  fa: (title) => `${title} را در مرورگر استفاده کنید. پردازش محلی، بدون آپلود.`,
+    `${title}: 브라우저에서 무료. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.`,
+  ar: (title) =>
+    `${title}: مجانًا في المتصفح. معالجة محلية خاصة؛ لا تُرفع ملفاتك إلى خوادمنا.`,
+  fa: (title) =>
+    `${title}: رایگان در مرورگر. پردازش محلی و خصوصی؛ فایل‌های شما به سرورهای ما آپلود نمی‌شود.`,
   ru: (title) =>
-    `Используйте ${title} прямо в браузере. Локальная обработка, без загрузки.`,
-  he: (title) => `השתמשו ב-${title} בדפדפן. עיבוד מקומי, ללא העלאה.`,
+    `${title}: бесплатно в браузере. Конфиденциальная локальная обработка; файлы не загружаются на наши серверы.`,
+  he: (title) =>
+    `${title}: חינם בדפדפן. עיבוד מקומי פרטי; הקבצים שלכם לא מועלים לשרתים שלנו.`,
   el: (title) =>
-    `Χρησιμοποιήστε το ${title} στον browser. Τοπική επεξεργασία, χωρίς μεταφόρτωση.`,
+    `${title}: δωρεάν στον browser. Ιδιωτική τοπική επεξεργασία· τα αρχεία σας δεν ανεβαίνουν στους διακομιστές μας.`,
 };
 
-export function buildToolPageMetadata(locale: string, slug: ToolPageSlug) {
+export function getToolPageDescription(locale: string, title: string): string {
+  const safeLocale = routing.locales.includes(locale as AppLocale)
+    ? (locale as AppLocale)
+    : routing.defaultLocale;
+  return DESCRIPTION_TEMPLATE[safeLocale](title);
+}
+
+export const ALL_TOOL_PAGE_SLUGS: ToolPageSlug[] = Object.keys(
+  TOOL_PAGE_DEFINITIONS,
+) as ToolPageSlug[];
+
+/** Fallback when `toolMeta` messages are missing or empty (CI should keep them filled). */
+export function getToolPageMetaFallback(
+  locale: AppLocale,
+  slug: ToolPageSlug,
+): { title: string; description: string; keywords: string[] } {
+  const def = TOOL_PAGE_DEFINITIONS[slug];
+  const title = def.titleByLocale[locale];
+  return {
+    title,
+    description: DESCRIPTION_TEMPLATE[locale](title),
+    keywords: [...def.keywords],
+  };
+}
+
+function parseToolMetaKeywordLine(raw: string): string[] | undefined {
+  const list = raw
+    .split("|")
+    .map((k) => k.trim())
+    .filter(Boolean);
+  return list.length ? list : undefined;
+}
+
+/**
+ * Tool SEO from messages JSON: namespace toolMeta, keys like "compare.title".
+ * Keywords are pipe-separated (same convention as pageMeta).
+ */
+export async function buildToolPageMetadata(
+  locale: string,
+  slug: ToolPageSlug,
+): Promise<Metadata> {
   const safeLocale = routing.locales.includes(locale as AppLocale)
     ? (locale as AppLocale)
     : routing.defaultLocale;
   const definition = TOOL_PAGE_DEFINITIONS[slug];
-  const title = definition.titleByLocale[safeLocale];
-  const description = DESCRIPTION_TEMPLATE[safeLocale](title);
+  const fb = getToolPageMetaFallback(safeLocale, slug);
+  const t = await getTranslations({ locale: safeLocale, namespace: "toolMeta" });
+
+  const titleRaw = t(`${slug}.title`).trim();
+  const title = titleRaw.length > 0 ? titleRaw : fb.title;
+
+  const descriptionRaw = t(`${slug}.description`).trim();
+  const description =
+    descriptionRaw.length > 0 ? descriptionRaw : fb.description;
+
+  const keywordsRaw = t(`${slug}.keywords`).trim();
+  const keywords =
+    keywordsRaw.length > 0
+      ? (parseToolMetaKeywordLine(keywordsRaw) ?? fb.keywords)
+      : fb.keywords;
 
   return buildPageMetadata({
     locale: safeLocale,
     pathname: definition.pathname,
     title,
     description,
-    keywords: definition.keywords,
+    keywords,
   });
 }

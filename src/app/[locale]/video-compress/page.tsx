@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: VideoCompressPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "video-compress");
+  return await buildToolPageMetadata(locale, "video-compress");
 }
 
 interface VideoCompressPageProps {

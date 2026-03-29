@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: CurlConverterPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "curl-converter");
+  return await buildToolPageMetadata(locale, "curl-converter");
 }
 
 interface CurlConverterPageProps {

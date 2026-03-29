@@ -51,9 +51,12 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   const ogImageUrl = `${base}${ogImagePath.startsWith("/") ? ogImagePath : `/${ogImagePath}`}`;
 
   const languages: Record<string, string> | undefined = alternateLocales
-    ? Object.fromEntries(
-        routing.locales.map((loc) => [loc, buildAbsoluteUrl(loc, pathname)]),
-      )
+    ? {
+        ...Object.fromEntries(
+          routing.locales.map((loc) => [loc, buildAbsoluteUrl(loc, pathname)]),
+        ),
+        "x-default": buildAbsoluteUrl(routing.defaultLocale, pathname),
+      }
     : undefined;
 
   return {
@@ -71,7 +74,7 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
       title,
       description,
       siteName: siteConfig.name,
-      locale: openGraphLocaleForSeo(locale),
+      locale: openGraphLocaleForSeo(canonicalLocale),
       publishedTime,
       modifiedTime,
       images: [{ url: ogImageUrl }],

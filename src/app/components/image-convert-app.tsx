@@ -927,7 +927,7 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                     </SelectContent>
                   </Select>
                   <div className="text-muted-foreground text-xs">
-                    Uses Vision Cortex VTracer (WASM) locally — the same engine family as many desktop tools. Fast uses
+                    Uses Vision Cortex VTracer (WASM) locally. The same engine family as many desktop tools. Fast uses
                     a smaller trace and coarser clustering; High uses the vtracer “photo”-style settings and up to ~2048px
                     per side. Still slower than a cloud GPU, but much closer in quality than the old JS-only tracer.
                   </div>

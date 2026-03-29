@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: PythonRequestsConverterPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "python-requests-converter");
+  return await buildToolPageMetadata(locale, "python-requests-converter");
 }
 
 interface PythonRequestsConverterPageProps {

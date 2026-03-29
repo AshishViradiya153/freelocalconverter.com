@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -8,9 +9,21 @@ import {
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
 import { Shell } from "@/components/shell";
+import { buildPageMetaFromMessages } from "@/lib/seo/page-meta-messages";
 
 interface CsvViewerPageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: CsvViewerPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetaFromMessages({
+    locale,
+    pathname: "/csv-viewer",
+    group: "csvViewer",
+  });
 }
 
 export default async function CsvViewerPage({ params }: CsvViewerPageProps) {

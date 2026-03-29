@@ -20,105 +20,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  bestTextColorOn,
-} from "@/lib/color-palette";
+  createPaletteStripesExportCanvas,
+  downloadCanvasPng,
+} from "@/lib/canvas-png-export";
+import { bestTextColorOn } from "@/lib/color-palette";
 import { downloadTextFile } from "@/lib/download-text-file";
 import type { BestPaletteRow } from "@/lib/best-gallery/best-gallery-types";
 import { buildLocalizedPath } from "@/lib/seo/paths";
-
-function getContrastBadge(ratio: number): "AAA" | "AA" | "Low" {
-  if (ratio >= 7) return "AAA";
-  if (ratio >= 4.5) return "AA";
-  return "Low";
-}
-
-function downloadCanvasImage({
-  canvas,
-  fileName,
-}: {
-  canvas: HTMLCanvasElement;
-  fileName: string;
-}) {
-  const url = canvas.toDataURL("image/png");
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-}
-
-type SwatchRow = { hex: string; locked?: boolean };
-
-function downloadPalettePng({
-  swatches,
-  fileName,
-  title,
-}: {
-  swatches: SwatchRow[];
-  fileName: string;
-  title: string;
-}) {
-  const pad = 20;
-  const swatchW = 190;
-  const swatchH = 150;
-  const headerH = 68;
-  const width = pad * 2 + swatchW * swatches.length;
-  const height = pad * 2 + headerH + swatchH;
-
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  // Background
-  ctx.fillStyle = "#0b1220";
-  ctx.fillRect(0, 0, width, height);
-
-  // Title
-  ctx.fillStyle = "#e5e7eb";
-  ctx.font = "600 20px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-  ctx.fillText(title, pad, pad + 26);
-  ctx.font = "400 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-  ctx.fillStyle = "#9ca3af";
-  ctx.fillText(`Colors: ${swatches.length}`, pad, pad + 48);
-
-  for (let i = 0; i < swatches.length; i++) {
-    const x = pad + i * swatchW;
-    const y = pad + headerH;
-    const hex = swatches[i]!.hex;
-
-    // Swatch rect
-    ctx.fillStyle = hex;
-    ctx.fillRect(x, y, swatchW - 6, swatchH);
-
-    // Outline
-    ctx.strokeStyle = "rgba(255,255,255,0.12)";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(x, y, swatchW - 6, swatchH);
-
-    const best = bestTextColorOn(hex);
-
-    // Hex label
-    ctx.fillStyle = best.textHex;
-    ctx.font =
-      "700 18px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace";
-    ctx.fillText(hex.toUpperCase(), x + 14, y + 34);
-
-    // Contrast ratio + badge
-    const ratio = best.ratio;
-    const badge = getContrastBadge(ratio);
-    ctx.font = "600 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-    ctx.fillText(
-      `Contrast: ${ratio.toFixed(2)} (${badge})`,
-      x + 14,
-      y + 64,
-    );
-  }
-
-  downloadCanvasImage({ canvas, fileName });
-}
 
 function buildPaletteCssVars(hexes: string[]) {
   const lines = hexes.map((h, i) => `  --color-${i + 1}: ${h};`);
@@ -146,7 +54,6 @@ async function copyToClipboard(value: string) {
     }
     throw new Error("clipboard_not_available");
   } catch {
-    // Fallback for browsers/environments where the async Clipboard API fails.
     try {
       const ta = document.createElement("textarea");
       ta.value = value;
@@ -211,10 +118,10 @@ export default function BestPaletteCard({
   }
 
   function onDownloadPng() {
-    const title = `Table · Palette · ${row.mode}`;
-    const swatches: SwatchRow[] = row.hexes.map((hex) => ({ hex }));
     const fileName = `palette-${row.hexes.length}-${safeBase}.png`;
-    downloadPalettePng({ swatches, fileName, title });
+    const canvas = createPaletteStripesExportCanvas(row.hexes);
+    if (!canvas) return;
+    downloadCanvasPng(canvas, fileName);
     toast.success("Download started");
   }
 

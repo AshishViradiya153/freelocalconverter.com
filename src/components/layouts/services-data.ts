@@ -271,6 +271,11 @@ export function getServiceGroups({
           description: services("meshGradientGeneratorDesc"),
         },
         {
+          href: "/gradient-generator/trending",
+          label: services("trendingMeshGradientsLabel"),
+          description: services("trendingMeshGradientsDesc"),
+        },
+        {
           href: "/palettes/best",
           label: services("trendingPalettesLabel"),
           description: services("trendingPalettesDesc"),

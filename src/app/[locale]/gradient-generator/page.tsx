@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { MeshGradientApp } from "@/app/components/mesh-gradient-app";
+import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
-import { routing } from "@/i18n/routing";
-import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildAbsoluteUrl } from "@/lib/seo/paths";
+import { buildPageMetaFromMessages } from "@/lib/seo/page-meta-messages";
 import {
   buildBreadcrumbListJsonLd,
   buildJsonLdGraph,
@@ -23,22 +22,10 @@ export async function generateMetadata({
   params,
 }: GradientGeneratorPageProps): Promise<Metadata> {
   const { locale } = await params;
-  const pathname = "/gradient-generator";
-  return buildPageMetadata({
+  return buildPageMetaFromMessages({
     locale,
-    canonicalLocale: routing.defaultLocale,
-    alternateLocales: false,
-    pathname,
-    title: `Mesh gradient generator · ${siteConfig.name}`,
-    description:
-      "Create soft mesh-style gradients from blurred color blobs on canvas. Harmonious palettes, grain, and PNG export.",
-    keywords: [
-      "mesh gradient",
-      "blob gradient",
-      "canvas gradient",
-      "gradient wallpaper",
-      "png gradient",
-    ],
+    pathname: "/gradient-generator",
+    group: "meshGradient",
   });
 }
 
@@ -51,10 +38,13 @@ export default async function GradientGeneratorPage({
   const pathname = "/gradient-generator";
   const url = buildAbsoluteUrl(locale, pathname);
 
+  const t = await getTranslations({ locale, namespace: "pageMeta" });
+  const tr = t as unknown as (id: string) => string;
+
   const breadcrumb = buildBreadcrumbListJsonLd([
-    { name: "Home", url: buildAbsoluteUrl(locale, "/") },
+    { name: tr("breadcrumbHome"), url: buildAbsoluteUrl(locale, "/") },
     {
-      name: "Mesh gradient generator",
+      name: tr("meshGradient.breadcrumbLabel"),
       url: buildAbsoluteUrl(locale, pathname),
     },
   ]);
@@ -62,9 +52,8 @@ export default async function GradientGeneratorPage({
   const graph = buildJsonLdGraph([
     breadcrumb as unknown as Record<string, unknown>,
     buildSoftwareApplicationJsonLd({
-      name: "Mesh gradient generator",
-      description:
-        "Generate soft mesh-style gradients with harmonious colors, blur, and film grain; export PNG.",
+      name: tr("meshGradient.jsonLdName"),
+      description: tr("meshGradient.jsonLdDescription"),
       url,
       applicationCategory: "DesignApplication",
     }) as unknown as Record<string, unknown>,
@@ -74,6 +63,9 @@ export default async function GradientGeneratorPage({
     <>
       <JsonLd data={graph} />
       <Shell>
+        <div className="container pt-4">
+          <HubDiscoveryLinks locale={locale} />
+        </div>
         <Suspense
           fallback={
             <div className="container flex flex-col gap-4 py-4">

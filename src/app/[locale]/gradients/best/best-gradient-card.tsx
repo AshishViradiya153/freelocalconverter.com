@@ -17,20 +17,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { downloadTextFile } from "@/lib/download-text-file";
-import { bestTextColorOn } from "@/lib/color-palette";
 import {
-  buildCssLinearGradient,
-  normalizeAngle,
-} from "@/lib/color-gradients";
+  createLinearGradientExportCanvas,
+  downloadCanvasPng,
+} from "@/lib/canvas-png-export";
+import { downloadTextFile } from "@/lib/download-text-file";
+import { bestTextColorOn, wcagContrastBadge } from "@/lib/color-palette";
+import { buildCssLinearGradient } from "@/lib/color-gradients";
 import type { BestGradientRow } from "@/lib/best-gallery/best-gallery-types";
 import { buildLocalizedPath } from "@/lib/seo/paths";
-
-function getContrastBadge(ratio: number): "AAA" | "AA" | "Low" {
-  if (ratio >= 7) return "AAA";
-  if (ratio >= 4.5) return "AA";
-  return "Low";
-}
 
 async function copyToClipboard(value: string) {
   try {
@@ -59,100 +54,6 @@ async function copyToClipboard(value: string) {
       toast.error("Copy failed");
     }
   }
-}
-
-function downloadCanvasImage({
-  canvas,
-  fileName,
-}: {
-  canvas: HTMLCanvasElement;
-  fileName: string;
-}) {
-  const url = canvas.toDataURL("image/png");
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-}
-
-function paintLinearGradientOnCanvas({
-  angleDeg,
-  hexStops,
-  width,
-  height,
-  topTitle,
-}: {
-  angleDeg: number;
-  hexStops: string[];
-  width: number;
-  height: number;
-  topTitle: string;
-}) {
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return canvas;
-
-  // Background
-  ctx.fillStyle = "#0b1220";
-  ctx.fillRect(0, 0, width, height);
-
-  // Title
-  ctx.fillStyle = "#e5e7eb";
-  ctx.font = "600 22px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-  ctx.fillText(topTitle, 24, 40);
-
-  const pad = 24;
-  const gradTop = 64;
-  const gradH = height - gradTop - pad;
-
-  // Compute gradient start/end points based on CSS angle degrees.
-  const a = normalizeAngle(angleDeg);
-  const angleRad = ((a - 90) * Math.PI) / 180;
-  const cx = width / 2;
-  const cy = gradTop + gradH / 2;
-  const len = Math.max(width, gradH) * 1.2;
-  const dx = Math.cos(angleRad);
-  const dy = Math.sin(angleRad);
-
-  const x0 = cx - dx * (len / 2);
-  const y0 = cy - dy * (len / 2);
-  const x1 = cx + dx * (len / 2);
-  const y1 = cy + dy * (len / 2);
-
-  const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
-  const n = hexStops.length;
-  for (let i = 0; i < n; i++) {
-    const t = n === 1 ? 0 : i / (n - 1);
-    gradient.addColorStop(t, hexStops[i] ?? "#000000");
-  }
-
-  // Gradient rect
-  ctx.fillStyle = gradient;
-  ctx.fillRect(pad, gradTop, width - pad * 2, gradH);
-
-  // Swatch labels row
-  ctx.fillStyle = "rgba(255,255,255,0.85)";
-  ctx.font =
-    "600 14px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace";
-
-  const swatchAreaY = gradTop + gradH + 18;
-  const swatchW = Math.floor((width - pad * 2) / Math.max(1, n));
-
-  for (let i = 0; i < n; i++) {
-    const hex = (hexStops[i] ?? "#000000").toUpperCase();
-    const x = pad + i * swatchW;
-    ctx.fillStyle = "rgba(255,255,255,0.12)";
-    ctx.fillRect(x, swatchAreaY, swatchW - 6, 22);
-    const best = bestTextColorOn(hex);
-    ctx.fillStyle = best.textHex;
-    ctx.fillText(hex, x + 6, swatchAreaY + 16);
-  }
-
-  return canvas;
 }
 
 function buildGradientJson(row: BestGradientRow) {
@@ -204,16 +105,12 @@ export default function BestGradientCard({
   }, [cssVars, gradientCss]);
 
   function onDownloadPng() {
-    const title = `Table · Gradient · ${Math.round(row.angle)}deg`;
-    const canvas = paintLinearGradientOnCanvas({
+    const canvas = createLinearGradientExportCanvas({
       angleDeg: row.angle,
       hexStops: row.stops,
-      width: 1400,
-      height: 420,
-      topTitle: title,
     });
     const fileName = `gradient-${row.stops.length}-${safeBase}-${Math.round(row.angle)}.png`;
-    downloadCanvasImage({ canvas, fileName });
+    downloadCanvasPng(canvas, fileName);
     toast.success("Download started");
   }
 
@@ -262,7 +159,7 @@ export default function BestGradientCard({
       <div className="mt-3 grid grid-cols-5 gap-1">
         {row.stops.map((hex, i) => {
           const best = bestTextColorOn(hex);
-          const badge = getContrastBadge(best.ratio);
+          const badge = wcagContrastBadge(best.ratio);
           return (
             <button
               key={`${hex}-${i}`}

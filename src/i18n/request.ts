@@ -2,28 +2,6 @@ import { hasLocale } from "next-intl";
 import { getRequestConfig } from "next-intl/server";
 import { routing } from "./routing";
 
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function deepMerge<T extends Record<string, unknown>>(
-  base: T,
-  override: Partial<T>,
-): T {
-  const result: Record<string, unknown> = { ...base };
-
-  for (const [key, overrideValue] of Object.entries(override)) {
-    const baseValue = result[key];
-    if (isPlainObject(baseValue) && isPlainObject(overrideValue)) {
-      result[key] = deepMerge(baseValue, overrideValue);
-      continue;
-    }
-    result[key] = overrideValue;
-  }
-
-  return result as T;
-}
-
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
   const locale = hasLocale(routing.locales, requested)
@@ -56,18 +34,17 @@ export default getRequestConfig(async ({ requestLocale }) => {
       `Missing messages loader for locale "${locale}". Add it to src/i18n/request.ts`,
     );
   }
-  const localeMessages = (await load()).default as Record<string, unknown>;
-  const enLoader = loaders.en;
-  if (!enLoader) {
-    throw new Error('Missing `en` messages loader in src/i18n/request.ts');
-  }
-  const enMessages = (await enLoader()).default as Record<string, unknown>;
 
-  // Locale values win; missing keys fall back to English.
-  const messages = deepMerge(
-    enMessages,
-    localeMessages as Partial<typeof enMessages>,
-  );
+  const messages = (await load()).default as Record<string, unknown>;
 
-  return { locale, messages };
+  return {
+    locale,
+    messages,
+    getMessageFallback({ namespace, key }) {
+      const path = [namespace, key].filter(Boolean).join(".");
+      throw new Error(
+        `Missing i18n message "${path}" for locale "${locale}". Run \`node scripts/sync-messages-from-en.mjs\` after adding keys to messages/en.json, then translate.`,
+      );
+    },
+  };
 });

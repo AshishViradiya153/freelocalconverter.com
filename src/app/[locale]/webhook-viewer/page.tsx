@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: WebhookViewerPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "webhook-viewer");
+  return await buildToolPageMetadata(locale, "webhook-viewer");
 }
 
 interface WebhookViewerPageProps {

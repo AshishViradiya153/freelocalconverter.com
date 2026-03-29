@@ -15,7 +15,7 @@ export async function generateMetadata({
   params,
 }: ParquetViewerPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "parquet-viewer");
+  return await buildToolPageMetadata(locale, "parquet-viewer");
 }
 
 interface ParquetViewerPageProps {

@@ -1,7 +1,7 @@
 /**
  * Raster → SVG via [Vision Cortex VTracer](https://github.com/visioncortex/vtracer) (Rust/WASM).
  *
- * Config must match `vtracer-wasm` `src/lib.rs` (serde camelCase, see that crate — not the CLI JSON).
+ * Config must match `vtracer-wasm` `src/lib.rs` (serde camelCase, see that crate, not the CLI JSON).
  */
 
 export type SvgTracePreset = "fast" | "balanced" | "high";

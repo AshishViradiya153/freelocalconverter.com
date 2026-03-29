@@ -6,8 +6,13 @@ import { siteConfig } from "@/config/site";
 import { fontMono, fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata, Viewport } from "next";
+import {
+  buildAbsoluteUrl,
+  normalizeSiteBase,
+  openGraphLocaleForSeo,
+} from "@/lib/seo/paths";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import { notFound } from "next/navigation";
@@ -26,39 +31,59 @@ export const viewport: Viewport = {
   themeColor: "#ffffff",
 };
 
-export const metadata: Metadata = {
+const defaultLayoutMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [
-    "nextjs",
-    "react",
-    "data-grid",
-    "react-table",
-    "tanstack-table",
-    "shadcn",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: siteConfig.url,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/og.jpg`],
-  },
   icons: {
     icon: "/icon.png",
   },
 };
+
+function metaKeywordsFromLandingPipe(pipe: string): string[] {
+  return pipe
+    .split("|")
+    .map((k) => k.trim())
+    .filter(Boolean);
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    return defaultLayoutMetadata;
+  }
+  const tLanding = await getTranslations({ locale, namespace: "landing" });
+  const keywords = metaKeywordsFromLandingPipe(tLanding("metaKeywords"));
+  const base = normalizeSiteBase();
+  const ogImageUrl = `${base}/og.jpg`;
+  const homeUrl = buildAbsoluteUrl(locale, "/");
+  return {
+    ...defaultLayoutMetadata,
+    keywords: keywords.length > 0 ? keywords : undefined,
+    openGraph: {
+      type: "website",
+      locale: openGraphLocaleForSeo(locale),
+      url: homeUrl,
+      title: siteConfig.name,
+      description: siteConfig.description,
+      siteName: siteConfig.name,
+      images: [{ url: ogImageUrl }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteConfig.name,
+      description: siteConfig.description,
+      images: [ogImageUrl],
+    },
+  };
+}
 
 interface LocaleLayoutProps {
   children: React.ReactNode;

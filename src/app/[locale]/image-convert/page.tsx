@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { ImageConvertApp } from "@/app/components/image-convert-app";
+import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
@@ -10,7 +11,7 @@ export async function generateMetadata({
   params,
 }: ImageConvertPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "image-convert");
+  return await buildToolPageMetadata(locale, "image-convert");
 }
 
 interface ImageConvertPageProps {
@@ -25,6 +26,9 @@ export default async function ImageConvertPage({
 
   return (
     <Shell>
+      <div className="container pt-4">
+        <HubDiscoveryLinks locale={locale} />
+      </div>
       <Suspense
         fallback={
           <div className="container flex flex-col gap-4 py-4">

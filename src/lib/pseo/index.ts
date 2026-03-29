@@ -9,8 +9,10 @@ export {
 } from "./data";
 export {
   buildPseoSitemapUrls,
+  buildProgrammaticSitemapUrls,
   getPseoSitemapChunk,
   getPseoSitemapChunkCount,
+  getProgrammaticSitemapTotalUrlCount,
   PSEO_SITEMAP_CHUNK_SIZE,
   pseoSitemapChunkUrl,
   pseoSitemapIndexUrl,

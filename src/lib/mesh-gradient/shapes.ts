@@ -1,4 +1,16 @@
+import { createMulberry32 } from "./mulberry32";
 import type { CircleProps } from "./types";
+
+/** Stable seed from circle paint inputs so list thumbnails match the generator for the same preset. */
+function shapeRngForCircle(circle: CircleProps): () => number {
+  const s = `${circle.color.toLowerCase()}|${circle.cx}|${circle.cy}`;
+  let h = 2_166_136_261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16_777_619);
+  }
+  return createMulberry32(h >>> 0);
+}
 
 type ShapeType = "circle" | "blob" | "wave" | "organic";
 
@@ -107,12 +119,9 @@ export function renderShape(shape: ShapeProps): string {
   }
 }
 
-export function drawShape(
-  ctx: CanvasRenderingContext2D,
-  _shape: ReturnType<typeof generateRandomShape>,
-  circle: CircleProps,
-) {
+export function drawShape(ctx: CanvasRenderingContext2D, circle: CircleProps) {
   const path = new Path2D();
+  const rnd = shapeRngForCircle(circle);
 
   // Scale coordinates to canvas size
   const x = (circle.cx / 100) * ctx.canvas.width;
@@ -127,12 +136,12 @@ export function drawShape(
 
   for (let i = 1; i <= points; i++) {
     const angle = (i * 2 * Math.PI) / points;
-    const r = radius * (1 + (Math.random() - 0.5) * variance);
+    const r = radius * (1 + (rnd() - 0.5) * variance);
     const pointX = x + r * Math.cos(angle);
     const pointY = y + r * Math.sin(angle);
 
     const prevAngle = ((i - 1) * 2 * Math.PI) / points;
-    const cpRadius = radius * (1.2 + Math.random() * 0.4);
+    const cpRadius = radius * (1.2 + rnd() * 0.4);
 
     const cp1x = x + cpRadius * Math.cos(prevAngle + Math.PI / points);
     const cp1y = y + cpRadius * Math.sin(prevAngle + Math.PI / points);

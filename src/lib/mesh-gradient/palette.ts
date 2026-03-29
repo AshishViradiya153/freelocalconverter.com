@@ -33,25 +33,27 @@ export interface HarmoniousMeshPalette {
 /**
  * Port of Gradii `handlePaletteChange` color logic: random harmonic schemes in HSL → hex stops + contrasting background.
  */
-export function generateHarmoniousMeshPalette(): HarmoniousMeshPalette {
+export function generateHarmoniousMeshPalette(
+  random: () => number = Math.random,
+): HarmoniousMeshPalette {
   const schemes = [
-    { hueStep: 30, count: Math.floor(Math.random() * 6) + 3 },
-    { hueStep: 120, count: Math.floor(Math.random() * 4) + 3 },
-    { hueStep: 180, count: Math.floor(Math.random() * 4) + 2 },
-    { hueStep: 60, count: Math.floor(Math.random() * 6) + 3 },
-    { hueStep: 90, count: Math.floor(Math.random() * 4) + 3 },
-    { hueStep: 45, count: Math.floor(Math.random() * 5) + 3 },
+    { hueStep: 30, count: Math.floor(random() * 6) + 3 },
+    { hueStep: 120, count: Math.floor(random() * 4) + 3 },
+    { hueStep: 180, count: Math.floor(random() * 4) + 2 },
+    { hueStep: 60, count: Math.floor(random() * 6) + 3 },
+    { hueStep: 90, count: Math.floor(random() * 4) + 3 },
+    { hueStep: 45, count: Math.floor(random() * 5) + 3 },
   ];
 
   const scheme =
-    schemes[Math.floor(Math.random() * schemes.length)] ?? schemes[0];
+    schemes[Math.floor(random() * schemes.length)] ?? schemes[0];
   if (!scheme) {
     return {
       backgroundColor: "#001220",
       circleColors: ["#0066cc", "#ff6600", "#001220"],
     };
   }
-  const baseHue = Math.random() * 360;
+  const baseHue = random() * 360;
 
   const satRanges = [
     { min: 70, max: 90 },
@@ -68,16 +70,16 @@ export function generateHarmoniousMeshPalette(): HarmoniousMeshPalette {
   ];
 
   const bgHue = (baseHue + 180) % 360;
-  const bgSat = 20 + Math.random() * 40;
+  const bgSat = 20 + random() * 40;
   const bgLight =
-    Math.random() > 0.5 ? 10 + Math.random() * 20 : 80 + Math.random() * 15;
+    random() > 0.5 ? 10 + random() * 20 : 80 + random() * 15;
 
   const backgroundColor = hslToHex(bgHue, bgSat, bgLight);
 
   const satRange =
-    satRanges[Math.floor(Math.random() * satRanges.length)] ?? satRanges[0];
+    satRanges[Math.floor(random() * satRanges.length)] ?? satRanges[0];
   const lightRange =
-    lightRanges[Math.floor(Math.random() * lightRanges.length)] ??
+    lightRanges[Math.floor(random() * lightRanges.length)] ??
     lightRanges[0];
   if (!satRange || !lightRange) {
     return { backgroundColor, circleColors: [hslToHex(baseHue, 70, 50)] };
@@ -85,19 +87,19 @@ export function generateHarmoniousMeshPalette(): HarmoniousMeshPalette {
 
   const baseColors = Array.from({ length: scheme.count }, (_, i) => {
     const hue = (baseHue + i * scheme.hueStep) % 360;
-    const sat = satRange.min + Math.random() * (satRange.max - satRange.min);
+    const sat = satRange.min + random() * (satRange.max - satRange.min);
     const light =
-      lightRange.min + Math.random() * (lightRange.max - lightRange.min);
+      lightRange.min + random() * (lightRange.max - lightRange.min);
     return { h: hue, s: sat, l: light };
   });
 
   const colors = baseColors.flatMap((base) => {
     const variations = [base];
-    if (Math.random() > 0.3) {
+    if (random() > 0.3) {
       variations.push({
-        h: (base.h + 15 - Math.random() * 30) % 360,
-        s: Math.max(20, Math.min(100, base.s + (Math.random() * 30 - 15))),
-        l: Math.max(10, Math.min(90, base.l + (Math.random() * 40 - 20))),
+        h: (base.h + 15 - random() * 30) % 360,
+        s: Math.max(20, Math.min(100, base.s + (random() * 30 - 15))),
+        l: Math.max(10, Math.min(90, base.l + (random() * 40 - 20))),
       });
     }
     return variations;

@@ -50,11 +50,30 @@ function buildDirectoryItems(locale: string) {
   return { serviceGroups, searchItems };
 }
 
+function replaceSearchParamQ(nextValue: string) {
+  if (typeof window === "undefined") return;
+  const params = new URLSearchParams(window.location.search);
+  const trimmed = nextValue.trim();
+  if (trimmed) params.set("q", trimmed);
+  else params.delete("q");
+  const search = params.toString();
+  const nextUrl = `${window.location.pathname}${search ? `?${search}` : ""}`;
+  const currentUrl = `${window.location.pathname}${window.location.search}`;
+  if (nextUrl === currentUrl) return;
+  window.history.replaceState(window.history.state, "", nextUrl);
+}
+
+function readSearchParamQFromWindow(): string {
+  if (typeof window === "undefined") return "";
+  return new URLSearchParams(window.location.search).get("q") ?? "";
+}
+
 export function HomeToolsDirectory() {
   const locale = useLocale();
   const router = useRouter();
   const tLanding = useTranslations("landing");
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const urlSyncTimeoutRef = React.useRef<number | null>(null);
   const { serviceGroups, searchItems } = React.useMemo(
     () => buildDirectoryItems(locale),
     [locale],
@@ -62,6 +81,24 @@ export function HomeToolsDirectory() {
 
   const [query, setQuery] = React.useState("");
   const [activeGroup, setActiveGroup] = React.useState<GroupId | "all">("all");
+
+  React.useLayoutEffect(() => {
+    function syncQueryFromUrl() {
+      setQuery(readSearchParamQFromWindow());
+    }
+    syncQueryFromUrl();
+    window.addEventListener("popstate", syncQueryFromUrl);
+    return () => window.removeEventListener("popstate", syncQueryFromUrl);
+  }, []);
+
+  React.useEffect(
+    () => () => {
+      if (urlSyncTimeoutRef.current !== null) {
+        window.clearTimeout(urlSyncTimeoutRef.current);
+      }
+    },
+    [],
+  );
 
   const rankedItems = React.useMemo(() => {
     if (!query.trim()) return searchItems;
@@ -105,8 +142,13 @@ export function HomeToolsDirectory() {
   }, []);
 
   function onResetFilters() {
+    if (urlSyncTimeoutRef.current !== null) {
+      window.clearTimeout(urlSyncTimeoutRef.current);
+      urlSyncTimeoutRef.current = null;
+    }
     setQuery("");
     setActiveGroup("all");
+    replaceSearchParamQ("");
   }
 
   return (
@@ -150,7 +192,17 @@ export function HomeToolsDirectory() {
                       ref={inputRef}
                       type="search"
                       value={query}
-                      onChange={(event) => setQuery(event.target.value)}
+                      onChange={(event) => {
+                        const next = event.target.value;
+                        setQuery(next);
+                        if (urlSyncTimeoutRef.current !== null) {
+                          window.clearTimeout(urlSyncTimeoutRef.current);
+                        }
+                        urlSyncTimeoutRef.current = window.setTimeout(() => {
+                          urlSyncTimeoutRef.current = null;
+                          replaceSearchParamQ(next);
+                        }, 320);
+                      }}
                       onKeyDown={(event) => {
                         if (event.key === "Enter" && topHit) {
                           event.preventDefault();
@@ -318,6 +370,7 @@ function ToolCardBrutalist({
     >
       <Link
         href={item.href}
+        prefetch={false}
         className="group flex h-full min-h-[min(260px,70dvh)] w-full min-w-0 cursor-crosshair flex-col border-border border-b-4 border-e-4 bg-card p-4 text-card-foreground transition-colors hover:bg-primary hover:text-primary-foreground sm:min-h-[280px] sm:p-6 md:min-h-[300px] md:p-8"
       >
         <div className="mb-6 flex items-start justify-between gap-4">

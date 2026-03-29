@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: PdfToWordPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "pdf-to-word");
+  return await buildToolPageMetadata(locale, "pdf-to-word");
 }
 
 interface PdfToWordPageProps {

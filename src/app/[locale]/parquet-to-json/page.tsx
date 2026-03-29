@@ -15,7 +15,7 @@ export async function generateMetadata({
   params,
 }: ParquetToJsonPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "parquet-to-json");
+  return await buildToolPageMetadata(locale, "parquet-to-json");
 }
 
 interface ParquetToJsonPageProps {

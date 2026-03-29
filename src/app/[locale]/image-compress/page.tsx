@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: ImageCompressPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "image-compress");
+  return await buildToolPageMetadata(locale, "image-compress");
 }
 
 interface ImageCompressPageProps {

@@ -1,11 +1,25 @@
 import type { Metadata } from "next";
 import * as React from "react";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import {
+  type BreadcrumbNavItem,
+  Breadcrumbs,
+} from "@/components/seo/breadcrumbs";
+import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
-import { routing } from "@/i18n/routing";
-import { siteConfig } from "@/config/site";
-import { buildPageMetadata } from "@/lib/seo/metadata";
+import { buildAbsoluteUrl } from "@/lib/seo/paths";
+import {
+  buildPageMetaFromMessages,
+  getPageMetaFaqTriples,
+} from "@/lib/seo/page-meta-messages";
+import {
+  buildBreadcrumbListJsonLd,
+  buildFaqPageJsonLd,
+  buildJsonLdGraph,
+  buildSoftwareApplicationJsonLd,
+} from "@/lib/seo/schema";
 import BestPalettesContent from "./best-palettes-content";
 
 interface BestPalettesPageProps {
@@ -16,17 +30,10 @@ export async function generateMetadata({
   params,
 }: BestPalettesPageProps): Promise<Metadata> {
   const { locale } = await params;
-  const pathname = "/palettes/best";
-
-  return buildPageMetadata({
+  return buildPageMetaFromMessages({
     locale,
-    canonicalLocale: routing.defaultLocale,
-    alternateLocales: false,
-    pathname,
-    title: `Best color palettes · ${siteConfig.name}`,
-    description:
-      "Browse 500 curated, accessibility-friendly color palettes and instantly reuse any palette in the generator.",
-    keywords: ["best color palettes", "color palette generator", "hex palette"],
+    pathname: "/palettes/best",
+    group: "palettesBest",
   });
 }
 
@@ -36,30 +43,92 @@ export default async function BestPalettesPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return (
-    <Shell>
-      <div className="flex flex-col gap-6">
-        <header className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Best color palettes
-          </h1>
-          <p className="max-w-3xl text-muted-foreground text-sm leading-relaxed">
-            Curated to look distinct and keep readable contrast. Pick any card to
-            reuse it in the palette generator.
-          </p>
-        </header>
+  const pathname = "/palettes/best";
+  const url = buildAbsoluteUrl(locale, pathname);
+  const faq = await getPageMetaFaqTriples(locale, "palettesBest");
 
-        <React.Suspense
-          fallback={
-            <div className="rounded-xl bg-muted/30 p-4 text-sm text-muted-foreground">
-              Loading best palettes...
-            </div>
-          }
-        >
-          <BestPalettesContent locale={locale} />
-        </React.Suspense>
-      </div>
-    </Shell>
+  const t = await getTranslations({ locale, namespace: "pageMeta" });
+  const tr = t as unknown as (id: string) => string;
+  const tp = await getTranslations({ locale, namespace: "pseo" });
+
+  const breadcrumbNav: BreadcrumbNavItem[] = [
+    { name: tr("breadcrumbHome"), href: "/" },
+    {
+      name: tr("palettesTrending.breadcrumbLabel"),
+      href: "/palettes/trending",
+    },
+    { name: tr("palettesBest.breadcrumbLabel") },
+  ];
+
+  const graph = buildJsonLdGraph([
+    buildBreadcrumbListJsonLd([
+      { name: tr("breadcrumbHome"), url: buildAbsoluteUrl(locale, "/") },
+      {
+        name: tr("palettesTrending.breadcrumbLabel"),
+        url: buildAbsoluteUrl(locale, "/palettes/trending"),
+      },
+      { name: tr("palettesBest.breadcrumbLabel"), url },
+    ]) as unknown as Record<string, unknown>,
+    buildSoftwareApplicationJsonLd({
+      name: tr("palettesBest.jsonLdName"),
+      description: tr("palettesBest.jsonLdDescription"),
+      url,
+      applicationCategory: "DesignApplication",
+    }) as unknown as Record<string, unknown>,
+    buildFaqPageJsonLd(faq) as unknown as Record<string, unknown>,
+  ]);
+
+  return (
+    <>
+      <JsonLd data={graph} />
+      <Shell>
+        <div className="flex flex-col gap-6">
+          <Breadcrumbs className="text-sm" items={breadcrumbNav} />
+          <header className="flex flex-col gap-2">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              {tr("palettesBest.h1")}
+            </h1>
+            <p className="max-w-3xl text-muted-foreground text-sm leading-relaxed">
+              {tr("palettesBest.intro")}
+            </p>
+            <HubDiscoveryLinks className="max-w-3xl" locale={locale} />
+          </header>
+
+          <React.Suspense
+            fallback={
+              <div className="rounded-xl bg-muted/30 p-4 text-sm text-muted-foreground">
+                {tr("palettesBest.loadingFallback")}
+              </div>
+            }
+          >
+            <BestPalettesContent locale={locale} />
+          </React.Suspense>
+
+          <section
+            className="max-w-3xl border-border border-t pt-10"
+            aria-labelledby="palettes-best-faq-heading"
+          >
+            <h2
+              id="palettes-best-faq-heading"
+              className="font-semibold text-foreground text-lg tracking-tight"
+            >
+              {tp("faqHeading")}
+            </h2>
+            <dl className="mt-6 space-y-6">
+              {faq.map((item) => (
+                <div key={item.question}>
+                  <dt className="font-medium text-foreground text-sm">
+                    {item.question}
+                  </dt>
+                  <dd className="mt-2 text-muted-foreground text-sm leading-relaxed">
+                    {item.answer}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </div>
+      </Shell>
+    </>
   );
 }
-

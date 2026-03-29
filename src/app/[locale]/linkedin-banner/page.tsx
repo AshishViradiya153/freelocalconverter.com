@@ -4,16 +4,21 @@ import { Suspense } from "react";
 
 import { LinkedInBannerApp } from "@/app/components/linkedin-banner-app";
 import { Shell } from "@/components/shell";
-import { siteConfig } from "@/config/site";
-
-export const metadata: Metadata = {
-  title: `LinkedIn Banner Maker · ${siteConfig.name}`,
-  description:
-    "Create LinkedIn profile and page banners locally in your browser. Three standard sizes, editable colors and layouts, optional logo — download PNG, JPEG, or WebP.",
-};
+import { buildPageMetaFromMessages } from "@/lib/seo/page-meta-messages";
 
 interface LinkedInBannerPageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: LinkedInBannerPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetaFromMessages({
+    locale,
+    pathname: "/linkedin-banner",
+    group: "linkedinBanner",
+  });
 }
 
 export default async function LinkedInBannerPage({

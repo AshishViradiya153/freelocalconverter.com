@@ -14,7 +14,7 @@ export async function generateMetadata({
   params,
 }: CsvToJsonPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "csv-to-json");
+  return await buildToolPageMetadata(locale, "csv-to-json");
 }
 
 interface CsvToJsonPageProps {

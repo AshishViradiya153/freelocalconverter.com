@@ -14,7 +14,7 @@ export async function generateMetadata({
   params,
 }: XlsToCsvPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "xls-to-csv");
+  return await buildToolPageMetadata(locale, "xls-to-csv");
 }
 
 interface XlsToCsvPageProps {

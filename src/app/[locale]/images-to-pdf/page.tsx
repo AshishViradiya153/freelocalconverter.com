@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: ImagesToPdfPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "images-to-pdf");
+  return await buildToolPageMetadata(locale, "images-to-pdf");
 }
 
 interface ImagesToPdfPageProps {

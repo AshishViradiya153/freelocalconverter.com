@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: SplitPdfPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "split-pdf");
+  return await buildToolPageMetadata(locale, "split-pdf");
 }
 
 interface SplitPdfPageProps {

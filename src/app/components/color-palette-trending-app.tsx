@@ -28,24 +28,23 @@ import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   bestTextColorOn,
+  contrastRatio,
   generatePaletteFromBase,
   hslToRgb,
   normalizeHex,
-  rgbToHex,
-  type HarmonyMode,
   PRESET_TRENDING_PALETTES,
-  contrastRatio,
+  rgbToHex,
+  wcagContrastBadge,
+  type HarmonyMode,
 } from "@/lib/color-palette";
+import {
+  createPaletteStripesExportCanvas,
+  downloadCanvasPng,
+} from "@/lib/canvas-png-export";
 import { Separator } from "@/components/ui/separator";
-import { downloadTextFile } from "../../lib/download-text-file";
+import { downloadTextFile } from "@/lib/download-text-file";
 
 type Swatch = { hex: string; locked: boolean };
-
-function getContrastBadge(ratio: number): "AAA" | "AA" | "Low" {
-  if (ratio >= 7) return "AAA";
-  if (ratio >= 4.5) return "AA";
-  return "Low";
-}
 
 function randomHex(): string {
   const h = Math.random() * 360;
@@ -104,85 +103,6 @@ function regenerateSwatches(opts: {
       locked,
     };
   });
-}
-
-function downloadCanvasImage({
-  canvas,
-  fileName,
-}: {
-  canvas: HTMLCanvasElement;
-  fileName: string;
-}) {
-  const url = canvas.toDataURL("image/png");
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-}
-
-function downloadPalettePng({
-  swatches,
-  fileName,
-}: {
-  swatches: Swatch[];
-  fileName: string;
-}) {
-  const pad = 20;
-  const swatchW = 190;
-  const swatchH = 150;
-  const headerH = 68;
-  const width = pad * 2 + swatchW * swatches.length;
-  const height = pad * 2 + headerH + swatchH;
-
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  // Background
-  ctx.fillStyle = "#0b1220";
-  ctx.fillRect(0, 0, width, height);
-
-  // Title
-  ctx.fillStyle = "#e5e7eb";
-  ctx.font = "600 20px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-  ctx.fillText("Table Color Palette", pad, pad + 26);
-  ctx.font = "400 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-  ctx.fillStyle = "#9ca3af";
-  ctx.fillText(`Colors: ${swatches.length}`, pad, pad + 48);
-
-  for (let i = 0; i < swatches.length; i++) {
-    const x = pad + i * swatchW;
-    const y = pad + headerH;
-    const hex = swatches[i]!.hex;
-
-    // Swatch rect
-    ctx.fillStyle = hex;
-    ctx.fillRect(x, y, swatchW - 6, swatchH);
-
-    // Outline
-    ctx.strokeStyle = "rgba(255,255,255,0.12)";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(x, y, swatchW - 6, swatchH);
-
-    const best = bestTextColorOn(hex);
-
-    // Hex label
-    ctx.fillStyle = best.textHex;
-    ctx.font = "700 18px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace";
-    ctx.fillText(hex.toUpperCase(), x + 14, y + 34);
-
-    // Contrast ratio + badge
-    const ratio = best.ratio;
-    const badge = getContrastBadge(ratio);
-    ctx.font = "600 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-    ctx.fillText(`Contrast: ${ratio.toFixed(2)} (${badge})`, x + 14, y + 64);
-  }
-
-  downloadCanvasImage({ canvas, fileName });
 }
 
 export function ColorPaletteTrendingApp() {
@@ -415,7 +335,11 @@ export function ColorPaletteTrendingApp() {
   function onDownloadPng() {
     const safeBase = baseHex.replace("#", "");
     const fileName = `palette-${swatches.length}-${safeBase}.png`;
-    downloadPalettePng({ swatches, fileName });
+    const canvas = createPaletteStripesExportCanvas(
+      swatches.map((s) => s.hex),
+    );
+    if (!canvas) return;
+    downloadCanvasPng(canvas, fileName);
     toast.success("Download started");
   }
 
@@ -598,7 +522,7 @@ export function ColorPaletteTrendingApp() {
               const best = bestTextColorOn(s.hex);
               const ratioOnWhite = contrastRatio(s.hex, "#ffffff");
               const ratioOnBlack = contrastRatio(s.hex, "#000000");
-              const badge = getContrastBadge(best.ratio);
+              const badge = wcagContrastBadge(best.ratio);
 
               return (
                 <div

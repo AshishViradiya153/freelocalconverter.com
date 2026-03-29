@@ -24,21 +24,21 @@ export const LINKEDIN_BANNER_FORMATS: Record<
     width: 1584,
     height: 396,
     label: "Profile cover",
-    hint: "1584×396 — LinkedIn profile and page background",
+    hint: "1584×396, LinkedIn profile and page background",
   },
   companyStrip: {
     id: "companyStrip",
     width: 1128,
     height: 191,
     label: "Company header",
-    hint: "1128×191 — narrow header strip",
+    hint: "1128×191, narrow header strip",
   },
   shareLandscape: {
     id: "shareLandscape",
     width: 1200,
     height: 627,
     label: "Link preview",
-    hint: "1200×627 — article and link-style image",
+    hint: "1200×627, article and link-style image",
   },
 };
 

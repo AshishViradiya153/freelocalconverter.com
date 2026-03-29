@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: GraphQlToolsPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "graphql-tools");
+  return await buildToolPageMetadata(locale, "graphql-tools");
 }
 
 interface GraphQlToolsPageProps {

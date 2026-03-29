@@ -3,14 +3,16 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { debounce } from "@/lib/mesh-gradient/debounce";
 import { applyGrainEffect } from "@/lib/mesh-gradient/effects";
-import { drawShape, generateRandomShape } from "@/lib/mesh-gradient/shapes";
+import { meshGrainSeedFromVisualState } from "@/lib/mesh-gradient/mesh-grain-seed";
+import { drawShape } from "@/lib/mesh-gradient/shapes";
+import { cn } from "@/lib/utils";
 import { useMeshGradientStore } from "@/stores/mesh-gradient-store";
 
 import "context-filter-polyfill";
 
 const CANVAS_ID = "mesh-gradient-wallpaper";
 
-export function MeshGradientCanvas() {
+export function MeshGradientCanvas({ className }: { className?: string } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const backgroundLayerRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -48,7 +50,16 @@ export function MeshGradientCanvas() {
     ctx.drawImage(backgroundLayerRef.current, 0, 0);
 
     if (s.grainIntensity > 0) {
-      applyGrainEffect(ctx, s.grainIntensity / 100);
+      const grainSeed = meshGrainSeedFromVisualState({
+        backgroundColor: s.backgroundColor,
+        circles: s.circles,
+        blur: s.blur,
+        saturation: s.saturation,
+        contrast: s.contrast,
+        brightness: s.brightness,
+        grainIntensity: s.grainIntensity,
+      });
+      applyGrainEffect(ctx, s.grainIntensity / 100, grainSeed);
     }
   }, []);
 
@@ -78,8 +89,7 @@ export function MeshGradientCanvas() {
     ctx.fillRect(0, 0, width, height);
 
     for (const circle of circles) {
-      const shape = generateRandomShape(circle.color);
-      drawShape(ctx, shape, circle);
+      drawShape(ctx, circle);
     }
 
     debouncedCompositeCanvas();
@@ -100,7 +110,10 @@ export function MeshGradientCanvas() {
       ref={canvasRef}
       width={width}
       height={height}
-      className="h-full max-h-[min(56vh,520px)] w-full rounded-xl border border-border/60 bg-muted/20 object-contain"
+      className={cn(
+        "h-full max-h-[min(56vh,520px)] w-full rounded-xl border border-border/60 bg-muted/20 object-contain",
+        className,
+      )}
       style={{
         transform: "translate3d(0,0,0)",
         backfaceVisibility: "hidden",

@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: ImageResizePageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "image-resize");
+  return await buildToolPageMetadata(locale, "image-resize");
 }
 
 interface ImageResizePageProps {

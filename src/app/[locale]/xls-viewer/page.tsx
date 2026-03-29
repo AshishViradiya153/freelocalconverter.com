@@ -14,7 +14,7 @@ export async function generateMetadata({
   params,
 }: XlsViewerPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "xls-viewer");
+  return await buildToolPageMetadata(locale, "xls-viewer");
 }
 
 interface XlsViewerPageProps {

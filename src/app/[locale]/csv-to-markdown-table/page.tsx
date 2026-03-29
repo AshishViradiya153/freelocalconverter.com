@@ -15,7 +15,7 @@ export async function generateMetadata({
   params,
 }: CsvToMarkdownTablePageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "csv-to-markdown-table");
+  return await buildToolPageMetadata(locale, "csv-to-markdown-table");
 }
 
 interface CsvToMarkdownTablePageProps {

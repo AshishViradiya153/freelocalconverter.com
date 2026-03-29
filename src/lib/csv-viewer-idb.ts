@@ -3,7 +3,7 @@ import {
   normalizeCsvViewerSessionForLoad,
 } from "@/lib/csv-viewer-session";
 
-const DB_NAME = "csvcn-csv-viewer";
+const DB_NAME = "localtool-csv-viewer";
 const DB_VERSION = 1;
 const STORE = "snapshot";
 const RECORD_KEY = "session";

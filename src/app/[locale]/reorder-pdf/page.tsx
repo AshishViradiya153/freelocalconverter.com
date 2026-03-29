@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: ReorderPdfPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "reorder-pdf");
+  return await buildToolPageMetadata(locale, "reorder-pdf");
 }
 
 interface ReorderPdfPageProps {

@@ -36,7 +36,7 @@ function FooterLinkItem({ href, label }: FooterLink) {
 function FooterGroupColumn({ title, links }: FooterGroup) {
   return (
     <section className="flex min-w-0 flex-col gap-3">
-      <h3 className="font-mono font-black text-[11px] text-foreground uppercase tracking-widest">
+      <h3 className="ml-2 font-mono font-black text-[11px] text-foreground uppercase tracking-widest">
         {title}
       </h3>
       <ul className="flex flex-col gap-1">

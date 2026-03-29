@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: JsonFormatterPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "json-formatter");
+  return await buildToolPageMetadata(locale, "json-formatter");
 }
 
 interface JsonFormatterPageProps {

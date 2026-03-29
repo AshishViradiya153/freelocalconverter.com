@@ -104,10 +104,10 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 w-full border-border border-b-4 bg-background">
       <div className="container flex h-16 items-center gap-2">
         <Button
-          variant="ghost"
+          variant="default"
           size="default"
           className={cn(
-            "h-10 gap-0 rounded-none px-2 font-mono font-black text-base tracking-tighter uppercase",
+            "h-10 text-2xl! gap-0 rounded-none px-2 font-mono font-black text-base uppercase",
             headerBarButtonClass,
             isHomeActive &&
               "border-border bg-accent text-accent-foreground hover:border-border hover:bg-accent",
@@ -115,25 +115,11 @@ export function SiteHeader() {
           asChild
         >
           <Link
+            className="tracking-[0px]"
             href="/"
             aria-label={tNav("homeAria", { name: siteConfig.name })}
           >
-            <span
-              className={cn(
-                isHomeActive
-                  ? "text-accent-foreground"
-                  : "text-muted-foreground",
-              )}
-            >
-              .
-            </span>
-            <span
-              className={cn(
-                isHomeActive ? "text-accent-foreground" : "text-foreground",
-              )}
-            >
-              csv
-            </span>
+            LT
           </Link>
         </Button>
 
@@ -169,6 +155,7 @@ export function SiteHeader() {
                               <NavigationMenuLink asChild>
                                 <Link
                                   href={link.href}
+                                  prefetch={false}
                                   className={cn(
                                     "block border-2 border-transparent px-2 py-1.5 transition-colors",
                                     "hover:border-border hover:bg-accent hover:text-accent-foreground",
@@ -202,7 +189,9 @@ export function SiteHeader() {
                         "border-border bg-accent text-accent-foreground hover:bg-accent focus:border-border focus:bg-accent",
                     )}
                   >
-                    <Link href={link.href}>{link.label}</Link>
+                    <Link href={link.href} prefetch={false}>
+                      {link.label}
+                    </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
@@ -263,6 +252,7 @@ export function SiteHeader() {
                     <Link
                       key={link.href}
                       href={link.href}
+                      prefetch={false}
                       className={cn(
                         "block border-2 border-transparent px-2 py-1.5 font-mono font-bold text-sm uppercase tracking-tight transition-colors hover:border-border hover:bg-accent",
                         isActiveHref(pathname, link.href) &&
@@ -283,6 +273,7 @@ export function SiteHeader() {
                         <li key={`${link.href}-${link.label}`}>
                           <Link
                             href={link.href}
+                            prefetch={false}
                             className={cn(
                               "block border-2 border-transparent px-2 py-1.5 font-mono text-sm transition-colors hover:border-border hover:bg-accent",
                               isActiveHref(pathname, link.href) &&

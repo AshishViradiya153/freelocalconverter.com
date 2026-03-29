@@ -11,7 +11,7 @@ export async function generateMetadata({
   params,
 }: DataGridRenderPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "data-grid-render");
+  return await buildToolPageMetadata(locale, "data-grid-render");
 }
 
 export default async function DataGridRenderPage({

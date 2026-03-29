@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: AxiosConverterPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "axios-converter");
+  return await buildToolPageMetadata(locale, "axios-converter");
 }
 
 interface AxiosConverterPageProps {

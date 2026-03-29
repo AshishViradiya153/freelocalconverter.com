@@ -4,7 +4,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { HomeToolsDirectory } from "@/app/components/home-tools-directory";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
-import { routing } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
@@ -20,7 +19,7 @@ interface IndexPageProps {
 
 export async function generateMetadata({
   params,
-}: IndexPageProps): Promise<Metadata> {
+}: Pick<IndexPageProps, "params">): Promise<Metadata> {
   const { locale } = await params;
   const tLanding = await getTranslations({ locale, namespace: "landing" });
 
@@ -28,21 +27,18 @@ export async function generateMetadata({
     .replace(/\s*\n\s*/g, " ")
     .trim();
 
+  const metaKeywords = tLanding("metaKeywords");
+  const keywords = metaKeywords
+    .split("|")
+    .map((k) => k.trim())
+    .filter(Boolean);
+
   return buildPageMetadata({
     locale,
     pathname: "/",
     title: `${heroTitle} · ${siteConfig.name}`,
     description: tLanding("directorySubtitle"),
-    canonicalLocale: routing.defaultLocale,
-    alternateLocales: false,
-    keywords: [
-      "csv viewer",
-      "csv editor",
-      "json converter",
-      "pdf tools",
-      "image tools",
-      "browser file tools",
-    ],
+    keywords: keywords.length > 0 ? keywords : undefined,
   });
 }
 
@@ -53,10 +49,10 @@ export default async function IndexPage({ params }: IndexPageProps) {
   const url = buildAbsoluteUrl(locale, "/");
   const graph = buildJsonLdGraph([
     buildOrganizationJsonLd() as unknown as Record<string, unknown>,
-    buildWebSiteJsonLd() as unknown as Record<string, unknown>,
+    buildWebSiteJsonLd({ locale }) as unknown as Record<string, unknown>,
     {
       "@type": "CollectionPage",
-      name: `${siteConfig.name} Tool Directory`,
+      name: tLanding("collectionPageName", { name: siteConfig.name }),
       description: tLanding("directorySubtitle"),
       url,
     },

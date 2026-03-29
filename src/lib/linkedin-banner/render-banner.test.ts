@@ -94,7 +94,8 @@ describe("renderLinkedInBannerCanvas", () => {
       }),
       logo: null,
     });
-    expect(solid.getContext("2d")).toBeTruthy();
+    expect(solid.width).toBe(w);
+    expect(solid.height).toBe(h);
 
     const gradient = renderLinkedInBannerCanvas({
       width: w,

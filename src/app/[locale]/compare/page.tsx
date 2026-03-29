@@ -14,7 +14,7 @@ export async function generateMetadata({
   params,
 }: ComparePageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "compare");
+  return await buildToolPageMetadata(locale, "compare");
 }
 
 interface ComparePageProps {

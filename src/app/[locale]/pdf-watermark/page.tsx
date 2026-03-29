@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: PdfWatermarkPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "pdf-watermark");
+  return await buildToolPageMetadata(locale, "pdf-watermark");
 }
 
 interface PdfWatermarkPageProps {

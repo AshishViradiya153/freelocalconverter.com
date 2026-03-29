@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: HeicToJpgPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "heic-to-jpg");
+  return await buildToolPageMetadata(locale, "heic-to-jpg");
 }
 
 interface HeicToJpgPageProps {

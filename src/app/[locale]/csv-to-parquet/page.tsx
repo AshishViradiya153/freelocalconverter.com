@@ -15,7 +15,7 @@ export async function generateMetadata({
   params,
 }: CsvToParquetPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "csv-to-parquet");
+  return await buildToolPageMetadata(locale, "csv-to-parquet");
 }
 
 interface CsvToParquetPageProps {

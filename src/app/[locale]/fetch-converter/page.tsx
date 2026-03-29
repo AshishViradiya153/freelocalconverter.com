@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: FetchConverterPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "fetch-converter");
+  return await buildToolPageMetadata(locale, "fetch-converter");
 }
 
 interface FetchConverterPageProps {

@@ -67,7 +67,7 @@ const initialEditorState: EditorState = {
   formatId: "profileCover",
   templateId: "hero",
   headline: "Your name or brand",
-  subheadline: "Short line about what you do — role, focus, or motto.",
+  subheadline: "Short line about what you do: role, focus, or motto.",
   tag: "Open to opportunities",
   colorA: "#1d4ed8",
   colorB: "#7c3aed",

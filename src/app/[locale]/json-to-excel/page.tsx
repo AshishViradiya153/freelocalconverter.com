@@ -14,7 +14,7 @@ export async function generateMetadata({
   params,
 }: JsonToExcelPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "json-to-excel");
+  return await buildToolPageMetadata(locale, "json-to-excel");
 }
 
 interface JsonToExcelPageProps {

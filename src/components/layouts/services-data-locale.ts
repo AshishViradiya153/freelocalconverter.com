@@ -53,7 +53,8 @@ function getLocalizedLabel(
     | "gradientGenerator"
     | "meshGradientGenerator"
     | "trendingPalettes"
-    | "trendingGradients",
+    | "trendingGradients"
+    | "trendingMeshGradients",
 ) {
   switch (key) {
     case "csvViewer":
@@ -685,6 +686,21 @@ function getLocalizedLabel(
         tr: "Trend Gradientler",
         zh: "热门渐变",
       });
+    case "trendingMeshGradients":
+      return localizedText(locale, {
+        en: "Trending mesh gradients",
+        de: "Trending Mesh-Verläufe",
+        es: "Degradados de malla en tendencia",
+        fr: "Degrades mesh tendance",
+        it: "Gradienti mesh di tendenza",
+        ja: "人気メッシュグラデーション",
+        ko: "인기 메시 그라디언트",
+        nl: "Trending mesh gradients",
+        pt: "Gradientes mesh em alta",
+        ru: "Популярные mesh-градиенты",
+        tr: "Trend mesh gradyanları",
+        zh: "热门网格渐变",
+      });
   }
 }
 
@@ -740,7 +756,8 @@ function getLocalizedDescription(
     | "gradientGenerator"
     | "meshGradientGenerator"
     | "trendingPalettes"
-    | "trendingGradients",
+    | "trendingGradients"
+    | "trendingMeshGradients",
 ) {
   switch (key) {
     case "groupConverters":
@@ -835,18 +852,18 @@ function getLocalizedDescription(
       });
     case "groupImage":
       return localizedText(locale, {
-        en: "Image tools: compress, convert, and resize locally.",
-        de: "Bildwerkzeuge: lokal komprimieren, konvertieren und skalieren.",
-        es: "Herramientas de imagen: comprime, convierte y cambia tamano localmente.",
-        fr: "Outils image : compresser, convertir et redimensionner localement.",
-        it: "Strumenti immagine: comprimi, converti e ridimensiona in locale.",
-        ja: "画像ツール：ローカルで圧縮、変換、リサイズ。",
-        ko: "이미지 도구: 로컬에서 압축, 변환, 크기 조정.",
-        nl: "Afbeeldingstools: lokaal comprimeren, converteren en schalen.",
-        pt: "Ferramentas de imagem: comprima, converta e redimensione localmente.",
-        ru: "Инструменты для изображений: сжатие, конвертация и изменение размера локально.",
-        tr: "Gorsel araclari: yerelde sikistir, donustur ve boyutlandir.",
-        zh: "图片工具：本地压缩、转换和调整大小。",
+        en: "Image tools: compress, convert, resize, and remove backgrounds locally.",
+        de: "Bildwerkzeuge: lokal komprimieren, konvertieren, skalieren und Hintergrunde entfernen.",
+        es: "Herramientas de imagen: comprime, convierte, cambia tamano y quita fondos localmente.",
+        fr: "Outils image : compresser, convertir, redimensionner et supprimer l'arriere-plan localement.",
+        it: "Strumenti immagine: comprimi, converti, ridimensiona e rimuovi lo sfondo in locale.",
+        ja: "画像ツール：ローカルで圧縮、変換、リサイズ、背景削除。",
+        ko: "이미지 도구: 로컬에서 압축, 변환, 크기 조정, 배경 제거.",
+        nl: "Afbeeldingstools: lokaal comprimeren, converteren, schalen en achtergronden verwijderen.",
+        pt: "Ferramentas de imagem: comprima, converta, redimensione e remova fundos localmente.",
+        ru: "Инструменты для изображений: сжатие, конвертация, изменение размера и удаление фона локально.",
+        tr: "Gorsel araclari: yerelde sikistir, donustur, boyutlandir ve arka plani kaldir.",
+        zh: "图片工具：本地压缩、转换、调整大小并去除背景。",
       });
     case "groupColor":
       return localizedText(locale, {
@@ -912,6 +929,7 @@ function getLocalizedDescription(
           meshGradientGenerator: "Blur mesh blobs and export PNG.",
           trendingPalettes: "Browse curated color palettes.",
           trendingGradients: "Browse curated gradients.",
+          trendingMeshGradients: "Browse 500 mesh-style blob gradients.",
         }[key],
       });
   }
@@ -1308,6 +1326,14 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/gradient-generator",
           label: getLocalizedLabel(safeLocale, "meshGradientGenerator"),
           description: getLocalizedDescription(safeLocale, "meshGradientGenerator"),
+        },
+        {
+          href: "/gradient-generator/trending",
+          label: getLocalizedLabel(safeLocale, "trendingMeshGradients"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "trendingMeshGradients",
+          ),
         },
         {
           href: "/palettes/best",

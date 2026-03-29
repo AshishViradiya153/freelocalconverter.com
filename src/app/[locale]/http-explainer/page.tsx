@@ -10,7 +10,7 @@ export async function generateMetadata({
   params,
 }: HttpExplainerPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildToolPageMetadata(locale, "http-explainer");
+  return await buildToolPageMetadata(locale, "http-explainer");
 }
 
 interface HttpExplainerPageProps {
