@@ -53,16 +53,14 @@ export interface CellUpdate {
   rowIndex: number;
   columnId: string;
   value: unknown;
+  dataRowIndex?: number;
 }
 
 declare module "@tanstack/react-table" {
-  // biome-ignore lint/correctness/noUnusedVariables: TData and TValue are used in the ColumnMeta interface
   interface ColumnMeta<TData extends RowData, TValue> {
     label?: string;
     cell?: CellOpts;
   }
-
-  // biome-ignore lint/correctness/noUnusedVariables: TData is used in the TableMeta interface
   interface TableMeta<TData extends RowData> {
     dataGridRef?: React.RefObject<HTMLElement | null>;
     cellMapRef?: React.RefObject<Map<string, HTMLDivElement>>;
@@ -88,24 +86,17 @@ declare module "@tanstack/react-table" {
     onColumnInsertAfter?: (columnId: string) => void;
     onColumnCut?: (columnId: string) => void | Promise<void>;
     onColumnCopy?: (columnId: string) => void | Promise<void>;
-    /** Paste a previously copied/cut column; often inserts after `columnId`. */
     onColumnPaste?: (columnId: string) => void | Promise<void>;
-    /** Clear every cell in this column. */
     onColumnClearAll?: (columnId: string) => void;
-    /** Remove this column from the sheet. */
     onColumnDelete?: (columnId: string) => void;
-    /** Update the visible header label (e.g. CSV export header). Empty string is allowed. */
     onColumnRename?: (columnId: string, newHeaderLabel: string) => void;
-    /** Row `id` from TanStack Table (stable row key). */
     onRowInsertBefore?: (rowId: string) => void;
     onRowInsertAfter?: (rowId: string) => void;
     onRowCut?: (rowId: string) => void | Promise<void>;
     onRowCopy?: (rowId: string) => void | Promise<void>;
-    /** Paste row(s) after this row (clipboard TSV lines). */
     onRowPaste?: (rowId: string) => void | Promise<void>;
     onRowClearAll?: (rowId: string) => void;
     onRowDelete?: (rowId: string) => void;
-    /** Checkbox row selection toolbar: current selection from `table.getSelectedRowModel()`. */
     onSelectedRowsCopy?: () => void | Promise<void>;
     onSelectedRowsCut?: () => void | Promise<void>;
     onSelectedRowsClearAll?: () => void;
@@ -160,6 +151,7 @@ declare module "@tanstack/react-table" {
 export interface CellPosition {
   rowIndex: number;
   columnId: string;
+  dataRowIndex?: number;
 }
 
 export interface CellRange {

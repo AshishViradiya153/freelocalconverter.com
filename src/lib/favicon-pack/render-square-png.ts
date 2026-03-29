@@ -1,13 +1,3 @@
-/**
- * Favicon raster pipeline:
- * 1. Center-crop to the largest square (cover, no letterboxing).
- * 2. Downscale that square once to at most {@link MASTER_SQUARE_MAX}px per edge (never upscale).
- * 3. Derive every output size from that master with high-quality smoothing (parallel).
- *
- * Step 2 avoids feeding multi‑megapixel sources through five separate tiny `drawImage` paths
- * (faster, more stable memory) while step 3 keeps each export sharp.
- */
-
 export const MASTER_SQUARE_MAX = 512;
 
 export const FAVICON_PNG_SIZES = [16, 32, 180, 192, 512] as const;
@@ -30,6 +20,41 @@ export function computeCenterSquareCrop(
     sy: (height - side) / 2,
     side,
   };
+}
+
+export function clampSquareCrop(
+  imageWidth: number,
+  imageHeight: number,
+  sx: number,
+  sy: number,
+  side: number,
+): CenterSquareCrop {
+  const maxSide = Math.min(imageWidth, imageHeight);
+  const s = Math.max(1, Math.min(Math.floor(side), maxSide));
+  const maxSx = imageWidth - s;
+  const maxSy = imageHeight - s;
+  return {
+    sx: Math.max(0, Math.min(Math.floor(sx), maxSx)),
+    sy: Math.max(0, Math.min(Math.floor(sy), maxSy)),
+    side: s,
+  };
+}
+
+export function recenterSquareCropSide(
+  imageWidth: number,
+  imageHeight: number,
+  prev: CenterSquareCrop,
+  newSide: number,
+): CenterSquareCrop {
+  const cx = prev.sx + prev.side / 2;
+  const cy = prev.sy + prev.side / 2;
+  return clampSquareCrop(
+    imageWidth,
+    imageHeight,
+    cx - newSide / 2,
+    cy - newSide / 2,
+    newSide,
+  );
 }
 
 function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
@@ -73,16 +98,19 @@ interface MasterSquare {
   dispose: () => void;
 }
 
-/**
- * Center-crop to square, then resize to `min(side, MASTER_SQUARE_MAX)` using the best
- * available browser path (`createImageBitmap` resize when supported).
- */
 async function buildMasterSquare(
   image: CanvasImageSource,
   imageWidth: number,
   imageHeight: number,
+  crop: CenterSquareCrop,
 ): Promise<MasterSquare> {
-  const { sx, sy, side } = computeCenterSquareCrop(imageWidth, imageHeight);
+  const { sx, sy, side } = clampSquareCrop(
+    imageWidth,
+    imageHeight,
+    crop.sx,
+    crop.sy,
+    crop.side,
+  );
   if (side < 1) {
     throw new Error("Image has invalid dimensions");
   }
@@ -128,21 +156,26 @@ async function buildMasterSquare(
     source: canvas,
     width: edge,
     height: edge,
-    dispose: () => { },
+    dispose: () => {},
   };
 }
 
 export type FaviconPngMap = Record<FaviconPngSize, Uint8Array>;
 
-/**
- * All standard favicon PNG sizes from one image, sharing one master square (see module doc).
- */
 export async function renderFaviconPngMap(
   image: CanvasImageSource,
   imageWidth: number,
   imageHeight: number,
+  crop?: CenterSquareCrop,
 ): Promise<FaviconPngMap> {
-  const master = await buildMasterSquare(image, imageWidth, imageHeight);
+  const resolved =
+    crop ?? computeCenterSquareCrop(imageWidth, imageHeight);
+  const master = await buildMasterSquare(
+    image,
+    imageWidth,
+    imageHeight,
+    resolved,
+  );
   try {
     const entries = await Promise.all(
       FAVICON_PNG_SIZES.map(async (size) => {
