@@ -64,7 +64,7 @@ export function getCellKey(rowIndex: number, columnId: string) {
   return `${rowIndex}:${columnId}`;
 }
 
-export function parseCellKey(cellKey: string): Required<CellPosition> {
+export function parseCellKey(cellKey: string): CellPosition {
   const parts = cellKey.split(":");
   const rowIndexStr = parts[0];
   const columnId = parts[1];
@@ -490,6 +490,18 @@ export function formatFileSize(bytes: number): string {
     Math.floor(Math.log(bytes) / Math.log(k)),
   );
   return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
+}
+
+export function getPrePaginationRowIndexForDataRow<TData extends RowData>(
+  table: Table<TData>,
+  data: TData[],
+  dataRowIndex: number,
+): number {
+  if (dataRowIndex < 0 || dataRowIndex >= data.length) return -1;
+  const original = data[dataRowIndex];
+  return table
+    .getPrePaginationRowModel()
+    .rows.findIndex((r) => r.original === original);
 }
 
 /**
