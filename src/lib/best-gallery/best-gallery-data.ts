@@ -3,9 +3,8 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 import Papa from "papaparse";
-
-import { normalizeHex, type HarmonyMode } from "@/lib/color-palette";
 import { buildCssLinearGradient } from "@/lib/color-gradients";
+import { type HarmonyMode, normalizeHex } from "@/lib/color-palette";
 import type { ColorTag } from "./best-gallery-types";
 
 export interface BestPaletteRow {
@@ -14,14 +13,14 @@ export interface BestPaletteRow {
   baseHex: string;
   mode: HarmonyMode;
   colorFamily:
-  | "red"
-  | "orange"
-  | "yellow"
-  | "green"
-  | "blue"
-  | "purple"
-  | "pink"
-  | "neutral";
+    | "red"
+    | "orange"
+    | "yellow"
+    | "green"
+    | "blue"
+    | "purple"
+    | "pink"
+    | "neutral";
   aesthetic: "classic" | "dark-modern";
   saturationMul: number;
   lightnessMul: number;
@@ -47,14 +46,14 @@ export interface BestGradientRow {
   baseHex: string;
   mode: HarmonyMode;
   colorFamily:
-  | "red"
-  | "orange"
-  | "yellow"
-  | "green"
-  | "blue"
-  | "purple"
-  | "pink"
-  | "neutral";
+    | "red"
+    | "orange"
+    | "yellow"
+    | "green"
+    | "blue"
+    | "purple"
+    | "pink"
+    | "neutral";
   aesthetic: "classic" | "dark-modern";
   angle: number;
   saturationMul: number;
@@ -143,8 +142,8 @@ export async function readBestPalettesAsync(): Promise<BestPaletteRow[]> {
     const baseHex = normalizeHexCell(r.baseHex);
     if (!baseHex) continue;
 
-    const hexes = [r.hex1, r.hex2, r.hex3, r.hex4, r.hex5].map(
-      (v) => normalizeHexCell(v),
+    const hexes = [r.hex1, r.hex2, r.hex3, r.hex4, r.hex5].map((v) =>
+      normalizeHexCell(v),
     );
     if (hexes.some((h) => h === null)) continue;
 
@@ -336,8 +335,8 @@ export async function readBestGradientsAsync(): Promise<BestGradientRow[]> {
     const baseHex = normalizeHexCell(r.baseHex);
     if (!baseHex) continue;
 
-    const stops = [r.stop1, r.stop2, r.stop3, r.stop4, r.stop5].map(
-      (v) => normalizeHexCell(v),
+    const stops = [r.stop1, r.stop2, r.stop3, r.stop4, r.stop5].map((v) =>
+      normalizeHexCell(v),
     );
     if (stops.some((s) => s === null)) continue;
 
@@ -444,8 +443,8 @@ export function readBestPalettes(): BestPaletteRow[] {
     const baseHex = normalizeHexCell(r.baseHex);
     if (!baseHex) continue;
 
-    const hexes = [r.hex1, r.hex2, r.hex3, r.hex4, r.hex5].map(
-      (v) => normalizeHexCell(v),
+    const hexes = [r.hex1, r.hex2, r.hex3, r.hex4, r.hex5].map((v) =>
+      normalizeHexCell(v),
     );
     if (hexes.some((h) => h === null)) continue;
 
@@ -637,8 +636,8 @@ export function readBestGradients(): BestGradientRow[] {
     const baseHex = normalizeHexCell(r.baseHex);
     if (!baseHex) continue;
 
-    const stops = [r.stop1, r.stop2, r.stop3, r.stop4, r.stop5].map(
-      (v) => normalizeHexCell(v),
+    const stops = [r.stop1, r.stop2, r.stop3, r.stop4, r.stop5].map((v) =>
+      normalizeHexCell(v),
     );
     if (stops.some((s) => s === null)) continue;
 
@@ -700,4 +699,3 @@ export function readBestGradients(): BestGradientRow[] {
 export function buildBestGradientCss(row: BestGradientRow): string {
   return buildCssLinearGradient(row.angle, row.stops);
 }
-

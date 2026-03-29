@@ -5,7 +5,10 @@ import { Download, Loader2, Play, Trash2, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { downloadXlsxExport } from "@/lib/csv-export";
 import {
   CSV_IMPORT_MAX_FILE_BYTES,
@@ -16,8 +19,6 @@ import {
 } from "@/lib/csv-import";
 import { resultToSession } from "@/lib/csv-viewer-session";
 import { cn } from "@/lib/utils";
-import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
-import { FileDropZone } from "@/components/ui/file-drop-zone";
 
 interface CsvToXlsxBatchEntry {
   id: string;
@@ -40,21 +41,18 @@ export function CsvToExcelApp() {
   );
   const [batchBusy, setBatchBusy] = React.useState(false);
 
-  const onBatchAddFiles = React.useCallback(
-    (files: FileList | null) => {
-      const list = files ? Array.from(files) : [];
-      if (list.length === 0) return;
-      setBatchEntries((prev) => {
-        const next = list.map((file) => ({
-          id: `${file.name}-${file.lastModified}-${Math.random().toString(36).slice(2)}`,
-          file,
-          status: "pending" as const,
-        }));
-        return [...prev, ...next];
-      });
-    },
-    [],
-  );
+  const onBatchAddFiles = React.useCallback((files: FileList | null) => {
+    const list = files ? Array.from(files) : [];
+    if (list.length === 0) return;
+    setBatchEntries((prev) => {
+      const next = list.map((file) => ({
+        id: `${file.name}-${file.lastModified}-${Math.random().toString(36).slice(2)}`,
+        file,
+        status: "pending" as const,
+      }));
+      return [...prev, ...next];
+    });
+  }, []);
 
   const onDropZonePick = React.useCallback(
     (files: FileList | null) => {
@@ -94,7 +92,11 @@ export function CsvToExcelApp() {
 
       try {
         const result = await parseCsvFile(current.file);
-        const convertedSession = resultToSession(current.file.name, result, "ltr");
+        const convertedSession = resultToSession(
+          current.file.name,
+          result,
+          "ltr",
+        );
         setBatchEntries((prev) =>
           prev.map((e) =>
             e.id === id
@@ -121,7 +123,8 @@ export function CsvToExcelApp() {
           });
         }
       } catch (e) {
-        const message = e instanceof CsvImportError ? e.message : tl("readError");
+        const message =
+          e instanceof CsvImportError ? e.message : tl("readError");
         setBatchEntries((prev) =>
           prev.map((x) =>
             x.id === id ? { ...x, status: "error", error: message } : x,
@@ -163,10 +166,11 @@ export function CsvToExcelApp() {
       <div className="container flex flex-col gap-6 py-4">
         <header className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
-            <FileSpreadsheetGlyph className="size-8 text-muted-foreground" aria-hidden />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {t("heroTitle")}
-            </h1>
+            <FileSpreadsheetGlyph
+              className="size-8 text-muted-foreground"
+              aria-hidden
+            />
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
           </div>
           <p className="max-w-3xl text-muted-foreground text-sm">
             {t("heroSubtitle", {
@@ -199,7 +203,9 @@ export function CsvToExcelApp() {
             variant="outline"
             size="sm"
             disabled={batchBusy}
-            onClick={() => document.getElementById("csv-to-xlsx-batch-input")?.click()}
+            onClick={() =>
+              document.getElementById("csv-to-xlsx-batch-input")?.click()
+            }
           >
             <Upload className="size-3.5" aria-hidden />
             {t("addFiles")}
@@ -247,7 +253,9 @@ export function CsvToExcelApp() {
                   entry.status === "error" && "border-destructive/40",
                 )}
               >
-                <p className="min-w-0 flex-1 truncate text-sm">{entry.file.name}</p>
+                <p className="min-w-0 flex-1 truncate text-sm">
+                  {entry.file.name}
+                </p>
                 <p className="text-muted-foreground text-xs">
                   {entry.status === "pending"
                     ? t("statusPending")
@@ -258,7 +266,9 @@ export function CsvToExcelApp() {
                         : t("statusError")}
                 </p>
                 {entry.error ? (
-                  <p className="w-full text-destructive text-xs">{entry.error}</p>
+                  <p className="w-full text-destructive text-xs">
+                    {entry.error}
+                  </p>
                 ) : null}
                 <Button
                   type="button"
@@ -287,4 +297,3 @@ export function CsvToExcelApp() {
     </DirectionProvider>
   );
 }
-

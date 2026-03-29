@@ -1,7 +1,7 @@
-import type { ImageConvertPair } from "@/lib/image/image-convert-pairs";
-import { imageConvertPairTitle } from "@/lib/image/image-convert-pairs";
 import { Link } from "@/i18n/navigation";
 import { type AppLocale, routing } from "@/i18n/routing";
+import type { ImageConvertPair } from "@/lib/image/image-convert-pairs";
+import { imageConvertPairTitle } from "@/lib/image/image-convert-pairs";
 import { cn } from "@/lib/utils";
 
 interface RelatedImageConvertPairsProps {

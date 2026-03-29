@@ -3,6 +3,7 @@
 import { Braces, Copy, FileCode2, Trash2 } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
@@ -20,13 +21,27 @@ import { Textarea } from "@/components/ui/textarea";
 import { type SvgToCodeMode, svgToCode } from "@/lib/svg/svg-to-code";
 
 const modeOptions: { id: SvgToCodeMode; label: string; hint: string }[] = [
-  { id: "jsx", label: "JSX", hint: "React/TSX-friendly markup (camelCase attributes)." },
-  { id: "react", label: "React component", hint: "Adds SVGProps spread so you can override className, aria-*, etc." },
-  { id: "pretty", label: "Pretty XML", hint: "Indented SVG source with XML declaration." },
+  {
+    id: "jsx",
+    label: "JSX",
+    hint: "React/TSX-friendly markup (camelCase attributes).",
+  },
+  {
+    id: "react",
+    label: "React component",
+    hint: "Adds SVGProps spread so you can override className, aria-*, etc.",
+  },
+  {
+    id: "pretty",
+    label: "Pretty XML",
+    hint: "Indented SVG source with XML declaration.",
+  },
 ];
 
 function FileCodeGlyph(props: { className?: string; "aria-hidden"?: boolean }) {
-  return <FileCode2 className={props.className} aria-hidden={props["aria-hidden"]} />;
+  return (
+    <FileCode2 className={props.className} aria-hidden={props["aria-hidden"]} />
+  );
 }
 
 export function SvgToCodeApp() {
@@ -88,12 +103,12 @@ export function SvgToCodeApp() {
             <Braces className="size-5 text-muted-foreground" aria-hidden />
           </div>
           <div className="min-w-0">
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">SVG to code</h1>
+            <h1 className={toolHeroTitleClassName}>SVG to code</h1>
           </div>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Turn SVG markup into JSX, a typed React component, or pretty-printed XML. Paste below or drop a file;
-          everything stays in your browser.
+          Turn SVG markup into JSX, a typed React component, or pretty-printed
+          XML. Paste below or drop a file; everything stays in your browser.
         </p>
       </header>
 
@@ -118,7 +133,10 @@ export function SvgToCodeApp() {
         <div className="flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-end">
           <div className="grid min-w-[200px] gap-2">
             <Label className="text-sm">Output</Label>
-            <Select value={mode} onValueChange={(v) => setMode(v as SvgToCodeMode)}>
+            <Select
+              value={mode}
+              onValueChange={(v) => setMode(v as SvgToCodeMode)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -130,7 +148,9 @@ export function SvgToCodeApp() {
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-muted-foreground text-xs">{modeOptions.find((m) => m.id === mode)?.hint}</p>
+            <p className="text-muted-foreground text-xs">
+              {modeOptions.find((m) => m.id === mode)?.hint}
+            </p>
           </div>
 
           {mode === "react" ? (
@@ -149,15 +169,33 @@ export function SvgToCodeApp() {
           ) : null}
 
           <div className="flex flex-wrap gap-2 lg:ml-auto">
-            <Button type="button" variant="outline" size="sm" onClick={onCopyInput} disabled={!input.trim()}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onCopyInput}
+              disabled={!input.trim()}
+            >
               <Copy className="size-4" aria-hidden />
               Copy input
             </Button>
-            <Button type="button" variant="outline" size="sm" onClick={onCopyOutput} disabled={!output.trim()}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onCopyOutput}
+              disabled={!output.trim()}
+            >
               <Copy className="size-4" aria-hidden />
               Copy output
             </Button>
-            <Button type="button" variant="outline" size="sm" onClick={onClear} disabled={!input.trim()}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onClear}
+              disabled={!input.trim()}
+            >
               <Trash2 className="size-4" aria-hidden />
               Clear
             </Button>
@@ -174,7 +212,10 @@ export function SvgToCodeApp() {
 
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="flex min-w-0 flex-col gap-2">
-            <Label htmlFor="svg-input" className="text-xs uppercase tracking-wide text-muted-foreground">
+            <Label
+              htmlFor="svg-input"
+              className="text-muted-foreground text-xs uppercase tracking-wide"
+            >
               SVG input
             </Label>
             <Textarea
@@ -191,7 +232,10 @@ export function SvgToCodeApp() {
           </div>
 
           <div className="flex min-w-0 flex-col gap-2">
-            <Label htmlFor="svg-output" className="text-xs uppercase tracking-wide text-muted-foreground">
+            <Label
+              htmlFor="svg-output"
+              className="text-muted-foreground text-xs uppercase tracking-wide"
+            >
               Code output
             </Label>
             <Textarea
@@ -206,8 +250,8 @@ export function SvgToCodeApp() {
         </div>
 
         <p className="mt-3 text-muted-foreground text-xs">
-          JSX mode rewrites attributes like class → className and stroke-width → strokeWidth. This is not automatic
-          vectorization of raster images.
+          JSX mode rewrites attributes like class → className and stroke-width →
+          strokeWidth. This is not automatic vectorization of raster images.
         </p>
       </section>
     </div>

@@ -12,7 +12,9 @@ describe("normalizePdfPageOrder", () => {
   });
 
   it("drops non-finite values", () => {
-    expect(normalizePdfPageOrder([1, Number.NaN, Number.POSITIVE_INFINITY, 2], 10)).toEqual([1, 2]);
+    expect(
+      normalizePdfPageOrder([1, Number.NaN, Number.POSITIVE_INFINITY, 2], 10),
+    ).toEqual([1, 2]);
   });
 
   it("returns empty when there are duplicates", () => {
@@ -23,4 +25,3 @@ describe("normalizePdfPageOrder", () => {
     expect(normalizePdfPageOrder([3, 1], 5)).toEqual([3, 1]);
   });
 });
-

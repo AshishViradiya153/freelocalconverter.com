@@ -6,18 +6,25 @@ import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
 import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-grid";
+import { FileJsonGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
-import { buildLabelKeyedExportRows, downloadXlsxExport } from "@/lib/csv-export";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
+import {
+  buildLabelKeyedExportRows,
+  downloadXlsxExport,
+} from "@/lib/csv-export";
 import {
   CSV_IMPORT_MAX_FILE_BYTES,
   CSV_IMPORT_MAX_ROWS,
   CsvImportError,
   jsonRecordsToImportResult,
 } from "@/lib/csv-import";
-import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
-import { FileDropZone } from "@/components/ui/file-drop-zone";
+import {
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
 import type { Direction } from "@/types/data-grid";
-import { FileJsonGlyph } from "@/components/file-glyphs";
 
 function sessionToPrettyJson(session: CsvViewerSession): string {
   const rows = buildLabelKeyedExportRows(
@@ -181,9 +188,7 @@ export function JsonToExcelApp() {
         <header className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <Braces className="size-8 text-muted-foreground" aria-hidden />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {t("heroTitle")}
-            </h1>
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
           </div>
           <p className="max-w-3xl text-muted-foreground text-sm">
             {t("heroSubtitle", {
@@ -298,7 +303,9 @@ export function JsonToExcelApp() {
                   {t("downloadXlsx")}
                 </Button>
               </div>
-              <p className="text-muted-foreground text-xs">{t("previewHint")}</p>
+              <p className="text-muted-foreground text-xs">
+                {t("previewHint")}
+              </p>
               {session ? (
                 <CsvSessionReadOnlyGrid
                   session={session}

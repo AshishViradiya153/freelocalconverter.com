@@ -5,9 +5,11 @@ import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
 import { CsvGridPanel } from "@/app/components/csv-viewer-app";
+import { FileExcelGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -16,26 +18,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import {
   CSV_IMPORT_MAX_FILE_BYTES,
   CSV_IMPORT_MAX_ROWS,
   CsvImportError,
   type ParseStringMatrixHeaderOptions,
 } from "@/lib/csv-import";
-import { parseExcelFile } from "@/lib/excel-import";
 import {
   clearCsvViewerSession,
   loadCsvViewerSession,
   saveCsvViewerSession,
 } from "@/lib/csv-viewer-idb";
 import {
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
+import { parseExcelFile } from "@/lib/excel-import";
+import {
   getInMemoryXlsViewerState,
   setInMemoryXlsViewerState,
 } from "@/lib/xls-viewer-memory";
-import { resultToSession, type CsvViewerSession } from "@/lib/csv-viewer-session";
-import { FileDropZone } from "@/components/ui/file-drop-zone";
-import { FileExcelGlyph } from "@/components/file-glyphs";
 
 const PERSIST_DEBOUNCE_MS = 500;
 
@@ -143,14 +145,17 @@ export function XlsViewerApp() {
       const matrixHeader: ParseStringMatrixHeaderOptions =
         Number.isFinite(parsedLine) && parsedLine >= 1
           ? {
-            hasHeaderRow: true,
-            headerRowIndex: parsedLine - 1,
-            autoDetectHeaderRow: false,
-          }
+              hasHeaderRow: true,
+              headerRowIndex: parsedLine - 1,
+              autoDetectHeaderRow: false,
+            }
           : { autoDetectHeaderRow: true };
 
-      const { result, sheetNames: names, sheetIndex: resolvedIndex } =
-        await parseExcelFile(file, { sheetIndex: index, matrixHeader });
+      const {
+        result,
+        sheetNames: names,
+        sheetIndex: resolvedIndex,
+      } = await parseExcelFile(file, { sheetIndex: index, matrixHeader });
 
       const csvName = exportCsvBaseName(file.name);
       const nextSession = resultToSession(csvName, result, "ltr");
@@ -254,7 +259,7 @@ export function XlsViewerApp() {
       <div className="container flex flex-col gap-4 py-4 lg:flex-row lg:items-start">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           <header className="flex flex-col gap-1">
-            <h1 className="font-semibold text-5xl tracking-tight">{t("heroTitle")}</h1>
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
             <p className="text-muted-foreground text-sm">
               {t("heroSubtitle", {
                 mb: Math.round(CSV_IMPORT_MAX_FILE_BYTES / (1024 * 1024)),
@@ -274,21 +279,21 @@ export function XlsViewerApp() {
                 {tl("loadingSheet")}
               </div>
             ) : (
-                <FileDropZone
-                  disabled={false}
-                  busy={busy}
-                  inputId="xls-viewer-file"
-                  accept=".xlsx,.xls,.xlsm,.xlsb,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                  onFiles={(files) => {
-                    const file = files?.[0];
-                    if (file) void onLoadFile(file);
-                  }}
-                  fileIcon={FileExcelGlyph}
-                  dropTitle={t("dropHint")}
-                  chooseLabel={t("chooseFile")}
-                  fileHint={t("fileHint")}
-                />
-              )
+              <FileDropZone
+                disabled={false}
+                busy={busy}
+                inputId="xls-viewer-file"
+                accept=".xlsx,.xls,.xlsm,.xlsb,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                onFiles={(files) => {
+                  const file = files?.[0];
+                  if (file) void onLoadFile(file);
+                }}
+                fileIcon={FileExcelGlyph}
+                dropTitle={t("dropHint")}
+                chooseLabel={t("chooseFile")}
+                fileHint={t("fileHint")}
+              />
+            )
           ) : (
             <div className="flex flex-col gap-3">
               <div className="flex flex-wrap items-center gap-3">
@@ -300,7 +305,7 @@ export function XlsViewerApp() {
                 >
                   {t("clearFile")}
                 </Button>
-                  {canEditXlsMeta && sheetNames.length > 1 ? (
+                {canEditXlsMeta && sheetNames.length > 1 ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-muted-foreground text-sm">
                       {t("sheetLabel")}
@@ -330,36 +335,36 @@ export function XlsViewerApp() {
                 ) : null}
               </div>
 
-                {canEditXlsMeta ? (
-                  <div className="flex flex-wrap items-center gap-3">
-                    <Label
-                      htmlFor="xls-viewer-header-row-number"
-                      className="text-muted-foreground"
-                    >
-                      {t("headerRowLabel")}
-                    </Label>
-                    <input
-                      id="xls-viewer-header-row-number"
-                      type="number"
-                      min={1}
-                      inputMode="numeric"
-                      value={headerRowInput}
-                      onChange={(e) => setHeaderRowInput(e.target.value)}
-                      placeholder="Auto"
-                      className="h-9 w-28 rounded-md border bg-background px-3 text-sm"
-                      disabled={busy}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={busy}
-                      onClick={onApplyHeaderRow}
-                    >
-                      Apply
-                    </Button>
-                  </div>
-                ) : null}
+              {canEditXlsMeta ? (
+                <div className="flex flex-wrap items-center gap-3">
+                  <Label
+                    htmlFor="xls-viewer-header-row-number"
+                    className="text-muted-foreground"
+                  >
+                    {t("headerRowLabel")}
+                  </Label>
+                  <input
+                    id="xls-viewer-header-row-number"
+                    type="number"
+                    min={1}
+                    inputMode="numeric"
+                    value={headerRowInput}
+                    onChange={(e) => setHeaderRowInput(e.target.value)}
+                    placeholder="Auto"
+                    className="h-9 w-28 rounded-md border bg-background px-3 text-sm"
+                    disabled={busy}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={busy}
+                    onClick={onApplyHeaderRow}
+                  >
+                    Apply
+                  </Button>
+                </div>
+              ) : null}
             </div>
           )}
 

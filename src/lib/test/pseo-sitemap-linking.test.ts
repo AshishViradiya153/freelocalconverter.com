@@ -56,7 +56,9 @@ describe("pickRelatedPseoPages (indexed linking)", () => {
 
     const related = pickRelatedPseoPages(pseoPages, page, 20);
     for (const slug of page.relatedSlugs) {
-      const match = pseoPages.find((x) => x.slug === slug && x.route.type === "guide");
+      const match = pseoPages.find(
+        (x) => x.slug === slug && x.route.type === "guide",
+      );
       if (match) {
         expect(related.some((r) => r.id === match.id)).toBe(true);
       }

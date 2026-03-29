@@ -2,6 +2,10 @@ import {
   BlogPostContent as C1,
   meta as m1,
 } from "./posts/choosing-csv-tools-for-teams";
+import {
+  BlogPostContent as C8,
+  meta as m8,
+} from "./posts/csv-compare-two-files-browser";
 import { BlogPostContent as C2, meta as m2 } from "./posts/csv-viewer-overview";
 import {
   BlogPostContent as C3,
@@ -28,10 +32,6 @@ import {
   BlogPostContent as C7,
   meta as m7,
 } from "./posts/sort-filter-search-guide";
-import {
-  BlogPostContent as C8,
-  meta as m8,
-} from "./posts/csv-compare-two-files-browser";
 import type { PublishedBlogPost } from "./types";
 
 const originalPosts: PublishedBlogPost[] = [

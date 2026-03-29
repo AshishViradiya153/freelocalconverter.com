@@ -1,11 +1,11 @@
 "use client";
 
+import { zipSync } from "fflate";
 import { Download, Image as ImageIcon, Loader2, Trash2, X } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
-import { zipSync } from "fflate";
-
 import { FilePdfGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import { Link } from "@/i18n/navigation";
 import { downloadBlob } from "@/lib/download-blob";
 import {
   addWatermarkToPdf,
@@ -27,7 +28,6 @@ import {
   type WatermarkType,
 } from "@/lib/pdf/pdf-watermark";
 import { getPdfJs } from "@/lib/pdf/pdfjs";
-import { Link } from "@/i18n/navigation";
 
 interface BulkPdfItem {
   id: string;
@@ -79,9 +79,7 @@ async function readImageBytes(
 }
 
 function isPdfFile(file: File) {
-  return (
-    file.type === "application/pdf" || /\.pdf$/i.test(file.name)
-  );
+  return file.type === "application/pdf" || /\.pdf$/i.test(file.name);
 }
 
 export function BulkPdfWatermarkApp() {
@@ -189,45 +187,45 @@ export function BulkPdfWatermarkApp() {
       const watermark: PdfWatermarkOptions =
         watermarkType === "text"
           ? {
-            type: "text",
-            text: wmText,
-            fontSize,
-            colorHex,
-            opacity,
-            rotateDeg,
-            placement,
-            tile,
-            tileGapPx,
-          }
-          : (() => {
-            const f = imageFile;
-            if (!f) throw new Error("missing_watermark_image");
-            return {
-              type: "image",
-              imageBytes: new Uint8Array(),
-              imageMime: "image/png",
+              type: "text",
+              text: wmText,
+              fontSize,
+              colorHex,
               opacity,
               rotateDeg,
               placement,
-              widthPercent: imageWidthPercent,
               tile,
               tileGapPx,
-            } satisfies PdfWatermarkOptions;
-          })();
+            }
+          : (() => {
+              const f = imageFile;
+              if (!f) throw new Error("missing_watermark_image");
+              return {
+                type: "image",
+                imageBytes: new Uint8Array(),
+                imageMime: "image/png",
+                opacity,
+                rotateDeg,
+                placement,
+                widthPercent: imageWidthPercent,
+                tile,
+                tileGapPx,
+              } satisfies PdfWatermarkOptions;
+            })();
 
       const resolvedWatermark =
         watermark.type === "image"
           ? (() => {
-            const f = imageFile;
-            if (!f) throw new Error("missing_watermark_image");
-            return readImageBytes(f).then((img) => {
-              return {
-                ...watermark,
-                imageBytes: img.bytes,
-                imageMime: img.mime,
-              } as const;
-            });
-          })()
+              const f = imageFile;
+              if (!f) throw new Error("missing_watermark_image");
+              return readImageBytes(f).then((img) => {
+                return {
+                  ...watermark,
+                  imageBytes: img.bytes,
+                  imageMime: img.mime,
+                } as const;
+              });
+            })()
           : Promise.resolve(watermark);
 
       const wm = await resolvedWatermark;
@@ -305,9 +303,7 @@ export function BulkPdfWatermarkApp() {
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <FilePdfGlyph className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            Bulk PDF Watermark
-          </h1>
+          <h1 className={toolHeroTitleClassName}>Bulk PDF Watermark</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Upload many PDFs, set one watermark, and download every file
@@ -394,7 +390,9 @@ export function BulkPdfWatermarkApp() {
                     </div>
                     <div className="text-muted-foreground text-xs">
                       {item.loadError ? (
-                        <span className="text-destructive">{item.loadError}</span>
+                        <span className="text-destructive">
+                          {item.loadError}
+                        </span>
                       ) : item.pageCount === null ? (
                         "Reading…"
                       ) : (
@@ -428,7 +426,8 @@ export function BulkPdfWatermarkApp() {
             {skippedFiles.length > 0 ? (
               <div className="mt-2 space-y-2">
                 <div className="text-muted-foreground text-xs">
-                  Skipped {skippedFiles.length} PDF{skippedFiles.length === 1 ? "" : "s"}:
+                  Skipped {skippedFiles.length} PDF
+                  {skippedFiles.length === 1 ? "" : "s"}:
                 </div>
                 <div className="space-y-1 text-muted-foreground text-xs">
                   {skippedFiles.slice(0, 5).map((s) => (

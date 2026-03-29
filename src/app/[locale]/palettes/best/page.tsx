@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import * as React from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import * as React from "react";
 
 import {
   type BreadcrumbNavItem,
@@ -9,11 +9,15 @@ import {
 import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
-import { buildAbsoluteUrl } from "@/lib/seo/paths";
+import {
+  ToolSectionHeading,
+  toolHeroTitleClassName,
+} from "@/components/tool-ui";
 import {
   buildPageMetaFromMessages,
   getPageMetaFaqTriples,
 } from "@/lib/seo/page-meta-messages";
+import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
   buildBreadcrumbListJsonLd,
   buildFaqPageJsonLd,
@@ -85,9 +89,7 @@ export default async function BestPalettesPage({
         <div className="flex flex-col gap-6">
           <Breadcrumbs className="text-sm" items={breadcrumbNav} />
           <header className="flex flex-col gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {tr("palettesBest.h1")}
-            </h1>
+            <h1 className={toolHeroTitleClassName}>{tr("palettesBest.h1")}</h1>
             <p className="max-w-3xl text-muted-foreground text-sm leading-relaxed">
               {tr("palettesBest.intro")}
             </p>
@@ -96,7 +98,7 @@ export default async function BestPalettesPage({
 
           <React.Suspense
             fallback={
-              <div className="rounded-xl bg-muted/30 p-4 text-sm text-muted-foreground">
+              <div className="rounded-xl bg-muted/30 p-4 text-muted-foreground text-sm">
                 {tr("palettesBest.loadingFallback")}
               </div>
             }
@@ -108,12 +110,9 @@ export default async function BestPalettesPage({
             className="max-w-3xl border-border border-t pt-10"
             aria-labelledby="palettes-best-faq-heading"
           >
-            <h2
-              id="palettes-best-faq-heading"
-              className="font-semibold text-foreground text-lg tracking-tight"
-            >
+            <ToolSectionHeading id="palettes-best-faq-heading">
               {tp("faqHeading")}
-            </h2>
+            </ToolSectionHeading>
             <dl className="mt-6 space-y-6">
               {faq.map((item) => (
                 <div key={item.question}>

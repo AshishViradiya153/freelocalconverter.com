@@ -12,6 +12,7 @@ import {
   Palette,
   Search,
   Sparkles,
+  Star,
   TableProperties,
   Video,
 } from "lucide-react";
@@ -26,11 +27,13 @@ import {
   normalizeSearchValue,
   type ToolSearchItem,
 } from "@/components/layouts/tool-search";
+import { usePinnedTools } from "@/hooks/use-pinned-tools";
 import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const groupIcons = {
   all: Sparkles,
+  favorites: Star,
   converters: ArrowRightLeft,
   viewers: TableProperties,
   excel: FileSpreadsheet,
@@ -74,13 +77,14 @@ export function HomeToolsDirectory() {
   const tLanding = useTranslations("landing");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const urlSyncTimeoutRef = React.useRef<number | null>(null);
+  const { pinnedHrefs, pinnedSet, togglePinned } = usePinnedTools();
   const { serviceGroups, searchItems } = React.useMemo(
     () => buildDirectoryItems(locale),
     [locale],
   );
 
   const [query, setQuery] = React.useState("");
-  const [activeGroup, setActiveGroup] = React.useState<GroupId | "all">("all");
+  const [activeGroup, setActiveGroup] = React.useState<GroupId>("all");
 
   React.useLayoutEffect(() => {
     function syncQueryFromUrl() {
@@ -115,16 +119,27 @@ export function HomeToolsDirectory() {
   const visibleItems = React.useMemo(() => {
     const normalizedQuery = normalizeSearchValue(query);
 
-    return rankedItems.filter((item) => {
+    const filtered = rankedItems.filter((item) => {
       const matchesGroup =
-        activeGroup === "all" ? true : item.groupId === activeGroup;
+        activeGroup === "all"
+          ? true
+          : activeGroup === "favorites"
+            ? pinnedSet.has(item.href)
+            : item.groupId === activeGroup;
 
       if (!matchesGroup) return false;
       if (!normalizedQuery) return true;
 
       return getSearchScore(item, query) > 0;
     });
-  }, [activeGroup, query, rankedItems]);
+
+    if (activeGroup !== "favorites") return filtered;
+
+    const order = new Map(pinnedHrefs.map((href, index) => [href, index]));
+    return [...filtered].sort(
+      (a, b) => (order.get(a.href) ?? 1e9) - (order.get(b.href) ?? 1e9),
+    );
+  }, [activeGroup, pinnedHrefs, pinnedSet, query, rankedItems]);
 
   const topHit = visibleItems[0] ?? null;
 
@@ -167,17 +182,17 @@ export function HomeToolsDirectory() {
                 initial={{ x: -16, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="text-balance break-words font-black text-[clamp(1.75rem,8vw,3rem)] leading-[0.95] tracking-tighter uppercase sm:text-5xl md:text-7xl lg:text-8xl whitespace-pre-line"
+                className="whitespace-pre-line text-balance break-words font-black text-[clamp(1.75rem,8vw,3rem)] uppercase leading-[0.95] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl"
               >
                 {tLanding("heroTitle")}
               </motion.h1>
-              <p className="mt-4 max-w-3xl break-words font-bold text-sm leading-snug text-primary-foreground/85 sm:mt-6 md:text-base">
+              <p className="mt-4 max-w-3xl break-words font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-6 md:text-base">
                 {tLanding("directorySubtitle")}
               </p>
             </header>
 
             <div className="flex w-full min-w-0 flex-col lg:flex-row lg:items-stretch">
-              <aside className="w-full min-w-0 shrink-0 border-border border-b-4 bg-background p-4 sm:p-6 md:p-8 lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:border-b-0 lg:border-e-4 xl:w-80">
+              <aside className="w-full min-w-0 shrink-0 border-border border-b-4 bg-background p-4 sm:p-6 md:p-8 lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:border-e-4 lg:border-b-0 xl:w-80">
                 <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
                   <div className="flex min-w-0 flex-col gap-3">
                     <label
@@ -212,7 +227,7 @@ export function HomeToolsDirectory() {
                       placeholder={tLanding("directoryFilterPlaceholder")}
                       autoComplete="off"
                       spellCheck={false}
-                      className="w-full border-2 border-border bg-background p-3 font-bold text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:bg-foreground focus:text-background focus:ring-0"
+                      className="w-full border-2 border-border bg-background p-3 font-bold text-foreground text-sm outline-none transition-colors placeholder:text-muted-foreground focus:bg-foreground focus:text-background focus:ring-0"
                     />
                     <p className="text-end font-black text-[10px] text-muted-foreground uppercase tracking-widest">
                       <span className="inline-block border-2 border-border bg-background px-2 py-1 text-foreground">
@@ -232,6 +247,13 @@ export function HomeToolsDirectory() {
                         count={searchItems.length}
                         active={activeGroup === "all"}
                         onClick={() => setActiveGroup("all")}
+                      />
+                      <CategoryBrutalistButton
+                        icon={Star}
+                        label={tLanding("directoryFavoritesLabel")}
+                        count={pinnedHrefs.length}
+                        active={activeGroup === "favorites"}
+                        onClick={() => setActiveGroup("favorites")}
                       />
                       {serviceGroups.map((group) => {
                         const count = searchItems.filter(
@@ -265,13 +287,17 @@ export function HomeToolsDirectory() {
                       })}
                 </div>
 
-                <div className="grid min-w-0 grid-cols-1 auto-rows-fr sm:grid-cols-2 xl:grid-cols-3">
+                <div className="grid min-w-0 auto-rows-fr grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
                   <AnimatePresence initial={false} mode="popLayout">
                     {visibleItems.map((item) => (
                       <ToolCardBrutalist
                         key={`${item.groupId}-${item.href}-${item.label}`}
                         item={item}
                         executeLabel={tLanding("directoryExecute")}
+                        isPinned={pinnedSet.has(item.href)}
+                        pinAriaLabel={tLanding("directoryPinToolAria")}
+                        unpinAriaLabel={tLanding("directoryUnpinToolAria")}
+                        onTogglePin={() => togglePinned(item.href)}
                       />
                     ))}
                     {visibleItems.length === 0 ? (
@@ -288,10 +314,16 @@ export function HomeToolsDirectory() {
                           aria-hidden
                         />
                         <h2 className="break-words font-black text-2xl uppercase tracking-tighter sm:text-3xl md:text-4xl">
-                          {tLanding("directoryEmptyTitle")}
+                          {activeGroup === "favorites" &&
+                          !normalizeSearchValue(query)
+                            ? tLanding("directoryFavoritesEmptyTitle")
+                            : tLanding("directoryEmptyTitle")}
                         </h2>
-                        <p className="mt-4 font-bold text-sm text-muted-foreground md:text-base">
-                          {tLanding("directoryEmptyDescription")}
+                        <p className="mt-4 font-bold text-muted-foreground text-sm md:text-base">
+                          {activeGroup === "favorites" &&
+                          !normalizeSearchValue(query)
+                            ? tLanding("directoryFavoritesEmptyDescription")
+                            : tLanding("directoryEmptyDescription")}
                         </p>
                         <button
                           type="button"
@@ -314,11 +346,13 @@ export function HomeToolsDirectory() {
 }
 
 function CategoryBrutalistButton({
+  icon: Icon,
   label,
   count,
   active,
   onClick,
 }: {
+  icon?: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
   label: string;
   count: number;
   active: boolean;
@@ -329,13 +363,16 @@ function CategoryBrutalistButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex w-max min-w-[min(140px,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] shrink-0 items-center justify-between gap-2 border-2 border-border p-2.5 font-bold text-left text-sm transition-all sm:min-w-[140px] sm:gap-3 sm:p-3 sm:text-base lg:w-full lg:max-w-none lg:min-w-0",
+        "flex w-max min-w-[min(140px,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] shrink-0 items-center justify-between gap-2 border-2 border-border p-2.5 text-left font-bold text-sm transition-all sm:min-w-[140px] sm:gap-3 sm:p-3 sm:text-base lg:w-full lg:min-w-0 lg:max-w-none",
         active
           ? "translate-x-1 -translate-y-1 bg-foreground text-background shadow-brutal-offset"
           : "bg-background text-foreground hover:bg-primary hover:text-primary-foreground",
       )}
     >
-      <span className="truncate uppercase tracking-tighter">{label}</span>
+      <span className="flex min-w-0 items-center gap-2 truncate uppercase tracking-tighter">
+        {Icon ? <Icon className="size-4 shrink-0" aria-hidden /> : null}
+        <span className="truncate">{label}</span>
+      </span>
       <span
         className={cn(
           "shrink-0 border px-1.5 py-0.5 font-black text-[10px] uppercase",
@@ -353,9 +390,17 @@ function CategoryBrutalistButton({
 function ToolCardBrutalist({
   item,
   executeLabel,
+  isPinned,
+  pinAriaLabel,
+  unpinAriaLabel,
+  onTogglePin,
 }: {
   item: ToolSearchItem;
   executeLabel: string;
+  isPinned: boolean;
+  pinAriaLabel: string;
+  unpinAriaLabel: string;
+  onTogglePin: () => void;
 }) {
   const CardIcon = groupIcons[(item.groupId as GroupId) ?? "all"] ?? Sparkles;
 
@@ -366,12 +411,31 @@ function ToolCardBrutalist({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.94 }}
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="min-h-0 min-w-0"
+      className="relative min-h-0 min-w-0"
     >
+      <button
+        type="button"
+        aria-label={isPinned ? unpinAriaLabel : pinAriaLabel}
+        aria-pressed={isPinned}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onTogglePin();
+        }}
+        className={cn(
+          "absolute end-3 top-3 z-20 border-2 border-border bg-background p-2 shadow-brutal-sm transition-colors hover:bg-foreground hover:text-background sm:end-4 sm:top-4 sm:p-2.5",
+          isPinned && "bg-foreground text-background",
+        )}
+      >
+        <Star
+          className={cn("size-5 sm:size-6", isPinned && "fill-current")}
+          aria-hidden
+        />
+      </button>
       <Link
         href={item.href}
         prefetch={false}
-        className="group flex h-full min-h-[min(260px,70dvh)] w-full min-w-0 cursor-crosshair flex-col border-border border-b-4 border-e-4 bg-card p-4 text-card-foreground transition-colors hover:bg-primary hover:text-primary-foreground sm:min-h-[280px] sm:p-6 md:min-h-[300px] md:p-8"
+        className="group flex h-full min-h-[min(260px,70dvh)] w-full min-w-0 cursor-crosshair flex-col border-border border-e-4 border-b-4 bg-card p-4 pe-14 text-card-foreground transition-colors hover:bg-primary hover:text-primary-foreground sm:min-h-[280px] sm:p-6 sm:pe-16 md:min-h-[300px] md:p-8 md:pe-20"
       >
         <div className="mb-6 flex items-start justify-between gap-4">
           <div className="border-2 border-border bg-background p-4 shadow-brutal-sm transition-transform group-hover:rotate-12">
@@ -383,16 +447,16 @@ function ToolCardBrutalist({
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col gap-4">
-          <h2 className="text-balance break-words font-black text-xl leading-none tracking-tighter uppercase sm:text-2xl md:text-3xl">
+          <h2 className="text-balance break-words font-black text-xl uppercase leading-none tracking-tighter sm:text-2xl md:text-3xl">
             {item.label}
           </h2>
-          <p className="break-words font-bold text-sm leading-snug text-muted-foreground group-hover:text-primary-foreground/80">
+          <p className="break-words font-bold text-muted-foreground text-sm leading-snug group-hover:text-primary-foreground/80">
             {item.description}
           </p>
         </div>
 
         <div className="mt-8">
-          <span className="flex w-full min-w-0 items-center justify-center gap-2 border-4 border-border bg-background px-2 py-3 font-black text-xs uppercase shadow-brutal-sm transition-all group-hover:bg-foreground group-hover:text-background active:translate-x-1 active:translate-y-1 active:shadow-none sm:py-4 sm:text-sm">
+          <span className="flex w-full min-w-0 items-center justify-center gap-2 border-4 border-border bg-background px-2 py-3 font-black text-xs uppercase shadow-brutal-sm transition-all active:translate-x-1 active:translate-y-1 active:shadow-none group-hover:bg-foreground group-hover:text-background sm:py-4 sm:text-sm">
             <span className="truncate">{executeLabel}</span>
             <ChevronRight
               className="size-4 shrink-0 sm:size-[18px]"

@@ -168,7 +168,7 @@ export function jsonRecordsToImportResult(records: unknown): CsvImportResult {
   if (!Array.isArray(records)) {
     throw new CsvImportError(
       "json_not_array",
-      "JSON must be an array of objects, for example [{\"name\": \"a\"}, …].",
+      'JSON must be an array of objects, for example [{"name": "a"}, …].',
     );
   }
   if (records.length === 0) {
@@ -191,9 +191,7 @@ export function jsonRecordsToImportResult(records: unknown): CsvImportResult {
 
   const rowCountBeforeCap = objects.length;
   const truncated = objects.length > CSV_IMPORT_MAX_ROWS;
-  const capped = truncated
-    ? objects.slice(0, CSV_IMPORT_MAX_ROWS)
-    : objects;
+  const capped = truncated ? objects.slice(0, CSV_IMPORT_MAX_ROWS) : objects;
 
   const headerLabels = collectJsonHeaderOrder(capped);
   const columnKeys = uniqueKeys(headerLabels);
@@ -204,8 +202,7 @@ export function jsonRecordsToImportResult(records: unknown): CsvImportResult {
     const limit = Math.min(capped.length, INFER_SAMPLE_ROWS);
     for (let r = 0; r < limit; r++) {
       const row = capped[r];
-      const v =
-        row && label !== undefined ? row[label] : undefined;
+      const v = row && label !== undefined ? row[label] : undefined;
       sample.push(cellSampleForJsonInference(v));
     }
     return inferColumnKind(sample);
@@ -356,7 +353,9 @@ interface HeaderDetectionResult {
   headerRowIndex: number;
 }
 
-function classifyHeaderCellKind(value: string): "empty" | "number" | "date" | "text" {
+function classifyHeaderCellKind(
+  value: string,
+): "empty" | "number" | "date" | "text" {
   const t = value.trim();
   if (t === "") return "empty";
   if (tryParseNumber(t) !== null) return "number";
@@ -419,7 +418,8 @@ function detectHeaderRow(normalized: string[][]): HeaderDetectionResult {
         if (bk === "text") bodyText++;
         else bodyNumericOrDate++;
       }
-      if (hk === "text" && bodyNumericOrDate > bodyText) differsFromBodyKindCount++;
+      if (hk === "text" && bodyNumericOrDate > bodyText)
+        differsFromBodyKindCount++;
       if ((hk === "number" || hk === "date") && bodyText > bodyNumericOrDate) {
         differsFromBodyKindCount--;
       }
@@ -427,7 +427,8 @@ function detectHeaderRow(normalized: string[][]): HeaderDetectionResult {
 
     if (filledHeaderCount <= 1 && width >= 3) titleRowPenalty += 3;
     const coverage = filledHeaderCount / width;
-    const textRatio = filledHeaderCount === 0 ? 0 : textHeaderCount / filledHeaderCount;
+    const textRatio =
+      filledHeaderCount === 0 ? 0 : textHeaderCount / filledHeaderCount;
     const numericDateRatio =
       filledHeaderCount === 0
         ? 0
@@ -510,24 +511,16 @@ export function parseStringMatrixToImportResult(
   options?: ParseStringMatrixHeaderOptions,
 ): CsvImportResult {
   if (matrix.length === 0) {
-    throw new CsvImportError(
-      "empty_file",
-      "This spreadsheet has no rows.",
-    );
+    throw new CsvImportError("empty_file", "This spreadsheet has no rows.");
   }
 
   const width = Math.max(0, ...matrix.map((r) => r.length));
   if (width === 0) {
-    throw new CsvImportError(
-      "empty_file",
-      "This spreadsheet has no columns.",
-    );
+    throw new CsvImportError("empty_file", "This spreadsheet has no columns.");
   }
 
   const normalized = matrix.map((r) => {
-    const row = r.map((c) =>
-      c === null || c === undefined ? "" : String(c),
-    );
+    const row = r.map((c) => (c === null || c === undefined ? "" : String(c)));
     while (row.length < width) row.push("");
     return row;
   });
@@ -537,17 +530,11 @@ export function parseStringMatrixToImportResult(
     options?.autoDetectHeaderRow !== false && !hasExplicitHeaderOption;
 
   const detected = shouldAutoDetect ? detectHeaderRow(normalized) : null;
-  const hasHeaderRow =
-    options?.hasHeaderRow ?? detected?.hasHeaderRow ?? true;
+  const hasHeaderRow = options?.hasHeaderRow ?? detected?.hasHeaderRow ?? true;
   const maxHeaderIdx = Math.max(0, normalized.length - 1);
   const defaultHeaderRowIndex = detected?.headerRowIndex ?? 0;
   const headerRowIndex = Math.min(
-    Math.max(
-      0,
-      Math.floor(
-        options?.headerRowIndex ?? defaultHeaderRowIndex,
-      ),
-    ),
+    Math.max(0, Math.floor(options?.headerRowIndex ?? defaultHeaderRowIndex)),
     maxHeaderIdx,
   );
 
@@ -570,10 +557,7 @@ export function parseStringMatrixToImportResult(
 
   const headerCells = normalized[headerRowIndex];
   if (!headerCells) {
-    throw new CsvImportError(
-      "empty_file",
-      "This spreadsheet has no rows.",
-    );
+    throw new CsvImportError("empty_file", "This spreadsheet has no rows.");
   }
 
   const headerLabels = headerCells.map((h, i) => {
@@ -583,9 +567,7 @@ export function parseStringMatrixToImportResult(
 
   const rawRows = normalized
     .slice(headerRowIndex + 1)
-    .filter((row) =>
-      row.some((cell) => String(cell ?? "").trim() !== ""),
-    );
+    .filter((row) => row.some((cell) => String(cell ?? "").trim() !== ""));
 
   return buildImportResultFromLabelsAndDataRows(headerLabels, rawRows);
 }

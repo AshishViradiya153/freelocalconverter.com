@@ -3,7 +3,7 @@
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
 import { ChevronDownIcon } from "lucide-react";
-import * as React from "react";
+import type * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -90,7 +90,7 @@ function NavigationMenuContent({
   return (
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
-      className={cn("left-0 top-0 w-full md:absolute md:w-auto", className)}
+      className={cn("top-0 left-0 w-full md:absolute md:w-auto", className)}
       {...props}
     />
   );
@@ -105,7 +105,7 @@ function NavigationMenuViewport({
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 data-[state=closed]:animate-out data-[state=open]:animate-in relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-full origin-top-center overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-md duration-200 md:w-(--radix-navigation-menu-viewport-width)",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-full origin-top-center overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-md duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in md:w-(--radix-navigation-menu-viewport-width)",
           className,
         )}
         {...props}

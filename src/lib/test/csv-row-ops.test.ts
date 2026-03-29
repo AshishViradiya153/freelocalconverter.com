@@ -10,7 +10,8 @@ describe("csv-row-ops", () => {
   it("buildCsvRowClipboardTsv joins data columns with tabs", () => {
     const r = parseCsvText("a,b\n1,2");
     const s = resultToSession("t.csv", r, "ltr");
-    const row = s.rows[0]!;
+    const row = s.rows[0];
+    if (!row) throw new Error("fixture: expected one row");
     expect(buildCsvRowClipboardTsv(row, s.columnKeys)).toBe("1\t2");
   });
 
@@ -19,8 +20,10 @@ describe("csv-row-ops", () => {
     const s = resultToSession("t.csv", r, "ltr");
     const rows = csvViewerRowsFromClipboardTsv("9\t8", s.columnKeys);
     expect(rows).toHaveLength(1);
-    expect(rows[0]?.[s.columnKeys[0]!]).toBe("9");
-    expect(rows[0]?.[s.columnKeys[1]!]).toBe("8");
+    expect(s.columnKeys).toHaveLength(2);
+    const [k0, k1] = s.columnKeys;
+    expect(rows[0]?.[k0]).toBe("9");
+    expect(rows[0]?.[k1]).toBe("8");
   });
 
   it("csvViewerRowsFromClipboardTsv returns empty for blank", () => {

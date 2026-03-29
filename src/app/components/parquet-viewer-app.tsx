@@ -5,18 +5,28 @@ import { Download, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
 import { CsvGridPanel } from "@/app/components/csv-viewer-app";
+import { FileParquetGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
-import { FileParquetGlyph } from "@/components/file-glyphs";
-import { clearCsvViewerSession, loadCsvViewerSession, saveCsvViewerSession } from "@/lib/csv-viewer-idb";
-import { getInMemoryCsvViewerSession, setInMemoryCsvViewerSession } from "@/lib/csv-viewer-session-memory";
-import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
+import {
+  clearCsvViewerSession,
+  loadCsvViewerSession,
+  saveCsvViewerSession,
+} from "@/lib/csv-viewer-idb";
+import {
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
+import {
+  getInMemoryCsvViewerSession,
+  setInMemoryCsvViewerSession,
+} from "@/lib/csv-viewer-session-memory";
 import {
   PARQUET_READ_ROW_CAP,
-  parseParquetFileToImportResult,
   parquetCsvSessionToBuffer,
+  parseParquetFileToImportResult,
 } from "@/lib/parquet-convert";
 import { downloadParquetExport } from "@/lib/parquet-export";
 
@@ -104,10 +114,12 @@ export function ParquetViewerApp() {
       setError(null);
 
       try {
-        const { result, truncated } =
-          await parseParquetFileToImportResult(file, {
+        const { result, truncated } = await parseParquetFileToImportResult(
+          file,
+          {
             rowEnd: PARQUET_READ_ROW_CAP,
-          });
+          },
+        );
 
         const next = resultToSession(file.name, result, "ltr");
         next.truncated = truncated;
@@ -155,9 +167,7 @@ export function ParquetViewerApp() {
       <div className="container flex flex-col gap-4 py-4 lg:flex-row lg:items-start">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           <header className="flex flex-col gap-1">
-            <h1 className="font-semibold text-5xl tracking-tight">
-              {t("heroTitle")}
-            </h1>
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
             <p className="text-muted-foreground text-sm">{t("heroSubtitle")}</p>
           </header>
 
@@ -235,4 +245,3 @@ export function ParquetViewerApp() {
     </DirectionProvider>
   );
 }
-

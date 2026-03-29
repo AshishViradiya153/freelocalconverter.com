@@ -30,11 +30,12 @@ export function csvSessionToMarkdownTable(session: CsvViewerSession): string {
     const cells = columnKeys.map((k) => {
       const v = row[k];
       if (v === null || v === undefined) return "";
-      return escapeMarkdownCell(v instanceof Date ? v.toISOString() : String(v));
+      return escapeMarkdownCell(
+        v instanceof Date ? v.toISOString() : String(v),
+      );
     });
     lines.push(`| ${cells.join(" | ")} |`);
   }
 
   return `${lines.join("\n")}\n`;
 }
-

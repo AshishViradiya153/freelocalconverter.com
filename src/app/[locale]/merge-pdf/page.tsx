@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
-
+import { MergePdfApp } from "@/app/components/merge-pdf-app";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
-import { MergePdfApp } from "@/app/components/merge-pdf-app";
 
 export async function generateMetadata({
   params,
@@ -37,4 +36,3 @@ export default async function MergePdfPage({ params }: MergePdfPageProps) {
     </Shell>
   );
 }
-

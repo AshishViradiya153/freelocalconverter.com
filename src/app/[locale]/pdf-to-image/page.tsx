@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
-
+import { PdfToImageApp } from "@/app/components/pdf-to-image-app";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
-import { PdfToImageApp } from "@/app/components/pdf-to-image-app";
 
 export async function generateMetadata({
   params,
@@ -37,4 +36,3 @@ export default async function PdfToImagePage({ params }: PdfToImagePageProps) {
     </Shell>
   );
 }
-

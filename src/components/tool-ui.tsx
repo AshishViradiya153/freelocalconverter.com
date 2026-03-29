@@ -2,6 +2,21 @@ import type * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+export const toolHeroTitleClassName =
+  "font-semibold text-3xl tracking-tight md:text-4xl";
+
+export const toolSectionHeadingClassName =
+  "font-semibold text-lg tracking-tight text-foreground md:text-xl";
+
+function ToolSectionHeading({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"h2">) {
+  return (
+    <h2 className={cn(toolSectionHeadingClassName, className)} {...props} />
+  );
+}
+
 function ToolPage({
   className,
   ...props
@@ -35,9 +50,7 @@ function ToolHero({
           <div className="mt-0.5 shrink-0 text-muted-foreground">{icon}</div>
         ) : null}
         <div className="min-w-0">
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            {title}
-          </h1>
+          <h1 className={toolHeroTitleClassName}>{title}</h1>
           {description ? (
             <p className="mt-2 max-w-4xl text-muted-foreground text-sm leading-relaxed md:text-[15px]">
               {description}
@@ -110,6 +123,7 @@ export {
   ToolPage,
   ToolPane,
   ToolPaneTitle,
+  ToolSectionHeading,
   ToolToolbar,
   toolEditorClassName,
 };

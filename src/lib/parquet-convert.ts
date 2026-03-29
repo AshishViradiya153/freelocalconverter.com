@@ -1,10 +1,15 @@
-import { jsonRecordsToImportResult, type CsvImportResult } from "@/lib/csv-import";
-import type { CsvViewerSession } from "@/lib/csv-viewer-session";
-import type { CsvViewerRow } from "@/lib/csv-import";
-import { CSV_IMPORT_MAX_ROWS } from "@/lib/csv-import";
 import type { BasicType, ColumnSource } from "hyparquet-writer";
+import type { CsvViewerRow } from "@/lib/csv-import";
+import {
+  CSV_IMPORT_MAX_ROWS,
+  type CsvImportResult,
+  jsonRecordsToImportResult,
+} from "@/lib/csv-import";
+import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 
-type ParquetConversionErrorCode = "parquet_read_failed" | "parquet_write_failed";
+type ParquetConversionErrorCode =
+  | "parquet_read_failed"
+  | "parquet_write_failed";
 
 export class ParquetConversionError extends Error {
   code: ParquetConversionErrorCode;
@@ -49,18 +54,23 @@ export async function parseParquetFileToImportResult(
   },
 ): Promise<{ result: CsvImportResult; truncated: boolean }> {
   const hyparquet = await import("hyparquet");
-  const rowEnd = Math.min(opts?.rowEnd ?? PARQUET_READ_ROW_CAP, PARQUET_READ_ROW_CAP);
+  const rowEnd = Math.min(
+    opts?.rowEnd ?? PARQUET_READ_ROW_CAP,
+    PARQUET_READ_ROW_CAP,
+  );
 
   const buf = await file.arrayBuffer();
 
   try {
-    const records = await (hyparquet as unknown as {
-      parquetReadObjects: (args: {
-        file: ArrayBuffer;
-        rowStart?: number;
-        rowEnd?: number;
-      }) => Promise<Record<string, unknown>[]>;
-    }).parquetReadObjects({
+    const records = await (
+      hyparquet as unknown as {
+        parquetReadObjects: (args: {
+          file: ArrayBuffer;
+          rowStart?: number;
+          rowEnd?: number;
+        }) => Promise<Record<string, unknown>[]>;
+      }
+    ).parquetReadObjects({
       file: buf,
       rowStart: 0,
       rowEnd,
@@ -74,7 +84,9 @@ export async function parseParquetFileToImportResult(
     return { result, truncated };
   } catch (e) {
     const msg =
-      e instanceof Error ? e.message : "Could not read Parquet file in this browser.";
+      e instanceof Error
+        ? e.message
+        : "Could not read Parquet file in this browser.";
     throw new ParquetConversionError("parquet_read_failed", msg);
   }
 }
@@ -87,7 +99,10 @@ export async function parquetCsvSessionToBuffer(
 ): Promise<ArrayBuffer> {
   const { parquetWriteBuffer } = await import("hyparquet-writer");
 
-  const maxRows = Math.min(opts?.maxRows ?? CSV_IMPORT_MAX_ROWS, session.rows.length);
+  const maxRows = Math.min(
+    opts?.maxRows ?? CSV_IMPORT_MAX_ROWS,
+    session.rows.length,
+  );
   const rows = session.rows.slice(0, maxRows);
 
   if (rows.length === 0) {
@@ -104,7 +119,8 @@ export async function parquetCsvSessionToBuffer(
 
   const columnKeys = session.columnKeys;
   const columnLabels = session.headerLabels;
-  const baseColumnNames = columnLabels.length === columnKeys.length ? columnLabels : columnKeys;
+  const baseColumnNames =
+    columnLabels.length === columnKeys.length ? columnLabels : columnKeys;
   const columnNames = uniqueColumnNames(baseColumnNames);
 
   const columnData: ColumnSource[] = columnNames.map((name, i) => {
@@ -121,8 +137,9 @@ export async function parquetCsvSessionToBuffer(
     return parquetWriteBuffer({ columnData });
   } catch (e) {
     const msg =
-      e instanceof Error ? e.message : "Could not write Parquet file in this browser.";
+      e instanceof Error
+        ? e.message
+        : "Could not write Parquet file in this browser.";
     throw new ParquetConversionError("parquet_write_failed", msg);
   }
 }
-

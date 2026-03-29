@@ -17,7 +17,9 @@ interface ImageCompressPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function ImageCompressPage({ params }: ImageCompressPageProps) {
+export default async function ImageCompressPage({
+  params,
+}: ImageCompressPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 

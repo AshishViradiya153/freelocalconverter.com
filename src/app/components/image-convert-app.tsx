@@ -10,9 +10,9 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
-
-import { Button } from "@/components/ui/button";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,7 +26,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { downloadBlob } from "@/lib/download-blob";
-import { type SvgTracePreset, traceRasterCanvasToSvg } from "@/lib/image/raster-to-svg";
+import {
+  type SvgTracePreset,
+  traceRasterCanvasToSvg,
+} from "@/lib/image/raster-to-svg";
 import { cn } from "@/lib/utils";
 
 type OutputFormat =
@@ -106,7 +109,9 @@ function safeNameFromUrl(url: string) {
     const u = new URL(url);
     const leaf = u.pathname.split("/").filter(Boolean).pop() ?? "image";
     const base = leaf.replace(/[/?%*:|"<>\\]/g, "-").slice(0, 80) || "image";
-    return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?|ico|heic|heif|svg)$/i.test(base)
+    return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?|ico|heic|heif|svg)$/i.test(
+      base,
+    )
       ? base
       : `${base}.png`;
   } catch {
@@ -121,7 +126,9 @@ function baseNameFromFileName(name: string) {
 
 function isProbablyImageFile(file: File) {
   if (file.type.startsWith("image/")) return true;
-  return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?|ico|heic|heif|svg)$/i.test(file.name);
+  return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?|ico|heic|heif|svg)$/i.test(
+    file.name,
+  );
 }
 
 function outputMime(format: OutputFormat) {
@@ -150,7 +157,11 @@ function createCanvas(width: number, height: number) {
   return canvas;
 }
 
-function canvasToBlob(canvas: HTMLCanvasElement, mimeType: string, quality?: number) {
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  mimeType: string,
+  quality?: number,
+) {
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
       (blob) => {
@@ -186,13 +197,16 @@ async function decodeToRgbaCanvas(file: File) {
     const decode = (mod as unknown as { default?: unknown }).default ?? mod;
     const buf = await file.arrayBuffer();
     const u8 = new Uint8Array(buf);
-    const { width, height, data } = await (decode as (args: { buffer: Uint8Array }) => Promise<{
-      width: number;
-      height: number;
-      data: Uint8ClampedArray;
-    }>)({ buffer: u8 });
+    const { width, height, data } = await (
+      decode as (args: { buffer: Uint8Array }) => Promise<{
+        width: number;
+        height: number;
+        data: Uint8ClampedArray;
+      }>
+    )({ buffer: u8 });
 
-    if (!width || !height) throw new Error("Could not decode HEIC image dimensions.");
+    if (!width || !height)
+      throw new Error("Could not decode HEIC image dimensions.");
     const rgba = new Uint8ClampedArray(data);
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
@@ -218,7 +232,12 @@ async function decodeToRgbaCanvas(file: File) {
 }
 
 function isCanvasEncodable(format: OutputFormat) {
-  return format === "png" || format === "jpeg" || format === "webp" || format === "avif";
+  return (
+    format === "png" ||
+    format === "jpeg" ||
+    format === "webp" ||
+    format === "avif"
+  );
 }
 
 function isQualityRelevant(format: OutputFormat) {
@@ -277,7 +296,10 @@ async function convertImageBrowser(args: {
  * Raster → SVG via real vector tracing (paths), local-only.
  * Existing SVG files are passed through as UTF-8 text.
  */
-async function convertImageToSvg(file: File, svgPreset: SvgTracePreset): Promise<Blob> {
+async function convertImageToSvg(
+  file: File,
+  svgPreset: SvgTracePreset,
+): Promise<Blob> {
   if (isSvgFile(file)) {
     const text = await file.text();
     const trimmed = text.trim();
@@ -372,11 +394,18 @@ async function convertImageFfmpeg(args: {
   }
 }
 
-function ImageFileGlyph(props: { className?: string; "aria-hidden"?: boolean }) {
-  return <ImageIcon className={props.className} aria-hidden={props["aria-hidden"]} />;
+function ImageFileGlyph(props: {
+  className?: string;
+  "aria-hidden"?: boolean;
+}) {
+  return (
+    <ImageIcon className={props.className} aria-hidden={props["aria-hidden"]} />
+  );
 }
 
-function statusBadgeVariant(status: ItemStatus): React.ComponentProps<typeof Badge>["variant"] {
+function statusBadgeVariant(
+  status: ItemStatus,
+): React.ComponentProps<typeof Badge>["variant"] {
   if (status === "done") return "secondary";
   if (status === "error") return "destructive";
   if (status === "running" || status === "fetching") return "default";
@@ -441,6 +470,7 @@ function ImageThumb(props: { file: File | null; label: string }) {
     <div className="grid size-12 place-items-center overflow-hidden rounded-lg border bg-muted/20 sm:size-14">
       {url ? (
         // eslint-disable-next-line @next/next/no-img-element
+        // biome-ignore lint/performance/noImgElement: object URL preview from local file
         <img
           src={url}
           alt=""
@@ -459,16 +489,26 @@ function ImageThumb(props: { file: File | null; label: string }) {
 export function ImageConvertApp(props: ImageConvertAppProps) {
   const [items, setItems] = React.useState<ImageItem[]>([]);
   const [busy, setBusy] = React.useState(false);
-  const [engineStatus, setEngineStatus] = React.useState<null | { phase: string }>(
-    null,
-  );
+  const [engineStatus, setEngineStatus] = React.useState<null | {
+    phase: string;
+  }>(null);
   const [engineError, setEngineError] = React.useState<string | null>(null);
   const ffmpegRef = React.useRef<null | import("@ffmpeg/ffmpeg").FFmpeg>(null);
 
   const [linkInput, setLinkInput] = React.useState("");
   const allowedFormats = React.useMemo(
     () =>
-      props.allowedFormats ?? ["webp", "avif", "jpeg", "png", "gif", "bmp", "tiff", "ico", "svg"],
+      props.allowedFormats ?? [
+        "webp",
+        "avif",
+        "jpeg",
+        "png",
+        "gif",
+        "bmp",
+        "tiff",
+        "ico",
+        "svg",
+      ],
     [props.allowedFormats],
   );
 
@@ -479,8 +519,11 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
       : ((allowedFormats[0] ?? "webp") as OutputFormat);
   });
   const [quality, setQuality] = React.useState(85);
-  const [svgTracePreset, setSvgTracePreset] = React.useState<SvgTracePreset>("balanced");
-  const [engine, setEngine] = React.useState<ConvertEngine>(props.initialEngine ?? "auto");
+  const [svgTracePreset, setSvgTracePreset] =
+    React.useState<SvgTracePreset>("balanced");
+  const [engine, setEngine] = React.useState<ConvertEngine>(
+    props.initialEngine ?? "auto",
+  );
 
   const hasQueued = items.some((item) => item.status === "queued" && item.file);
 
@@ -557,12 +600,12 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
         prev.map((item) =>
           item.id === id
             ? {
-              ...item,
-              file,
-              status: "queued",
-              originalBytes: file.size,
-              error: null,
-            }
+                ...item,
+                file,
+                status: "queued",
+                originalBytes: file.size,
+                error: null,
+              }
             : item,
         ),
       );
@@ -570,7 +613,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
     } catch (error) {
       const msg = errorToMessage(error);
       setItems((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, status: "error", error: msg } : item)),
+        prev.map((item) =>
+          item.id === id ? { ...item, status: "error", error: msg } : item,
+        ),
       );
       toast.error("Could not fetch that link. Some hosts block CORS access.");
     } finally {
@@ -589,7 +634,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
       setEngineError(null);
       setEngineStatus({ phase: `Converting ${file.name}…` });
       setItems((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, status: "running", progress: 0.1 } : item)),
+        prev.map((item) =>
+          item.id === id ? { ...item, status: "running", progress: 0.1 } : item,
+        ),
       );
 
       try {
@@ -597,24 +644,30 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
           format === "svg"
             ? await convertImageToSvg(file, svgTracePreset)
             : await (async () => {
-              const selectedEngine: ConvertEngine = isHeicFile(file) && isCanvasEncodable(format)
-                ? "browser"
-                : engine === "auto"
-                  ? (isCanvasEncodable(format) ? "browser" : "ffmpeg")
-                  : engine;
+                const selectedEngine: ConvertEngine =
+                  isHeicFile(file) && isCanvasEncodable(format)
+                    ? "browser"
+                    : engine === "auto"
+                      ? isCanvasEncodable(format)
+                        ? "browser"
+                        : "ffmpeg"
+                      : engine;
 
-              if (selectedEngine === "browser") {
-                return convertImageBrowser({ file, format, quality });
-              }
-              return convertImageFfmpeg({
-                ffmpeg: await ensureFfmpegLoaded({ ffmpegRef }),
-                file,
-                format,
-                quality,
-              });
-            })();
+                if (selectedEngine === "browser") {
+                  return convertImageBrowser({ file, format, quality });
+                }
+                return convertImageFfmpeg({
+                  ffmpeg: await ensureFfmpegLoaded({ ffmpegRef }),
+                  file,
+                  format,
+                  quality,
+                });
+              })();
 
-        const base = baseNameFromFileName(file.name).replace(/[/?%*:|"<>\\]/g, "-");
+        const base = baseNameFromFileName(file.name).replace(
+          /[/?%*:|"<>\\]/g,
+          "-",
+        );
         const ext = outputExt(format);
         const outName = `${base}.${ext}`;
 
@@ -622,14 +675,14 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
           prev.map((item) =>
             item.id === id
               ? {
-                ...item,
-                status: "done",
-                progress: 1,
-                outputBlob: blob,
-                outputBytes: blob.size,
-                outputName: outName,
-                error: null,
-              }
+                  ...item,
+                  status: "done",
+                  progress: 1,
+                  outputBlob: blob,
+                  outputBytes: blob.size,
+                  outputName: outName,
+                  error: null,
+                }
               : item,
           ),
         );
@@ -638,7 +691,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
         const msg = errorToMessage(error);
         setEngineError(msg);
         setItems((prev) =>
-          prev.map((item) => (item.id === id ? { ...item, status: "error", error: msg } : item)),
+          prev.map((item) =>
+            item.id === id ? { ...item, status: "error", error: msg } : item,
+          ),
         );
         toast.error(msg);
       } finally {
@@ -665,7 +720,7 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
             <span className="font-semibold text-sm">IMG</span>
           </div>
           <div className="min-w-0">
-            <h1 className="truncate font-semibold text-3xl tracking-tight md:text-4xl">
+            <h1 className={cn(toolHeroTitleClassName, "truncate")}>
               {props.title ?? "Image Converter"}
             </h1>
           </div>
@@ -701,8 +756,8 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
             </Button>
           </div>
           <div className="text-muted-foreground text-xs">
-            Works only if the host allows browser downloads (CORS). If it fails, download the
-            image first, then upload it here.
+            Works only if the host allows browser downloads (CORS). If it fails,
+            download the image first, then upload it here.
           </div>
         </div>
       </div>
@@ -761,11 +816,24 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                 <Badge variant="outline">{items.length} items</Badge>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <Button type="button" disabled={busy || !hasQueued} onClick={() => void onConvertAll()}>
-                  <Loader2 className={cn("size-4", busy ? "animate-spin" : "hidden")} aria-hidden />
+                <Button
+                  type="button"
+                  disabled={busy || !hasQueued}
+                  onClick={() => void onConvertAll()}
+                >
+                  <Loader2
+                    className={cn("size-4", busy ? "animate-spin" : "hidden")}
+                    aria-hidden
+                  />
                   Convert all
                 </Button>
-                <Button type="button" variant="outline" size="sm" onClick={onClearAll} disabled={busy}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={onClearAll}
+                  disabled={busy}
+                >
                   <Trash2 className="size-4" aria-hidden />
                   Clear all
                 </Button>
@@ -777,7 +845,8 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                 const outName = item.outputName ?? "converted.webp";
                 const savings =
                   item.originalBytes && item.outputBytes
-                    ? (item.outputBytes - item.originalBytes) / item.originalBytes
+                    ? (item.outputBytes - item.originalBytes) /
+                      item.originalBytes
                     : null;
 
                 return (
@@ -794,11 +863,14 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                             <div className="mt-1 flex flex-wrap items-center gap-2">
                               <Badge variant={statusBadgeVariant(item.status)}>
                                 {statusLabel(item.status)}
-                                {item.status === "running" && item.progress != null
+                                {item.status === "running" &&
+                                item.progress != null
                                   ? ` · ${Math.round(item.progress * 100)}%`
                                   : null}
                               </Badge>
-                              <Badge variant="outline">{format.toUpperCase()}</Badge>
+                              <Badge variant="outline">
+                                {format.toUpperCase()}
+                              </Badge>
                               {item.sourceLabel === "link" ? (
                                 <Badge variant="outline">Link</Badge>
                               ) : (
@@ -821,12 +893,18 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                         </div>
 
                         {item.status === "error" && item.error ? (
-                          <div className="mt-2 text-destructive text-xs">{item.error}</div>
+                          <div className="mt-2 text-destructive text-xs">
+                            {item.error}
+                          </div>
                         ) : null}
 
                         <div className="mt-2 flex flex-wrap items-center gap-2 text-muted-foreground text-xs">
-                          {item.originalBytes ? <span>In: {formatBytes(item.originalBytes)}</span> : null}
-                          {item.outputBytes ? <span>Out: {formatBytes(item.outputBytes)}</span> : null}
+                          {item.originalBytes ? (
+                            <span>In: {formatBytes(item.originalBytes)}</span>
+                          ) : null}
+                          {item.outputBytes ? (
+                            <span>Out: {formatBytes(item.outputBytes)}</span>
+                          ) : null}
                           {savings != null && item.outputBytes ? (
                             <span>
                               {savings > 0 ? "Bigger" : "Smaller"}:{" "}
@@ -839,7 +917,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                           <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                             <div
                               className="h-full bg-primary transition-[width]"
-                              style={{ width: `${Math.round((item.progress ?? 0) * 100)}%` }}
+                              style={{
+                                width: `${Math.round((item.progress ?? 0) * 100)}%`,
+                              }}
                             />
                           </div>
                         ) : null}
@@ -849,7 +929,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                             type="button"
                             size="sm"
                             variant="secondary"
-                            disabled={busy || item.status !== "queued" || !item.file}
+                            disabled={
+                              busy || item.status !== "queued" || !item.file
+                            }
                             onClick={() => void convertOne(item.id)}
                           >
                             Convert
@@ -857,7 +939,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                           <Button
                             type="button"
                             size="sm"
-                            variant={item.status === "done" ? "default" : "outline"}
+                            variant={
+                              item.status === "done" ? "default" : "outline"
+                            }
                             disabled={!item.outputBlob || !item.outputName}
                             onClick={() => {
                               if (!item.outputBlob || !item.outputName) return;
@@ -880,9 +964,12 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
             <div className="flex flex-col gap-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="font-semibold text-sm">Conversion settings</div>
+                  <div className="font-semibold text-sm">
+                    Conversion settings
+                  </div>
                   <div className="mt-1 text-muted-foreground text-xs">
-                    Choose output format + conversion mode. Recommended picks the fastest safe path.
+                    Choose output format + conversion mode. Recommended picks
+                    the fastest safe path.
                   </div>
                 </div>
               </div>
@@ -900,7 +987,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                   <SelectContent>
                     <SelectItem value="auto">Recommended</SelectItem>
                     <SelectItem value="browser">Fast</SelectItem>
-                    <SelectItem value="ffmpeg">Works with more formats</SelectItem>
+                    <SelectItem value="ffmpeg">
+                      Works with more formats
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <div className="text-muted-foreground text-xs">
@@ -915,41 +1004,71 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
                   <Label className="text-sm">SVG vector quality</Label>
                   <Select
                     value={svgTracePreset}
-                    onValueChange={(value) => setSvgTracePreset(value as SvgTracePreset)}
+                    onValueChange={(value) =>
+                      setSvgTracePreset(value as SvgTracePreset)
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="fast">Fast (smaller preview, fewer paths)</SelectItem>
-                      <SelectItem value="balanced">Balanced (recommended)</SelectItem>
+                      <SelectItem value="fast">
+                        Fast (smaller preview, fewer paths)
+                      </SelectItem>
+                      <SelectItem value="balanced">
+                        Balanced (recommended)
+                      </SelectItem>
                       <SelectItem value="high">High detail (slower)</SelectItem>
                     </SelectContent>
                   </Select>
                   <div className="text-muted-foreground text-xs">
-                    Uses Vision Cortex VTracer (WASM) locally. The same engine family as many desktop tools. Fast uses
-                    a smaller trace and coarser clustering; High uses the vtracer “photo”-style settings and up to ~2048px
-                    per side. Still slower than a cloud GPU, but much closer in quality than the old JS-only tracer.
+                    Uses Vision Cortex VTracer (WASM) locally. The same engine
+                    family as many desktop tools. Fast uses a smaller trace and
+                    coarser clustering; High uses the vtracer “photo”-style
+                    settings and up to ~2048px per side. Still slower than a
+                    cloud GPU, but much closer in quality than the old JS-only
+                    tracer.
                   </div>
                 </div>
               ) : null}
 
               <div className="grid gap-2">
                 <Label className="text-sm">Output format</Label>
-                <Select value={format} onValueChange={(value) => setFormat(value as OutputFormat)}>
+                <Select
+                  value={format}
+                  onValueChange={(value) => setFormat(value as OutputFormat)}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {allowedFormats.includes("webp") ? <SelectItem value="webp">WebP</SelectItem> : null}
-                    {allowedFormats.includes("avif") ? <SelectItem value="avif">AVIF</SelectItem> : null}
-                    {allowedFormats.includes("jpeg") ? <SelectItem value="jpeg">JPEG</SelectItem> : null}
-                    {allowedFormats.includes("png") ? <SelectItem value="png">PNG</SelectItem> : null}
-                    {allowedFormats.includes("gif") ? <SelectItem value="gif">GIF</SelectItem> : null}
-                    {allowedFormats.includes("bmp") ? <SelectItem value="bmp">BMP</SelectItem> : null}
-                    {allowedFormats.includes("tiff") ? <SelectItem value="tiff">TIFF</SelectItem> : null}
-                    {allowedFormats.includes("ico") ? <SelectItem value="ico">ICO</SelectItem> : null}
-                    {allowedFormats.includes("svg") ? <SelectItem value="svg">SVG</SelectItem> : null}
+                    {allowedFormats.includes("webp") ? (
+                      <SelectItem value="webp">WebP</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("avif") ? (
+                      <SelectItem value="avif">AVIF</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("jpeg") ? (
+                      <SelectItem value="jpeg">JPEG</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("png") ? (
+                      <SelectItem value="png">PNG</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("gif") ? (
+                      <SelectItem value="gif">GIF</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("bmp") ? (
+                      <SelectItem value="bmp">BMP</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("tiff") ? (
+                      <SelectItem value="tiff">TIFF</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("ico") ? (
+                      <SelectItem value="ico">ICO</SelectItem>
+                    ) : null}
+                    {allowedFormats.includes("svg") ? (
+                      <SelectItem value="svg">SVG</SelectItem>
+                    ) : null}
                   </SelectContent>
                 </Select>
               </div>
@@ -957,7 +1076,9 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
               <div className="grid gap-2">
                 <div className="flex items-center justify-between gap-2">
                   <Label className="text-sm">Quality</Label>
-                  <span className="text-muted-foreground text-xs">{quality}</span>
+                  <span className="text-muted-foreground text-xs">
+                    {quality}
+                  </span>
                 </div>
                 <Slider
                   value={[quality]}
@@ -977,7 +1098,8 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
               <Separator />
 
               <div className="text-muted-foreground text-xs">
-                Runs 100% on your device. If a file won’t convert, try “Works with more formats”.
+                Runs 100% on your device. If a file won’t convert, try “Works
+                with more formats”.
               </div>
             </div>
           </aside>
@@ -986,4 +1108,3 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
     </div>
   );
 }
-

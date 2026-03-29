@@ -1,18 +1,11 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import type { ColumnDef, Header } from "@tanstack/react-table";
-import {
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { DataGridColumnHeader } from "@/components/data-grid/data-grid-column-header";
 
-function ColumnHeaderHarness({
-  meta,
-}: {
-  meta?: Record<string, unknown>;
-}) {
+function ColumnHeaderHarness({ meta }: { meta?: Record<string, unknown> }) {
   const columns = React.useMemo<ColumnDef<{ name: string }>[]>(
     () => [
       {

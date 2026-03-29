@@ -21,12 +21,22 @@ function getLocalizedLabel(
     | "jsonToParquet"
     | "parquetToJson"
     | "csvToMarkdownTable"
+    | "csvToSql"
     | "xlsViewer"
     | "parquetViewer"
     | "csvToExcel"
     | "xlsToCsv"
     | "jsonToExcel"
     | "jsonFormatter"
+    | "sqlFormatter"
+    | "jsonYamlConverter"
+    | "markdownHtmlConverter"
+    | "jwtDecoder"
+    | "cronParser"
+    | "uuidGenerator"
+    | "regexTester"
+    | "base64Converter"
+    | "unixTimestampConverter"
     | "curlConverter"
     | "fetchConverter"
     | "axiosConverter"
@@ -202,6 +212,21 @@ function getLocalizedLabel(
         tr: "CSV'den Markdown tablosuna",
         zh: "CSV 转 Markdown 表格",
       });
+    case "csvToSql":
+      return localizedText(locale, {
+        en: "CSV to SQL",
+        de: "CSV zu SQL",
+        es: "CSV a SQL",
+        fr: "CSV vers SQL",
+        it: "CSV in SQL",
+        ja: "CSVからSQL",
+        ko: "CSV를 SQL로",
+        nl: "CSV naar SQL",
+        pt: "CSV para SQL",
+        ru: "CSV в SQL",
+        tr: "CSV'den SQL'e",
+        zh: "CSV 转 SQL",
+      });
     case "xlsViewer":
       return localizedText(locale, {
         en: "Excel Viewer",
@@ -291,6 +316,151 @@ function getLocalizedLabel(
         ru: "Форматирование JSON",
         tr: "JSON Bicimlendirici",
         zh: "JSON 格式化",
+      });
+    case "sqlFormatter":
+      return localizedText(locale, {
+        en: "SQL formatter",
+        de: "SQL-Formatierer",
+        es: "Formateador SQL",
+        fr: "Formateur SQL",
+        it: "Formattatore SQL",
+        ja: "SQL整形",
+        ko: "SQL 포매터",
+        nl: "SQL-formatter",
+        pt: "Formatador SQL",
+        ru: "Форматирование SQL",
+        tr: "SQL bicimlendirici",
+        zh: "SQL 格式化",
+      });
+    case "jsonYamlConverter":
+      return localizedText(locale, {
+        en: "JSON YAML converter",
+        de: "JSON-YAML-Konverter",
+        es: "Convertidor JSON YAML",
+        fr: "Convertisseur JSON YAML",
+        it: "Convertitore JSON YAML",
+        ja: "JSON YAML 変換",
+        ko: "JSON YAML 변환기",
+        nl: "JSON-YAML-converter",
+        pt: "Conversor JSON YAML",
+        ru: "Конвертер JSON и YAML",
+        tr: "JSON YAML donusturucu",
+        zh: "JSON YAML 转换器",
+      });
+    case "markdownHtmlConverter":
+      return localizedText(locale, {
+        en: "Markdown HTML converter",
+        de: "Markdown-HTML-Konverter",
+        es: "Convertidor Markdown HTML",
+        fr: "Convertisseur Markdown HTML",
+        it: "Convertitore Markdown HTML",
+        ja: "Markdown HTML 変換",
+        ko: "Markdown HTML 변환기",
+        nl: "Markdown-HTML-converter",
+        pt: "Conversor Markdown HTML",
+        ru: "Конвертер Markdown и HTML",
+        tr: "Markdown HTML donusturucu",
+        zh: "Markdown HTML 转换器",
+      });
+    case "jwtDecoder":
+      return localizedText(locale, {
+        en: "JWT decoder",
+        de: "JWT-Decoder",
+        es: "Decodificador JWT",
+        fr: "Decodeur JWT",
+        it: "Decoder JWT",
+        ja: "JWT デコーダ",
+        ko: "JWT 디코더",
+        nl: "JWT-decoder",
+        pt: "Decodificador JWT",
+        ru: "Декодер JWT",
+        tr: "JWT cozucu",
+        zh: "JWT 解码器",
+      });
+    case "cronParser":
+      return localizedText(locale, {
+        en: "Cron parser",
+        de: "Cron-Parser",
+        es: "Analizador Cron",
+        fr: "Analyseur Cron",
+        it: "Parser Cron",
+        ja: "Cron パーサ",
+        ko: "Cron 파서",
+        nl: "Cron-parser",
+        pt: "Analisador Cron",
+        ru: "Парсер Cron",
+        tr: "Cron cozumleyici",
+        zh: "Cron 解析器",
+      });
+    case "uuidGenerator":
+      return localizedText(locale, {
+        en: "UUID / GUID generator",
+        de: "UUID-/GUID-Generator",
+        es: "Generador UUID / GUID",
+        fr: "Générateur UUID / GUID",
+        it: "Generatore UUID / GUID",
+        ja: "UUID / GUID ジェネレータ",
+        ko: "UUID / GUID 생성기",
+        nl: "UUID-/GUID-generator",
+        pt: "Gerador UUID / GUID",
+        ru: "Генератор UUID / GUID",
+        tr: "UUID / GUID uretici",
+        zh: "UUID / GUID 生成器",
+        ar: "مولّد UUID / GUID",
+        fa: "تولیدکننده UUID / GUID",
+        he: "מחולל UUID / GUID",
+        az: "UUID / GUID generatoru",
+        el: "Γεννητρια UUID / GUID",
+      });
+    case "regexTester":
+      return localizedText(locale, {
+        en: "Regex tester",
+        de: "Regex-Tester",
+        es: "Probador de regex",
+        fr: "Testeur regex",
+        it: "Tester regex",
+        ja: "正規表現テスター",
+        ko: "정규식 테스터",
+        nl: "Regex-tester",
+        pt: "Testador de regex",
+        ru: "Тестер regex",
+        tr: "Regex test araci",
+        zh: "正则测试",
+        ar: "مختبر regex",
+        fa: "آزمایشگر regex",
+        he: "בודק regex",
+        az: "Regex test aləti",
+        el: "Δοκιμαστης regex",
+      });
+    case "base64Converter":
+      return localizedText(locale, {
+        en: "Base64 encoder & decoder",
+        de: "Base64-Kodierer & Decoder",
+        es: "Codificador y decodificador Base64",
+        fr: "Encodeur et decodeur Base64",
+        it: "Codificatore e decodificatore Base64",
+        ja: "Base64 エンコード・デコード",
+        ko: "Base64 인코더·디코더",
+        nl: "Base64 encoder en decoder",
+        pt: "Codificador e decodificador Base64",
+        ru: "Кодирование и декодирование Base64",
+        tr: "Base64 kodlayici ve cozucu",
+        zh: "Base64 编解码",
+      });
+    case "unixTimestampConverter":
+      return localizedText(locale, {
+        en: "Unix timestamp converter",
+        de: "Unix-Zeitstempel-Konverter",
+        es: "Convertidor de marca Unix",
+        fr: "Convertisseur horodatage Unix",
+        it: "Convertitore timestamp Unix",
+        ja: "Unix タイムスタンプ変換",
+        ko: "Unix 타임스탬프 변환기",
+        nl: "Unix-timestampconverter",
+        pt: "Conversor de timestamp Unix",
+        ru: "Конвертер Unix-времени",
+        tr: "Unix zaman damgasi donusturucu",
+        zh: "Unix 时间戳转换器",
       });
     case "curlConverter":
       return localizedText(locale, {
@@ -724,12 +894,22 @@ function getLocalizedDescription(
     | "jsonToParquet"
     | "parquetToJson"
     | "csvToMarkdownTable"
+    | "csvToSql"
     | "xlsViewer"
     | "parquetViewer"
     | "csvToExcel"
     | "xlsToCsv"
     | "jsonToExcel"
     | "jsonFormatter"
+    | "sqlFormatter"
+    | "jsonYamlConverter"
+    | "markdownHtmlConverter"
+    | "jwtDecoder"
+    | "cronParser"
+    | "uuidGenerator"
+    | "regexTester"
+    | "base64Converter"
+    | "unixTimestampConverter"
     | "curlConverter"
     | "fetchConverter"
     | "axiosConverter"
@@ -892,12 +1072,32 @@ function getLocalizedDescription(
           jsonToParquet: "Create Parquet from JSON data.",
           parquetToJson: "Convert Parquet into JSON.",
           csvToMarkdownTable: "Generate Markdown tables from CSV files.",
+          csvToSql:
+            "Generate CREATE TABLE and INSERT statements from CSV (PostgreSQL, MySQL, SQLite).",
           xlsViewer: "View Excel files directly in a grid.",
           parquetViewer: "Open and browse Parquet files.",
           csvToExcel: "Convert CSV to XLSX files.",
           xlsToCsv: "Turn Excel sheets into CSV.",
           jsonToExcel: "Convert JSON into XLSX.",
           jsonFormatter: "Format, minify, and validate JSON locally.",
+          sqlFormatter:
+            "Pretty-print SQL with dialect-aware parsing; read-only, runs locally.",
+          jsonYamlConverter:
+            "Convert between JSON and YAML for configs and APIs locally.",
+          markdownHtmlConverter:
+            "Convert Markdown and HTML with GFM tables, live preview, and safe copy.",
+          jwtDecoder:
+            "Decode JWT header and payload locally for API debugging.",
+          cronParser:
+            "Parse cron, preview next runs, and convert simple English phrases to schedules.",
+          uuidGenerator:
+            "Generate v1, v4, v7, or nil UUIDs in bulk with copy-friendly formats for apps and tests.",
+          regexTester:
+            "Test JavaScript regular expressions with flags, multiline text, and capture groups locally.",
+          base64Converter:
+            "Encode UTF-8 or files to Base64; decode to text or download binary.",
+          unixTimestampConverter:
+            "Convert epoch seconds or milliseconds to human dates and back with IANA timezones locally.",
           curlConverter:
             "Convert cURL request snippets to fetch, axios, or Python.",
           fetchConverter: "Convert fetch snippets to cURL, axios, or Python.",
@@ -1107,6 +1307,60 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
             "csvToMarkdownTable",
           ),
         },
+        {
+          href: "/csv-to-sql",
+          label: getLocalizedLabel(safeLocale, "csvToSql"),
+          description: getLocalizedDescription(safeLocale, "csvToSql"),
+        },
+        {
+          href: "/json-yaml-converter",
+          label: getLocalizedLabel(safeLocale, "jsonYamlConverter"),
+          description: getLocalizedDescription(safeLocale, "jsonYamlConverter"),
+        },
+        {
+          href: "/markdown-html-converter",
+          label: getLocalizedLabel(safeLocale, "markdownHtmlConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "markdownHtmlConverter",
+          ),
+        },
+        {
+          href: "/base64-converter",
+          label: getLocalizedLabel(safeLocale, "base64Converter"),
+          description: getLocalizedDescription(safeLocale, "base64Converter"),
+        },
+        {
+          href: "/unix-timestamp-converter",
+          label: getLocalizedLabel(safeLocale, "unixTimestampConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "unixTimestampConverter",
+          ),
+        },
+        {
+          href: "/curl-converter",
+          label: getLocalizedLabel(safeLocale, "curlConverter"),
+          description: getLocalizedDescription(safeLocale, "curlConverter"),
+        },
+        {
+          href: "/fetch-converter",
+          label: getLocalizedLabel(safeLocale, "fetchConverter"),
+          description: getLocalizedDescription(safeLocale, "fetchConverter"),
+        },
+        {
+          href: "/axios-converter",
+          label: getLocalizedLabel(safeLocale, "axiosConverter"),
+          description: getLocalizedDescription(safeLocale, "axiosConverter"),
+        },
+        {
+          href: "/python-requests-converter",
+          label: getLocalizedLabel(safeLocale, "pythonRequestsConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "pythonRequestsConverter",
+          ),
+        },
       ],
     },
     {
@@ -1133,6 +1387,31 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/parquet-viewer",
           label: getLocalizedLabel(safeLocale, "parquetViewer"),
           description: getLocalizedDescription(safeLocale, "parquetViewer"),
+        },
+        {
+          href: "/jwt-decoder",
+          label: getLocalizedLabel(safeLocale, "jwtDecoder"),
+          description: getLocalizedDescription(safeLocale, "jwtDecoder"),
+        },
+        {
+          href: "/openapi-viewer",
+          label: getLocalizedLabel(safeLocale, "openapiViewer"),
+          description: getLocalizedDescription(safeLocale, "openapiViewer"),
+        },
+        {
+          href: "/graphql-tools",
+          label: getLocalizedLabel(safeLocale, "graphqlTools"),
+          description: getLocalizedDescription(safeLocale, "graphqlTools"),
+        },
+        {
+          href: "/webhook-viewer",
+          label: getLocalizedLabel(safeLocale, "webhookViewer"),
+          description: getLocalizedDescription(safeLocale, "webhookViewer"),
+        },
+        {
+          href: "/regex-tester",
+          label: getLocalizedLabel(safeLocale, "regexTester"),
+          description: getLocalizedDescription(safeLocale, "regexTester"),
         },
       ],
     },
@@ -1169,47 +1448,24 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           description: getLocalizedDescription(safeLocale, "jsonFormatter"),
         },
         {
-          href: "/curl-converter",
-          label: getLocalizedLabel(safeLocale, "curlConverter"),
-          description: getLocalizedDescription(safeLocale, "curlConverter"),
+          href: "/sql-formatter",
+          label: getLocalizedLabel(safeLocale, "sqlFormatter"),
+          description: getLocalizedDescription(safeLocale, "sqlFormatter"),
         },
         {
-          href: "/fetch-converter",
-          label: getLocalizedLabel(safeLocale, "fetchConverter"),
-          description: getLocalizedDescription(safeLocale, "fetchConverter"),
+          href: "/cron-parser",
+          label: getLocalizedLabel(safeLocale, "cronParser"),
+          description: getLocalizedDescription(safeLocale, "cronParser"),
         },
         {
-          href: "/axios-converter",
-          label: getLocalizedLabel(safeLocale, "axiosConverter"),
-          description: getLocalizedDescription(safeLocale, "axiosConverter"),
-        },
-        {
-          href: "/python-requests-converter",
-          label: getLocalizedLabel(safeLocale, "pythonRequestsConverter"),
-          description: getLocalizedDescription(
-            safeLocale,
-            "pythonRequestsConverter",
-          ),
+          href: "/uuid-generator",
+          label: getLocalizedLabel(safeLocale, "uuidGenerator"),
+          description: getLocalizedDescription(safeLocale, "uuidGenerator"),
         },
         {
           href: "/http-explainer",
           label: getLocalizedLabel(safeLocale, "httpExplainer"),
           description: getLocalizedDescription(safeLocale, "httpExplainer"),
-        },
-        {
-          href: "/openapi-viewer",
-          label: getLocalizedLabel(safeLocale, "openapiViewer"),
-          description: getLocalizedDescription(safeLocale, "openapiViewer"),
-        },
-        {
-          href: "/graphql-tools",
-          label: getLocalizedLabel(safeLocale, "graphqlTools"),
-          description: getLocalizedDescription(safeLocale, "graphqlTools"),
-        },
-        {
-          href: "/webhook-viewer",
-          label: getLocalizedLabel(safeLocale, "webhookViewer"),
-          description: getLocalizedDescription(safeLocale, "webhookViewer"),
         },
       ],
     },
@@ -1325,7 +1581,10 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
         {
           href: "/gradient-generator",
           label: getLocalizedLabel(safeLocale, "meshGradientGenerator"),
-          description: getLocalizedDescription(safeLocale, "meshGradientGenerator"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "meshGradientGenerator",
+          ),
         },
         {
           href: "/gradient-generator/trending",

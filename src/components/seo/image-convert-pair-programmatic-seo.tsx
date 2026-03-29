@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
-
-import type { ImageConvertPair } from "@/lib/image/image-convert-pairs";
 import {
   type BreadcrumbNavItem,
   Breadcrumbs,
 } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { RelatedImageConvertPairs } from "@/components/seo/related-image-convert-pairs";
+import { ToolSectionHeading } from "@/components/tool-ui";
+import type { ImageConvertPair } from "@/lib/image/image-convert-pairs";
 import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
   type BreadcrumbItem,
@@ -82,16 +82,15 @@ export function ImageConvertPairProgrammaticSeo({
           ))}
         </div>
         <section aria-labelledby="faq-image-pair-heading">
-          <h2
-            id="faq-image-pair-heading"
-            className="font-semibold text-foreground text-lg tracking-tight"
-          >
+          <ToolSectionHeading id="faq-image-pair-heading">
             {faqHeading}
-          </h2>
+          </ToolSectionHeading>
           <dl className="mt-6 space-y-6">
             {faqs.map((faq) => (
               <div key={faq.question}>
-                <dt className="font-medium text-foreground text-sm">{faq.question}</dt>
+                <dt className="font-medium text-foreground text-sm">
+                  {faq.question}
+                </dt>
                 <dd className="mt-2 text-muted-foreground text-sm leading-relaxed">
                   {faq.answer}
                 </dd>

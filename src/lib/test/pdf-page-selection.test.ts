@@ -15,7 +15,9 @@ describe("parsePdfPageSelection", () => {
   });
 
   it("merges overlapping and adjacent ranges", () => {
-    expect(parsePdfPageSelection("1-3,3-6,7", 10)).toEqual([{ start: 1, end: 7 }]);
+    expect(parsePdfPageSelection("1-3,3-6,7", 10)).toEqual([
+      { start: 1, end: 7 },
+    ]);
   });
 
   it("clamps to pageCount", () => {
@@ -37,4 +39,3 @@ describe("parsePdfPageSelection", () => {
     ]);
   });
 });
-

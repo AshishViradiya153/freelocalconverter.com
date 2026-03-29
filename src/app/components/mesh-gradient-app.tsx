@@ -14,11 +14,11 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-
 import { getMeshGradientCanvasElement } from "@/app/components/mesh-gradient-canvas";
-import { MeshGradientQueryPresetSync } from "@/app/components/mesh-gradient-query-preset-sync";
 import { MeshGradientPositionControl } from "@/app/components/mesh-gradient-position-control";
 import { MeshGradientPreview } from "@/app/components/mesh-gradient-preview";
+import { MeshGradientQueryPresetSync } from "@/app/components/mesh-gradient-query-preset-sync";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -134,13 +134,11 @@ export function MeshGradientApp() {
     <div className="container flex flex-col gap-6 py-6">
       <MeshGradientQueryPresetSync />
       <div className="flex flex-col gap-2">
-        <h1 className="font-semibold text-2xl tracking-tight">
-          Mesh gradient generator
-        </h1>
+        <h1 className={toolHeroTitleClassName}>Mesh gradient generator</h1>
         <p className="max-w-2xl text-muted-foreground text-sm">
-          Soft color fields from blurred blobs on canvas, with harmonious palettes,
-          grain, and PNG export. Distinct from the CSS linear-gradient tool at{" "}
-          <span className="text-foreground/80">/gradients</span>.
+          Soft color fields from blurred blobs on canvas, with harmonious
+          palettes, grain, and PNG export. Distinct from the CSS linear-gradient
+          tool at <span className="text-foreground/80">/gradients</span>.
         </p>
         <p className="text-sm">
           <Link

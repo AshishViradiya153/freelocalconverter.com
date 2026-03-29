@@ -10,8 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import BestPaletteCard from "./best-palette-card";
 import type { BestPaletteRow } from "@/lib/best-gallery/best-gallery-types";
+import BestPaletteCard from "./best-palette-card";
 
 type SortId = "trending" | "latest" | "popular";
 
@@ -157,15 +157,15 @@ export default function BestPalettesGrid({
     pageSizeId === "all"
       ? filtered
       : filtered.slice(
-        safePageIndex * pageSizeId,
-        (safePageIndex + 1) * pageSizeId,
-      );
+          safePageIndex * pageSizeId,
+          (safePageIndex + 1) * pageSizeId,
+        );
 
   return (
     <div className="flex flex-col gap-6">
       <section className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="font-medium text-muted-foreground text-xs">
             Sort
           </span>
           {SORTS.map((s) => {
@@ -189,7 +189,7 @@ export default function BestPalettesGrid({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="font-medium text-muted-foreground text-xs">
             Style
           </span>
           {STYLE_FILTERS.map((s) => {
@@ -213,7 +213,7 @@ export default function BestPalettesGrid({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="font-medium text-muted-foreground text-xs">
             Color
           </span>
           {COLOR_FILTERS.map((c) => {
@@ -238,14 +238,14 @@ export default function BestPalettesGrid({
       </section>
 
       {palettes.length === 0 ? (
-        <div className="rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">
+        <div className="rounded-xl border bg-muted/30 p-4 text-muted-foreground text-sm">
           No CSV found for best palettes. Run:
           <div className="mt-2 font-mono text-xs">
             pnpm tsx scripts/generate-best-palettes-gradients.ts --count 100
           </div>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">
+        <div className="rounded-xl border bg-muted/30 p-4 text-muted-foreground text-sm">
           No results for the selected filters.
         </div>
       ) : (
@@ -256,10 +256,10 @@ export default function BestPalettesGrid({
             ))}
           </div>
 
-          <div className="flex flex-col gap-3 border-t border-border/60 pt-4">
+          <div className="flex flex-col gap-3 border-border/60 border-t pt-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-medium text-muted-foreground">
+                <span className="font-medium text-muted-foreground text-xs">
                   Show
                 </span>
                 <Select
@@ -292,7 +292,7 @@ export default function BestPalettesGrid({
                 >
                   Prev
                 </Button>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-muted-foreground text-xs">
                   Page {safePageIndex + 1} of {totalPages}
                 </span>
                 <Button
@@ -314,4 +314,3 @@ export default function BestPalettesGrid({
     </div>
   );
 }
-

@@ -1,6 +1,6 @@
 import type { CsvColumnKind, CsvViewerRow } from "@/lib/csv-import";
-import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 import { createEmptyCsvViewerRow } from "@/lib/csv-viewer";
+import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 
 export interface CompareEqualityOptions {
   trimWhitespace: boolean;
@@ -37,7 +37,10 @@ export function analyzeColumnStructure(
   }
   const setL = new Set(left.columnKeys);
   const setR = new Set(right.columnKeys);
-  if (setL.size !== left.columnKeys.length || setR.size !== right.columnKeys.length) {
+  if (
+    setL.size !== left.columnKeys.length ||
+    setR.size !== right.columnKeys.length
+  ) {
     return "mismatch";
   }
   if (setL.size !== setR.size) return "mismatch";
@@ -126,8 +129,11 @@ export function alignSessionsByKeyColumn(
   for (const lr of left.rows) {
     const k = normKey(lr);
     const q = queues.get(k);
-    const rr = q && q.length > 0 ? q.shift()! : undefined;
-    if (q && q.length === 0) queues.delete(k);
+    let rr: CsvViewerRow | undefined;
+    if (q && q.length > 0) {
+      rr = q.shift();
+      if (q.length === 0) queues.delete(k);
+    }
     newLeftRows.push({ ...lr });
     if (rr) {
       newRightRows.push(rr);
@@ -328,7 +334,7 @@ export function downloadCompareDiffReport(
   csvBody: string,
   baseName: string,
 ): void {
-  const safe = baseName.replace(/[^\w\-]+/g, "_").slice(0, 80) || "compare";
+  const safe = baseName.replace(/[^\w-]+/g, "_").slice(0, 80) || "compare";
   const blob = new Blob([csvBody], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");

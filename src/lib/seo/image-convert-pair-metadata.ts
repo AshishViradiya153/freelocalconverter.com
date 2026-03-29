@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-
+import { type AppLocale, routing } from "@/i18n/routing";
 import {
-  type ImageConvertFromSlug,
-  type ImageConvertOutputSlug,
   buildImageConvertPairKeywords,
   buildImageConvertPairSlug,
   formatDisplayLabel,
+  type ImageConvertFromSlug,
+  type ImageConvertOutputSlug,
   imageConvertPairTitle,
 } from "@/lib/image/image-convert-pairs";
-import { type AppLocale, routing } from "@/i18n/routing";
 
 import { buildPageMetadata } from "./metadata";
 import { getToolPageDescription } from "./tool-page-metadata";

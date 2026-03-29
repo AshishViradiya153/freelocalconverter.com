@@ -3,11 +3,11 @@
 import { useTheme } from "next-themes";
 import * as React from "react";
 import {
+  type Content,
   createJSONEditor,
   isJSONContent,
-  Mode,
-  type Content,
   type JsonEditor,
+  Mode,
 } from "vanilla-jsoneditor";
 import "vanilla-jsoneditor/themes/jse-theme-dark.css";
 import { cn } from "@/lib/utils";
@@ -84,7 +84,7 @@ export function CsvJsonEditorPanel({
       void editor.destroy();
       editorRef.current = null;
     };
-  }, []);
+  }, [contentRevision, jsonText]);
 
   React.useEffect(() => {
     const editor = editorRef.current;
@@ -100,6 +100,7 @@ export function CsvJsonEditorPanel({
 
   return (
     <div
+      role="region"
       className={cn(
         "flex min-h-0 w-full flex-col overflow-hidden rounded-md border border-border bg-background",
         resolvedTheme === "dark" && "jse-theme-dark",

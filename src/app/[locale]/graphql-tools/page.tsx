@@ -17,7 +17,9 @@ interface GraphQlToolsPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function GraphQlToolsPage({ params }: GraphQlToolsPageProps) {
+export default async function GraphQlToolsPage({
+  params,
+}: GraphQlToolsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 

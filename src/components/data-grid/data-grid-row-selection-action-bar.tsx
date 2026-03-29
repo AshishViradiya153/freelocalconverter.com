@@ -70,16 +70,10 @@ export function DataGridRowSelectionActionBar<TData extends RowData>({
   }
 
   return (
-    <ActionBar
-      data-grid-popover
-      open
-      onOpenChange={onOpenChange}
-    >
+    <ActionBar data-grid-popover open onOpenChange={onOpenChange}>
       <ActionBarSelection>
         <span className="font-medium">{selectedCount}</span>
-        <span>
-          {selectedCount === 1 ? "row" : "rows"} selected
-        </span>
+        <span>{selectedCount === 1 ? "row" : "rows"} selected</span>
         <ActionBarSeparator />
         <IconActionTooltip label="Clear selection">
           <ActionBarClose aria-label="Clear selection">

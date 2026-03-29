@@ -10,8 +10,8 @@ import {
 import Image from "next/image";
 import * as React from "react";
 import { toast } from "sonner";
-
 import { FilePdfGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -32,6 +32,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Link } from "@/i18n/navigation";
 import { downloadBlob } from "@/lib/download-blob";
 import {
   renderPdfPageToCanvas,
@@ -44,7 +45,6 @@ import {
   type WatermarkType,
 } from "@/lib/pdf/pdf-watermark";
 import { getPdfJs } from "@/lib/pdf/pdfjs";
-import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type PageMode = "all" | "selected" | "range";
@@ -373,15 +373,16 @@ export function PdfWatermarkApp() {
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <FilePdfGlyph className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            PDF Watermark
-          </h1>
+          <h1 className={toolHeroTitleClassName}>PDF Watermark</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Add a text or image watermark to a PDF locally in your browser.
           Control opacity, rotation, placement, and apply to specific pages, no
           uploads.{" "}
-          <Link className="text-foreground underline" href="/bulk-pdf-watermark">
+          <Link
+            className="text-foreground underline"
+            href="/bulk-pdf-watermark"
+          >
             Watermark many PDFs at once
           </Link>
           .

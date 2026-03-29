@@ -50,9 +50,9 @@ export function BlogPostContent() {
           handoffs (even if the source system will resort later).
         </li>
         <li>
-          <strong>Column operations</strong> (rename, insert, cut, paste, delete)
-          mirror spreadsheet power users who prepare exports for tools with
-          rigid schemas.
+          <strong>Column operations</strong> (rename, insert, cut, paste,
+          delete) mirror spreadsheet power users who prepare exports for tools
+          with rigid schemas.
         </li>
       </ul>
 

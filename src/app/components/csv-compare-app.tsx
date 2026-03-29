@@ -1,20 +1,17 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import {
-  ArrowLeftRight,
-  Download,
-  GitCompare,
-  Loader2,
-} from "lucide-react";
+import { ArrowLeftRight, Download, GitCompare, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
 import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-grid";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Label } from "@/components/ui/label";
-import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
 import {
   Select,
   SelectContent,
@@ -44,9 +41,11 @@ import {
   mergeRowsIntoSession,
   resultToSession,
 } from "@/lib/csv-viewer-session";
-import { FileDropZone } from "@/components/ui/file-drop-zone";
 
-function intersectionColumnKeys(a: CsvViewerSession, b: CsvViewerSession): string[] {
+function intersectionColumnKeys(
+  a: CsvViewerSession,
+  b: CsvViewerSession,
+): string[] {
   const setB = new Set(b.columnKeys);
   return a.columnKeys.filter((k) => setB.has(k));
 }
@@ -113,14 +112,7 @@ export function CsvCompareApp() {
       return incomparableSummaryStats(leftSession, rightSession);
     }
     return computeCsvCompareStats(workLeft, workRight, equality);
-  }, [
-    workLeft,
-    workRight,
-    leftSession,
-    rightSession,
-    comparable,
-    equality,
-  ]);
+  }, [workLeft, workRight, leftSession, rightSession, comparable, equality]);
 
   const diffSets = React.useMemo(() => {
     if (!workLeft || !workRight || !stats?.canCompareCells) return null;
@@ -134,7 +126,11 @@ export function CsvCompareApp() {
         displayRight: workRight,
       };
     }
-    if (!stats.canCompareCells || !diffOnly || stats.differingRowIndices.length === 0) {
+    if (
+      !stats.canCompareCells ||
+      !diffOnly ||
+      stats.differingRowIndices.length === 0
+    ) {
       return { displayLeft: workLeft, displayRight: workRight };
     }
     return {
@@ -205,9 +201,7 @@ export function CsvCompareApp() {
       const editedById = new Map(
         nextDisplay.rows.map((r) => [r.id, r] as const),
       );
-      const nextRows = rightSession.rows.map(
-        (r) => editedById.get(r.id) ?? r,
-      );
+      const nextRows = rightSession.rows.map((r) => editedById.get(r.id) ?? r);
       setRightSession(mergeRowsIntoSession(rightSession, nextRows));
     },
     [rightSession],
@@ -265,7 +259,10 @@ export function CsvCompareApp() {
       return;
     }
     const csv = buildCompareDiffReportCsv(workLeft, workRight, equality);
-    downloadCompareDiffReport(csv, `${leftSession?.fileName ?? "left"}_vs_${rightSession?.fileName ?? "right"}`);
+    downloadCompareDiffReport(
+      csv,
+      `${leftSession?.fileName ?? "left"}_vs_${rightSession?.fileName ?? "right"}`,
+    );
     toast.success(tc("exportDiffStarted"));
   }, [
     workLeft,
@@ -291,9 +288,7 @@ export function CsvCompareApp() {
         <header className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <GitCompare className="size-8 text-muted-foreground" aria-hidden />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {tc("heroTitle")}
-            </h1>
+            <h1 className={toolHeroTitleClassName}>{tc("heroTitle")}</h1>
           </div>
           <p className="max-w-3xl text-muted-foreground text-sm">
             {tc("heroSubtitle", {
@@ -428,7 +423,10 @@ export function CsvCompareApp() {
                       id="csv-compare-trim"
                       checked={equality.trimWhitespace}
                       onCheckedChange={(v) =>
-                        setEquality((e) => ({ ...e, trimWhitespace: v === true }))
+                        setEquality((e) => ({
+                          ...e,
+                          trimWhitespace: v === true,
+                        }))
                       }
                     />
                     <Label
@@ -533,14 +531,18 @@ export function CsvCompareApp() {
                           value={alignKeyColumn}
                           onValueChange={setAlignKeyColumn}
                         >
-                          <SelectTrigger size="sm" className="w-[min(100%,220px)]">
-                            <SelectValue placeholder={tc("alignKeyPlaceholder")} />
+                          <SelectTrigger
+                            size="sm"
+                            className="w-[min(100%,220px)]"
+                          >
+                            <SelectValue
+                              placeholder={tc("alignKeyPlaceholder")}
+                            />
                           </SelectTrigger>
                           <SelectContent>
                             {commonKeys.map((key) => {
                               const ix = leftSession.columnKeys.indexOf(key);
-                              const label =
-                                leftSession.headerLabels[ix] ?? key;
+                              const label = leftSession.headerLabels[ix] ?? key;
                               return (
                                 <SelectItem key={key} value={key}>
                                   {label}
@@ -554,7 +556,8 @@ export function CsvCompareApp() {
                   </div>
                 ) : null}
 
-                {stats.canCompareCells && stats.differingRowIndices.length > 0 ? (
+                {stats.canCompareCells &&
+                stats.differingRowIndices.length > 0 ? (
                   <div className="flex flex-wrap items-center gap-4">
                     <div className="flex items-center gap-2">
                       <Checkbox

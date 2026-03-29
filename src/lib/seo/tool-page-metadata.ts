@@ -5,12 +5,15 @@ import { buildPageMetadata } from "./metadata";
 
 export type ToolPageSlug =
   | "axios-converter"
+  | "base64-converter"
   | "bulk-pdf-watermark"
   | "compare"
   | "csv-to-excel"
   | "csv-to-json"
   | "csv-to-markdown-table"
+  | "csv-to-sql"
   | "csv-to-parquet"
+  | "cron-parser"
   | "curl-converter"
   | "data-grid"
   | "data-grid-live"
@@ -27,7 +30,10 @@ export type ToolPageSlug =
   | "json-to-csv"
   | "json-to-excel"
   | "json-to-parquet"
+  | "json-yaml-converter"
+  | "jwt-decoder"
   | "merge-pdf"
+  | "markdown-html-converter"
   | "openapi-viewer"
   | "parquet-to-csv"
   | "parquet-to-json"
@@ -37,8 +43,12 @@ export type ToolPageSlug =
   | "pdf-watermark"
   | "python-requests-converter"
   | "reorder-pdf"
+  | "regex-tester"
   | "request-converter"
   | "split-pdf"
+  | "sql-formatter"
+  | "unix-timestamp-converter"
+  | "uuid-generator"
   | "video-compress"
   | "webhook-viewer"
   | "xls-to-csv"
@@ -145,6 +155,25 @@ const TERMS = {
     ru: "таблицу Markdown",
     he: "טבלת Markdown",
     el: "πινακας Markdown",
+  },
+  sqlInsertsSketch: {
+    en: "SQL INSERT & DDL sketch",
+    zh: "SQL 插入与表结构草稿",
+    es: "SQL INSERT y borrador DDL",
+    pt: "SQL INSERT e rascunho DDL",
+    fr: "SQL INSERT et ebauche DDL",
+    de: "SQL-INSERT & DDL-Skizze",
+    nl: "SQL INSERT en DDL-schets",
+    it: "SQL INSERT e bozza DDL",
+    ja: "SQL INSERT と DDL 下書き",
+    tr: "SQL INSERT ve DDL taslagi",
+    az: "SQL INSERT ve DDL eskizi",
+    ko: "SQL INSERT 및 DDL 초안",
+    ar: "مسودة SQL INSERT و DDL",
+    fa: "پیش نویس SQL INSERT و DDL",
+    ru: "SQL INSERT и черновик DDL",
+    he: "SQL INSERT וטיוטת DDL",
+    el: "SQL INSERT και προχειρο DDL",
   },
   openapi: localizedRecord(() => "OpenAPI"),
   parquet: localizedRecord(() => "Parquet"),
@@ -367,6 +396,45 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
   switch (slug) {
     case "axios-converter":
       return converterTitle(TERMS.axios);
+    case "base64-converter":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "Base64 编码解码器";
+          case "es":
+            return "Codificador Base64";
+          case "pt":
+            return "Codificador Base64";
+          case "fr":
+            return "Encodeur Base64";
+          case "de":
+            return "Base64-Kodierer";
+          case "nl":
+            return "Base64-converter";
+          case "it":
+            return "Codificatore Base64";
+          case "ja":
+            return "Base64 エンコード";
+          case "tr":
+            return "Base64 kodlayici";
+          case "az":
+            return "Base64 kodlayici";
+          case "ko":
+            return "Base64 인코더";
+          case "ar":
+            return "مشفّر Base64";
+          case "fa":
+            return "رمزگذار Base64";
+          case "ru":
+            return "Кодировщик Base64";
+          case "he":
+            return "מקודד Base64";
+          case "el":
+            return "Κωδικοποιητης Base64";
+          default:
+            return "Base64 encoder";
+        }
+      });
     case "compare":
       return localizedRecord((locale) => {
         switch (locale) {
@@ -412,8 +480,49 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       return convertTitle(TERMS.csv, TERMS.json);
     case "csv-to-markdown-table":
       return convertTitle(TERMS.csv, TERMS.markdownTable);
+    case "csv-to-sql":
+      return convertTitle(TERMS.csv, TERMS.sqlInsertsSketch);
     case "csv-to-parquet":
       return convertTitle(TERMS.csv, TERMS.parquet);
+    case "cron-parser":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "Cron 解析器";
+          case "es":
+            return "Analizador Cron";
+          case "pt":
+            return "Analisador Cron";
+          case "fr":
+            return "Analyseur Cron";
+          case "de":
+            return "Cron-Parser";
+          case "nl":
+            return "Cron-parser";
+          case "it":
+            return "Parser Cron";
+          case "ja":
+            return "Cron パーサ";
+          case "tr":
+            return "Cron cozumleyici";
+          case "az":
+            return "Cron parseri";
+          case "ko":
+            return "Cron 파서";
+          case "ar":
+            return "محلل Cron";
+          case "fa":
+            return "تجزیه کننده Cron";
+          case "ru":
+            return "Парсер Cron";
+          case "he":
+            return "מפענח Cron";
+          case "el":
+            return "Αναλυτης Cron";
+          default:
+            return "Cron parser";
+        }
+      });
     case "curl-converter":
       return converterTitle(TERMS.curl);
     case "data-grid":
@@ -742,6 +851,84 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       return convertTitle(TERMS.json, TERMS.excel);
     case "json-to-parquet":
       return convertTitle(TERMS.json, TERMS.parquet);
+    case "json-yaml-converter":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "JSON YAML 转换器";
+          case "es":
+            return "Convertidor JSON YAML";
+          case "pt":
+            return "Conversor JSON YAML";
+          case "fr":
+            return "Convertisseur JSON YAML";
+          case "de":
+            return "JSON-YAML-Konverter";
+          case "nl":
+            return "JSON-YAML-converter";
+          case "it":
+            return "Convertitore JSON YAML";
+          case "ja":
+            return "JSON YAML 変換";
+          case "tr":
+            return "JSON YAML donusturucu";
+          case "az":
+            return "JSON YAML konvertoru";
+          case "ko":
+            return "JSON YAML 변환기";
+          case "ar":
+            return "محول JSON و YAML";
+          case "fa":
+            return "مبدل JSON و YAML";
+          case "ru":
+            return "Конвертер JSON и YAML";
+          case "he":
+            return "ממיר JSON YAML";
+          case "el":
+            return "Μετατροπεας JSON YAML";
+          default:
+            return "JSON YAML converter";
+        }
+      });
+    case "jwt-decoder":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "JWT 解码器";
+          case "es":
+            return "Decodificador JWT";
+          case "pt":
+            return "Decodificador JWT";
+          case "fr":
+            return "Decodeur JWT";
+          case "de":
+            return "JWT-Decoder";
+          case "nl":
+            return "JWT-decoder";
+          case "it":
+            return "Decoder JWT";
+          case "ja":
+            return "JWT デコーダ";
+          case "tr":
+            return "JWT cozucu";
+          case "az":
+            return "JWT dekoderi";
+          case "ko":
+            return "JWT 디코더";
+          case "ar":
+            return "فك ترميز JWT";
+          case "fa":
+            return "رمزگشای JWT";
+          case "ru":
+            return "Декодер JWT";
+          case "he":
+            return "מפענח JWT";
+          case "el":
+            return "Αποκωδικοποιητης JWT";
+          default:
+            return "JWT decoder";
+        }
+      });
     case "merge-pdf":
       return localizedRecord((locale) => {
         switch (locale) {
@@ -912,6 +1099,45 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       });
     case "request-converter":
       return converterTitle(TERMS.api);
+    case "regex-tester":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "正则表达式测试";
+          case "es":
+            return "Probador de regex";
+          case "pt":
+            return "Testador de regex";
+          case "fr":
+            return "Testeur regex";
+          case "de":
+            return "Regex-Tester";
+          case "nl":
+            return "Regex-tester";
+          case "it":
+            return "Tester regex";
+          case "ja":
+            return "正規表現テスター";
+          case "tr":
+            return "Regex test araci";
+          case "az":
+            return "Regex test aləti";
+          case "ko":
+            return "정규식 테스터";
+          case "ar":
+            return "مختبر التعبيرات النمطية";
+          case "fa":
+            return "آزمایشگر regex";
+          case "ru":
+            return "Тестер регулярных выражений";
+          case "he":
+            return "בודק ביטויים רגולריים";
+          case "el":
+            return "Δοκιμαστης regex";
+          default:
+            return "Regex tester";
+        }
+      });
     case "split-pdf":
       return localizedRecord((locale) => {
         switch (locale) {
@@ -949,6 +1175,84 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Διαχωρισμος PDF";
           default:
             return "Split PDF";
+        }
+      });
+    case "sql-formatter":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "SQL 格式化";
+          case "es":
+            return "Formateador SQL";
+          case "pt":
+            return "Formatador SQL";
+          case "fr":
+            return "Formateur SQL";
+          case "de":
+            return "SQL-Formatierer";
+          case "nl":
+            return "SQL-formatter";
+          case "it":
+            return "Formattatore SQL";
+          case "ja":
+            return "SQL 整形";
+          case "tr":
+            return "SQL bicimlendirici";
+          case "az":
+            return "SQL formatlayicisi";
+          case "ko":
+            return "SQL 포매터";
+          case "ar":
+            return "منسّق SQL";
+          case "fa":
+            return "قالب‌بند SQL";
+          case "ru":
+            return "Форматирование SQL";
+          case "he":
+            return "מעצב SQL";
+          case "el":
+            return "Μορφοποιητης SQL";
+          default:
+            return "SQL formatter";
+        }
+      });
+    case "uuid-generator":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "UUID 生成器";
+          case "es":
+            return "Generador UUID";
+          case "pt":
+            return "Gerador UUID";
+          case "fr":
+            return "Générateur UUID";
+          case "de":
+            return "UUID-Generator";
+          case "nl":
+            return "UUID-generator";
+          case "it":
+            return "Generatore UUID";
+          case "ja":
+            return "UUID ジェネレータ";
+          case "tr":
+            return "UUID uretici";
+          case "az":
+            return "UUID generatoru";
+          case "ko":
+            return "UUID 생성기";
+          case "ar":
+            return "مولّد UUID";
+          case "fa":
+            return "تولیدکننده UUID";
+          case "ru":
+            return "Генератор UUID";
+          case "he":
+            return "מחולל UUID";
+          case "el":
+            return "Γεννητρια UUID";
+          default:
+            return "UUID / GUID generator";
         }
       });
     case "video-compress":
@@ -1052,6 +1356,20 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "convert http client code online",
     ],
   },
+  "base64-converter": {
+    pathname: "/base64-converter",
+    titleByLocale: localizedTitle("base64-converter"),
+    keywords: [
+      "base64 encode",
+      "base64 decode",
+      "base64 converter",
+      "base64url encoder",
+      "encode file base64 online",
+      "browser base64 tool",
+      "utf8 base64 encode",
+      "free base64 decoder no upload",
+    ],
+  },
   "bulk-pdf-watermark": {
     pathname: "/bulk-pdf-watermark",
     titleByLocale: {
@@ -1140,6 +1458,21 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "github readme table from csv",
     ],
   },
+  "csv-to-sql": {
+    pathname: "/csv-to-sql",
+    titleByLocale: localizedTitle("csv-to-sql"),
+    keywords: [
+      "csv to sql",
+      "csv to insert statements",
+      "csv create table",
+      "generate sql from csv",
+      "csv to postgresql",
+      "csv to mysql insert",
+      "browser csv sql generator",
+      "free csv to sql online",
+      "import csv sql sketch",
+    ],
+  },
   "csv-to-parquet": {
     pathname: "/csv-to-parquet",
     titleByLocale: localizedTitle("csv-to-parquet"),
@@ -1152,6 +1485,20 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "local parquet tool",
       "free csv to parquet online",
       "apache parquet from csv",
+    ],
+  },
+  "cron-parser": {
+    pathname: "/cron-parser",
+    titleByLocale: localizedTitle("cron-parser"),
+    keywords: [
+      "cron parser",
+      "cron next run",
+      "crontab calculator",
+      "human to cron",
+      "cron expression preview",
+      "kubernetes cron schedule",
+      "quartz cron helper",
+      "devops scheduler tool",
     ],
   },
   "curl-converter": {
@@ -1378,6 +1725,49 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "json lines to parquet",
     ],
   },
+  "json-yaml-converter": {
+    pathname: "/json-yaml-converter",
+    titleByLocale: localizedTitle("json-yaml-converter"),
+    keywords: [
+      "json to yaml",
+      "yaml to json",
+      "json yaml converter",
+      "convert json to yaml online",
+      "kubernetes yaml json",
+      "browser json yaml tool",
+      "local yaml converter",
+      "free json yaml converter no upload",
+    ],
+  },
+  "jwt-decoder": {
+    pathname: "/jwt-decoder",
+    titleByLocale: localizedTitle("jwt-decoder"),
+    keywords: [
+      "jwt decoder",
+      "decode jwt online",
+      "jwt payload viewer",
+      "jwt header decoder",
+      "browser jwt tool",
+      "debug jwt locally",
+      "jwt parser no upload",
+      "inspect jwt claims",
+    ],
+  },
+  "markdown-html-converter": {
+    pathname: "/markdown-html-converter",
+    titleByLocale: localizedTitle("markdown-html-converter"),
+    keywords: [
+      "markdown to html",
+      "html to markdown",
+      "markdown html converter",
+      "gfm markdown preview",
+      "convert markdown to html online",
+      "browser markdown tool",
+      "markdown table to html",
+      "local markdown converter no upload",
+      "turndown html to md",
+    ],
+  },
   "merge-pdf": {
     pathname: "/merge-pdf",
     titleByLocale: localizedTitle("merge-pdf"),
@@ -1532,6 +1922,20 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "http request translator",
     ],
   },
+  "regex-tester": {
+    pathname: "/regex-tester",
+    titleByLocale: localizedTitle("regex-tester"),
+    keywords: [
+      "regex tester",
+      "javascript regex tester",
+      "regular expression tester online",
+      "regex multiline flags",
+      "test regex in browser",
+      "regex debugger local",
+      "ecmascript regex",
+      "regex match groups",
+    ],
+  },
   "split-pdf": {
     pathname: "/split-pdf",
     titleByLocale: localizedTitle("split-pdf"),
@@ -1544,6 +1948,51 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "no upload pdf split",
       "extract pages from pdf",
       "separate pdf online free",
+    ],
+  },
+  "sql-formatter": {
+    pathname: "/sql-formatter",
+    titleByLocale: localizedTitle("sql-formatter"),
+    keywords: [
+      "sql formatter",
+      "format sql online",
+      "sql prettifier",
+      "pretty print sql",
+      "postgresql formatter",
+      "mysql sql beautifier",
+      "browser sql formatter",
+      "local sql formatter no upload",
+      "sql pretty printer",
+    ],
+  },
+  "unix-timestamp-converter": {
+    pathname: "/unix-timestamp-converter",
+    titleByLocale: localizedTitle("unix-timestamp-converter"),
+    keywords: [
+      "unix timestamp converter",
+      "epoch converter",
+      "unix time to date",
+      "timestamp to date online",
+      "milliseconds to date",
+      "epoch milliseconds",
+      "timezone timestamp",
+      "utc to local timestamp",
+      "browser epoch tool",
+    ],
+  },
+  "uuid-generator": {
+    pathname: "/uuid-generator",
+    titleByLocale: localizedTitle("uuid-generator"),
+    keywords: [
+      "uuid generator",
+      "guid generator",
+      "bulk uuid",
+      "uuid v4 generator",
+      "uuid v7 generator",
+      "uuid v1 generator",
+      "online uuid generator",
+      "browser uuid tool",
+      "generate uuid for tests",
     ],
   },
   "video-compress": {
@@ -1604,10 +2053,7 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
   },
 };
 
-const DESCRIPTION_TEMPLATE: Record<
-  AppLocale,
-  (title: string) => string
-> = {
+const DESCRIPTION_TEMPLATE: Record<AppLocale, (title: string) => string> = {
   en: (title) =>
     `${title}: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.`,
   zh: (title) =>
@@ -1690,7 +2136,10 @@ export async function buildToolPageMetadata(
     : routing.defaultLocale;
   const definition = TOOL_PAGE_DEFINITIONS[slug];
   const fb = getToolPageMetaFallback(safeLocale, slug);
-  const t = await getTranslations({ locale: safeLocale, namespace: "toolMeta" });
+  const t = await getTranslations({
+    locale: safeLocale,
+    namespace: "toolMeta",
+  });
 
   const titleRaw = t(`${slug}.title`).trim();
   const title = titleRaw.length > 0 ? titleRaw : fb.title;

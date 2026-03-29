@@ -1,5 +1,5 @@
+import { strToU8, zipSync } from "fflate";
 import type { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
-import { zipSync, strToU8 } from "fflate";
 import { downloadBlob } from "@/lib/download-blob";
 
 export interface PdfRenderOptions {
@@ -22,10 +22,14 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function parseHexColor(hex: string): { r: number; g: number; b: number } | null {
+function parseHexColor(
+  hex: string,
+): { r: number; g: number; b: number } | null {
   const m = hex.trim().match(/^#([0-9a-f]{6})$/i);
   if (!m) return null;
-  const v = Number.parseInt(m[1]!, 16);
+  const hex6 = m[1];
+  if (hex6 === undefined) return null;
+  const v = Number.parseInt(hex6, 16);
   return { r: (v >> 16) & 255, g: (v >> 8) & 255, b: v & 255 };
 }
 
@@ -55,8 +59,7 @@ function cropCanvasToContent(opts: {
     const r = data[i] ?? 0;
     const g = data[i + 1] ?? 0;
     const b = data[i + 2] ?? 0;
-    const dist =
-      Math.abs(r - bg.r) + Math.abs(g - bg.g) + Math.abs(b - bg.b);
+    const dist = Math.abs(r - bg.r) + Math.abs(g - bg.g) + Math.abs(b - bg.b);
     return dist > 12;
   }
 
@@ -200,15 +203,25 @@ export async function readPdfBasicInfo(pdf: PDFDocumentProxy): Promise<{
 export async function renderPdfThumbnails(
   pdf: PDFDocumentProxy,
   opts: { maxThumbPx: number; pageLimit?: number },
-): Promise<Array<{ pageNumber: number; dataUrl: string; width: number; height: number }>> {
+): Promise<
+  Array<{ pageNumber: number; dataUrl: string; width: number; height: number }>
+> {
   const pageCount = pdf.numPages;
   const limit = Math.max(1, Math.min(pageCount, opts.pageLimit ?? pageCount));
-  const out: Array<{ pageNumber: number; dataUrl: string; width: number; height: number }> = [];
+  const out: Array<{
+    pageNumber: number;
+    dataUrl: string;
+    width: number;
+    height: number;
+  }> = [];
 
   for (let i = 1; i <= limit; i++) {
     const page = await pdf.getPage(i);
     const viewport = page.getViewport({ scale: 1 });
-    const scale = Math.max(0.1, Math.min(2.5, opts.maxThumbPx / Math.max(1, viewport.width)));
+    const scale = Math.max(
+      0.1,
+      Math.min(2.5, opts.maxThumbPx / Math.max(1, viewport.width)),
+    );
     const canvas = await renderPdfPageToCanvas(page, { dpi: 72 * scale });
     // Thumbnails are fine as data URLs.
     out.push({
@@ -234,7 +247,8 @@ export async function exportPdfPagesToImages(opts: {
   const out: Array<{ pageNumber: number; filename: string; blob: Blob }> = [];
 
   for (let idx = 0; idx < pageNumbers.length; idx++) {
-    const pageNumber = pageNumbers[idx]!;
+    const pageNumber = pageNumbers[idx];
+    if (pageNumber === undefined) continue;
     const page = await pdf.getPage(pageNumber);
     const needsBg =
       exportOptions.format === "jpeg" || exportOptions.format === "webp";
@@ -242,7 +256,7 @@ export async function exportPdfPagesToImages(opts: {
       dpi: exportOptions.dpi,
       targetWidthPx: exportOptions.targetWidthPx,
       backgroundHex: needsBg
-        ? exportOptions.backgroundHex ?? "#ffffff"
+        ? (exportOptions.backgroundHex ?? "#ffffff")
         : exportOptions.backgroundHex,
       crop: exportOptions.crop,
     });
@@ -255,7 +269,10 @@ export async function exportPdfPagesToImages(opts: {
   return out;
 }
 
-export function downloadPdfImagesAsZip(entries: Array<{ filename: string; blob: Blob }>, zipName: string) {
+export function downloadPdfImagesAsZip(
+  entries: Array<{ filename: string; blob: Blob }>,
+  zipName: string,
+) {
   void (async () => {
     const files: Record<string, Uint8Array> = {};
     for (const e of entries) {
@@ -265,8 +282,13 @@ export function downloadPdfImagesAsZip(entries: Array<{ filename: string; blob: 
     const zipped = zipSync(files, { level: 6 });
     // TS can consider Uint8Array.buffer as SharedArrayBuffer in some lib.dom versions.
     // Wrapping in ArrayBuffer makes BlobPart typing happy.
-    const zipBlob = new Blob([zipped.slice().buffer], { type: "application/zip" });
-    downloadBlob(zipBlob, zipName.endsWith(".zip") ? zipName : `${zipName}.zip`);
+    const zipBlob = new Blob([zipped.slice().buffer], {
+      type: "application/zip",
+    });
+    downloadBlob(
+      zipBlob,
+      zipName.endsWith(".zip") ? zipName : `${zipName}.zip`,
+    );
   })();
 }
 
@@ -304,7 +326,8 @@ export async function exportLongImageFromCanvases(opts: {
   let x = 0;
   let y = 0;
   for (let i = 0; i < canvases.length; i++) {
-    const c = canvases[i]!;
+    const c = canvases[i];
+    if (c === undefined) continue;
     ctx.drawImage(c, x, y);
     if (direction === "vertical") y += c.height + gap;
     else x += c.width + gap;
@@ -342,7 +365,8 @@ export async function exportContactSheetFromCanvases(opts: {
   ctx.fillRect(0, 0, sheet.width, sheet.height);
 
   for (let i = 0; i < canvases.length; i++) {
-    const c = canvases[i]!;
+    const c = canvases[i];
+    if (c === undefined) continue;
     const r = Math.floor(i / cols);
     const col = i % cols;
     const x = pad + col * (maxW + pad);
@@ -352,4 +376,3 @@ export async function exportContactSheetFromCanvases(opts: {
 
   return sheet;
 }
-

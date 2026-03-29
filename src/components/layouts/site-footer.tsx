@@ -1,8 +1,8 @@
-import { Link } from "@/i18n/navigation";
-import { siteConfig } from "@/config/site";
-import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
-import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
+import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
+import { siteConfig } from "@/config/site";
+import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 interface FooterLink {
   href: string;
@@ -36,7 +36,7 @@ function FooterLinkItem({ href, label }: FooterLink) {
 function FooterGroupColumn({ title, links }: FooterGroup) {
   return (
     <section className="flex min-w-0 flex-col gap-3">
-      <h3 className="ml-2 font-mono font-black text-[11px] text-foreground uppercase tracking-widest">
+      <h3 className="ml-2 font-black font-mono text-[11px] text-foreground uppercase tracking-widest">
         {title}
       </h3>
       <ul className="flex flex-col gap-1">
@@ -62,7 +62,7 @@ export async function SiteFooter() {
 
   return (
     <footer className="bg-background">
-      <div className="container pb-12 pt-12 md:pb-14">
+      <div className="container pt-12 pb-12 md:pb-14">
         {/* <header className="flex max-w-3xl flex-col gap-3">
           <p className="font-mono font-black text-muted-foreground text-[11px] uppercase tracking-widest">
             {tFooter("kicker")}
@@ -96,7 +96,7 @@ export async function SiteFooter() {
                 {tNav("terms")}
               </Link>
             </p>
-            <p className="font-mono font-bold text-muted-foreground text-sm leading-relaxed">
+            <p className="font-bold font-mono text-muted-foreground text-sm leading-relaxed">
               {tFooter("subtitle")}
             </p>
           </div>

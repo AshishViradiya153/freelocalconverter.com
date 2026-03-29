@@ -95,7 +95,7 @@ function DialogContent({
         {!hasTitle && (
           <DialogPrimitive.Title
             data-slot="dialog-title"
-            className="font-semibold text-lg leading-none sr-only"
+            className="sr-only font-semibold text-lg leading-none"
           >
             Dialog
           </DialogPrimitive.Title>
@@ -104,7 +104,7 @@ function DialogContent({
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-            className="absolute top-4 right-4 z-50 inline-flex size-9 items-center justify-center rounded-none border-2 border-border bg-background/90 text-foreground backdrop-blur-sm ring-offset-background transition-colors hover:bg-accent focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0"
+            className="absolute top-4 right-4 z-50 inline-flex size-9 items-center justify-center rounded-none border-2 border-border bg-background/90 text-foreground ring-offset-background backdrop-blur-sm transition-colors hover:bg-accent focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0"
           >
             <XIcon />
             <span className="sr-only">Close</span>

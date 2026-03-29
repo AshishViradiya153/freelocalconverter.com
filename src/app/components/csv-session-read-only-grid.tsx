@@ -1,7 +1,11 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import type { ColumnDef, PaginationState, Updater } from "@tanstack/react-table";
+import type {
+  ColumnDef,
+  PaginationState,
+  Updater,
+} from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { DataGrid } from "@/components/data-grid/data-grid";
@@ -18,8 +22,8 @@ import { DataGridUndoRedoButtons } from "@/components/data-grid/data-grid-undo-r
 import { DataGridViewMenu } from "@/components/data-grid/data-grid-view-menu";
 import { useDataGrid } from "@/hooks/use-data-grid";
 import {
-  useDataGridUndoRedo,
   type UndoRedoCellUpdate,
+  useDataGridUndoRedo,
 } from "@/hooks/use-data-grid-undo-redo";
 import { useWindowSize } from "@/hooks/use-window-size";
 import { buildColumnDefsForCsv, type CsvViewerRow } from "@/lib/csv-import";
@@ -106,18 +110,13 @@ export function CsvSessionReadOnlyGrid({
     [onSessionChange, session],
   );
 
-  const {
-    canUndo,
-    canRedo,
-    onUndo,
-    onRedo,
-    trackCellsUpdate,
-  } = useDataGridUndoRedo({
-    data: session.rows,
-    onDataChange: replaceRows,
-    getRowId: (row) => row.id,
-    enabled: editingEnabled,
-  });
+  const { canUndo, canRedo, onUndo, onRedo, trackCellsUpdate } =
+    useDataGridUndoRedo({
+      data: session.rows,
+      onDataChange: replaceRows,
+      getRowId: (row) => row.id,
+      enabled: editingEnabled,
+    });
 
   const onDataChange = React.useCallback(
     (newData: CsvViewerRow[]) => {

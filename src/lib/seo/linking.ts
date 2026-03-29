@@ -8,7 +8,10 @@ interface LinkingIndex {
   toolsByCategory: Map<string, PseoPageRecord[]>;
 }
 
-const linkingIndexByRef = new WeakMap<readonly PseoPageRecord[], LinkingIndex>();
+const linkingIndexByRef = new WeakMap<
+  readonly PseoPageRecord[],
+  LinkingIndex
+>();
 
 function getLinkingIndex(all: readonly PseoPageRecord[]): LinkingIndex {
   const existing = linkingIndexByRef.get(all);

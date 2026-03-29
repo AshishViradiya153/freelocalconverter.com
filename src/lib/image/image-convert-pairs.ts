@@ -164,16 +164,7 @@ export function formatDisplayLabel(
 
 export function toAppOutputFormat(
   slug: ImageConvertOutputSlug,
-):
-  | "png"
-  | "jpeg"
-  | "webp"
-  | "avif"
-  | "gif"
-  | "bmp"
-  | "tiff"
-  | "ico"
-  | "svg" {
+): "png" | "jpeg" | "webp" | "avif" | "gif" | "bmp" | "tiff" | "ico" | "svg" {
   if (slug === "jpg") return "jpeg";
   return slug;
 }

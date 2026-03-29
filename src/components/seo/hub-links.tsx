@@ -1,3 +1,4 @@
+import { ToolSectionHeading } from "@/components/tool-ui";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -21,12 +22,7 @@ export function HubLinks({ title, items, className }: HubLinksProps) {
       className={cn("mt-12 border-border border-t pt-10", className)}
       aria-labelledby="hub-links-heading"
     >
-      <h2
-        id="hub-links-heading"
-        className="font-semibold text-foreground text-lg tracking-tight"
-      >
-        {title}
-      </h2>
+      <ToolSectionHeading id="hub-links-heading">{title}</ToolSectionHeading>
       <ul className="mt-6 grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
           <li key={item.href}>

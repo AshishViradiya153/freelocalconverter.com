@@ -29,7 +29,7 @@ describe("json-transform", () => {
   });
 
   it("handles UTF-8 BOM prefix", () => {
-    expect(minifyJson("\uFEFF{ \"a\": 1 }")).toEqual({
+    expect(minifyJson('\uFEFF{ "a": 1 }')).toEqual({
       ok: true,
       text: '{"a":1}',
     });
@@ -46,4 +46,3 @@ describe("json-transform", () => {
     });
   });
 });
-

@@ -6,6 +6,7 @@ import {
 } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PseoContentLocaleNotice } from "@/components/seo/pseo-content-locale-notice";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { listPseoGuides } from "@/lib/pseo";
@@ -70,9 +71,7 @@ export default async function GuidesHubPage({ params }: GuidesHubPageProps) {
           <PseoContentLocaleNotice locale={locale} />
         </div>
         <header className="mt-8 border-border border-b pb-8">
-          <h1 className="font-semibold text-3xl tracking-tight">
-            {t("guidesHubTitle")}
-          </h1>
+          <h1 className={toolHeroTitleClassName}>{t("guidesHubTitle")}</h1>
           <p className="mt-3 max-w-2xl text-muted-foreground text-sm leading-relaxed">
             {t("guidesHubDescription")}
           </p>

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import {
-  SKATER_STATUSES,
   SKATER_STANCES,
+  SKATER_STATUSES,
   SKATER_STYLES,
 } from "@/lib/skaters-model";
 

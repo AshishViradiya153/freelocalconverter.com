@@ -1,7 +1,7 @@
 import type { CsvColumnKind, CsvViewerRow } from "@/lib/csv-import";
 import {
-  insertCsvSessionColumnWithDataAt,
   type CsvViewerSession,
+  insertCsvSessionColumnWithDataAt,
 } from "@/lib/csv-viewer-session";
 
 export interface ColumnClipboardPayload {

@@ -63,11 +63,11 @@ export function BlogPostContent() {
       <h2>How our product fits</h2>
       <p>
         We sit in the <strong>viewer plus editor</strong> lane: TanStack
-        Table-style interactions, virtualized grids, filters, search, pagination,
-        undo/redo, and CSV download. It targets people who outgrow plain preview
-        sites but do not need a workbook replacement. Integrate it alongside
-        your spreadsheet standards rather than pretending one tool solves every
-        tabular problem.
+        Table-style interactions, virtualized grids, filters, search,
+        pagination, undo/redo, and CSV download. It targets people who outgrow
+        plain preview sites but do not need a workbook replacement. Integrate it
+        alongside your spreadsheet standards rather than pretending one tool
+        solves every tabular problem.
       </p>
 
       <h2>Selection checklist</h2>

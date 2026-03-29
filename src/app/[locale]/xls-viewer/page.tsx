@@ -40,4 +40,3 @@ export default async function XlsViewerPage({ params }: XlsViewerPageProps) {
     </Shell>
   );
 }
-

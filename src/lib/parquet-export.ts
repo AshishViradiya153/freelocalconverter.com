@@ -19,4 +19,3 @@ export function downloadParquetExport(
   const base = sanitizeCsvDownloadFileBaseName(fileBaseName);
   triggerBrowserDownload(blob, `${base}.parquet`);
 }
-

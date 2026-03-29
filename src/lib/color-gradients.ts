@@ -1,10 +1,10 @@
 import {
   generatePaletteFromBase,
   type HarmonyMode,
+  hexToRgb,
+  hslToRgb,
   normalizeHex,
   rgbToHex,
-  hslToRgb,
-  hexToRgb,
 } from "./color-palette";
 
 export interface GradientStop {
@@ -37,7 +37,8 @@ export function buildCssLinearGradient(angleDeg: number, stops: string[]) {
   const a = normalizeAngle(angleDeg);
   const n = stops.length;
   if (n === 0) return `linear-gradient(${a}deg, #000 0%, #fff 100%)`;
-  if (n === 1) return `linear-gradient(${a}deg, ${stops[0]} 0%, ${stops[0]} 100%)`;
+  if (n === 1)
+    return `linear-gradient(${a}deg, ${stops[0]} 0%, ${stops[0]} 100%)`;
   const parts = stops.map((hex, i) => {
     const t = i / (n - 1);
     const pct = Math.round(t * 1000) / 10; // 1 decimal precision
@@ -47,9 +48,7 @@ export function buildCssLinearGradient(angleDeg: number, stops: string[]) {
 }
 
 export function cssVariablesForStops(stops: string[], prefix = "--color") {
-  return stops
-    .map((hex, i) => `  ${prefix}-${i + 1}: ${hex};`)
-    .join("\n");
+  return stops.map((hex, i) => `  ${prefix}-${i + 1}: ${hex};`).join("\n");
 }
 
 export const PRESET_TRENDING_GRADIENTS: GradientPreset[] = [
@@ -132,4 +131,3 @@ export function generateGradientFromBase(opts: {
     stops: hexes,
   };
 }
-

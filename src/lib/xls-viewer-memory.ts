@@ -19,4 +19,3 @@ export function setInMemoryXlsViewerState(
 ): void {
   IN_MEMORY_XLS_VIEWER_STATE = state;
 }
-

@@ -79,7 +79,10 @@ function parseInlineStyle(styleText: string): string | null {
 
   if (declarations.length === 0) return null;
   const body = declarations
-    .map(({ key, value }) => `${key}: "${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`)
+    .map(
+      ({ key, value }) =>
+        `${key}: "${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`,
+    )
     .join(", ");
   return `{{ ${body} }}`;
 }
@@ -125,7 +128,9 @@ function elementToXml(el: Element, depth: number): string {
   const childElements = [...el.childNodes].filter(
     (n) => n.nodeType === Node.ELEMENT_NODE,
   ) as Element[];
-  const textNodes = [...el.childNodes].filter((n) => n.nodeType === Node.TEXT_NODE);
+  const _textNodes = [...el.childNodes].filter(
+    (n) => n.nodeType === Node.TEXT_NODE,
+  );
 
   let body = "";
   for (const node of el.childNodes) {
@@ -147,7 +152,10 @@ function elementToXml(el: Element, depth: number): string {
 }
 
 function escapeXmlText(text: string): string {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function elementToJsx(el: Element, depth: number): string {
@@ -207,7 +215,10 @@ export function svgToCode(
 
   const root = parseSvgRoot(input);
   if (!root) {
-    return { ok: false, error: "Could not parse SVG. Paste valid SVG markup (root <svg>)." };
+    return {
+      ok: false,
+      error: "Could not parse SVG. Paste valid SVG markup (root <svg>).",
+    };
   }
 
   if (options.mode === "pretty") {

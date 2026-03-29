@@ -1,29 +1,27 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import {
-  Copy,
-  Download,
-  Loader2,
-  Trash2,
-} from "lucide-react";
+import { Copy, Download, Loader2, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
 import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-grid";
+import { FileParquetGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
-import { FileParquetGlyph } from "@/components/file-glyphs";
 import {
   buildLabelKeyedExportRows,
   downloadJsonExport,
 } from "@/lib/csv-export";
 import {
-  parseParquetFileToImportResult,
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
+import {
   PARQUET_READ_ROW_CAP,
+  parseParquetFileToImportResult,
 } from "@/lib/parquet-convert";
-import { resultToSession, type CsvViewerSession } from "@/lib/csv-viewer-session";
 
 function parquetLeafWithoutExtension(fileName: string): string {
   return fileName.replace(/\.(parquet)$/i, "");
@@ -43,9 +41,12 @@ export function ParquetToJsonApp() {
       setLoadError(null);
       try {
         fileRef.current = file;
-        const { result, truncated } = await parseParquetFileToImportResult(file, {
-          rowEnd: PARQUET_READ_ROW_CAP,
-        });
+        const { result, truncated } = await parseParquetFileToImportResult(
+          file,
+          {
+            rowEnd: PARQUET_READ_ROW_CAP,
+          },
+        );
         const next = resultToSession(file.name, result, "ltr");
         next.truncated = truncated;
         setSession(next);
@@ -113,12 +114,15 @@ export function ParquetToJsonApp() {
       <div className="container flex flex-col gap-6 py-4">
         <header className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
-            <FileParquetGlyph className="size-8 text-muted-foreground" aria-hidden />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {t("heroTitle")}
-            </h1>
+            <FileParquetGlyph
+              className="size-8 text-muted-foreground"
+              aria-hidden
+            />
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
           </div>
-          <p className="max-w-3xl text-muted-foreground text-sm">{t("heroSubtitle")}</p>
+          <p className="max-w-3xl text-muted-foreground text-sm">
+            {t("heroSubtitle")}
+          </p>
         </header>
 
         {!session ? (
@@ -160,7 +164,12 @@ export function ParquetToJsonApp() {
         {session ? (
           <div className="flex flex-col gap-4">
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={onClear}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onClear}
+              >
                 {t("clearFile")}
               </Button>
               <Button
@@ -208,7 +217,9 @@ export function ParquetToJsonApp() {
                   onSessionChange={(next) => setSession(next)}
                   gridKey={previewKey}
                 />
-                <p className="text-muted-foreground text-xs">{t("previewHint")}</p>
+                <p className="text-muted-foreground text-xs">
+                  {t("previewHint")}
+                </p>
               </div>
             </div>
           </div>
@@ -231,4 +242,3 @@ export function ParquetToJsonApp() {
     </DirectionProvider>
   );
 }
-

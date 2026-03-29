@@ -12,10 +12,26 @@ export const LLMS_SECTIONS: LlmsSection[] = [
   {
     heading: "Primary entry points",
     items: [
-      { path: "/", label: "Home", detail: "Product overview and tool directory." },
-      { path: "/tools", label: "Tools hub", detail: "Category index of workflows and landing pages." },
-      { path: "/guides", label: "Guides hub", detail: "Long-form guides on CSV workflows, grids, and compare." },
-      { path: "/blog", label: "Blog", detail: "Articles on CSV workflows, privacy, and tooling." },
+      {
+        path: "/",
+        label: "Home",
+        detail: "Product overview and tool directory.",
+      },
+      {
+        path: "/tools",
+        label: "Tools hub",
+        detail: "Category index of workflows and landing pages.",
+      },
+      {
+        path: "/guides",
+        label: "Guides hub",
+        detail: "Long-form guides on CSV workflows, grids, and compare.",
+      },
+      {
+        path: "/blog",
+        label: "Blog",
+        detail: "Articles on CSV workflows, privacy, and tooling.",
+      },
     ],
   },
   {
@@ -29,14 +45,34 @@ export const LLMS_SECTIONS: LlmsSection[] = [
       { path: "/json-to-parquet", label: "JSON to Parquet" },
       { path: "/parquet-to-json", label: "Parquet to JSON" },
       { path: "/csv-to-markdown-table", label: "CSV to Markdown table" },
+      {
+        path: "/markdown-html-converter",
+        label: "Markdown HTML converter",
+        detail:
+          "Convert Markdown ↔ HTML with GFM tables and live preview; sanitized output.",
+      },
+      {
+        path: "/csv-to-sql",
+        label: "CSV to SQL",
+        detail:
+          "CREATE TABLE sketch and batched INSERTs (PostgreSQL, MySQL, SQLite); local parsing.",
+      },
     ],
   },
   {
     heading: "Viewers & compare",
     blurb: "Open, explore, and diff datasets in the browser.",
     items: [
-      { path: "/csv-viewer", label: "CSV viewer", detail: "Sort, filter, and edit CSV locally." },
-      { path: "/compare", label: "CSV compare", detail: "Diff two CSV files side by side." },
+      {
+        path: "/csv-viewer",
+        label: "CSV viewer",
+        detail: "Sort, filter, and edit CSV locally.",
+      },
+      {
+        path: "/compare",
+        label: "CSV compare",
+        detail: "Diff two CSV files side by side.",
+      },
       { path: "/xls-viewer", label: "XLS / XLSX viewer" },
       { path: "/parquet-viewer", label: "Parquet viewer" },
     ],
@@ -62,12 +98,74 @@ export const LLMS_SECTIONS: LlmsSection[] = [
     heading: "Developer & API utilities",
     blurb: "HTTP clients, specs, and payload inspection.",
     items: [
-      { path: "/json-formatter", label: "JSON formatter", detail: "Format and validate JSON locally." },
+      {
+        path: "/json-formatter",
+        label: "JSON formatter",
+        detail: "Format and validate JSON locally.",
+      },
+      {
+        path: "/sql-formatter",
+        label: "SQL formatter",
+        detail:
+          "Pretty-print SQL with dialect-aware parsing; read-only, local.",
+      },
+      {
+        path: "/json-yaml-converter",
+        label: "JSON YAML converter",
+        detail: "Convert between JSON and YAML locally.",
+      },
+      {
+        path: "/markdown-html-converter",
+        label: "Markdown HTML converter",
+        detail: "Markdown ↔ HTML with GFM and live preview; sanitized HTML.",
+      },
+      {
+        path: "/jwt-decoder",
+        label: "JWT decoder",
+        detail:
+          "Decode JWT header and payload locally; signatures not verified.",
+      },
+      {
+        path: "/cron-parser",
+        label: "Cron parser",
+        detail:
+          "Five-field cron, next run preview, English phrases to cron; local.",
+      },
+      {
+        path: "/uuid-generator",
+        label: "UUID / GUID generator",
+        detail:
+          "Bulk v1, v4, v7, and nil UUIDs; uppercase, hyphens, braces; Web Crypto.",
+      },
+      {
+        path: "/base64-converter",
+        label: "Base64 encoder & decoder",
+        detail: "UTF-8 text and files; optional Base64URL and line wrap.",
+      },
+      {
+        path: "/unix-timestamp-converter",
+        label: "Unix timestamp converter",
+        detail:
+          "Epoch seconds or ms to human time and back; IANA timezones; local only.",
+      },
+      {
+        path: "/regex-tester",
+        label: "Regex tester",
+        detail:
+          "JavaScript RegExp with flags, multiline subject, groups; capped matches.",
+      },
       { path: "/curl-converter", label: "cURL converter" },
       { path: "/fetch-converter", label: "fetch() converter" },
       { path: "/axios-converter", label: "Axios converter" },
-      { path: "/python-requests-converter", label: "Python requests converter" },
-      { path: "/request-converter", label: "Request converter", detail: "Convert between HTTP client styles." },
+      {
+        path: "/python-requests-converter",
+        label: "Python requests converter",
+      },
+      {
+        path: "/request-converter",
+        label: "Request converter",
+        detail: "Convert between HTTP client styles.",
+      },
       { path: "/http-explainer", label: "HTTP explainer" },
       { path: "/openapi-viewer", label: "OpenAPI viewer" },
       { path: "/graphql-tools", label: "GraphQL tools" },
@@ -93,7 +191,8 @@ export const LLMS_SECTIONS: LlmsSection[] = [
   },
   {
     heading: "Images",
-    blurb: "Resize, compress, convert formats, and specialized exports. Pair-specific conversion URLs live under `/image-convert/{pair}` (programmatic SEO).",
+    blurb:
+      "Resize, compress, convert formats, and specialized exports. Pair-specific conversion URLs live under `/image-convert/{pair}` (programmatic SEO).",
     items: [
       { path: "/image-compress", label: "Image compress" },
       { path: "/image-convert", label: "Image convert hub" },
@@ -111,16 +210,32 @@ export const LLMS_SECTIONS: LlmsSection[] = [
       { path: "/gradients", label: "Gradient generator" },
       { path: "/gradients/best", label: "Best / curated gradients" },
       { path: "/gradient-generator", label: "Mesh gradient generator" },
-      { path: "/gradient-generator/trending", label: "Trending mesh gradients" },
+      {
+        path: "/gradient-generator/trending",
+        label: "Trending mesh gradients",
+      },
     ],
   },
   {
     heading: "Policies, repo, and discovery",
     items: [
-      { path: "/privacy", label: "Privacy", detail: "Data handling; aligned with local-first processing." },
+      {
+        path: "/privacy",
+        label: "Privacy",
+        detail: "Data handling; aligned with local-first processing.",
+      },
       { path: "/terms", label: "Terms" },
-      { path: "/sitemap.xml", label: "Sitemap index", detail: "Machine-readable URLs, including programmatic routes where configured." },
-      { path: "/robots.txt", label: "robots.txt", detail: "Crawl rules and sitemap references." },
+      {
+        path: "/sitemap.xml",
+        label: "Sitemap index",
+        detail:
+          "Machine-readable URLs, including programmatic routes where configured.",
+      },
+      {
+        path: "/robots.txt",
+        label: "robots.txt",
+        detail: "Crawl rules and sitemap references.",
+      },
     ],
   },
 ];

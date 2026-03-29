@@ -92,8 +92,8 @@ describe("csv-viewer-session", () => {
     const r = parseCsvText("a,b\n1,2");
     const s = resultToSession("t.csv", r, "ltr");
     const key = s.columnKeys[0];
-    expect(key).toBeDefined();
-    const next = removeCsvSessionColumn(s, key!);
+    if (!key) throw new Error("fixture: expected column key");
+    const next = removeCsvSessionColumn(s, key);
     expect(next?.columnKeys).toHaveLength(1);
     expect(Object.keys(next?.rows[0] ?? {})).not.toContain(key);
   });
@@ -101,13 +101,16 @@ describe("csv-viewer-session", () => {
   it("removeCsvSessionColumn returns null for last column", () => {
     const r = parseCsvText("a\n1");
     const s = resultToSession("t.csv", r, "ltr");
-    expect(removeCsvSessionColumn(s, s.columnKeys[0]!)).toBeNull();
+    const onlyKey = s.columnKeys[0];
+    if (!onlyKey) throw new Error("fixture: expected one column");
+    expect(removeCsvSessionColumn(s, onlyKey)).toBeNull();
   });
 
   it("renameCsvSessionColumnHeader updates label at index", () => {
     const r = parseCsvText("a,b\n1,2");
     const s = resultToSession("t.csv", r, "ltr");
-    const key = s.columnKeys[0]!;
+    const key = s.columnKeys[0];
+    if (!key) throw new Error("fixture: expected column key");
     const next = renameCsvSessionColumnHeader(s, key, "Alpha");
     expect(next?.headerLabels[0]).toBe("Alpha");
     expect(next?.columnKeys).toEqual(s.columnKeys);
@@ -122,7 +125,8 @@ describe("csv-viewer-session", () => {
   it("clearCsvSessionColumnValues clears cells only", () => {
     const r = parseCsvText("a,b\n1,2");
     const s = resultToSession("t.csv", r, "ltr");
-    const key = s.columnKeys[0]!;
+    const key = s.columnKeys[0];
+    if (!key) throw new Error("fixture: expected column key");
     const next = clearCsvSessionColumnValues(s, key);
     expect(next.rows[0]?.[key]).toBe("");
     expect(next.columnKeys).toEqual(s.columnKeys);
@@ -153,7 +157,7 @@ describe("csv-viewer-session", () => {
   it("removeCsvSessionRowById removes one row", () => {
     const r = parseCsvText("a,b\n1,2\n3,4");
     const s = resultToSession("t.csv", r, "ltr");
-    const id = s.rows[0]!.id;
+    const id = s.rows[0]?.id;
     const next = removeCsvSessionRowById(s, id);
     expect(next?.rows).toHaveLength(1);
   });
@@ -161,8 +165,10 @@ describe("csv-viewer-session", () => {
   it("insertCsvSessionRowsAfter inserts after anchor id", () => {
     const r = parseCsvText("a\n1");
     const s = resultToSession("t.csv", r, "ltr");
-    const id = s.rows[0]!.id;
-    const extra = [{ ...createEmptyCsvViewerRow(s.columnKeys), id: "new1", a: "x" }];
+    const id = s.rows[0]?.id;
+    const extra = [
+      { ...createEmptyCsvViewerRow(s.columnKeys), id: "new1", a: "x" },
+    ];
     const next = insertCsvSessionRowsAfter(s, id, extra);
     expect(next?.rows).toHaveLength(2);
     expect(next?.rows[1]?.a).toBe("x");
@@ -181,7 +187,9 @@ describe("csv-viewer-session", () => {
     const s = resultToSession("t.csv", r, "ltr");
     const before = s.rows[0]?.a;
     const c = cloneCsvViewerSession(s);
-    c.rows[0]!.a = "9";
+    const clonedFirst = c.rows[0];
+    if (!clonedFirst) throw new Error("fixture: expected one row");
+    clonedFirst.a = "9";
     expect(c.rows[0]?.a).toBe("9");
     expect(s.rows[0]?.a).toBe(before);
   });
@@ -198,17 +206,20 @@ describe("csv-viewer-session", () => {
       keys.map((k, i) => [k, s.columnKinds[i]]),
     );
     const [colA, colB, colC] = keys;
-    const next = reorderCsvSessionColumnKeys(s, [colC!, colA!, colB!]);
+    if (colA === undefined || colB === undefined || colC === undefined) {
+      throw new Error("fixture: expected three columns");
+    }
+    const next = reorderCsvSessionColumnKeys(s, [colC, colA, colB]);
     expect(next.columnKeys).toEqual([colC, colA, colB]);
     expect(next.headerLabels).toEqual([
-      labelByKey[colC!],
-      labelByKey[colA!],
-      labelByKey[colB!],
+      labelByKey[colC],
+      labelByKey[colA],
+      labelByKey[colB],
     ]);
     expect(next.columnKinds).toEqual([
-      kindByKey[colC!],
-      kindByKey[colA!],
-      kindByKey[colB!],
+      kindByKey[colC],
+      kindByKey[colA],
+      kindByKey[colB],
     ]);
     expect(next.rows).toEqual(s.rows);
   });

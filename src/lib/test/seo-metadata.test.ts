@@ -50,7 +50,9 @@ describe("buildPageMetadata", () => {
 
 describe("getToolPageDescription", () => {
   it("includes the title in the English template", () => {
-    expect(getToolPageDescription("en", "CSV Compare")).toContain("CSV Compare");
+    expect(getToolPageDescription("en", "CSV Compare")).toContain(
+      "CSV Compare",
+    );
   });
 });
 
@@ -67,9 +69,9 @@ describe("messages SEO namespaces (en.json)", () => {
     for (const slug of ALL_TOOL_PAGE_SLUGS) {
       const block = en.toolMeta?.[slug];
       expect(block, `toolMeta.${slug}`).toBeDefined();
-      expect(block!.title?.trim(), `${slug}.title`).toBeTruthy();
-      expect(block!.description?.trim(), `${slug}.description`).toBeTruthy();
-      expect(block!.keywords?.trim(), `${slug}.keywords`).toBeTruthy();
+      expect(block?.title?.trim(), `${slug}.title`).toBeTruthy();
+      expect(block?.description?.trim(), `${slug}.description`).toBeTruthy();
+      expect(block?.keywords?.trim(), `${slug}.keywords`).toBeTruthy();
     }
   });
 

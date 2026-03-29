@@ -13,7 +13,10 @@ function clamp(n: number, min: number, max: number) {
  * Note: This intentionally allows exporting a subset of pages (after "remove page").
  * If you need "must include every page", compare result length to pageCount upstream.
  */
-export function normalizePdfPageOrder(order: number[], pageCount: number): number[] {
+export function normalizePdfPageOrder(
+  order: number[],
+  pageCount: number,
+): number[] {
   const safePageCount = Math.max(0, Math.floor(pageCount));
   if (safePageCount <= 0) return [];
 
@@ -27,4 +30,3 @@ export function normalizePdfPageOrder(order: number[], pageCount: number): numbe
   if (unique.size !== normalized.length) return [];
   return normalized;
 }
-

@@ -1,7 +1,7 @@
-import { parseExcelFile } from "@/lib/excel-import";
-import { resultToSession } from "@/lib/csv-viewer-session";
-import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 import type { ParseStringMatrixHeaderOptions } from "@/lib/csv-import";
+import type { CsvViewerSession } from "@/lib/csv-viewer-session";
+import { resultToSession } from "@/lib/csv-viewer-session";
+import { parseExcelFile } from "@/lib/excel-import";
 
 export function xlsExportCsvBaseName(excelName: string): string {
   const leaf = excelName.replace(/\.(xlsx|xlsm|xlsb|xls)$/i, "");
@@ -32,15 +32,16 @@ export async function parseXlsToCsvSession(
 }> {
   const { sheetIndex = 0, hasHeaderRow, headerRowLine } = opts;
 
-  const matrixHeader = buildXlsMatrixHeaderOptions(
-    hasHeaderRow,
-    headerRowLine,
-  );
-  const { result, sheetNames, sheetIndex: resolvedIndex, sheetRowCount } =
-    await parseExcelFile(file, {
-      sheetIndex,
-      matrixHeader,
-    });
+  const matrixHeader = buildXlsMatrixHeaderOptions(hasHeaderRow, headerRowLine);
+  const {
+    result,
+    sheetNames,
+    sheetIndex: resolvedIndex,
+    sheetRowCount,
+  } = await parseExcelFile(file, {
+    sheetIndex,
+    matrixHeader,
+  });
 
   const csvName = xlsExportCsvBaseName(file.name);
   const session = resultToSession(csvName, result, "ltr");
@@ -52,4 +53,3 @@ export async function parseXlsToCsvSession(
     sheetRowCount,
   };
 }
-

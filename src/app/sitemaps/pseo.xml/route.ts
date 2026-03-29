@@ -3,14 +3,9 @@ import {
   pseoSitemapChunkUrl,
   pseoSitemapIndexUrl,
 } from "@/lib/pseo/sitemap";
+import { escapeXmlForSitemap } from "@/lib/sitemap";
 
-function escapeXml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+export const revalidate = 3600;
 
 export async function GET() {
   const chunkCount = getPseoSitemapChunkCount();
@@ -26,13 +21,13 @@ export async function GET() {
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${entries
-      .map(
-        (entry) => `  <sitemap>
-    <loc>${escapeXml(entry.loc)}</loc>
-    <lastmod>${escapeXml(entry.lastmod)}</lastmod>
+  .map(
+    (entry) => `  <sitemap>
+    <loc>${escapeXmlForSitemap(entry.loc)}</loc>
+    <lastmod>${escapeXmlForSitemap(entry.lastmod)}</lastmod>
   </sitemap>`,
-      )
-      .join("\n")}
+  )
+  .join("\n")}
 </sitemapindex>`;
 
   return new Response(body, {

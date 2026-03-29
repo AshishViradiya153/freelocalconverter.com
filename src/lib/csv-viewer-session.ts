@@ -4,7 +4,10 @@ import {
   type CsvImportResult,
   type CsvViewerRow,
 } from "@/lib/csv-import";
-import { createEmptyCsvViewerRow, getAccessorKeysFromColumnDefs } from "@/lib/csv-viewer";
+import {
+  createEmptyCsvViewerRow,
+  getAccessorKeysFromColumnDefs,
+} from "@/lib/csv-viewer";
 import { generateId } from "@/lib/id";
 import type { Direction } from "@/types/data-grid";
 
@@ -64,8 +67,8 @@ export function sessionToResult(session: CsvViewerSession): CsvImportResult {
     session.columnKinds.length === session.columnKeys.length
       ? session.columnKinds
       : session.columnKeys.map(
-        (_, i) => session.columnKinds[i] ?? "short-text",
-      );
+          (_, i) => session.columnKinds[i] ?? "short-text",
+        );
   const columns = buildColumnDefsForCsv(
     session.columnKeys,
     session.headerLabels,
@@ -194,7 +197,12 @@ export function reorderCsvSessionColumnKeys(
   const labelByKey = new Map<string, string>();
   const kindByKey = new Map<string, CsvColumnKind>();
   for (let i = 0; i < columnKeys.length; i++) {
-    const k = columnKeys[i]!;
+    const k = columnKeys[i];
+    if (k === undefined) {
+      throw new Error(
+        "reorderCsvSessionColumnKeys: columnKeys/header mismatch",
+      );
+    }
     labelByKey.set(k, headerLabels[i] ?? k);
     kindByKey.set(k, columnKinds[i] ?? "short-text");
   }

@@ -17,4 +17,3 @@ export async function getPdfJs(): Promise<typeof PdfJs> {
 
   return pdfjsPromise;
 }
-

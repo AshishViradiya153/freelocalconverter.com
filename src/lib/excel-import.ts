@@ -89,10 +89,7 @@ export async function parseExcelFile(
 
   const sheetNames = workbook.SheetNames ?? [];
   if (sheetNames.length === 0) {
-    throw new CsvImportError(
-      "empty_file",
-      "This workbook has no sheets.",
-    );
+    throw new CsvImportError("empty_file", "This workbook has no sheets.");
   }
 
   const idx = Math.min(Math.max(0, sheetIndex), sheetNames.length - 1);
@@ -121,10 +118,7 @@ export async function parseExcelFile(
   const matrix = normalizeSheetMatrix(rows);
 
   if (matrix.length === 0) {
-    throw new CsvImportError(
-      "empty_file",
-      "The selected sheet is empty.",
-    );
+    throw new CsvImportError("empty_file", "The selected sheet is empty.");
   }
 
   const result = parseStringMatrixToImportResult(matrix, matrixHeader);

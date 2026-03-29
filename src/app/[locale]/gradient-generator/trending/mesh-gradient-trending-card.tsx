@@ -2,15 +2,14 @@
 
 import { Download } from "lucide-react";
 import {
+  type MouseEvent as ReactMouseEvent,
   useLayoutEffect,
   useRef,
   useState,
-  type MouseEvent as ReactMouseEvent,
 } from "react";
 import { toast } from "sonner";
-
-import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { paintMeshGradientFrame } from "@/lib/mesh-gradient/paint-mesh-frame";
 import type { TrendingMeshGradientItem } from "@/lib/mesh-gradient/trending-mesh-types";
 import { cn } from "@/lib/utils";

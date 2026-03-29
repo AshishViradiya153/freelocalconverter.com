@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
-import { getAllImageConvertPairs } from "@/lib/image/image-convert-pairs";
 import { routing } from "@/i18n/routing";
+import { getAllImageConvertPairs } from "@/lib/image/image-convert-pairs";
 import { pseoPathForRecord } from "@/lib/seo/linking";
 import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import { pseoPages } from "./registry";
@@ -9,8 +9,10 @@ import type { PseoPageRecord } from "./types";
 
 /**
  * Programmatic sitemap pipeline (100k+ safe):
- * - Registry-backed URLs (guides, tools category pages) and image-convert pair URLs share one
- *   chunked XML index at /sitemaps/pseo.xml so the primary sitemap.xml stays small.
+ * - Registry-backed URLs and image-convert pair URLs are listed only under `/sitemaps/pseo.xml`
+ *   (a sitemap index) and its child urlsets `/sitemaps/pseo/{n}.xml`.
+ * - The site root `/sitemap.xml` is a separate sitemap index that references `/sitemaps/static.xml`
+ *   plus this pSEO index when `getPseoSitemapChunkCount() > 0`.
  * - Chunk size stays under Google's 50k URL cap per file.
  * - entryForFlatIndex resolves URLs lazily (no full in-memory list when serving chunks).
  */
@@ -64,7 +66,10 @@ function buildImageConvertPairSitemapUrls(): MetadataRoute.Sitemap {
 
 /** Full flattened list: pSEO registry URLs first, then image-convert pairs (tests + validation). */
 export function buildProgrammaticSitemapUrls(): MetadataRoute.Sitemap {
-  return [...buildPseoSitemapUrls(pseoPages), ...buildImageConvertPairSitemapUrls()];
+  return [
+    ...buildPseoSitemapUrls(pseoPages),
+    ...buildImageConvertPairSitemapUrls(),
+  ];
 }
 
 export function getPseoSitemapChunkCount(): number {
@@ -78,7 +83,9 @@ function entryForFlatIndex(flatIndex: number): MetadataRoute.Sitemap[number] {
   if (flatIndex < pseoTotal) {
     const pageCount = pseoPages.length;
     if (pageCount === 0) {
-      throw new Error("pSEO sitemap index points at pSEO segment but registry is empty.");
+      throw new Error(
+        "pSEO sitemap index points at pSEO segment but registry is empty.",
+      );
     }
     const localeIndex = Math.floor(flatIndex / pageCount);
     const pageIndex = flatIndex % pageCount;
@@ -96,7 +103,9 @@ function entryForFlatIndex(flatIndex: number): MetadataRoute.Sitemap[number] {
   const imageFlat = flatIndex - pseoTotal;
   const pairCount = IMAGE_CONVERT_PAIRS.length;
   if (pairCount === 0) {
-    throw new Error("Programmatic sitemap index points at image segment but no pairs exist.");
+    throw new Error(
+      "Programmatic sitemap index points at image segment but no pairs exist.",
+    );
   }
   const localeIndex = Math.floor(imageFlat / pairCount);
   const pairIndex = imageFlat % pairCount;

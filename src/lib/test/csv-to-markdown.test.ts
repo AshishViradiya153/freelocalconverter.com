@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 import { csvSessionToMarkdownTable } from "@/lib/csv-to-markdown";
+import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 
 function makeSession(overrides?: Partial<CsvViewerSession>): CsvViewerSession {
   return {
@@ -40,4 +40,3 @@ describe("csvSessionToMarkdownTable", () => {
     expect(lines[1]).toMatch(/^\| .* \|$/);
   });
 });
-

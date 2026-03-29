@@ -25,9 +25,7 @@ export function meshGrainSeedFromVisualState(input: {
     String(input.contrast),
     String(input.brightness),
     String(input.grainIntensity),
-    ...input.circles.map(
-      (c) => `${c.color.toLowerCase()}|${c.cx}|${c.cy}`,
-    ),
+    ...input.circles.map((c) => `${c.color.toLowerCase()}|${c.cx}|${c.cy}`),
   ];
   return fnv1a32(parts.join("~"));
 }

@@ -8,11 +8,11 @@ export {
   pseoPages,
 } from "./data";
 export {
-  buildPseoSitemapUrls,
   buildProgrammaticSitemapUrls,
+  buildPseoSitemapUrls,
+  getProgrammaticSitemapTotalUrlCount,
   getPseoSitemapChunk,
   getPseoSitemapChunkCount,
-  getProgrammaticSitemapTotalUrlCount,
   PSEO_SITEMAP_CHUNK_SIZE,
   pseoSitemapChunkUrl,
   pseoSitemapIndexUrl,

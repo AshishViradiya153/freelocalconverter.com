@@ -1,20 +1,22 @@
 "use client";
 
-import * as React from "react";
 import {
   Copy,
   Download,
   Lock,
-  Unlock,
+  Maximize2,
   Palette,
   Shuffle,
   Sparkles,
-  Maximize2,
+  Unlock,
 } from "lucide-react";
-import { toast } from "sonner";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import * as React from "react";
+import { toast } from "sonner";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -23,26 +25,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
-import { cn } from "@/lib/utils";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import {
+  createPaletteStripesExportCanvas,
+  downloadCanvasPng,
+} from "@/lib/canvas-png-export";
 import {
   bestTextColorOn,
   contrastRatio,
   generatePaletteFromBase,
+  type HarmonyMode,
   hslToRgb,
   normalizeHex,
   PRESET_TRENDING_PALETTES,
   rgbToHex,
   wcagContrastBadge,
-  type HarmonyMode,
 } from "@/lib/color-palette";
-import {
-  createPaletteStripesExportCanvas,
-  downloadCanvasPng,
-} from "@/lib/canvas-png-export";
-import { Separator } from "@/components/ui/separator";
 import { downloadTextFile } from "@/lib/download-text-file";
+import { cn } from "@/lib/utils";
 
 type Swatch = { hex: string; locked: boolean };
 
@@ -98,8 +99,9 @@ function regenerateSwatches(opts: {
 
   return Array.from({ length: opts.count }, (_, i) => {
     const locked = locks[i] ?? false;
+    const hex = locked ? nextSwatches[i]?.hex : hexes[i];
     return {
-      hex: locked ? nextSwatches[i]!.hex : hexes[i]!,
+      hex: hex ?? opts.baseHex,
       locked,
     };
   });
@@ -175,7 +177,8 @@ export function ColorPaletteTrendingApp() {
     return raw === "1" || raw === "true";
   }, [searchParams]);
 
-  const [fullscreenOpen, setFullscreenOpen] = React.useState(fullscreenRequested);
+  const [fullscreenOpen, setFullscreenOpen] =
+    React.useState(fullscreenRequested);
 
   // Keep dialog state in sync with the `fullscreen` query param, even when
   // navigating by updating searchParams (client-side route change).
@@ -272,7 +275,9 @@ export function ColorPaletteTrendingApp() {
   }
 
   function onUseTrending(presetHexes: string[]) {
-    const normalized = presetHexes.map((h) => normalizeHex(h)).filter(Boolean) as string[];
+    const normalized = presetHexes
+      .map((h) => normalizeHex(h))
+      .filter(Boolean) as string[];
     const withLocks = normalized.map((hex) => ({ hex, locked: false }));
     setCount(withLocks.length);
     setSwatches(withLocks);
@@ -335,9 +340,7 @@ export function ColorPaletteTrendingApp() {
   function onDownloadPng() {
     const safeBase = baseHex.replace("#", "");
     const fileName = `palette-${swatches.length}-${safeBase}.png`;
-    const canvas = createPaletteStripesExportCanvas(
-      swatches.map((s) => s.hex),
-    );
+    const canvas = createPaletteStripesExportCanvas(swatches.map((s) => s.hex));
     if (!canvas) return;
     downloadCanvasPng(canvas, fileName);
     toast.success("Download started");
@@ -370,13 +373,12 @@ export function ColorPaletteTrendingApp() {
       <header className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <Palette className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            Color Palettes (Trending)
-          </h1>
+          <h1 className={toolHeroTitleClassName}>Color Palettes (Trending)</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm leading-relaxed">
-          Generate beautiful palettes from a base color, lock swatches, and export
-          to CSS/PNG/JSON. Includes quick accessibility contrast guidance per color.
+          Generate beautiful palettes from a base color, lock swatches, and
+          export to CSS/PNG/JSON. Includes quick accessibility contrast guidance
+          per color.
         </p>
       </header>
 
@@ -384,7 +386,9 @@ export function ColorPaletteTrendingApp() {
         <section className="flex flex-col gap-4">
           <div className="flex flex-wrap items-end gap-3">
             <div className="flex min-w-[180px] flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">Base</span>
+              <span className="font-medium text-muted-foreground text-xs">
+                Base
+              </span>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
@@ -404,8 +408,13 @@ export function ColorPaletteTrendingApp() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">Harmony</span>
-              <Select value={mode} onValueChange={(v) => applyMode(v as HarmonyMode)}>
+              <span className="font-medium text-muted-foreground text-xs">
+                Harmony
+              </span>
+              <Select
+                value={mode}
+                onValueChange={(v) => applyMode(v as HarmonyMode)}
+              >
                 <SelectTrigger className="w-[220px]">
                   <SelectValue placeholder="Harmony mode" />
                 </SelectTrigger>
@@ -420,7 +429,9 @@ export function ColorPaletteTrendingApp() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">Colors</span>
+              <span className="font-medium text-muted-foreground text-xs">
+                Colors
+              </span>
               <div className="w-[220px]">
                 <Slider
                   value={[count]}
@@ -429,7 +440,7 @@ export function ColorPaletteTrendingApp() {
                   step={1}
                   onValueChange={(v) => applyCount(v[0] ?? 5)}
                 />
-                <div className="mt-1 flex justify-between text-xs text-muted-foreground">
+                <div className="mt-1 flex justify-between text-muted-foreground text-xs">
                   <span>3</span>
                   <span className="font-medium text-foreground">{count}</span>
                   <span>10</span>
@@ -440,7 +451,7 @@ export function ColorPaletteTrendingApp() {
 
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">
+              <span className="font-medium text-muted-foreground text-xs">
                 Vibrance
               </span>
               <div className="w-[220px]">
@@ -449,14 +460,12 @@ export function ColorPaletteTrendingApp() {
                   min={0.6}
                   max={1.3}
                   step={0.01}
-                  onValueChange={(v) =>
-                    applySliders(v[0] ?? 1, lightnessMul)
-                  }
+                  onValueChange={(v) => applySliders(v[0] ?? 1, lightnessMul)}
                 />
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">
+              <span className="font-medium text-muted-foreground text-xs">
                 Lightness
               </span>
               <div className="w-[220px]">
@@ -465,9 +474,7 @@ export function ColorPaletteTrendingApp() {
                   min={0.7}
                   max={1.2}
                   step={0.01}
-                  onValueChange={(v) =>
-                    applySliders(saturationMul, v[0] ?? 1)
-                  }
+                  onValueChange={(v) => applySliders(saturationMul, v[0] ?? 1)}
                 />
               </div>
             </div>
@@ -477,11 +484,7 @@ export function ColorPaletteTrendingApp() {
                 <Shuffle className="size-4" aria-hidden />
                 View variations
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onCopyCssVars}
-              >
+              <Button type="button" variant="outline" onClick={onCopyCssVars}>
                 <Sparkles className="size-4" aria-hidden />
                 Copy CSS
               </Button>
@@ -536,7 +539,7 @@ export function ColorPaletteTrendingApp() {
                     style={{ backgroundColor: s.hex }}
                   />
 
-                  <div className="absolute left-2 top-2 flex items-center gap-2">
+                  <div className="absolute top-2 left-2 flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => onLockToggle(i)}
@@ -554,7 +557,7 @@ export function ColorPaletteTrendingApp() {
                   <div className="flex flex-col gap-2 p-3">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <div className="text-xs font-medium text-muted-foreground">
+                        <div className="font-medium text-muted-foreground text-xs">
                           Color {i + 1}
                         </div>
                         <div
@@ -563,7 +566,7 @@ export function ColorPaletteTrendingApp() {
                         >
                           {s.hex.toUpperCase()}
                         </div>
-                        <div className="mt-1 text-xs text-muted-foreground">
+                        <div className="mt-1 text-muted-foreground text-xs">
                           Text contrast:{" "}
                           <span className="font-medium text-foreground">
                             {best.ratio.toFixed(2)} ({badge})
@@ -595,7 +598,7 @@ export function ColorPaletteTrendingApp() {
 
         <aside className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground text-xs font-medium">
+            <span className="font-medium text-muted-foreground text-xs">
               Trending palettes
             </span>
             <Input
@@ -619,12 +622,14 @@ export function ColorPaletteTrendingApp() {
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="truncate font-medium text-sm">{p.name}</div>
+                      <div className="truncate font-medium text-sm">
+                        {p.name}
+                      </div>
                       <div className="mt-1 line-clamp-2 text-muted-foreground text-xs">
                         {p.description}
                       </div>
                     </div>
-                    <span className="shrink-0 text-xs text-muted-foreground">
+                    <span className="shrink-0 text-muted-foreground text-xs">
                       {p.hexes.length} colors
                     </span>
                   </div>
@@ -633,12 +638,13 @@ export function ColorPaletteTrendingApp() {
                     {p.hexes.map((hex) => (
                       <div
                         key={hex}
+                        role="img"
                         className="group relative h-8 w-full"
                         style={{ backgroundColor: hex }}
                         aria-label={`Trending color ${hex}`}
                         title={hex}
                       >
-                        <span className="absolute inset-0 flex items-center justify-center p-1 text-[10px] font-mono text-white/95 opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                        <span className="absolute inset-0 flex items-center justify-center p-1 font-mono text-[10px] text-white/95 opacity-0 transition-opacity duration-150 group-hover:opacity-100">
                           {hex.toUpperCase()}
                         </span>
                         <span className="absolute inset-0 bg-black/25 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
@@ -646,7 +652,7 @@ export function ColorPaletteTrendingApp() {
                     ))}
                   </div>
 
-                  <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="mt-3 flex items-center gap-2 text-muted-foreground text-xs">
                     <span className="font-medium text-foreground">Use</span>
                     <span className="truncate">palette</span>
                     <span className="ml-auto font-mono">
@@ -670,12 +676,12 @@ export function ColorPaletteTrendingApp() {
           else nextParams.delete("fullscreen");
 
           const qs = nextParams.toString();
-          router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+          router.replace(qs ? `${pathname}?${qs}` : pathname, {
+            scroll: false,
+          });
         }}
       >
-        <DialogContent
-          className="top-0 left-0 translate-x-0 translate-y-0 inset-0 h-screen w-screen max-w-none sm:max-w-none overflow-hidden rounded-none border-0 shadow-none p-0 gap-0"
-        >
+        <DialogContent className="inset-0 top-0 left-0 h-screen w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 p-0 shadow-none sm:max-w-none">
           <DialogTitle className="sr-only">
             Visualize colors (fullscreen)
           </DialogTitle>
@@ -690,6 +696,7 @@ export function ColorPaletteTrendingApp() {
               return (
                 <div
                   key={`${s.hex}-${i}`}
+                  role="group"
                   className="group relative h-full w-full overflow-hidden"
                   style={{ backgroundColor: s.hex }}
                   aria-label={`Palette color ${i + 1}: ${s.hex}`}
@@ -697,7 +704,7 @@ export function ColorPaletteTrendingApp() {
                   <div className="pointer-events-none absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
 
                   <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
-                    <div className="font-mono text-lg font-semibold text-white drop-shadow">
+                    <div className="font-mono font-semibold text-lg text-white drop-shadow">
                       {s.hex.toUpperCase()}
                     </div>
 
@@ -724,4 +731,3 @@ export function ColorPaletteTrendingApp() {
     </div>
   );
 }
-

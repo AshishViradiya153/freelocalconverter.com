@@ -1,5 +1,5 @@
-import { buildLlmsTxtBody } from "@/lib/seo/llms-txt-body";
 import { NextResponse } from "next/server";
+import { buildLlmsTxtBody } from "@/lib/seo/llms-txt-body";
 
 export function GET() {
   const body = buildLlmsTxtBody();

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { ImageConvertApp } from "@/app/components/image-convert-app";
-import { Shell } from "@/components/shell";
 import { ImageConvertPairProgrammaticSeo } from "@/components/seo/image-convert-pair-programmatic-seo";
+import { Shell } from "@/components/shell";
 import { redirect } from "@/i18n/navigation";
+import { type AppLocale, routing } from "@/i18n/routing";
 import {
   formatDisplayLabel,
   getAllImageConvertPairs,
@@ -15,14 +16,13 @@ import {
   toAppOutputFormat,
 } from "@/lib/image/image-convert-pairs";
 import { PSEO_PREBUILD_LEAF_PER_LOCALE } from "@/lib/pseo/config";
+import { getImageConvertPairLocalizedCopy } from "@/lib/seo/image-convert-pair-messages";
 import {
   buildImageConvertPairMetadata,
   getImageConvertPairMetaDescription,
 } from "@/lib/seo/image-convert-pair-metadata";
-import { getImageConvertPairLocalizedCopy } from "@/lib/seo/image-convert-pair-messages";
 import { pickRelatedImageConvertPairs } from "@/lib/seo/linking";
 import { buildAbsoluteUrl } from "@/lib/seo/paths";
-import { type AppLocale, routing } from "@/i18n/routing";
 
 export function generateStaticParams(): { pair: string }[] {
   return getAllImageConvertPairs()

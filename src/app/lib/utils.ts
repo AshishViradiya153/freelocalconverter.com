@@ -12,10 +12,10 @@ import {
 } from "lucide-react";
 import { generateId } from "@/lib/id";
 import {
-  type Skater,
-  SKATER_STATUSES,
   SKATER_STANCES,
+  SKATER_STATUSES,
   SKATER_STYLES,
+  type Skater,
 } from "@/lib/skaters-model";
 
 const availableTricks = [

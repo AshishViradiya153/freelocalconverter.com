@@ -13,4 +13,3 @@ export function setInMemoryCsvViewerSession(
 ): void {
   IN_MEMORY_SESSION = session;
 }
-
