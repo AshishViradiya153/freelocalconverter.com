@@ -1,5 +1,3 @@
-/** Curated backgrounds for the favicon design studio (canvas). */
-
 export interface LinearGradientPreset {
   id: string;
   angleDeg: number;
@@ -180,6 +178,151 @@ export const MESH_GRADIENT_PRESETS: readonly MeshGradientPreset[] = [
       { cx: 0.35, cy: 0.35, r: 0.5, color: "#fdba74", alpha: 0.85 },
       { cx: 0.75, cy: 0.6, r: 0.48, color: "#f9a8d4", alpha: 0.65 },
       { cx: 0.45, cy: 0.82, r: 0.38, color: "#fcd34d", alpha: 0.5 },
+    ],
+  },
+  {
+    id: "sunset-blaze",
+    base: "#1c0a0a",
+    blobs: [
+      { cx: 0.2, cy: 0.75, r: 0.58, color: "#dc2626", alpha: 0.82 },
+      { cx: 0.78, cy: 0.28, r: 0.52, color: "#f97316", alpha: 0.78 },
+      { cx: 0.48, cy: 0.48, r: 0.38, color: "#fbbf24", alpha: 0.45 },
+    ],
+  },
+  {
+    id: "arctic-frost",
+    base: "#f0f9ff",
+    blobs: [
+      { cx: 0.18, cy: 0.32, r: 0.48, color: "#bae6fd", alpha: 0.95 },
+      { cx: 0.82, cy: 0.38, r: 0.5, color: "#e0f2fe", alpha: 0.85 },
+      { cx: 0.42, cy: 0.78, r: 0.52, color: "#7dd3fc", alpha: 0.55 },
+    ],
+  },
+  {
+    id: "noir-rose",
+    base: "#0a0a0a",
+    blobs: [
+      { cx: 0.72, cy: 0.22, r: 0.42, color: "#fda4af", alpha: 0.55 },
+      { cx: 0.25, cy: 0.65, r: 0.55, color: "#be123c", alpha: 0.72 },
+      { cx: 0.55, cy: 0.55, r: 0.35, color: "#fb7185", alpha: 0.4 },
+    ],
+  },
+  {
+    id: "honey-glow",
+    base: "#422006",
+    blobs: [
+      { cx: 0.3, cy: 0.35, r: 0.52, color: "#ca8a04", alpha: 0.8 },
+      { cx: 0.75, cy: 0.62, r: 0.48, color: "#eab308", alpha: 0.65 },
+      { cx: 0.5, cy: 0.18, r: 0.35, color: "#fde047", alpha: 0.4 },
+    ],
+  },
+  {
+    id: "cyber-mint",
+    base: "#042f2e",
+    blobs: [
+      { cx: 0.22, cy: 0.28, r: 0.5, color: "#2dd4bf", alpha: 0.75 },
+      { cx: 0.78, cy: 0.35, r: 0.45, color: "#d946ef", alpha: 0.55 },
+      { cx: 0.48, cy: 0.72, r: 0.5, color: "#5eead4", alpha: 0.5 },
+    ],
+  },
+  {
+    id: "twilight-violet",
+    base: "#1e1033",
+    blobs: [
+      { cx: 0.35, cy: 0.3, r: 0.55, color: "#7c3aed", alpha: 0.78 },
+      { cx: 0.8, cy: 0.65, r: 0.5, color: "#4c1d95", alpha: 0.85 },
+      { cx: 0.15, cy: 0.72, r: 0.42, color: "#c084fc", alpha: 0.5 },
+    ],
+  },
+  {
+    id: "moss-earth",
+    base: "#1a2e1a",
+    blobs: [
+      { cx: 0.28, cy: 0.58, r: 0.55, color: "#3f6212", alpha: 0.82 },
+      { cx: 0.72, cy: 0.32, r: 0.48, color: "#65a30d", alpha: 0.7 },
+      { cx: 0.52, cy: 0.82, r: 0.4, color: "#a3e635", alpha: 0.45 },
+    ],
+  },
+  {
+    id: "cherry-depth",
+    base: "#2b0612",
+    blobs: [
+      { cx: 0.65, cy: 0.28, r: 0.5, color: "#be123c", alpha: 0.85 },
+      { cx: 0.25, cy: 0.42, r: 0.48, color: "#881337", alpha: 0.8 },
+      { cx: 0.55, cy: 0.72, r: 0.45, color: "#fb7185", alpha: 0.55 },
+    ],
+  },
+  {
+    id: "soft-lilac",
+    base: "#faf5ff",
+    blobs: [
+      { cx: 0.25, cy: 0.4, r: 0.52, color: "#ddd6fe", alpha: 0.9 },
+      { cx: 0.78, cy: 0.45, r: 0.48, color: "#f5d0fe", alpha: 0.75 },
+      { cx: 0.45, cy: 0.8, r: 0.42, color: "#e9d5ff", alpha: 0.65 },
+    ],
+  },
+  {
+    id: "graphite-neon",
+    base: "#27272a",
+    blobs: [
+      { cx: 0.5, cy: 0.28, r: 0.42, color: "#a3e635", alpha: 0.55 },
+      { cx: 0.18, cy: 0.62, r: 0.5, color: "#71717a", alpha: 0.65 },
+      { cx: 0.82, cy: 0.68, r: 0.45, color: "#22d3ee", alpha: 0.45 },
+    ],
+  },
+  {
+    id: "cocoa-dream",
+    base: "#292524",
+    blobs: [
+      { cx: 0.35, cy: 0.35, r: 0.52, color: "#78716c", alpha: 0.75 },
+      { cx: 0.72, cy: 0.58, r: 0.5, color: "#a8a29e", alpha: 0.55 },
+      { cx: 0.22, cy: 0.75, r: 0.4, color: "#d6d3d1", alpha: 0.35 },
+    ],
+  },
+  {
+    id: "glacier-bay",
+    base: "#ecfeff",
+    blobs: [
+      { cx: 0.3, cy: 0.25, r: 0.45, color: "#a5f3fc", alpha: 0.88 },
+      { cx: 0.75, cy: 0.55, r: 0.55, color: "#22d3ee", alpha: 0.5 },
+      { cx: 0.4, cy: 0.78, r: 0.42, color: "#67e8f9", alpha: 0.55 },
+    ],
+  },
+  {
+    id: "ember-smoke",
+    base: "#18181b",
+    blobs: [
+      { cx: 0.45, cy: 0.22, r: 0.48, color: "#f97316", alpha: 0.6 },
+      { cx: 0.2, cy: 0.65, r: 0.52, color: "#52525b", alpha: 0.75 },
+      { cx: 0.82, cy: 0.55, r: 0.42, color: "#ea580c", alpha: 0.5 },
+    ],
+  },
+  {
+    id: "sakura-mist",
+    base: "#fdf2f8",
+    blobs: [
+      { cx: 0.32, cy: 0.38, r: 0.5, color: "#fbcfe8", alpha: 0.88 },
+      { cx: 0.75, cy: 0.35, r: 0.45, color: "#fce7f3", alpha: 0.8 },
+      { cx: 0.48, cy: 0.75, r: 0.48, color: "#f9a8d4", alpha: 0.55 },
+    ],
+  },
+  {
+    id: "teal-depth",
+    base: "#042f2e",
+    blobs: [
+      { cx: 0.65, cy: 0.3, r: 0.52, color: "#0d9488", alpha: 0.82 },
+      { cx: 0.28, cy: 0.55, r: 0.55, color: "#134e4a", alpha: 0.88 },
+      { cx: 0.55, cy: 0.78, r: 0.42, color: "#2dd4bf", alpha: 0.5 },
+      { cx: 0.12, cy: 0.22, r: 0.32, color: "#5eead4", alpha: 0.35 },
+    ],
+  },
+  {
+    id: "wine-velvet",
+    base: "#1c0a14",
+    blobs: [
+      { cx: 0.55, cy: 0.35, r: 0.55, color: "#86198f", alpha: 0.78 },
+      { cx: 0.22, cy: 0.58, r: 0.48, color: "#701a75", alpha: 0.82 },
+      { cx: 0.78, cy: 0.68, r: 0.4, color: "#c026d3", alpha: 0.45 },
     ],
   },
 ] as const;
