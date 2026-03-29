@@ -7,8 +7,8 @@
     "csvToExcel": "CSV → Excel",
     "jsonToExcel": "JSON → Excel",
     "xlsToCsv": "Excel → CSV",
-    "xlsViewer": "Visionneuse Excel",
-    "parquetViewer": "Visionneuse Parquet",
+    "xlsViewer": "Visionneuse et éditeur Excel",
+    "parquetViewer": "Visionneuse et éditeur Parquet",
     "guides": "Guides",
     "tools": "Outils",
     "blog": "Blogue",
@@ -210,6 +210,24 @@
   "landing": {
     "heroTitle": "Outils gratuits, modernes,\nlocaux et securises.",
     "heroSubtitle": "Déposez un CSV dans la grille : tri, filtres, recherche, édition, collage, annuler/rétablir, ajout ou suppression de lignes. Les données restent sur cet appareil.",
+    "featuresAria": "Product features",
+    "featuresKicker": "Features",
+    "featuresTitle": "Designed for fast, private work",
+    "featuresSubtitle": "Brutalist UI, smooth interactions, and client-side processing. Browse tools, pin favorites, and move data between formats without leaving the page.",
+    "featuresItems": {
+      "localTitle": "Local-first by default",
+      "localDescription": "Most tools run in your browser tab—no uploads for processing.",
+      "fastTitle": "Fast even on big files",
+      "fastDescription": "Responsive grids, search, and previews tuned for large datasets.",
+      "searchTitle": "Find tools instantly",
+      "searchDescription": "Search by name, category, or workflow. Jump with Enter.",
+      "favoritesTitle": "Pin your favorites",
+      "favoritesDescription": "Star tools to keep a personal shortlist on this device.",
+      "convertTitle": "Convert & export",
+      "convertDescription": "CSV, JSON, Excel, Parquet, PDF, images, video—export in one click.",
+      "polishTitle": "Nice details everywhere",
+      "polishDescription": "Keyboard shortcuts, sensible defaults, and a UI that stays out of your way."
+    },
     "directoryKicker": "Répertoire d'outils",
     "directorySubtitle": "Recherchez parmi les convertisseurs, visionneuses, formateurs, outils OpenAPI, outils PDF, outils d'image et plus encore. Tout reste facile a parcourir depuis un seul endroit.",
     "directorySearchLabel": "Outils de recherche",
@@ -367,15 +385,15 @@
     "subtitle": "Convert, compare, and review tabular files in your browser. Use the categories below to find the right workflow fast, without uploading sensitive data to unknown servers.",
     "groupConvertersTitle": "Convertisseurs",
     "groupConvertersDescription": "Outils de format à format pour des transferts propres.",
-    "groupViewersTitle": "Téléspectateurs et comparaison",
-    "groupViewersDescription": "Inspectez, recherchez et repérez les différences localement.",
+    "groupViewersTitle": "Visionneuses, éditeurs et comparaison",
+    "groupViewersDescription": "Inspectez, recherchez, modifiez grilles et charges utiles, et repérez les différences CSV localement.",
     "groupExcelTitle": "Flux de travail Excel",
     "groupExcelDescription": "Déplacez-vous entre CSV/Excel/JSON tout en restant dans le navigateur.",
     "groupCompanyTitle": "Apprendre et produire",
     "groupCompanyDescription": "Documents, hubs et pages clés.",
     "viewerDesc": "Ouvrez, modifiez et exportez localement un fichier CSV.",
     "compareDesc": "Diff CSV côte à côte avec filtres.",
-    "xlsViewerDesc": "Ouvrez Excel dans une grille (analyse locale).",
+    "xlsViewerDesc": "Ouvrez Excel dans une grille modifiable ; modifiez les cellules et exportez localement.",
     "parquetViewerDesc": "Ouvrez Parquet dans une grille, modifiez-le localement, puis exportez-le à nouveau au format .parquet.",
     "csvToExcelDesc": "Convertissez par lots les fichiers CSV en .xlsx.",
     "xlsToCsvDesc": "Convertissez des feuilles Excel en sortie CSV.",
@@ -584,8 +602,8 @@
   "services": {
     "groupConvertersTitle": "Convertisseurs",
     "groupConvertersDescription": "Convertissez instantanément entre CSV, JSON et Parquet.",
-    "groupViewersTitle": "Téléspectateurs",
-    "groupViewersDescription": "Prévisualisez et inspectez les fichiers dans votre navigateur.",
+    "groupViewersTitle": "Visionneuses et éditeurs",
+    "groupViewersDescription": "Ouvrez, recherchez et modifiez en local — grilles modifiables, specs OpenAPI, JSON webhook et plus, dans le navigateur.",
     "groupExcelTitle": "Excel",
     "groupExcelDescription": "Importez et exportez entre CSV, JSON et Excel.",
     "groupDeveloperTitle": "Promoteur",
@@ -598,8 +616,8 @@
     "groupImageDescription": "Outils d’image : compressez, convertissez et redimensionnez localement.",
     "groupColorTitle": "Couleur",
     "groupColorDescription": "Outils de couleur : générateurs et galeries de tendances.",
-    "csvViewerLabel": "Visionneuse CSV",
-    "csvViewerDesc": "Ouvrez et inspectez rapidement les données CSV.",
+    "csvViewerLabel": "Visionneuse et éditeur CSV",
+    "csvViewerDesc": "Ouvrez le CSV dans une grille modifiable, recherchez et exportez — tout tourne localement dans le navigateur.",
     "csvCompareLabel": "Comparaison CSV",
     "csvCompareDesc": "Comparez deux fichiers CSV côte à côte.",
     "csvToExcelDesc": "Convertissez des fichiers CSV en XLSX.",
@@ -613,8 +631,8 @@
     "parquetToJsonDesc": "Convertissez Parquet en JSON.",
     "csvToMarkdownTableDesc": "Générez des tableaux de démarques à partir de fichiers CSV.",
     "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
-    "xlsViewerDesc": "Visualisez directement les fichiers Excel XLS.",
-    "parquetViewerDesc": "Ouvrez et parcourez les fichiers Parquet.",
+    "xlsViewerDesc": "Ouvrez Excel dans une grille modifiable ; modifiez les cellules et exportez localement.",
+    "parquetViewerDesc": "Parcourez Parquet dans une grille modifiable et exportez à nouveau en .parquet localement.",
     "jsonFormatterLabel": "Formateur JSON",
     "jsonFormatterDesc": "Formatez, réduisez et validez JSON localement.",
     "sqlFormatterLabel": "SQL formatter",
@@ -645,12 +663,12 @@
     "pythonRequestsConverterDesc": "Convertissez les extraits de requêtes Python en cURL/fetch/axios.",
     "httpExplainerLabel": "Explication HTTP",
     "httpExplainerDesc": "Expliquez les codes d'état et les en-têtes HTTP courants.",
-    "openapiViewerLabel": "Visionneuse OpenAPI",
-    "openapiViewerDesc": "Chargez les spécifications OpenAPI et parcourez les points de terminaison.",
+    "openapiViewerLabel": "Visionneuse et éditeur OpenAPI",
+    "openapiViewerDesc": "Collez ou chargez OpenAPI YAML/JSON, modifiez la spec et parcourez chemins et opérations.",
     "graphqlToolsLabel": "Outils GraphQL",
-    "graphqlToolsDesc": "Formatez les requêtes et inspectez les types de schéma.",
-    "webhookViewerLabel": "Visionneuse de webhooks",
-    "webhookViewerDesc": "Imprimez joliment les charges utiles et recherchez JSONPath.",
+    "graphqlToolsDesc": "Rédigez et formatez des requêtes GraphQL ; chargez le schéma JSON et inspectez les types localement.",
+    "webhookViewerLabel": "Visionneuse et éditeur webhook",
+    "webhookViewerDesc": "Collez, modifiez et mettez en forme du JSON ; recherchez avec JSONPath localement.",
     "pdfToWordLabel": "PDF vers Word",
     "pdfToWordDesc": "Convertissez des PDF en fichiers DOCX.",
     "splitPdfLabel": "Fractionner un PDF",
@@ -982,9 +1000,9 @@
       "keywords": "fusionner pdf | combiner pdf | fusion pdf | fusion pdf du navigateur | fusion pdf locale | pas de téléchargement de fusion pdf | joindre des fichiers pdf en ligne gratuitement | fusionner plusieurs pdf"
     },
     "openapi-viewer": {
-      "title": "Visionneuse OpenAPI",
-      "description": "OpenAPI Viewer : gratuit en ligne dans votre navigateur. Traitement privé côté client ; vos fichiers ne sont pas téléchargés sur nos serveurs.",
-      "keywords": "visionneuse openapi | spectateur fanfaron | navigateur openapi | visionneuse de spécifications API | visionneuse de fichiers swagger | outil openapi du navigateur | alternative gratuite à l'interface utilisateur swagger | voir openapi yaml json"
+      "title": "OpenAPI viewer & editor",
+      "description": "OpenAPI/Swagger viewer and editor: paste or upload YAML/JSON, edit the spec, and browse paths and operations locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | openapi editor | swagger viewer | swagger editor | openapi browser | api spec viewer | edit openapi yaml | browser openapi tool | free swagger ui alternative | view openapi yaml json"
     },
     "parquet-to-csv": {
       "title": "Parquet en CSV",
@@ -997,9 +1015,9 @@
       "keywords": "parquet en json | convertir du parquet en json | convertisseur json parquet | parquet du navigateur vers json | transformateur local de parquet | exportation de parquet json | parquet gratuit en json | lire parquet dans le navigateur"
     },
     "parquet-viewer": {
-      "title": "Visionneuse de parquet",
-      "description": "Parquet Viewer : gratuit en ligne dans votre navigateur. Traitement privé côté client ; vos fichiers ne sont pas téléchargés sur nos serveurs.",
-      "keywords": "visionneuse de parquet | dossier parquet ouvert | éditeur de parquet | visualiseur de parquet | outil parquet local | grille de parquet modifiable | voir parquet sans python | aperçu du parquet en ligne"
+      "title": "Parquet viewer & editor",
+      "description": "Parquet viewer and editor: open .parquet in an editable grid, search and tweak values, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | parquet editor | open parquet file | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
     },
     "pdf-to-image": {
       "title": "PDF en image",
@@ -1052,9 +1070,9 @@
       "keywords": "compresseur vidéo | compresser la vidéo | compresseur vidéo du navigateur | compression vidéo locale | pas de compression vidéo de téléchargement | réducteur de taille vidéo | rétrécir mp4 en ligne gratuit | compression vidéo côté client"
     },
     "webhook-viewer": {
-      "title": "Visionneuse de charge utile Webhook",
-      "description": "Visionneuse de charge utile Webhook : gratuite en ligne dans votre navigateur. Traitement privé côté client ; vos fichiers ne sont pas téléchargés sur nos serveurs.",
-      "keywords": "visionneuse de webhooks | visionneuse de charge utile de webhook | visionneuse de charge utile json | outil de webhook jsonpath | inspecteur de webhooks de navigateur | formateur json webhook | visionneuse de charge utile de webhook Stripe | déboguer le webhook json"
+      "title": "Webhook payload viewer & editor",
+      "description": "Webhook payload viewer and editor: paste, edit, and prettify JSON; search with JSONPath locally in your browser. Private, client-side processing; your payloads are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook editor | webhook payload viewer | json payload editor | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
     },
     "xls-to-csv": {
       "title": "Excel vers lot CSV",
@@ -1062,9 +1080,9 @@
       "keywords": "exceler en csv | xls en csv | xlsx en csv | lot Excel en CSV | convertisseur Excel de navigateur | convertisseur xls local | Excel gratuit vers CSV en ligne | convertir une feuille de calcul en CSV"
     },
     "xls-viewer": {
-      "title": "Visionneuse Excel",
-      "description": "Visionneuse Excel : gratuite en ligne dans votre navigateur. Traitement privé côté client ; vos fichiers ne sont pas téléchargés sur nos serveurs.",
-      "keywords": "visionneuse Excel | visionneuse xlsx | visionneuse xls | visionneuse Excel du navigateur | grille Excel modifiable | visionneuse de feuille de calcul locale | ouvrir xlsx sans excel | voir Excel en ligne gratuitement"
+      "title": "Excel viewer & editor",
+      "description": "Excel viewer and editor: open XLS/XLSX in an editable grid, edit cells, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | excel editor | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
     }
   }
 }

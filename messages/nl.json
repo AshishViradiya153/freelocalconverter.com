@@ -7,8 +7,8 @@
     "csvToExcel": "CSV → Excel",
     "jsonToExcel": "JSON → Excel",
     "xlsToCsv": "Excel → CSV",
-    "xlsViewer": "Excel-viewer",
-    "parquetViewer": "Parquet-viewer",
+    "xlsViewer": "Excel viewer & editor",
+    "parquetViewer": "Parquet viewer & editor",
     "guides": "Gidsen",
     "tools": "Hulpmiddelen",
     "blog": "Bloggen",
@@ -210,6 +210,24 @@
   "landing": {
     "heroTitle": "Gratis, moderne, lokale\nen veilige tools.",
     "heroSubtitle": "Sleep een CSV naar het raster: sorteer, filter, zoek, bewerk, plak, ongedaan/opnieuw en voeg rijen toe of verwijder ze. Gegevens blijven op dit apparaat.",
+    "featuresAria": "Product features",
+    "featuresKicker": "Features",
+    "featuresTitle": "Designed for fast, private work",
+    "featuresSubtitle": "Brutalist UI, smooth interactions, and client-side processing. Browse tools, pin favorites, and move data between formats without leaving the page.",
+    "featuresItems": {
+      "localTitle": "Local-first by default",
+      "localDescription": "Most tools run in your browser tab—no uploads for processing.",
+      "fastTitle": "Fast even on big files",
+      "fastDescription": "Responsive grids, search, and previews tuned for large datasets.",
+      "searchTitle": "Find tools instantly",
+      "searchDescription": "Search by name, category, or workflow. Jump with Enter.",
+      "favoritesTitle": "Pin your favorites",
+      "favoritesDescription": "Star tools to keep a personal shortlist on this device.",
+      "convertTitle": "Convert & export",
+      "convertDescription": "CSV, JSON, Excel, Parquet, PDF, images, video—export in one click.",
+      "polishTitle": "Nice details everywhere",
+      "polishDescription": "Keyboard shortcuts, sensible defaults, and a UI that stays out of your way."
+    },
     "directoryKicker": "Tooloverzicht",
     "directorySubtitle": "Zoek tussen converters, viewers, formatters, OpenAPI-hulpmiddelen, PDF-, beeld- en andere tools. Alles overzichtelijk op één plek.",
     "directorySearchLabel": "Tools zoeken",
@@ -367,15 +385,15 @@
     "subtitle": "Gebruik de categorieën hierboven voor converters, viewers, PDF- en beeldhulpmiddelen, video- en kleurutils, ontwikkelaarstools en meer. Draait iets in uw browser, dan blijven uw bestanden meestal op uw apparaat en worden ze daarvoor niet naar ons geüpload.",
     "groupConvertersTitle": "Converters",
     "groupConvertersDescription": "Tools van formaat naar formaat voor soepele overdracht.",
-    "groupViewersTitle": "Viewers en vergelijken",
-    "groupViewersDescription": "Inspecteren, zoeken en verschillen lokaal zien.",
+    "groupViewersTitle": "Viewers, editors & compare",
+    "groupViewersDescription": "Inspect, search, edit grids and payloads, and spot CSV differences locally.",
     "groupExcelTitle": "Excel-workflows",
     "groupExcelDescription": "Schakel tussen CSV/Excel/JSON terwijl u in de browser blijft.",
     "groupCompanyTitle": "Leren en product",
     "groupCompanyDescription": "Documentatie, hubs en belangrijke pagina’s.",
     "viewerDesc": "CSV openen, bewerken en lokaal exporteren.",
     "compareDesc": "CSV-diff naast elkaar met filters.",
-    "xlsViewerDesc": "Excel in een raster openen (lokaal parseren).",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
     "parquetViewerDesc": "Parquet in een raster openen, lokaal bewerken en terug exporteren naar .parquet.",
     "csvToExcelDesc": "CSV-bestanden batchgewijs naar .xlsx converteren.",
     "xlsToCsvDesc": "Excel-tabellen naar CSV-output omzetten.",
@@ -584,8 +602,8 @@
   "services": {
     "groupConvertersTitle": "Converters",
     "groupConvertersDescription": "Converteer direct tussen CSV, JSON en Parquet.",
-    "groupViewersTitle": "Viewers",
-    "groupViewersDescription": "Bekijk en inspecteer bestanden in uw browser.",
+    "groupViewersTitle": "Viewers & editors",
+    "groupViewersDescription": "Open, search, and edit locally—editable grids, OpenAPI specs, webhook JSON, and more in your browser.",
     "groupExcelTitle": "Excel",
     "groupExcelDescription": "Importeer en exporteer tussen CSV, JSON en Excel.",
     "groupDeveloperTitle": "Ontwikkelaar",
@@ -598,8 +616,8 @@
     "groupImageDescription": "Afbeeldingstools: comprimeren, converteren en verkleinen lokaal.",
     "groupColorTitle": "Kleur",
     "groupColorDescription": "Kleurtools: generatoren en trending galerijen.",
-    "csvViewerLabel": "CSV-viewer",
-    "csvViewerDesc": "Open en inspecteer CSV-gegevens snel.",
+    "csvViewerLabel": "CSV viewer & editor",
+    "csvViewerDesc": "Open CSV in an editable grid, search and export—runs locally in your browser.",
     "csvCompareLabel": "CSV vergelijken",
     "csvCompareDesc": "Vergelijk twee CSV-bestanden naast elkaar.",
     "csvToExcelDesc": "Converteer CSV naar XLSX-bestanden.",
@@ -613,8 +631,8 @@
     "parquetToJsonDesc": "Converteer Parquet naar JSON.",
     "csvToMarkdownTableDesc": "Genereer Markdown-tabellen uit CSV-bestanden.",
     "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
-    "xlsViewerDesc": "Bekijk Excel XLS-bestanden direct.",
-    "parquetViewerDesc": "Open en blader door Parquet-bestanden.",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
+    "parquetViewerDesc": "Browse Parquet in an editable grid and export back to .parquet locally.",
     "jsonFormatterLabel": "JSON-formatter",
     "jsonFormatterDesc": "Formatteer, minificeer en valideer JSON lokaal.",
     "sqlFormatterLabel": "SQL formatter",
@@ -645,12 +663,12 @@
     "pythonRequestsConverterDesc": "Converteer Python requests-fragmenten naar cURL/fetch/axios.",
     "httpExplainerLabel": "HTTP-uitleg",
     "httpExplainerDesc": "Leg statuscodes en veelgebruikte HTTP-headers uit.",
-    "openapiViewerLabel": "OpenAPI-viewer",
-    "openapiViewerDesc": "Laad OpenAPI-specificaties en blader door endpoints.",
+    "openapiViewerLabel": "OpenAPI viewer & editor",
+    "openapiViewerDesc": "Paste or load OpenAPI YAML/JSON, edit the spec, and browse paths and operations.",
     "graphqlToolsLabel": "GraphQL-tools",
-    "graphqlToolsDesc": "Formatteer queries en inspecteer schematypen.",
-    "webhookViewerLabel": "Webhook-viewer",
-    "webhookViewerDesc": "Formatteer payloads en zoek met JSONPath.",
+    "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
+    "webhookViewerLabel": "Webhook viewer & editor",
+    "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
     "pdfToWordLabel": "PDF naar Word",
     "pdfToWordDesc": "Converteer PDF’s naar DOCX-bestanden.",
     "splitPdfLabel": "PDF splitsen",
@@ -982,9 +1000,9 @@
       "keywords": "pdf merge | combineren | merger | browser | lokaal | geen upload | meerdere | gratis"
     },
     "openapi-viewer": {
-      "title": "OpenAPI-viewer",
-      "description": "OpenAPI-viewer: gratis online in uw browser. Verwerking lokaal en privé; uw bestanden worden niet naar onze servers geüpload.",
-      "keywords": "openapi | swagger | spec | endpoints | browser | yaml json | ui alternatief"
+      "title": "OpenAPI viewer & editor",
+      "description": "OpenAPI/Swagger viewer and editor: paste or upload YAML/JSON, edit the spec, and browse paths and operations locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | openapi editor | swagger viewer | swagger editor | openapi browser | api spec viewer | edit openapi yaml | browser openapi tool | free swagger ui alternative | view openapi yaml json"
     },
     "parquet-to-csv": {
       "title": "Parquet naar CSV",
@@ -997,9 +1015,9 @@
       "keywords": "parquet json | converteren | browser | lokaal | export | gratis | parquet lezen"
     },
     "parquet-viewer": {
-      "title": "Parquet-viewer",
-      "description": "Parquet-viewer: gratis online in uw browser. Verwerking lokaal en privé; uw bestanden worden niet naar onze servers geüpload.",
-      "keywords": "parquet viewer | openen | editor | browser | lokaal | raster | gratis"
+      "title": "Parquet viewer & editor",
+      "description": "Parquet viewer and editor: open .parquet in an editable grid, search and tweak values, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | parquet editor | open parquet file | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
     },
     "pdf-to-image": {
       "title": "PDF naar afbeelding",
@@ -1052,9 +1070,9 @@
       "keywords": "video comprimeren | browser | lokaal | geen upload | mp4 kleiner | gratis | client-side"
     },
     "webhook-viewer": {
-      "title": "Webhook payload-viewer",
-      "description": "Webhook payload-viewer: gratis online in uw browser. Verwerking lokaal en privé; uw bestanden worden niet naar onze servers geüpload.",
-      "keywords": "webhook | payload | json | jsonpath | browser | stripe | debug"
+      "title": "Webhook payload viewer & editor",
+      "description": "Webhook payload viewer and editor: paste, edit, and prettify JSON; search with JSONPath locally in your browser. Private, client-side processing; your payloads are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook editor | webhook payload viewer | json payload editor | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
     },
     "xls-to-csv": {
       "title": "Excel naar CSV (batch)",
@@ -1062,9 +1080,9 @@
       "keywords": "excel csv | xls csv | xlsx csv | batch | browser | lokaal | gratis | spreadsheet"
     },
     "xls-viewer": {
-      "title": "Excel-viewer",
-      "description": "Excel-viewer: gratis online in uw browser. Verwerking lokaal en privé; uw bestanden worden niet naar onze servers geüpload.",
-      "keywords": "excel viewer | xlsx | xls | browser | bewerkbaar raster | lokaal | zonder excel | gratis"
+      "title": "Excel viewer & editor",
+      "description": "Excel viewer and editor: open XLS/XLSX in an editable grid, edit cells, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | excel editor | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
     }
   }
 }

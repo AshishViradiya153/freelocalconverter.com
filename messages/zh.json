@@ -7,8 +7,8 @@
     "csvToExcel": "CSV → Excel",
     "jsonToExcel": "JSON → Excel",
     "xlsToCsv": "Excel → CSV",
-    "xlsViewer": "Excel 查看器",
-    "parquetViewer": "Parquet 查看器",
+    "xlsViewer": "Excel viewer & editor",
+    "parquetViewer": "Parquet viewer & editor",
     "guides": "指南",
     "tools": "工具",
     "blog": "博客",
@@ -210,6 +210,24 @@
   "landing": {
     "heroTitle": "免费、现代、本地\n且安全的工具。",
     "heroSubtitle": "拖入 CSV 文件，在表格中排序、筛选、搜索、编辑、粘贴、撤销/重做，并增删行。数据保留在本设备，下次访问可继续。",
+    "featuresAria": "Product features",
+    "featuresKicker": "Features",
+    "featuresTitle": "Designed for fast, private work",
+    "featuresSubtitle": "Brutalist UI, smooth interactions, and client-side processing. Browse tools, pin favorites, and move data between formats without leaving the page.",
+    "featuresItems": {
+      "localTitle": "Local-first by default",
+      "localDescription": "Most tools run in your browser tab—no uploads for processing.",
+      "fastTitle": "Fast even on big files",
+      "fastDescription": "Responsive grids, search, and previews tuned for large datasets.",
+      "searchTitle": "Find tools instantly",
+      "searchDescription": "Search by name, category, or workflow. Jump with Enter.",
+      "favoritesTitle": "Pin your favorites",
+      "favoritesDescription": "Star tools to keep a personal shortlist on this device.",
+      "convertTitle": "Convert & export",
+      "convertDescription": "CSV, JSON, Excel, Parquet, PDF, images, video—export in one click.",
+      "polishTitle": "Nice details everywhere",
+      "polishDescription": "Keyboard shortcuts, sensible defaults, and a UI that stays out of your way."
+    },
     "directoryKicker": "工具目录",
     "directorySubtitle": "在转换器、查看器、格式化工具、OpenAPI 辅助工具、PDF 工具、图像工具等之间进行搜索。所有内容都可以在一个地方轻松浏览。",
     "directorySearchLabel": "搜索工具",
@@ -367,15 +385,15 @@
     "subtitle": "在浏览器中转换、对比和审阅表格文件。使用下方分类快速找到合适流程，无需将敏感数据上传到未知服务器。",
     "groupConvertersTitle": "转换器",
     "groupConvertersDescription": "用于清理切换的格式转换工具。",
-    "groupViewersTitle": "查看者和比较",
-    "groupViewersDescription": "检查、搜索和发现本地差异。",
+    "groupViewersTitle": "Viewers, editors & compare",
+    "groupViewersDescription": "Inspect, search, edit grids and payloads, and spot CSV differences locally.",
     "groupExcelTitle": "Excel工作流程",
     "groupExcelDescription": "在浏览器中同时在CSV/Excel/JSON之间切换。",
     "groupCompanyTitle": "学习和产品",
     "groupCompanyDescription": "文档、中心和关键页面。",
     "viewerDesc": "在本地打开、编辑和导出CSV。",
     "compareDesc": "带有筛选器的并排CSV差异。",
-    "xlsViewerDesc": "在网格中打开Excel （本地解析）。",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
     "parquetViewerDesc": "在网格中打开 Parquet，在本地编辑，然后导出回 .parquet。",
     "csvToExcelDesc": "批量将CSV文件转换为.xlsx。",
     "xlsToCsvDesc": "将Excel工作表转换为CSV输出。",
@@ -584,8 +602,8 @@
   "services": {
     "groupConvertersTitle": "转换器",
     "groupConvertersDescription": "在CSV、JSON和Parquet之间即时转换。",
-    "groupViewersTitle": "查看者",
-    "groupViewersDescription": "在浏览器中预览和检查文件。",
+    "groupViewersTitle": "Viewers & editors",
+    "groupViewersDescription": "Open, search, and edit locally—editable grids, OpenAPI specs, webhook JSON, and more in your browser.",
     "groupExcelTitle": "Excel",
     "groupExcelDescription": "在CSV、JSON和Excel之间导入和导出。",
     "groupDeveloperTitle": "开发人员",
@@ -598,8 +616,8 @@
     "groupImageDescription": "图像工具：本地压缩、转换和调整大小。",
     "groupColorTitle": "颜色",
     "groupColorDescription": "颜色工具：生成器和热门图库。",
-    "csvViewerLabel": "CSV查看器",
-    "csvViewerDesc": "快速打开并检查CSV数据。",
+    "csvViewerLabel": "CSV viewer & editor",
+    "csvViewerDesc": "Open CSV in an editable grid, search and export—runs locally in your browser.",
     "csvCompareLabel": "CSV比较",
     "csvCompareDesc": "并排比较两个CSV文件。",
     "csvToExcelDesc": "将CSV转换为XLSX文件。",
@@ -613,8 +631,8 @@
     "parquetToJsonDesc": "将Parquet转换为JSON。",
     "csvToMarkdownTableDesc": "从 CSV 文件生成 Markdown 表格。",
     "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
-    "xlsViewerDesc": "直接查看Excel XLS文件。",
-    "parquetViewerDesc": "打开并浏览Parquet文件。",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
+    "parquetViewerDesc": "Browse Parquet in an editable grid and export back to .parquet locally.",
     "jsonFormatterLabel": "JSON格式化程序",
     "jsonFormatterDesc": "在本地格式化、缩小和验证JSON。",
     "sqlFormatterLabel": "SQL formatter",
@@ -645,12 +663,12 @@
     "pythonRequestsConverterDesc": "将Python请求片段转换为cURL/fetch/axios。",
     "httpExplainerLabel": "HTTP解释器",
     "httpExplainerDesc": "解释状态代码和常见HTTP标头。",
-    "openapiViewerLabel": "OpenAPI查看器",
-    "openapiViewerDesc": "加载OpenAPI规范并浏览端点。",
+    "openapiViewerLabel": "OpenAPI viewer & editor",
+    "openapiViewerDesc": "Paste or load OpenAPI YAML/JSON, edit the spec, and browse paths and operations.",
     "graphqlToolsLabel": "GraphQL工具",
-    "graphqlToolsDesc": "格式化查询并检查架构类型。",
-    "webhookViewerLabel": "Webhook查看器",
-    "webhookViewerDesc": "打印有效负载并搜索JSONPath。",
+    "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
+    "webhookViewerLabel": "Webhook viewer & editor",
+    "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
     "pdfToWordLabel": "PDF转换为Word",
     "pdfToWordDesc": "将PDF转换为DOCX文件。",
     "splitPdfLabel": "拆分PDF",
@@ -982,9 +1000,9 @@
       "keywords": "合并 pdf |合并pdf | pdf 合并 |浏览器pdf合并|本地pdf合并|没有上传pdf合并|免费在线加入 pdf 文件 |合并多个pdf"
     },
     "openapi-viewer": {
-      "title": "OpenAPI 查看器",
-      "description": "OpenAPI Viewer：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
-      "keywords": "openapi 查看器 |昂首阔步的观众| openapi浏览器| API 规范查看器 | swagger 文件查看器 |浏览器openapi工具|免费 swagger ui 替代品 |查看 openapi yaml json"
+      "title": "OpenAPI viewer & editor",
+      "description": "OpenAPI/Swagger viewer and editor: paste or upload YAML/JSON, edit the spec, and browse paths and operations locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | openapi editor | swagger viewer | swagger editor | openapi browser | api spec viewer | edit openapi yaml | browser openapi tool | free swagger ui alternative | view openapi yaml json"
     },
     "parquet-to-csv": {
       "title": "Parquet 转 CSV",
@@ -997,9 +1015,9 @@
       "keywords": "镶木地板到 json |将 parquet 转换为 json |镶木地板 json 转换器 |浏览器 parquet 转 json |本地镶木地板转换器|镶木地板导出 json |免费镶木地板到 json |在浏览器中读取镶木地板"
     },
     "parquet-viewer": {
-      "title": "镶木地板查看器",
-      "description": "Parquet Viewer：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
-      "keywords": "镶木地板观察器|打开镶木地板文件 |镶木地板编辑器|浏览器镶木地板查看器|本地镶木地板工具|可编辑镶木地板网格|无需Python即可查看镶木地板|镶木地板在线预览"
+      "title": "Parquet viewer & editor",
+      "description": "Parquet viewer and editor: open .parquet in an editable grid, search and tweak values, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | parquet editor | open parquet file | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
     },
     "pdf-to-image": {
       "title": "PDF 到图像",
@@ -1052,9 +1070,9 @@
       "keywords": "视频压缩器|压缩视频 |浏览器视频压缩器|本地视频压缩|没有上传视频压缩|视频尺寸缩小器|免费在线缩小mp4 |客户端视频压缩"
     },
     "webhook-viewer": {
-      "title": "Webhook 负载查看器",
-      "description": "Webhook 负载查看器：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
-      "keywords": "Webhook 查看器 | webhook 负载查看器 | json 有效负载查看器 | jsonpath webhook 工具 |浏览器 webhook 检查器 | webhook json 格式化程序 | stripe webhook 负载查看器 |调试 webhook json"
+      "title": "Webhook payload viewer & editor",
+      "description": "Webhook payload viewer and editor: paste, edit, and prettify JSON; search with JSONPath locally in your browser. Private, client-side processing; your payloads are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook editor | webhook payload viewer | json payload editor | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
     },
     "xls-to-csv": {
       "title": "Excel 转 CSV 批处理",
@@ -1062,9 +1080,9 @@
       "keywords": "excel 转 csv | xls 转 csv | xlsx 转 csv |批量excel转csv |浏览器Excel转换器|本地 xls 转换器 |在线免费 excel 转 csv |将电子表格转换为 csv"
     },
     "xls-viewer": {
-      "title": "Excel查看器",
-      "description": "Excel Viewer：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
-      "keywords": "excel查看器| xlsx 查看器 | xls 查看器 |浏览器Excel查看器|可编辑的 Excel 网格 |本地电子表格查看器|不使用 Excel 打开 xlsx |免费在线查看 Excel"
+      "title": "Excel viewer & editor",
+      "description": "Excel viewer and editor: open XLS/XLSX in an editable grid, edit cells, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | excel editor | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
     }
   }
 }

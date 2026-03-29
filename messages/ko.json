@@ -7,8 +7,8 @@
     "csvToExcel": "CSV → 엑셀",
     "jsonToExcel": "JSON → 엑셀",
     "xlsToCsv": "엑셀 → CSV",
-    "xlsViewer": "엑셀 뷰어",
-    "parquetViewer": "Parquet 뷰어",
+    "xlsViewer": "Excel viewer & editor",
+    "parquetViewer": "Parquet viewer & editor",
     "guides": "가이드",
     "tools": "도구",
     "blog": "블로그",
@@ -210,6 +210,24 @@
   "landing": {
     "heroTitle": "무료, 현대적, 로컬\n및 안전한 도구.",
     "heroSubtitle": "CSV를 끌어다 놓고 정렬, 필터, 검색, 편집, 붙여넣기, 실행 취소/다시 실행, 행 추가·삭제를 사용하세요. 데이터는 이 기기에만 남고 다시 방문 시 복원됩니다.",
+    "featuresAria": "Product features",
+    "featuresKicker": "Features",
+    "featuresTitle": "Designed for fast, private work",
+    "featuresSubtitle": "Brutalist UI, smooth interactions, and client-side processing. Browse tools, pin favorites, and move data between formats without leaving the page.",
+    "featuresItems": {
+      "localTitle": "Local-first by default",
+      "localDescription": "Most tools run in your browser tab—no uploads for processing.",
+      "fastTitle": "Fast even on big files",
+      "fastDescription": "Responsive grids, search, and previews tuned for large datasets.",
+      "searchTitle": "Find tools instantly",
+      "searchDescription": "Search by name, category, or workflow. Jump with Enter.",
+      "favoritesTitle": "Pin your favorites",
+      "favoritesDescription": "Star tools to keep a personal shortlist on this device.",
+      "convertTitle": "Convert & export",
+      "convertDescription": "CSV, JSON, Excel, Parquet, PDF, images, video—export in one click.",
+      "polishTitle": "Nice details everywhere",
+      "polishDescription": "Keyboard shortcuts, sensible defaults, and a UI that stays out of your way."
+    },
     "directoryKicker": "도구 디렉터리",
     "directorySubtitle": "변환기, 뷰어, 포맷터, OpenAPI 도우미, PDF·이미지 등 다양한 도구를 검색하세요. 한곳에서 쉽게 둘러볼 수 있습니다.",
     "directorySearchLabel": "도구 검색",
@@ -367,15 +385,15 @@
     "subtitle": "위 카테고리에서 변환기, 뷰어, PDF·이미지·동영상·색상 도구, 개발자 도우미 등을 찾을 수 있습니다. 브라우저에서 실행되는 기능은 파일이 기기에 머무르고, 해당 처리를 위해 저희 서버로 업로드되지 않는 경우가 많습니다.",
     "groupConvertersTitle": "변환기",
     "groupConvertersDescription": "형식 간 깔끔한 넘김을 위한 도구.",
-    "groupViewersTitle": "뷰어 및 비교",
-    "groupViewersDescription": "로컬에서 검사·검색·차이 확인.",
+    "groupViewersTitle": "Viewers, editors & compare",
+    "groupViewersDescription": "Inspect, search, edit grids and payloads, and spot CSV differences locally.",
     "groupExcelTitle": "Excel 워크플로",
     "groupExcelDescription": "브라우저 안에서 CSV/Excel/JSON 오가기.",
     "groupCompanyTitle": "학습 및 제품",
     "groupCompanyDescription": "문서, 허브, 주요 페이지.",
     "viewerDesc": "CSV를 열고 편집하고 로컬로보냅니다.",
     "compareDesc": "필터가 있는 나란히 CSV diff.",
-    "xlsViewerDesc": "그리드에서 Excel 열기(로컬 파싱).",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
     "parquetViewerDesc": "그리드에서 Parquet을 열고 로컬로 편집한 뒤 .parquet으로 다시보냅니다.",
     "csvToExcelDesc": "CSV 파일을 일괄 .xlsx로 변환합니다.",
     "xlsToCsvDesc": "Excel 시트를 CSV 출력으로 변환합니다.",
@@ -584,8 +602,8 @@
   "services": {
     "groupConvertersTitle": "변환기",
     "groupConvertersDescription": "CSV, JSON, Parquet 간 즉시 변환합니다.",
-    "groupViewersTitle": "뷰어",
-    "groupViewersDescription": "브라우저에서 파일을 미리 보고 검사합니다.",
+    "groupViewersTitle": "Viewers & editors",
+    "groupViewersDescription": "Open, search, and edit locally—editable grids, OpenAPI specs, webhook JSON, and more in your browser.",
     "groupExcelTitle": "Excel",
     "groupExcelDescription": "CSV, JSON, Excel 간 가져오기·보내기.",
     "groupDeveloperTitle": "개발자",
@@ -598,8 +616,8 @@
     "groupImageDescription": "이미지 도구: 압축, 변환, 크기 조정을 로컬에서.",
     "groupColorTitle": "색상",
     "groupColorDescription": "색상 도구: 생성기와 인기 갤러리.",
-    "csvViewerLabel": "CSV 뷰어",
-    "csvViewerDesc": "CSV 데이터를 빠르게 열고 검사합니다.",
+    "csvViewerLabel": "CSV viewer & editor",
+    "csvViewerDesc": "Open CSV in an editable grid, search and export—runs locally in your browser.",
     "csvCompareLabel": "CSV 비교",
     "csvCompareDesc": "두 CSV 파일을 나란히 비교합니다.",
     "csvToExcelDesc": "CSV를 XLSX 파일로 변환합니다.",
@@ -613,8 +631,8 @@
     "parquetToJsonDesc": "Parquet을 JSON으로 변환합니다.",
     "csvToMarkdownTableDesc": "CSV에서 Markdown 표를 생성합니다.",
     "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
-    "xlsViewerDesc": "Excel XLS 파일을 바로 봅니다.",
-    "parquetViewerDesc": "Parquet 파일을 열고 탐색합니다.",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
+    "parquetViewerDesc": "Browse Parquet in an editable grid and export back to .parquet locally.",
     "jsonFormatterLabel": "JSON 포맷터",
     "jsonFormatterDesc": "JSON을 로컬에서 포맷·압축·검증합니다.",
     "sqlFormatterLabel": "SQL formatter",
@@ -645,12 +663,12 @@
     "pythonRequestsConverterDesc": "Python requests 스니펫을 cURL/fetch/axios로 변환합니다.",
     "httpExplainerLabel": "HTTP 설명",
     "httpExplainerDesc": "상태 코드와 일반 HTTP 헤더를 설명합니다.",
-    "openapiViewerLabel": "OpenAPI 뷰어",
-    "openapiViewerDesc": "OpenAPI 스펙을 불러와 엔드포인트를 탐색합니다.",
+    "openapiViewerLabel": "OpenAPI viewer & editor",
+    "openapiViewerDesc": "Paste or load OpenAPI YAML/JSON, edit the spec, and browse paths and operations.",
     "graphqlToolsLabel": "GraphQL 도구",
-    "graphqlToolsDesc": "쿼리를 포맷하고 스키마 타입을 검사합니다.",
-    "webhookViewerLabel": "웹훅 뷰어",
-    "webhookViewerDesc": "페이로드를 예쁘게 표시하고 JSONPath로 검색합니다.",
+    "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
+    "webhookViewerLabel": "Webhook viewer & editor",
+    "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
     "pdfToWordLabel": "PDF를 Word로",
     "pdfToWordDesc": "PDF를 DOCX 파일로 변환합니다.",
     "splitPdfLabel": "PDF 분할",
@@ -982,9 +1000,9 @@
       "keywords": "pdf 합치기 | 병합 | 브라우저 | 로컬 | 업로드 없음 | 여러 파일 | 무료"
     },
     "openapi-viewer": {
-      "title": "OpenAPI 뷰어",
-      "description": "OpenAPI 뷰어: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
-      "keywords": "openapi | swagger | 스펙 | 엔드포인트 | 브라우저 | yaml json"
+      "title": "OpenAPI viewer & editor",
+      "description": "OpenAPI/Swagger viewer and editor: paste or upload YAML/JSON, edit the spec, and browse paths and operations locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | openapi editor | swagger viewer | swagger editor | openapi browser | api spec viewer | edit openapi yaml | browser openapi tool | free swagger ui alternative | view openapi yaml json"
     },
     "parquet-to-csv": {
       "title": "Parquet을 CSV로",
@@ -997,9 +1015,9 @@
       "keywords": "parquet json | 변환 | 브라우저 | 로컬 | 무료"
     },
     "parquet-viewer": {
-      "title": "Parquet 뷰어",
-      "description": "Parquet 뷰어: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
-      "keywords": "parquet | 열기 | 편집 | 브라우저 | 로컬 | 그리드 | 무료"
+      "title": "Parquet viewer & editor",
+      "description": "Parquet viewer and editor: open .parquet in an editable grid, search and tweak values, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | parquet editor | open parquet file | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
     },
     "pdf-to-image": {
       "title": "PDF를 이미지로",
@@ -1052,9 +1070,9 @@
       "keywords": "동영상 압축 | 브라우저 | 로컬 | 업로드 없음 | mp4 용량 | 무료 | 클라이언트"
     },
     "webhook-viewer": {
-      "title": "웹훅 페이로드 뷰어",
-      "description": "웹훅 페이로드 뷰어: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
-      "keywords": "webhook | 페이로드 | json | jsonpath | 브라우저 | stripe | 디버그"
+      "title": "Webhook payload viewer & editor",
+      "description": "Webhook payload viewer and editor: paste, edit, and prettify JSON; search with JSONPath locally in your browser. Private, client-side processing; your payloads are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook editor | webhook payload viewer | json payload editor | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
     },
     "xls-to-csv": {
       "title": "Excel을 CSV로 일괄",
@@ -1062,9 +1080,9 @@
       "keywords": "excel csv | xls xlsx | 일괄 | 브라우저 | 로컬 | 무료 | 스프레드시트"
     },
     "xls-viewer": {
-      "title": "Excel 뷰어",
-      "description": "Excel 뷰어: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
-      "keywords": "excel 뷰어 | xlsx xls | 브라우저 | 편집 그리드 | 로컬 | 엑셀 없이 | 무료"
+      "title": "Excel viewer & editor",
+      "description": "Excel viewer and editor: open XLS/XLSX in an editable grid, edit cells, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | excel editor | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
     }
   }
 }
