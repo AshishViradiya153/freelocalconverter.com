@@ -412,7 +412,8 @@
     "privacyDesc": "データとプライバシーの扱い。",
     "termsDesc": "利用規約。",
     "copyright": "© {year} {name}. 無断転載を禁じます。",
-    "processingNotice": "アップロードしたファイルは保存しません。処理はブラウザー内で行われます。"
+    "processingNotice": "アップロードしたファイルは保存しません。処理はブラウザー内で行われます。",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

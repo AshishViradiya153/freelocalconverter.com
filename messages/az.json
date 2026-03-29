@@ -412,7 +412,8 @@
     "privacyDesc": "Məlumat və məxfiliklə bağlı necə davranırıq.",
     "termsDesc": "Şərtlər və qaydalar.",
     "copyright": "© {year} {name}. Bütün hüquqlar qorunur.",
-    "processingNotice": "We do not store your uploaded files. Processing happens in your browser."
+    "processingNotice": "We do not store your uploaded files. Processing happens in your browser.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

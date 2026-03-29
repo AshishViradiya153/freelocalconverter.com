@@ -412,7 +412,8 @@
     "privacyDesc": "Veri ve gizliliği nasıl ele alıyoruz.",
     "termsDesc": "Şartlar ve koşullar.",
     "copyright": "© {year} {name}. Tüm hakları saklıdır.",
-    "processingNotice": "Yüklediğiniz dosyaları saklamıyoruz. İşlem tarayıcınızda gerçekleşir."
+    "processingNotice": "Yüklediğiniz dosyaları saklamıyoruz. İşlem tarayıcınızda gerçekleşir.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

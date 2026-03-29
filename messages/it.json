@@ -412,7 +412,8 @@
     "privacyDesc": "Come gestiamo i dati e la privacy.",
     "termsDesc": "Termini e condizioni.",
     "copyright": "© {year} {name}. Tutti i diritti riservati.",
-    "processingNotice": "We do not store your uploaded files. Processing happens in your browser."
+    "processingNotice": "We do not store your uploaded files. Processing happens in your browser.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

@@ -412,7 +412,8 @@
     "privacyDesc": "Comment nous traitons les données et la confidentialité.",
     "termsDesc": "Termes et conditions.",
     "copyright": "© {year} {name}. Tous droits réservés.",
-    "processingNotice": "Nous ne stockons pas vos fichiers téléchargés. Le traitement s'effectue dans votre navigateur."
+    "processingNotice": "Nous ne stockons pas vos fichiers téléchargés. Le traitement s'effectue dans votre navigateur.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

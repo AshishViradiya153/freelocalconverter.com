@@ -412,7 +412,8 @@
     "privacyDesc": "Πώς χειριζόμαστε τα δεδομένα και το απόρρητο.",
     "termsDesc": "Όροι και προϋποθέσεις.",
     "copyright": "© {year} {name}. Με επιφύλαξη παντός δικαιώματος.",
-    "processingNotice": "We do not store your uploaded files. Processing happens in your browser."
+    "processingNotice": "We do not store your uploaded files. Processing happens in your browser.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

@@ -412,7 +412,8 @@
     "privacyDesc": "كيف نتعامل مع البيانات والخصوصية.",
     "termsDesc": "الشروط والأحكام.",
     "copyright": "© {year} {name}. جميع الحقوق محفوظة.",
-    "processingNotice": "لا نخزّن الملفات التي ترفعها. تتم المعالجة في متصفحك."
+    "processingNotice": "لا نخزّن الملفات التي ترفعها. تتم المعالجة في متصفحك.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

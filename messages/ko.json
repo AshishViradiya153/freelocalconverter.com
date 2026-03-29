@@ -412,7 +412,8 @@
     "privacyDesc": "데이터와 개인정보 처리 방식.",
     "termsDesc": "이용약관.",
     "copyright": "© {year} {name}. 무단 복제 금지.",
-    "processingNotice": "업로드한 파일을 저장하지 않습니다. 처리는 브라우저에서 이루어집니다."
+    "processingNotice": "업로드한 파일을 저장하지 않습니다. 처리는 브라우저에서 이루어집니다.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

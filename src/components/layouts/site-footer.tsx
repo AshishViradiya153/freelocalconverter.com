@@ -89,32 +89,38 @@ export async function SiteFooter() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-6 border-border border-t-4 bg-brutal-canvas px-4 py-6 text-brutal-canvas-foreground sm:flex-row sm:items-start sm:justify-between sm:gap-8 md:px-10 md:py-8 lg:px-12">
-              <p className="max-w-2xl font-bold text-brutal-canvas-foreground/90 text-xs leading-relaxed md:text-sm">
-                {tFooter("processingNotice")}{" "}
-                <Link
-                  className="ms-0.5 inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
-                  href="/privacy"
-                >
-                  {tNav("privacy")}
-                </Link>{" "}
-                <span className="text-brutal-canvas-foreground/40" aria-hidden>
-                  |
-                </span>{" "}
-                <Link
-                  className="inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
-                  href="/terms"
-                >
-                  {tNav("terms")}
-                </Link>
+            <div className="flex flex-col gap-8 border-brutal-canvas-foreground/15 border-t-4 bg-brutal-canvas px-4 py-8 text-brutal-canvas-foreground sm:gap-10 md:px-10 md:py-10 lg:px-12">
+              <p className="text-balance font-black text-[clamp(1.85rem,6.5vw,3.5rem)] uppercase leading-[0.92] tracking-tighter">
+                {tFooter("brandStamp")}
               </p>
 
-              <p className="shrink-0 font-black text-[10px] text-brutal-canvas-foreground/70 uppercase tracking-widest">
-                {tFooter("copyright", {
-                  year: siteConfig.copyrightYear,
-                  name: siteConfig.name,
-                })}
-              </p>
+              <div className="flex flex-col gap-6 border-brutal-canvas-foreground/15 border-t pt-8 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+                <p className="max-w-2xl font-bold text-brutal-canvas-foreground/90 text-xs leading-relaxed md:text-sm">
+                  {tFooter("processingNotice")}{" "}
+                  <Link
+                    className="ms-0.5 inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
+                    href="/privacy"
+                  >
+                    {tNav("privacy")}
+                  </Link>{" "}
+                  <span className="text-brutal-canvas-foreground/40" aria-hidden>
+                    |
+                  </span>{" "}
+                  <Link
+                    className="inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
+                    href="/terms"
+                  >
+                    {tNav("terms")}
+                  </Link>
+                </p>
+
+                <p className="shrink-0 font-black text-[10px] text-brutal-canvas-foreground/70 uppercase tracking-widest">
+                  {tFooter("copyright", {
+                    year: siteConfig.copyrightYear,
+                    name: siteConfig.name,
+                  })}
+                </p>
+              </div>
             </div>
           </div>
         </div>

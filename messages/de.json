@@ -412,7 +412,8 @@
     "privacyDesc": "So gehen wir mit Daten und Datenschutz um.",
     "termsDesc": "Geschäftsbedingungen.",
     "copyright": "© {year} {name}. Alle Rechte vorbehalten.",
-    "processingNotice": "Wir speichern Ihre hochgeladenen Dateien nicht. Die Verarbeitung erfolgt in Ihrem Browser."
+    "processingNotice": "Wir speichern Ihre hochgeladenen Dateien nicht. Die Verarbeitung erfolgt in Ihrem Browser.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

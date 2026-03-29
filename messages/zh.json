@@ -412,7 +412,8 @@
     "privacyDesc": "我们如何处理数据和隐私。",
     "termsDesc": "条款与条件",
     "copyright": "© {year} {name}.保留所有权利。",
-    "processingNotice": "我们不会存储您上传的文件。处理过程在您的浏览器中进行。"
+    "processingNotice": "我们不会存储您上传的文件。处理过程在您的浏览器中进行。",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",

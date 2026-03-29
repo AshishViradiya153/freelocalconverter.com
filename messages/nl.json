@@ -412,7 +412,8 @@
     "privacyDesc": "Hoe we omgaan met gegevens en privacy.",
     "termsDesc": "Algemene voorwaarden.",
     "copyright": "© {year} {name}. Alle rechten voorbehouden.",
-    "processingNotice": "We slaan uw geüploade bestanden niet op. Verwerking gebeurt in uw browser."
+    "processingNotice": "We slaan uw geüploade bestanden niet op. Verwerking gebeurt in uw browser.",
+    "brandStamp": "Free local tool"
   },
   "contactUs": {
     "metaTitle": "Contact us",
