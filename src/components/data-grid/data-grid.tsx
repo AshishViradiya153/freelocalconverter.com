@@ -22,7 +22,11 @@ import {
 import { useAsRef } from "@/hooks/use-as-ref";
 import type { useDataGrid } from "@/hooks/use-data-grid";
 import { useComposedRefs } from "@/lib/compose-refs";
-import { flexRender, getRowHeightValue } from "@/lib/data-grid";
+import {
+  flexRender,
+  getRowHeightValue,
+  getVirtualRowIndexForPrePaginationMatch,
+} from "@/lib/data-grid";
 import { resolveVirtualizedRowOrderOnDragEnd } from "@/lib/data-grid-virtual-row-reorder";
 import { cn } from "@/lib/utils";
 import type { Direction } from "@/types/data-grid";
@@ -115,6 +119,7 @@ export function DataGrid<TData>({
 }: DataGridProps<TData>) {
   const composedGridRef = useComposedRefs(dataGridRef, scrollContainerRef);
   const rows = table.getRowModel().rows;
+  const paginationEnabledForSearch = Boolean(table.options.getPaginationRowModel);
   const footerTrackWidth =
     table.getTotalSize() +
     (table.getVisibleLeafColumns().some((c) => c.id === "select") ? 48 : 0);
@@ -319,7 +324,12 @@ export function DataGrid<TData>({
               const searchMatchColumns =
                 searchMatchesByRow?.get(virtualItem.index) ?? null;
               const isActiveSearchRow =
-                activeSearchMatch?.rowIndex === virtualItem.index;
+                activeSearchMatch != null &&
+                getVirtualRowIndexForPrePaginationMatch(
+                  table,
+                  activeSearchMatch.rowIndex,
+                  paginationEnabledForSearch,
+                ) === virtualItem.index;
 
               const sharedRowProps = {
                 row,

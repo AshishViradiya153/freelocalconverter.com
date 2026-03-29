@@ -1,4 +1,4 @@
-import type { Column, Table } from "@tanstack/react-table";
+import type { Column, RowData, Table } from "@tanstack/react-table";
 import {
   BaselineIcon,
   CalendarIcon,
@@ -490,6 +490,30 @@ export function formatFileSize(bytes: number): string {
     Math.floor(Math.log(bytes) / Math.log(k)),
   );
   return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
+}
+
+/**
+ * Maps an index in `getPrePaginationRowModel().rows` to the row index on the
+ * current page (`getRowModel`), or null when pagination is on and the row is not visible.
+ */
+export function getVirtualRowIndexForPrePaginationMatch<TData extends RowData>(
+  table: Table<TData>,
+  prePaginationRowIndex: number,
+  paginationEnabled: boolean,
+): number | null {
+  if (!paginationEnabled) return prePaginationRowIndex;
+  const pagination = table.getState().pagination;
+  if (!pagination) return prePaginationRowIndex;
+  const { pageIndex, pageSize } = pagination;
+  const pageStart = pageIndex * pageSize;
+  const rowsOnPage = table.getRowModel().rows.length;
+  if (
+    prePaginationRowIndex < pageStart ||
+    prePaginationRowIndex >= pageStart + rowsOnPage
+  ) {
+    return null;
+  }
+  return prePaginationRowIndex - pageStart;
 }
 
 export function getFileIcon(

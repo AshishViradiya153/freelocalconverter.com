@@ -29,6 +29,7 @@ import {
   getIsInPopover,
   getRowHeightValue,
   getScrollDirection,
+  getVirtualRowIndexForPrePaginationMatch,
   matchSelectOption,
   parseCellKey,
   parseTsv,
@@ -172,6 +173,14 @@ function useDataGrid<TData>({
   const cellMapRef = React.useRef<Map<string, HTMLDivElement>>(new Map());
   const footerRef = React.useRef<HTMLDivElement>(null);
   const focusGuardRef = React.useRef(false);
+  const scrollToRowForSearchRef = React.useRef<
+    (opts: Partial<CellPosition>) => Promise<void>
+  >(async () => {});
+
+  const paginationEnabled = controlledTableState?.pagination != null;
+  const paginationSearchKey = paginationEnabled
+    ? `${controlledTableState?.pagination?.pageIndex ?? 0}-${controlledTableState?.pagination?.pageSize ?? 0}`
+    : "all";
 
   const propsRef = useAsRef({
     ...props,
@@ -391,13 +400,12 @@ function useDataGrid<TData>({
       >();
 
       for (const update of updateArray) {
-        if (!rows || !currentTable) {
-          const existingUpdates = rowUpdatesMap.get(update.rowIndex) ?? [];
-          existingUpdates.push({
-            columnId: update.columnId,
-            value: update.value,
-          });
-          rowUpdatesMap.set(update.rowIndex, existingUpdates);
+        let targetIndex: number;
+
+        if (update.dataRowIndex !== undefined) {
+          targetIndex = update.dataRowIndex;
+        } else if (!rows || !currentTable) {
+          targetIndex = update.rowIndex;
         } else {
           const row = rows[update.rowIndex];
           if (!row) continue;
@@ -405,16 +413,18 @@ function useDataGrid<TData>({
           const originalData = row.original;
           const originalRowIndex = currentData.indexOf(originalData);
 
-          const targetIndex =
+          targetIndex =
             originalRowIndex !== -1 ? originalRowIndex : update.rowIndex;
-
-          const existingUpdates = rowUpdatesMap.get(targetIndex) ?? [];
-          existingUpdates.push({
-            columnId: update.columnId,
-            value: update.value,
-          });
-          rowUpdatesMap.set(targetIndex, existingUpdates);
         }
+
+        if (targetIndex < 0 || targetIndex >= currentData.length) continue;
+
+        const existingUpdates = rowUpdatesMap.get(targetIndex) ?? [];
+        existingUpdates.push({
+          columnId: update.columnId,
+          value: update.value,
+        });
+        rowUpdatesMap.set(targetIndex, existingUpdates);
       }
 
       const newData: TData[] = new Array(currentData.length);
@@ -1506,16 +1516,14 @@ function useDataGrid<TData>({
         store.setState("searchQuery", "");
         store.setState("searchMatches", []);
         store.setState("matchIndex", -1);
-
-        if (currentMatch) {
-          store.setState("focusedCell", {
-            rowIndex: currentMatch.rowIndex,
-            columnId: currentMatch.columnId,
-          });
-        }
       });
 
-      if (
+      if (currentMatch?.dataRowIndex !== undefined) {
+        void scrollToRowForSearchRef.current({
+          rowIndex: currentMatch.dataRowIndex,
+          columnId: currentMatch.columnId,
+        });
+      } else if (
         dataGridRef.current &&
         document.activeElement !== dataGridRef.current
       ) {
@@ -1548,11 +1556,15 @@ function useDataGrid<TData>({
 
       const matches: CellPosition[] = [];
       const currentTable = tableRef.current;
-      const rows = currentTable?.getRowModel().rows ?? [];
+      const currentData = propsRef.current.data;
+      const preRows = currentTable?.getPrePaginationRowModel().rows ?? [];
 
-      for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-        const row = rows[rowIndex];
+      for (let preIndex = 0; preIndex < preRows.length; preIndex++) {
+        const row = preRows[preIndex];
         if (!row) continue;
+
+        const dataRowIndex = currentData.indexOf(row.original);
+        if (dataRowIndex < 0) continue;
 
         for (const cell of row.getVisibleCells()) {
           const columnId = cell.column.id;
@@ -1560,7 +1572,11 @@ function useDataGrid<TData>({
 
           const stringValue = String(cell.getValue() ?? "");
           if (findRe.test(stringValue)) {
-            matches.push({ rowIndex, columnId });
+            matches.push({
+              rowIndex: preIndex,
+              columnId,
+              dataRowIndex,
+            });
           }
         }
       }
@@ -1570,10 +1586,11 @@ function useDataGrid<TData>({
         store.setState("matchIndex", matches.length > 0 ? 0 : -1);
       });
 
-      if (matches.length > 0 && matches[0]) {
-        const firstMatch = matches[0];
-        rowVirtualizerRef.current?.scrollToIndex(firstMatch.rowIndex, {
-          align: "center",
+      const firstMatch = matches[0];
+      if (firstMatch?.dataRowIndex !== undefined) {
+        void scrollToRowForSearchRef.current({
+          rowIndex: firstMatch.dataRowIndex,
+          columnId: firstMatch.columnId,
         });
       }
     },
@@ -1592,14 +1609,15 @@ function useDataGrid<TData>({
       }
 
       const currentTable = tableRef.current;
-      const rows = currentTable?.getRowModel().rows ?? [];
-      if (rows.length === 0) return;
+      const currentData = propsRef.current.data;
+      const preRows = currentTable?.getPrePaginationRowModel().rows ?? [];
+      if (preRows.length === 0) return;
 
       const updates: CellUpdate[] = [];
 
-      for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-        const row = rows[rowIndex];
-        if (!row) continue;
+      for (const row of preRows) {
+        const dataRowIndex = currentData.indexOf(row.original);
+        if (dataRowIndex < 0) continue;
 
         for (const cell of row.getVisibleCells()) {
           const columnId = cell.column.id;
@@ -1609,7 +1627,12 @@ function useDataGrid<TData>({
           replaceRe.lastIndex = 0;
           const next = str.replace(replaceRe, () => replacement);
           if (next !== str) {
-            updates.push({ rowIndex, columnId, value: next });
+            updates.push({
+              rowIndex: dataRowIndex,
+              columnId,
+              value: next,
+              dataRowIndex,
+            });
           }
         }
       }
@@ -1642,19 +1665,14 @@ function useDataGrid<TData>({
         : currentState.matchIndex - 1;
     const match = currentState.searchMatches[prevIndex];
 
-    if (match) {
-      rowVirtualizerRef.current?.scrollToIndex(match.rowIndex, {
-        align: "center",
-      });
-
-      requestAnimationFrame(() => {
-        store.setState("matchIndex", prevIndex);
-        requestAnimationFrame(() => {
-          focusCell(match.rowIndex, match.columnId);
-        });
+    if (match?.dataRowIndex !== undefined) {
+      store.setState("matchIndex", prevIndex);
+      void scrollToRowForSearchRef.current({
+        rowIndex: match.dataRowIndex,
+        columnId: match.columnId,
       });
     }
-  }, [store, focusCell]);
+  }, [store]);
 
   const onNavigateToNextMatch = React.useCallback(() => {
     const currentState = store.getState();
@@ -1664,25 +1682,29 @@ function useDataGrid<TData>({
       (currentState.matchIndex + 1) % currentState.searchMatches.length;
     const match = currentState.searchMatches[nextIndex];
 
-    if (match) {
-      rowVirtualizerRef.current?.scrollToIndex(match.rowIndex, {
-        align: "center",
-      });
-
-      requestAnimationFrame(() => {
-        store.setState("matchIndex", nextIndex);
-        requestAnimationFrame(() => {
-          focusCell(match.rowIndex, match.columnId);
-        });
+    if (match?.dataRowIndex !== undefined) {
+      store.setState("matchIndex", nextIndex);
+      void scrollToRowForSearchRef.current({
+        rowIndex: match.dataRowIndex,
+        columnId: match.columnId,
       });
     }
-  }, [store, focusCell]);
+  }, [store]);
 
   const searchMatchSet = React.useMemo(() => {
-    return new Set(
-      searchMatches.map((m) => getCellKey(m.rowIndex, m.columnId)),
-    );
-  }, [searchMatches]);
+    const currentTable = tableRef.current;
+    if (!currentTable || searchMatches.length === 0) return new Set<string>();
+    const set = new Set<string>();
+    for (const m of searchMatches) {
+      const v = getVirtualRowIndexForPrePaginationMatch(
+        currentTable,
+        m.rowIndex,
+        paginationEnabled,
+      );
+      if (v !== null) set.add(getCellKey(v, m.columnId));
+    }
+    return set;
+  }, [searchMatches, paginationEnabled, paginationSearchKey]);
 
   const getIsSearchMatch = React.useCallback(
     (rowIndex: number, columnId: string) => {
@@ -1696,29 +1718,42 @@ function useDataGrid<TData>({
       const currentState = store.getState();
       if (currentState.matchIndex < 0) return false;
       const currentMatch = currentState.searchMatches[currentState.matchIndex];
-      return (
-        currentMatch?.rowIndex === rowIndex &&
-        currentMatch?.columnId === columnId
+      if (!currentMatch) return false;
+      const currentTable = tableRef.current;
+      if (!currentTable) return false;
+      const v = getVirtualRowIndexForPrePaginationMatch(
+        currentTable,
+        currentMatch.rowIndex,
+        paginationEnabled,
       );
+      return v === rowIndex && currentMatch.columnId === columnId;
     },
-    [store],
+    [store, paginationEnabled, paginationSearchKey],
   );
 
   // Compute search match data for targeted row re-renders
-  // Maps rowIndex -> Set of columnIds that have matches in that row
+  // Maps virtual row index (current page) -> Set of columnIds that have matches in that row
   const searchMatchesByRow = React.useMemo(() => {
     if (searchMatches.length === 0) return null;
+    const currentTable = tableRef.current;
+    if (!currentTable) return null;
     const rowMap = new Map<number, Set<string>>();
     for (const match of searchMatches) {
-      let columnSet = rowMap.get(match.rowIndex);
+      const v = getVirtualRowIndexForPrePaginationMatch(
+        currentTable,
+        match.rowIndex,
+        paginationEnabled,
+      );
+      if (v === null) continue;
+      let columnSet = rowMap.get(v);
       if (!columnSet) {
         columnSet = new Set<string>();
-        rowMap.set(match.rowIndex, columnSet);
+        rowMap.set(v, columnSet);
       }
       columnSet.add(match.columnId);
     }
     return rowMap;
-  }, [searchMatches]);
+  }, [searchMatches, paginationEnabled, paginationSearchKey]);
 
   const activeSearchMatch = React.useMemo<CellPosition | null>(() => {
     if (matchIndex < 0 || searchMatches.length === 0) return null;
@@ -2206,8 +2241,6 @@ function useDataGrid<TData>({
     [],
   );
 
-  const paginationEnabled = controlledTableState?.pagination != null;
-
   const getMemoizedPaginationRowModel = React.useMemo(
     () => getPaginationRowModel(),
     [],
@@ -2442,6 +2475,8 @@ function useDataGrid<TData>({
     },
     [rowVirtualizer, propsRef, store, releaseFocusGuard],
   );
+
+  scrollToRowForSearchRef.current = onScrollToRow;
 
   const onRowAdd = React.useCallback(
     async (event?: React.MouseEvent<HTMLDivElement>) => {

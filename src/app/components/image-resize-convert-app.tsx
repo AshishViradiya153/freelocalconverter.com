@@ -19,14 +19,24 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import { ImageResizeCropPreview } from "@/app/components/image-resize-crop-preview";
 import { downloadBlob } from "@/lib/download-blob";
+import {
+  clampPixelCrop,
+  defaultPixelCropForPreset,
+  normToPixel,
+  pixelToNorm,
+  resolveCropForImageSize,
+  type ImageResizeCropPreset,
+  type NormSourceCrop,
+} from "@/lib/image-resize/norm-source-crop";
+import { drawPipelineToCanvas } from "@/lib/image-resize/render-pipeline";
 import { cn } from "@/lib/utils";
 
 type OutputFormat = "webp" | "avif" | "jpeg" | "png";
 type ConvertEngine = "auto" | "browser" | "ffmpeg";
 type ItemStatus = "queued" | "running" | "done" | "error";
 
-type CropPreset = "none" | "1:1" | "4:3" | "16:9" | "9:16";
 type ResizeMode = "none" | "width" | "height" | "fit";
 type FitMode = "contain" | "cover";
 
@@ -124,54 +134,6 @@ function isQualityRelevant(format: OutputFormat) {
   return format === "jpeg" || format === "webp" || format === "avif";
 }
 
-function cropRatio(preset: CropPreset): number | null {
-  if (preset === "1:1") return 1;
-  if (preset === "4:3") return 4 / 3;
-  if (preset === "16:9") return 16 / 9;
-  if (preset === "9:16") return 9 / 16;
-  return null;
-}
-
-function computeSourceCrop(args: {
-  sw: number;
-  sh: number;
-  ratio: number | null;
-}) {
-  if (!args.ratio) return { sx: 0, sy: 0, sWidth: args.sw, sHeight: args.sh };
-  const srcRatio = args.sw / args.sh;
-  if (srcRatio > args.ratio) {
-    const sWidth = Math.round(args.sh * args.ratio);
-    const sx = Math.round((args.sw - sWidth) / 2);
-    return { sx, sy: 0, sWidth, sHeight: args.sh };
-  }
-  const sHeight = Math.round(args.sw / args.ratio);
-  const sy = Math.round((args.sh - sHeight) / 2);
-  return { sx: 0, sy, sWidth: args.sw, sHeight };
-}
-
-function computeTargetSize(args: {
-  sw: number;
-  sh: number;
-  resizeMode: ResizeMode;
-  width: number;
-  height: number;
-}) {
-  if (args.resizeMode === "none") return { tw: args.sw, th: args.sh };
-  if (args.resizeMode === "width") {
-    const tw = Math.max(1, Math.round(args.width));
-    const th = Math.max(1, Math.round((args.sh / args.sw) * tw));
-    return { tw, th };
-  }
-  if (args.resizeMode === "height") {
-    const th = Math.max(1, Math.round(args.height));
-    const tw = Math.max(1, Math.round((args.sw / args.sh) * th));
-    return { tw, th };
-  }
-  const tw = Math.max(1, Math.round(args.width));
-  const th = Math.max(1, Math.round(args.height));
-  return { tw, th };
-}
-
 async function ensureFfmpegLoaded(args: {
   ffmpegRef: React.MutableRefObject<null | import("@ffmpeg/ffmpeg").FFmpeg>;
 }) {
@@ -229,75 +191,67 @@ async function encodeWithFfmpeg(args: {
 
 async function renderToPngBytes(args: {
   file: File;
-  cropPreset: CropPreset;
+  cropPreset: ImageResizeCropPreset;
+  normCrop: NormSourceCrop | null;
+  /** First-queue reference dimensions so crop zoom/center transfers across mixed sizes. */
+  refDimensions: { sw: number; sh: number } | null;
   resizeMode: ResizeMode;
   fitMode: FitMode;
   width: number;
   height: number;
 }) {
   const bitmap = await createImageBitmap(args.file);
-  const sw = bitmap.width;
-  const sh = bitmap.height;
-  if (sw <= 0 || sh <= 0) {
-    bitmap.close();
-    throw new Error("Could not decode image dimensions.");
-  }
+  try {
+    const sw = bitmap.width;
+    const sh = bitmap.height;
+    if (sw <= 0 || sh <= 0) {
+      throw new Error("Could not decode image dimensions.");
+    }
 
-  const ratio = cropRatio(args.cropPreset);
-  const crop = computeSourceCrop({ sw, sh, ratio });
-  const { tw, th } = computeTargetSize({
-    sw: crop.sWidth,
-    sh: crop.sHeight,
-    resizeMode: args.resizeMode,
-    width: args.width,
-    height: args.height,
-  });
+    const norm =
+      args.normCrop ??
+      pixelToNorm(
+        clampPixelCrop(
+          sw,
+          sh,
+          defaultPixelCropForPreset(sw, sh, args.cropPreset),
+        ),
+        sw,
+        sh,
+      );
+    const ref = args.refDimensions;
+    const hasRef =
+      ref !== null && ref.sw > 0 && ref.sh > 0;
+    const crop = hasRef
+      ? resolveCropForImageSize({
+        norm,
+        refSw: ref.sw,
+        refSh: ref.sh,
+        sw,
+        sh,
+        preset: args.cropPreset,
+      })
+      : clampPixelCrop(sw, sh, normToPixel(norm, sw, sh));
 
-  const canvas = createCanvas(tw, th);
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Could not initialize canvas.");
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
-
-  if (args.resizeMode === "fit") {
-    const sx = crop.sx;
-    const sy = crop.sy;
-    const sWidth = crop.sWidth;
-    const sHeight = crop.sHeight;
-    const scale =
-      args.fitMode === "cover"
-        ? Math.max(tw / sWidth, th / sHeight)
-        : Math.min(tw / sWidth, th / sHeight);
-    const dw = Math.round(sWidth * scale);
-    const dh = Math.round(sHeight * scale);
-    const dx = Math.round((tw - dw) / 2);
-    const dy = Math.round((th - dh) / 2);
-    ctx.drawImage(bitmap, sx, sy, sWidth, sHeight, dx, dy, dw, dh);
-  } else {
-    ctx.drawImage(
+    const canvas = drawPipelineToCanvas({
       bitmap,
-      crop.sx,
-      crop.sy,
-      crop.sWidth,
-      crop.sHeight,
-      0,
-      0,
-      tw,
-      th,
-    );
+      crop,
+      resizeMode: args.resizeMode,
+      fitMode: args.fitMode,
+      width: args.width,
+      height: args.height,
+    });
+
+    const blob = await canvasToBlob(canvas, "image/png");
+    return new Uint8Array(await blob.arrayBuffer());
+  } finally {
+    bitmap.close();
   }
-
-  bitmap.close();
-
-  const blob = await canvasToBlob(canvas, "image/png");
-  return new Uint8Array(await blob.arrayBuffer());
 }
 
 function ImageThumb(props: { url: string }) {
   return (
     <div className="grid size-12 place-items-center overflow-hidden rounded-lg border bg-muted/20 sm:size-14">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      {/* biome-ignore lint/performance/noImgElement: object URL thumbnail */}
       <img
         src={props.url}
         alt=""
@@ -321,7 +275,13 @@ export function ImageResizeConvertApp() {
   const [engine, setEngine] = React.useState<ConvertEngine>("auto");
   const [quality, setQuality] = React.useState(85);
 
-  const [cropPreset, setCropPreset] = React.useState<CropPreset>("none");
+  const [cropPreset, setCropPreset] =
+    React.useState<ImageResizeCropPreset>("none");
+  const [normCrop, setNormCrop] = React.useState<NormSourceCrop | null>(null);
+  const [previewMeta, setPreviewMeta] = React.useState<{
+    sw: number;
+    sh: number;
+  } | null>(null);
   const [resizeMode, setResizeMode] = React.useState<ResizeMode>("fit");
   const [fitMode, setFitMode] = React.useState<FitMode>("contain");
   const [width, setWidth] = React.useState(1920);
@@ -342,6 +302,44 @@ export function ImageResizeConvertApp() {
       for (const it of itemsRef.current) URL.revokeObjectURL(it.previewUrl);
     };
   }, []);
+
+  const firstItem = items[0];
+
+  React.useEffect(() => {
+    if (!firstItem) {
+      setPreviewMeta(null);
+      setNormCrop(null);
+      return;
+    }
+    setPreviewMeta(null);
+    setNormCrop(null);
+    let cancelled = false;
+    void createImageBitmap(firstItem.file).then((bm) => {
+      const sw = bm.width;
+      const sh = bm.height;
+      bm.close();
+      if (cancelled) return;
+      if (sw <= 0 || sh <= 0) {
+        setPreviewMeta(null);
+        return;
+      }
+      setPreviewMeta({ sw, sh });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [firstItem?.id, firstItem?.file]);
+
+  React.useEffect(() => {
+    if (!previewMeta || !firstItem) return;
+    const { sw, sh } = previewMeta;
+    const pixel = clampPixelCrop(
+      sw,
+      sh,
+      defaultPixelCropForPreset(sw, sh, cropPreset),
+    );
+    setNormCrop(pixelToNorm(pixel, sw, sh));
+  }, [previewMeta, cropPreset, firstItem?.id]);
 
   function addFiles(files: FileList | null) {
     if (!files?.length) return;
@@ -399,6 +397,8 @@ export function ImageResizeConvertApp() {
         const pngBytes = await renderToPngBytes({
           file: current.file,
           cropPreset,
+          normCrop,
+          refDimensions: previewMeta,
           resizeMode,
           fitMode,
           width,
@@ -463,6 +463,8 @@ export function ImageResizeConvertApp() {
     [
       items,
       cropPreset,
+      normCrop,
+      previewMeta,
       resizeMode,
       fitMode,
       width,
@@ -482,8 +484,8 @@ export function ImageResizeConvertApp() {
     setEngineStatus("Processing images…");
 
     try {
-      for (let i = 0; i < queue.length; i += 1) {
-        await convertOne(queue[i]?.id, i);
+      for (const [i, item] of queue.entries()) {
+        await convertOne(item.id, i);
       }
       toast.success("Done");
     } finally {
@@ -548,6 +550,37 @@ export function ImageResizeConvertApp() {
         <p className="text-destructive text-sm" role="alert">
           {engineError}
         </p>
+      ) : null}
+
+      {firstItem && previewMeta && normCrop ? (
+        <section className="rounded-xl border bg-background p-4 shadow-sm">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <div className="font-semibold text-sm">Live preview</div>
+            <p className="max-w-xl text-muted-foreground text-xs">
+              Showing{" "}
+              <span className="font-medium text-foreground">
+                {firstItem.file.name}
+              </span>
+              . Framing (center and zoom vs max crop for the preset) is taken
+              from this image and reapplied per file so mixed sizes stay
+              consistent.
+            </p>
+          </div>
+          <ImageResizeCropPreview
+            imageUrl={firstItem.previewUrl}
+            imageWidth={previewMeta.sw}
+            imageHeight={previewMeta.sh}
+            file={firstItem.file}
+            cropPreset={cropPreset}
+            normCrop={normCrop}
+            onNormCropChange={setNormCrop}
+            resizeMode={resizeMode}
+            fitMode={fitMode}
+            targetWidth={width}
+            targetHeight={height}
+            disabled={busy}
+          />
+        </section>
       ) : null}
 
       {items.length > 0 ? (
@@ -676,7 +709,8 @@ export function ImageResizeConvertApp() {
               <div>
                 <div className="font-semibold text-sm">Settings</div>
                 <div className="mt-1 text-muted-foreground text-xs">
-                  Center-crop uses safe presets (no manual crop UI yet).
+                  Use the preview above to position and zoom; the same intent is
+                  mapped per image (including mixed aspect ratios).
                 </div>
               </div>
 
@@ -685,7 +719,9 @@ export function ImageResizeConvertApp() {
                   <Label className="text-sm">Crop</Label>
                   <Select
                     value={cropPreset}
-                    onValueChange={(v) => setCropPreset(v as CropPreset)}
+                    onValueChange={(v) =>
+                      setCropPreset(v as ImageResizeCropPreset)
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue />
