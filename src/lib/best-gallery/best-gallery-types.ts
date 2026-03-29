@@ -20,16 +20,16 @@ export interface BestPaletteRow {
   baseHex: string;
   mode: HarmonyMode;
   colorFamily:
-  | "red"
-  | "orange"
-  | "yellow"
-  | "green"
-  | "teal"
-  | "brown"
-  | "blue"
-  | "purple"
-  | "pink"
-  | "neutral";
+    | "red"
+    | "orange"
+    | "yellow"
+    | "green"
+    | "teal"
+    | "brown"
+    | "blue"
+    | "purple"
+    | "pink"
+    | "neutral";
   aesthetic: "classic" | "dark-modern";
   saturationMul: number;
   lightnessMul: number;
@@ -55,16 +55,16 @@ export interface BestGradientRow {
   baseHex: string;
   mode: HarmonyMode;
   colorFamily:
-  | "red"
-  | "orange"
-  | "yellow"
-  | "green"
-  | "teal"
-  | "brown"
-  | "blue"
-  | "purple"
-  | "pink"
-  | "neutral";
+    | "red"
+    | "orange"
+    | "yellow"
+    | "green"
+    | "teal"
+    | "brown"
+    | "blue"
+    | "purple"
+    | "pink"
+    | "neutral";
   aesthetic: "classic" | "dark-modern";
   angle: number;
   saturationMul: number;
@@ -85,4 +85,3 @@ export interface BestGradientRow {
   styleMonochromatic: boolean;
   styleGradient: boolean;
 }
-

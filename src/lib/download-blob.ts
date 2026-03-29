@@ -12,4 +12,3 @@ function triggerBrowserDownload(blob: Blob, filename: string) {
 export function downloadBlob(blob: Blob, filename: string) {
   triggerBrowserDownload(blob, filename);
 }
-

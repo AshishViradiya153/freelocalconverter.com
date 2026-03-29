@@ -61,6 +61,9 @@ describe("svgToCode", () => {
 
   it("treats empty input as no conversion yet", () => {
     expect(svgToCode("", { mode: "jsx" })).toEqual({ ok: true, text: "" });
-    expect(svgToCode("   \n", { mode: "react" })).toEqual({ ok: true, text: "" });
+    expect(svgToCode("   \n", { mode: "react" })).toEqual({
+      ok: true,
+      text: "",
+    });
   });
 });

@@ -4,6 +4,10 @@ import {
 } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PseoContentLocaleNotice } from "@/components/seo/pseo-content-locale-notice";
+import {
+  ToolSectionHeading,
+  toolHeroTitleClassName,
+} from "@/components/tool-ui";
 import { Link } from "@/i18n/navigation";
 import type { PseoPageRecord, ToolCategoryDefinition } from "@/lib/pseo/types";
 import { hubPathForToolCategory, pseoPathForRecord } from "@/lib/seo/linking";
@@ -13,6 +17,7 @@ import {
   buildBreadcrumbListJsonLd,
   buildJsonLdGraph,
 } from "@/lib/seo/schema";
+import { cn } from "@/lib/utils";
 
 interface ToolCategoryHubTemplateProps {
   locale: string;
@@ -60,7 +65,7 @@ export function ToolCategoryHubTemplate({
           <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
             {badgeToolsHub}
           </p>
-          <h1 className="mt-2 font-semibold text-3xl tracking-tight">
+          <h1 className={cn(toolHeroTitleClassName, "mt-2")}>
             {category.title}
           </h1>
           <p className="mt-3 max-w-2xl text-muted-foreground text-sm leading-relaxed">
@@ -75,12 +80,9 @@ export function ToolCategoryHubTemplate({
         </div>
 
         <section className="mt-12" aria-labelledby="tools-in-category-heading">
-          <h2
-            id="tools-in-category-heading"
-            className="font-semibold text-foreground text-lg tracking-tight"
-          >
+          <ToolSectionHeading id="tools-in-category-heading">
             {pagesInCategoryHub}
-          </h2>
+          </ToolSectionHeading>
           <ul className="mt-6 flex flex-col gap-6">
             {tools.map((tool) => (
               <li key={tool.id}>

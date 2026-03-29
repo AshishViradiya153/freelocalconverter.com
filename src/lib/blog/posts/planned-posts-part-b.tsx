@@ -263,9 +263,9 @@ export const plannedPostsPartB: PublishedBlogPost[] = [
         <BlogProse>
           <p>
             Analysts UNLOAD slices for stakeholders who will not run SQL. The
-            CSV lands in object storage, downloads to laptop, opens in a
-            viewer, then annotated files rarely should flow backward into
-            production without ETL.
+            CSV lands in object storage, downloads to laptop, opens in a viewer,
+            then annotated files rarely should flow backward into production
+            without ETL.
           </p>
           <h2>Hygiene</h2>
           <ul>
@@ -594,8 +594,8 @@ export const plannedPostsPartB: PublishedBlogPost[] = [
           <h2>Terms</h2>
           <ul>
             <li>
-              <strong>Delimiter</strong>: character separating fields (often comma
-              or semicolon).
+              <strong>Delimiter</strong>: character separating fields (often
+              comma or semicolon).
             </li>
             <li>
               <strong>Record</strong>: one row representing an entity instance.
@@ -604,8 +604,8 @@ export const plannedPostsPartB: PublishedBlogPost[] = [
               <strong>Field</strong>: single cell value within a record.
             </li>
             <li>
-              <strong>Escape</strong>: doubling quotes inside quoted fields per RFC
-              4180.
+              <strong>Escape</strong>: doubling quotes inside quoted fields per
+              RFC 4180.
             </li>
             <li>
               <strong>RFC 4180</strong>: common textual CSV profile for

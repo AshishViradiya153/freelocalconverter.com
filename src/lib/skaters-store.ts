@@ -23,7 +23,9 @@ export function listSkaters(): Skater[] {
 }
 
 export function insertSkaters(
-  partials: Array<Partial<Omit<Skater, "createdAt" | "updatedAt">> & { id?: string }>,
+  partials: Array<
+    Partial<Omit<Skater, "createdAt" | "updatedAt">> & { id?: string }
+  >,
 ): Skater[] {
   ensureLoaded();
   const now = new Date();

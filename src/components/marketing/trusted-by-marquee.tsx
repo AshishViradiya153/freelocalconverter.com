@@ -2,15 +2,15 @@
 
 import { useTranslations } from "next-intl";
 import * as React from "react";
+import type { SimpleIcon } from "simple-icons";
 import {
   defaultInstitutionLogoHost,
+  type TrustedByEntry,
   trustedByEntries,
   trustedByEntryKey,
-  type TrustedByEntry,
 } from "@/config/trusted-by";
 import { trustedByOutboundUrl } from "@/lib/marketing/utm";
 import { cn } from "@/lib/utils";
-import type { SimpleIcon } from "simple-icons";
 
 function usePrefersReducedMotion(): boolean {
   return React.useSyncExternalStore(
@@ -48,12 +48,12 @@ function BrandLogo({
       rel="noopener noreferrer"
       tabIndex={tabIndex}
       className={itemShellClass}
-      aria-label={`${label} website (opens in a new tab)`}
     >
+      <span className="sr-only">{`${label} website (opens in a new tab)`}</span>
       <svg
         viewBox="0 0 24 24"
         aria-hidden
-        className="h-9 w-auto max-w-28 text-foreground opacity-80 grayscale contrast-125 transition-[opacity,filter,color] group-hover:text-primary-foreground group-hover:opacity-100 group-hover:grayscale-0"
+        className="h-9 w-auto max-w-28 text-foreground opacity-80 contrast-125 grayscale transition-[opacity,filter,color] group-hover:text-primary-foreground group-hover:opacity-100 group-hover:grayscale-0"
       >
         <path d={icon.path} fill="currentColor" />
       </svg>
@@ -81,7 +81,7 @@ function InstitutionMark({
       className={itemShellClass}
       aria-label={`${name} (opens in a new tab)`}
     >
-      <span className="font-mono font-black text-foreground text-xs uppercase tracking-tighter group-hover:text-primary-foreground sm:text-sm">
+      <span className="font-black font-mono text-foreground text-xs uppercase tracking-tighter group-hover:text-primary-foreground sm:text-sm">
         {abbr}
       </span>
     </a>
@@ -120,6 +120,7 @@ function InstitutionLogo({
         className={itemShellClass}
         aria-label={`${name} (opens in a new tab)`}
       >
+        {/* biome-ignore lint/performance/noImgElement: local SVG with onError fallback */}
         <img
           src={localSrc}
           alt=""
@@ -144,6 +145,7 @@ function InstitutionLogo({
         className={itemShellClass}
         aria-label={`${name} (opens in a new tab)`}
       >
+        {/* biome-ignore lint/performance/noImgElement: remote logo with onError fallback */}
         <img
           src={clearbitSrc}
           alt=""
@@ -228,7 +230,7 @@ export function TrustedByMarquee() {
           <p className="sr-only">
             {t("trustedSrIntro")} {srOnlyNames(items)}.
           </p>
-          <div className="w-full overflow-hidden mask-[linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+          <div className="mask-[linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] w-full overflow-hidden">
             <div
               className={cn(
                 "flex w-max gap-8 py-6 md:gap-12 md:py-8",

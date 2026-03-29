@@ -1,46 +1,22 @@
 "use client";
 
-import * as React from "react";
-import { useSearchParams } from "next/navigation";
 import {
-  Download,
   Copy,
+  Download,
   Lock,
-  Unlock,
-  Shuffle,
-  Palette,
   Maximize2,
+  Palette,
+  Shuffle,
+  Unlock,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import * as React from "react";
 import { toast } from "sonner";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Slider } from "@/components/ui/slider";
-import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import {
-  bestTextColorOn,
-  contrastRatio,
-  normalizeHex,
-  hslToRgb,
-  rgbToHex,
-  wcagContrastBadge,
-  type HarmonyMode,
-} from "@/lib/color-palette";
-import {
-  buildCssLinearGradient,
-  clamp,
-  generateGradientFromBase,
-  normalizeAngle,
-  PRESET_TRENDING_GRADIENTS,
-  type GradientStop,
-} from "@/lib/color-gradients";
-import {
-  createLinearGradientExportCanvas,
-  downloadCanvasPng,
-} from "@/lib/canvas-png-export";
-import { downloadTextFile } from "@/lib/download-text-file";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -48,6 +24,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
+import {
+  createLinearGradientExportCanvas,
+  downloadCanvasPng,
+} from "@/lib/canvas-png-export";
+import {
+  buildCssLinearGradient,
+  clamp,
+  type GradientStop,
+  generateGradientFromBase,
+  normalizeAngle,
+  PRESET_TRENDING_GRADIENTS,
+} from "@/lib/color-gradients";
+import {
+  bestTextColorOn,
+  contrastRatio,
+  type HarmonyMode,
+  hslToRgb,
+  normalizeHex,
+  rgbToHex,
+  wcagContrastBadge,
+} from "@/lib/color-palette";
+import { downloadTextFile } from "@/lib/download-text-file";
+import { cn } from "@/lib/utils";
 
 type Swatch = GradientStop;
 
@@ -192,12 +193,15 @@ export function ColorGradientApp() {
 
       const locks = prev.map((s) => s.locked);
       const nextUnlocked = spec.stops;
-      const next: Swatch[] = Array.from({ length: nextParams.count }, (_, i) => {
-        const locked = Boolean(locks[i]);
-        const fromPrev = prev[i]?.hex;
-        const nextHex = nextUnlocked[i] ?? fromPrev ?? "#000000";
-        return { hex: locked ? fromPrev ?? nextHex : nextHex, locked };
-      });
+      const next: Swatch[] = Array.from(
+        { length: nextParams.count },
+        (_, i) => {
+          const locked = Boolean(locks[i]);
+          const fromPrev = prev[i]?.hex;
+          const nextHex = nextUnlocked[i] ?? fromPrev ?? "#000000";
+          return { hex: locked ? (fromPrev ?? nextHex) : nextHex, locked };
+        },
+      );
       return next;
     });
   }
@@ -256,7 +260,9 @@ export function ColorGradientApp() {
   }
 
   function onToggleLock(i: number) {
-    setStops((prev) => prev.map((s, ix) => (ix === i ? { ...s, locked: !s.locked } : s)));
+    setStops((prev) =>
+      prev.map((s, ix) => (ix === i ? { ...s, locked: !s.locked } : s)),
+    );
   }
 
   const [trendQuery, setTrendQuery] = React.useState("");
@@ -272,7 +278,9 @@ export function ColorGradientApp() {
 
   function onUsePreset(presetStops: string[], presetAngle: number) {
     setAngle(normalizeAngle(presetAngle));
-    const normalized = presetStops.map((h) => normalizeHex(h)).filter(Boolean) as string[];
+    const normalized = presetStops
+      .map((h) => normalizeHex(h))
+      .filter(Boolean) as string[];
     const first = normalized[0] ?? baseHex;
     setCount(normalized.length);
     setBaseHex(first);
@@ -328,7 +336,9 @@ export function ColorGradientApp() {
   function onDownloadCss() {
     const safeBase = baseHex.replace("#", "");
     const fileName = `gradient-${hexStops.length}-${safeBase}-${Math.round(angle)}.css`;
-    const cssVars = hexStops.map((h, i) => `  --color-${i + 1}: ${h};`).join("\n");
+    const cssVars = hexStops
+      .map((h, i) => `  --color-${i + 1}: ${h};`)
+      .join("\n");
     const css = `:root {\n${cssVars}\n  --gradient: ${cssGradient};\n}\n`;
     downloadTextFile(css, fileName, "text/css;charset=utf-8");
     toast.success("Download started");
@@ -350,9 +360,7 @@ export function ColorGradientApp() {
       <header className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <Palette className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            Gradients (Trending)
-          </h1>
+          <h1 className={toolHeroTitleClassName}>Gradients (Trending)</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm leading-relaxed">
           Generate gradients from a base color, lock stops, then copy or export
@@ -363,6 +371,7 @@ export function ColorGradientApp() {
       <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
         <section className="flex flex-col gap-4">
           <div
+            role="img"
             className="h-[220px] w-full rounded-xl border"
             style={{ background: cssGradient }}
             aria-label="Gradient preview"
@@ -370,7 +379,9 @@ export function ColorGradientApp() {
 
           <div className="flex flex-wrap items-end gap-3">
             <div className="flex min-w-[180px] flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">Base</span>
+              <span className="font-medium text-muted-foreground text-xs">
+                Base
+              </span>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
@@ -390,7 +401,9 @@ export function ColorGradientApp() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">Harmony</span>
+              <span className="font-medium text-muted-foreground text-xs">
+                Harmony
+              </span>
               <Select
                 value={mode}
                 onValueChange={(v) => applyMode(v as HarmonyMode)}
@@ -409,7 +422,9 @@ export function ColorGradientApp() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">Stops</span>
+              <span className="font-medium text-muted-foreground text-xs">
+                Stops
+              </span>
               <div className="w-[220px]">
                 <Slider
                   value={[count]}
@@ -418,7 +433,7 @@ export function ColorGradientApp() {
                   step={1}
                   onValueChange={(v) => applyCount(v[0] ?? 5)}
                 />
-                <div className="mt-1 flex justify-between text-xs text-muted-foreground">
+                <div className="mt-1 flex justify-between text-muted-foreground text-xs">
                   <span>3</span>
                   <span className="font-medium text-foreground">{count}</span>
                   <span>10</span>
@@ -429,7 +444,9 @@ export function ColorGradientApp() {
 
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">Angle</span>
+              <span className="font-medium text-muted-foreground text-xs">
+                Angle
+              </span>
               <div className="w-[220px]">
                 <Slider
                   value={[angle]}
@@ -442,7 +459,7 @@ export function ColorGradientApp() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">
+              <span className="font-medium text-muted-foreground text-xs">
                 Vibrance
               </span>
               <div className="w-[220px]">
@@ -457,7 +474,7 @@ export function ColorGradientApp() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground text-xs font-medium">
+              <span className="font-medium text-muted-foreground text-xs">
                 Lightness
               </span>
               <div className="w-[220px]">
@@ -484,7 +501,11 @@ export function ColorGradientApp() {
                 <Shuffle className="size-4" aria-hidden />
                 View variations
               </Button>
-              <Button type="button" variant="outline" onClick={onCopyCssGradient}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onCopyCssGradient}
+              >
                 <Copy className="size-4" aria-hidden />
                 Copy CSS
               </Button>
@@ -514,11 +535,7 @@ export function ColorGradientApp() {
               <Download className="size-4" aria-hidden />
               Download CSS
             </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={onCopyShareLink}
-            >
+            <Button type="button" variant="secondary" onClick={onCopyShareLink}>
               <Copy className="size-4" aria-hidden />
               Share
             </Button>
@@ -533,11 +550,16 @@ export function ColorGradientApp() {
               return (
                 <div
                   key={`${s.hex}-${i}`}
-                  className={cn("relative overflow-hidden rounded-lg border bg-background")}
+                  className={cn(
+                    "relative overflow-hidden rounded-lg border bg-background",
+                  )}
                 >
-                  <div className="h-[120px] w-full" style={{ backgroundColor: s.hex }} />
+                  <div
+                    className="h-[120px] w-full"
+                    style={{ backgroundColor: s.hex }}
+                  />
 
-                  <div className="absolute left-2 top-2">
+                  <div className="absolute top-2 left-2">
                     <button
                       type="button"
                       onClick={() => onToggleLock(i)}
@@ -555,13 +577,16 @@ export function ColorGradientApp() {
                   <div className="flex flex-col gap-2 p-3">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <div className="text-xs font-medium text-muted-foreground">
+                        <div className="font-medium text-muted-foreground text-xs">
                           Stop {i + 1}
                         </div>
-                        <div className="font-mono text-sm" style={{ color: best.textHex }}>
+                        <div
+                          className="font-mono text-sm"
+                          style={{ color: best.textHex }}
+                        >
                           {s.hex.toUpperCase()}
                         </div>
-                        <div className="mt-1 text-xs text-muted-foreground">
+                        <div className="mt-1 text-muted-foreground text-xs">
                           Text contrast:{" "}
                           <span className="font-medium text-foreground">
                             {best.ratio.toFixed(2)} ({badge})
@@ -581,7 +606,9 @@ export function ColorGradientApp() {
                         onClick={() => {
                           void navigator.clipboard
                             .writeText(s.hex)
-                            .then(() => toast.success(`Copied ${s.hex.toUpperCase()}`))
+                            .then(() =>
+                              toast.success(`Copied ${s.hex.toUpperCase()}`),
+                            )
                             .catch(() => toast.error("Copy failed"));
                         }}
                       >
@@ -598,7 +625,7 @@ export function ColorGradientApp() {
 
         <aside className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground text-xs font-medium">
+            <span className="font-medium text-muted-foreground text-xs">
               Trending gradients
             </span>
             <Input
@@ -622,18 +649,21 @@ export function ColorGradientApp() {
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="truncate font-medium text-sm">{p.name}</div>
+                      <div className="truncate font-medium text-sm">
+                        {p.name}
+                      </div>
                       <div className="mt-1 line-clamp-2 text-muted-foreground text-xs">
                         {p.description}
                       </div>
                     </div>
-                    <span className="shrink-0 text-xs text-muted-foreground">
+                    <span className="shrink-0 text-muted-foreground text-xs">
                       {p.spec.stops.length} stops
                     </span>
                   </div>
 
                   <div
-                    className="relative mt-3 h-20 w-full rounded-md border overflow-hidden"
+                    role="img"
+                    className="relative mt-3 h-20 w-full overflow-hidden rounded-md border"
                     style={{
                       background: buildCssLinearGradient(
                         p.spec.angle,
@@ -655,7 +685,7 @@ export function ColorGradientApp() {
                     </div>
                   </div>
 
-                  <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="mt-3 flex items-center gap-2 text-muted-foreground text-xs">
                     <span className="font-medium text-foreground">Use</span>
                     <span className="ml-auto font-mono">
                       {stripHex(p.spec.stops[0] ?? "#000000")}
@@ -674,15 +704,11 @@ export function ColorGradientApp() {
             if (open) setFullscreenView("plate");
           }}
         >
-          <DialogContent
-            className="top-0 left-0 translate-x-0 translate-y-0 inset-0 h-screen w-screen max-w-none sm:max-w-none overflow-hidden rounded-none border-0 shadow-none p-0 gap-0"
-          >
+          <DialogContent className="inset-0 top-0 left-0 h-screen w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 p-0 shadow-none sm:max-w-none">
             <DialogTitle className="sr-only">
               Visualize colors (fullscreen)
             </DialogTitle>
-            <div
-              className="relative h-screen w-screen"
-            >
+            <div className="relative h-screen w-screen">
               {fullscreenView === "plate" ? (
                 <div
                   className="h-screen w-screen"
@@ -694,6 +720,7 @@ export function ColorGradientApp() {
                   {stops.map((s, i) => (
                     <div
                       key={`${s.hex}-${i}`}
+                      role="group"
                       className="group relative h-full w-full overflow-hidden"
                       style={{ backgroundColor: s.hex }}
                       aria-label={`Gradient stop ${i + 1}: ${s.hex}`}
@@ -701,7 +728,7 @@ export function ColorGradientApp() {
                       <div className="pointer-events-none absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
 
                       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
-                        <div className="font-mono text-lg font-semibold text-white drop-shadow">
+                        <div className="font-mono font-semibold text-lg text-white drop-shadow">
                           {s.hex.toUpperCase()}
                         </div>
 
@@ -715,9 +742,7 @@ export function ColorGradientApp() {
                             void navigator.clipboard
                               .writeText(s.hex)
                               .then(() =>
-                                toast.success(
-                                  `Copied ${s.hex.toUpperCase()}`,
-                                ),
+                                toast.success(`Copied ${s.hex.toUpperCase()}`),
                               )
                               .catch(() => toast.error("Copy failed"));
                           }}
@@ -731,6 +756,7 @@ export function ColorGradientApp() {
                 </div>
               ) : (
                 <div
+                  role="region"
                   className="absolute inset-0"
                   style={{
                     background: cssGradient,
@@ -738,13 +764,13 @@ export function ColorGradientApp() {
                   aria-label="Gradient view"
                 >
                   <div className="absolute inset-0 bg-black/15" />
-                  <div className="absolute left-1/2 top-12 w-[min(520px,calc(100%-2rem))] -translate-x-1/2 rounded-xl border bg-background/70 p-4 backdrop-blur">
+                  <div className="absolute top-12 left-1/2 w-[min(520px,calc(100%-2rem))] -translate-x-1/2 rounded-xl border bg-background/70 p-4 backdrop-blur">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="min-w-0">
-                        <div className="text-sm font-semibold leading-tight">
+                        <div className="font-semibold text-sm leading-tight">
                           Gradient
                         </div>
-                        <div className="mt-1 text-xs text-muted-foreground font-mono">
+                        <div className="mt-1 font-mono text-muted-foreground text-xs">
                           {stops.length} stops · {Math.round(angle)}deg
                         </div>
                       </div>
@@ -764,6 +790,7 @@ export function ColorGradientApp() {
                     {stops.map((s, i) => (
                       <div
                         key={`${s.hex}-${i}`}
+                        role="img"
                         className="h-10 w-14 rounded-lg border shadow-sm"
                         style={{ backgroundColor: s.hex }}
                         title={s.hex.toUpperCase()}
@@ -807,4 +834,3 @@ export function ColorGradientApp() {
     </div>
   );
 }
-

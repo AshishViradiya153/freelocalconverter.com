@@ -37,4 +37,3 @@ export default async function HeicToJpgPage({ params }: HeicToJpgPageProps) {
     </Shell>
   );
 }
-

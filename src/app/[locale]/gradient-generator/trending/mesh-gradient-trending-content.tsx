@@ -1,5 +1,5 @@
-import { MeshGradientTrendingGrid } from "./mesh-gradient-trending-grid";
 import { readTrendingMeshGradients } from "@/lib/mesh-gradient/trending-mesh-data";
+import { MeshGradientTrendingGrid } from "./mesh-gradient-trending-grid";
 
 export async function MeshGradientTrendingContent({
   openLabel,

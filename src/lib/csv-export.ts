@@ -144,8 +144,9 @@ export function buildXmlExportString(
         .map((key, i) => {
           const label = headerLabels[i] ?? key;
           const v = cellValueForXml(row[key]);
-          return `    <cell header="${escapeXmlText(String(label))}" colIndex="${i + 1
-            }">${escapeXmlText(v)}</cell>`;
+          return `    <cell header="${escapeXmlText(String(label))}" colIndex="${
+            i + 1
+          }">${escapeXmlText(v)}</cell>`;
         })
         .join("\n");
       return `  <row index="${rowIndex + 1}">\n${cellsXml}\n  </row>`;

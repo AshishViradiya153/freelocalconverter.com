@@ -1,22 +1,25 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { Loader2, Upload, Download } from "lucide-react";
+import { Download, Loader2, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
 import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-grid";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
-import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
 import {
   CSV_IMPORT_MAX_FILE_BYTES,
   CSV_IMPORT_MAX_ROWS,
   CsvImportError,
   parseCsvFile,
 } from "@/lib/csv-import";
-import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
+import {
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
 import {
   PARQUET_READ_ROW_CAP,
   parquetCsvSessionToBuffer,
@@ -91,12 +94,15 @@ export function CsvToParquetApp() {
       <div className="container flex flex-col gap-6 py-4">
         <header className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
-            <FileSpreadsheetGlyph className="size-8 text-muted-foreground" aria-hidden />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {t("heroTitle")}
-            </h1>
+            <FileSpreadsheetGlyph
+              className="size-8 text-muted-foreground"
+              aria-hidden
+            />
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
           </div>
-          <p className="max-w-3xl text-muted-foreground text-sm">{t("heroSubtitle")}</p>
+          <p className="max-w-3xl text-muted-foreground text-sm">
+            {t("heroSubtitle")}
+          </p>
         </header>
 
         {!session ? (
@@ -139,7 +145,12 @@ export function CsvToParquetApp() {
         {session ? (
           <div className="flex flex-col gap-4">
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={onClear}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onClear}
+              >
                 {t("clearFile")}
               </Button>
               <Button
@@ -175,4 +186,3 @@ export function CsvToParquetApp() {
     </DirectionProvider>
   );
 }
-

@@ -27,7 +27,9 @@ describe("getTraceDimensions", () => {
   it("allows a larger trace for high than fast at same input", () => {
     const fast = getTraceDimensions(3000, 2000, "fast");
     const high = getTraceDimensions(3000, 2000, "high");
-    expect(fast.tracedWidth * fast.tracedHeight).toBeLessThan(high.tracedWidth * high.tracedHeight);
+    expect(fast.tracedWidth * fast.tracedHeight).toBeLessThan(
+      high.tracedWidth * high.tracedHeight,
+    );
   });
 
   it("keeps traced aspect ratio aligned with display (avoids meet letterboxing)", () => {
@@ -85,14 +87,22 @@ describe("getVtracerConfig", () => {
   it("uses higher photo-oriented settings for high preset", () => {
     const balanced = getVtracerConfig("balanced");
     const high = getVtracerConfig("high");
-    expect((high.layerDifference as number) > (balanced.layerDifference as number)).toBe(true);
-    expect((high.filterSpeckle as number) > (balanced.filterSpeckle as number)).toBe(true);
+    expect(
+      (high.layerDifference as number) > (balanced.layerDifference as number),
+    ).toBe(true);
+    expect(
+      (high.filterSpeckle as number) > (balanced.filterSpeckle as number),
+    ).toBe(true);
   });
 
   it("uses coarser settings for fast than balanced", () => {
     const fast = getVtracerConfig("fast");
     const balanced = getVtracerConfig("balanced");
-    expect((fast.filterSpeckle as number) > (balanced.filterSpeckle as number)).toBe(true);
-    expect((fast.colorPrecision as number) > (balanced.colorPrecision as number)).toBe(true);
+    expect(
+      (fast.filterSpeckle as number) > (balanced.filterSpeckle as number),
+    ).toBe(true);
+    expect(
+      (fast.colorPrecision as number) > (balanced.colorPrecision as number),
+    ).toBe(true);
   });
 });

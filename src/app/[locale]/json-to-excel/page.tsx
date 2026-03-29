@@ -21,7 +21,9 @@ interface JsonToExcelPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function JsonToExcelPage({ params }: JsonToExcelPageProps) {
+export default async function JsonToExcelPage({
+  params,
+}: JsonToExcelPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 

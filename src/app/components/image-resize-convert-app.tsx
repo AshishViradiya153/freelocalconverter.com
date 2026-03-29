@@ -1,21 +1,22 @@
 "use client";
 
+import { Download, Image as ImageIcon, Loader2, Trash2, X } from "lucide-react";
 import * as React from "react";
-import {
-  Download,
-  Image as ImageIcon,
-  Loader2,
-  Trash2,
-  X,
-} from "lucide-react";
 import { toast } from "sonner";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { downloadBlob } from "@/lib/download-blob";
@@ -78,7 +79,9 @@ function outputExt(format: OutputFormat) {
 
 function isProbablyImageFile(file: File) {
   if (file.type.startsWith("image/")) return true;
-  return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?|ico|heic|heif|svg)$/i.test(file.name);
+  return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?|ico|heic|heif|svg)$/i.test(
+    file.name,
+  );
 }
 
 function createCanvas(width: number, height: number) {
@@ -88,7 +91,11 @@ function createCanvas(width: number, height: number) {
   return canvas;
 }
 
-function canvasToBlob(canvas: HTMLCanvasElement, mimeType: string, quality?: number) {
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  mimeType: string,
+  quality?: number,
+) {
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
       (blob) => {
@@ -105,7 +112,12 @@ function canvasToBlob(canvas: HTMLCanvasElement, mimeType: string, quality?: num
 }
 
 function isCanvasEncodable(format: OutputFormat) {
-  return format === "png" || format === "jpeg" || format === "webp" || format === "avif";
+  return (
+    format === "png" ||
+    format === "jpeg" ||
+    format === "webp" ||
+    format === "avif"
+  );
 }
 
 function isQualityRelevant(format: OutputFormat) {
@@ -120,7 +132,11 @@ function cropRatio(preset: CropPreset): number | null {
   return null;
 }
 
-function computeSourceCrop(args: { sw: number; sh: number; ratio: number | null }) {
+function computeSourceCrop(args: {
+  sw: number;
+  sh: number;
+  ratio: number | null;
+}) {
   if (!args.ratio) return { sx: 0, sy: 0, sWidth: args.sw, sHeight: args.sh };
   const srcRatio = args.sw / args.sh;
   if (srcRatio > args.ratio) {
@@ -161,7 +177,10 @@ async function ensureFfmpegLoaded(args: {
 }) {
   if (args.ffmpegRef.current) return args.ffmpegRef.current;
 
-  const [{ FFmpeg }, { toBlobURL }] = await Promise.all([import("@ffmpeg/ffmpeg"), import("@ffmpeg/util")]);
+  const [{ FFmpeg }, { toBlobURL }] = await Promise.all([
+    import("@ffmpeg/ffmpeg"),
+    import("@ffmpeg/util"),
+  ]);
   const ffmpeg = new FFmpeg();
   const base = `${location.origin}/ffmpeg-core/umd`;
   await ffmpeg.load({
@@ -226,7 +245,13 @@ async function renderToPngBytes(args: {
 
   const ratio = cropRatio(args.cropPreset);
   const crop = computeSourceCrop({ sw, sh, ratio });
-  const { tw, th } = computeTargetSize({ sw: crop.sWidth, sh: crop.sHeight, resizeMode: args.resizeMode, width: args.width, height: args.height });
+  const { tw, th } = computeTargetSize({
+    sw: crop.sWidth,
+    sh: crop.sHeight,
+    resizeMode: args.resizeMode,
+    width: args.width,
+    height: args.height,
+  });
 
   const canvas = createCanvas(tw, th);
   const ctx = canvas.getContext("2d");
@@ -239,16 +264,27 @@ async function renderToPngBytes(args: {
     const sy = crop.sy;
     const sWidth = crop.sWidth;
     const sHeight = crop.sHeight;
-    const scale = args.fitMode === "cover"
-      ? Math.max(tw / sWidth, th / sHeight)
-      : Math.min(tw / sWidth, th / sHeight);
+    const scale =
+      args.fitMode === "cover"
+        ? Math.max(tw / sWidth, th / sHeight)
+        : Math.min(tw / sWidth, th / sHeight);
     const dw = Math.round(sWidth * scale);
     const dh = Math.round(sHeight * scale);
     const dx = Math.round((tw - dw) / 2);
     const dy = Math.round((th - dh) / 2);
     ctx.drawImage(bitmap, sx, sy, sWidth, sHeight, dx, dy, dw, dh);
   } else {
-    ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sWidth, crop.sHeight, 0, 0, tw, th);
+    ctx.drawImage(
+      bitmap,
+      crop.sx,
+      crop.sy,
+      crop.sWidth,
+      crop.sHeight,
+      0,
+      0,
+      tw,
+      th,
+    );
   }
 
   bitmap.close();
@@ -261,7 +297,13 @@ function ImageThumb(props: { url: string }) {
   return (
     <div className="grid size-12 place-items-center overflow-hidden rounded-lg border bg-muted/20 sm:size-14">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={props.url} alt="" className="h-full w-full object-cover" draggable={false} />
+      {/* biome-ignore lint/performance/noImgElement: object URL thumbnail */}
+      <img
+        src={props.url}
+        alt=""
+        className="h-full w-full object-cover"
+        draggable={false}
+      />
     </div>
   );
 }
@@ -326,69 +368,111 @@ export function ImageResizeConvertApp() {
     setItems((prev) => prev.concat(next));
   }
 
-  function buildOutputName(file: File, index0: number) {
-    const base = baseNameFromFileName(file.name).replace(/[/?%*:|"<>\\]/g, "-");
-    const n = startIndex + index0;
-    const idx = String(n).padStart(clamp(pad, 1, 6), "0");
-    const stem = (nameTemplate || "{name}-{index}")
-      .replaceAll("{name}", base)
-      .replaceAll("{index}", idx);
-    return `${stem}.${outputExt(outputFormat)}`;
-  }
+  const buildOutputName = React.useCallback(
+    (file: File, index0: number) => {
+      const base = baseNameFromFileName(file.name).replace(
+        /[/?%*:|"<>\\]/g,
+        "-",
+      );
+      const n = startIndex + index0;
+      const idx = String(n).padStart(clamp(pad, 1, 6), "0");
+      const stem = (nameTemplate || "{name}-{index}")
+        .replaceAll("{name}", base)
+        .replaceAll("{index}", idx);
+      return `${stem}.${outputExt(outputFormat)}`;
+    },
+    [startIndex, pad, nameTemplate, outputFormat],
+  );
 
-  async function convertOne(itemId: string, index0: number) {
-    const current = items.find((x) => x.id === itemId);
-    if (!current) return;
+  const convertOne = React.useCallback(
+    async (itemId: string, index0: number) => {
+      const current = items.find((x) => x.id === itemId);
+      if (!current) return;
 
-    setItems((prev) => prev.map((x) => (x.id === itemId ? { ...x, status: "running", error: null } : x)));
-
-    try {
-      const pngBytes = await renderToPngBytes({
-        file: current.file,
-        cropPreset,
-        resizeMode,
-        fitMode,
-        width,
-        height,
-      });
-
-      const selectedEngine: ConvertEngine =
-        engine === "auto" ? (isCanvasEncodable(outputFormat) ? "browser" : "ffmpeg") : engine;
-
-      let blob: Blob;
-      if (selectedEngine === "browser") {
-        const canvasBlob = new Blob([pngBytes], { type: "image/png" });
-        const bitmap = await createImageBitmap(canvasBlob);
-        const canvas = createCanvas(bitmap.width, bitmap.height);
-        const ctx = canvas.getContext("2d");
-        if (!ctx) throw new Error("Could not initialize canvas.");
-        ctx.drawImage(bitmap, 0, 0);
-        bitmap.close();
-        const q01 = clamp(quality / 100, 0.1, 1);
-        blob = await canvasToBlob(canvas, outputMime(outputFormat), isQualityRelevant(outputFormat) ? q01 : undefined);
-      } else {
-        blob = await encodeWithFfmpeg({
-          ffmpeg: await ensureFfmpegLoaded({ ffmpegRef }),
-          pngBytes,
-          format: outputFormat,
-          quality,
-        });
-      }
-
-      const outName = buildOutputName(current.file, index0);
       setItems((prev) =>
         prev.map((x) =>
-          x.id === itemId
-            ? { ...x, status: "done", outputBlob: blob, outputBytes: blob.size, outputName: outName }
-            : x,
+          x.id === itemId ? { ...x, status: "running", error: null } : x,
         ),
       );
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : "Conversion failed";
-      setItems((prev) => prev.map((x) => (x.id === itemId ? { ...x, status: "error", error: msg } : x)));
-      setEngineError(msg);
-    }
-  }
+
+      try {
+        const pngBytes = await renderToPngBytes({
+          file: current.file,
+          cropPreset,
+          resizeMode,
+          fitMode,
+          width,
+          height,
+        });
+
+        const selectedEngine: ConvertEngine =
+          engine === "auto"
+            ? isCanvasEncodable(outputFormat)
+              ? "browser"
+              : "ffmpeg"
+            : engine;
+
+        let blob: Blob;
+        if (selectedEngine === "browser") {
+          const canvasBlob = new Blob([pngBytes], { type: "image/png" });
+          const bitmap = await createImageBitmap(canvasBlob);
+          const canvas = createCanvas(bitmap.width, bitmap.height);
+          const ctx = canvas.getContext("2d");
+          if (!ctx) throw new Error("Could not initialize canvas.");
+          ctx.drawImage(bitmap, 0, 0);
+          bitmap.close();
+          const q01 = clamp(quality / 100, 0.1, 1);
+          blob = await canvasToBlob(
+            canvas,
+            outputMime(outputFormat),
+            isQualityRelevant(outputFormat) ? q01 : undefined,
+          );
+        } else {
+          blob = await encodeWithFfmpeg({
+            ffmpeg: await ensureFfmpegLoaded({ ffmpegRef }),
+            pngBytes,
+            format: outputFormat,
+            quality,
+          });
+        }
+
+        const outName = buildOutputName(current.file, index0);
+        setItems((prev) =>
+          prev.map((x) =>
+            x.id === itemId
+              ? {
+                  ...x,
+                  status: "done",
+                  outputBlob: blob,
+                  outputBytes: blob.size,
+                  outputName: outName,
+                }
+              : x,
+          ),
+        );
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : "Conversion failed";
+        setItems((prev) =>
+          prev.map((x) =>
+            x.id === itemId ? { ...x, status: "error", error: msg } : x,
+          ),
+        );
+        setEngineError(msg);
+      }
+    },
+    [
+      items,
+      cropPreset,
+      resizeMode,
+      fitMode,
+      width,
+      height,
+      engine,
+      outputFormat,
+      quality,
+      buildOutputName,
+    ],
+  );
 
   const onConvertAll = React.useCallback(async () => {
     const queue = items.filter((i) => i.status === "queued");
@@ -399,14 +483,14 @@ export function ImageResizeConvertApp() {
 
     try {
       for (let i = 0; i < queue.length; i += 1) {
-        await convertOne(queue[i]!.id, i);
+        await convertOne(queue[i]?.id, i);
       }
       toast.success("Done");
     } finally {
       setBusy(false);
       setEngineStatus(null);
     }
-  }, [items, cropPreset, resizeMode, fitMode, width, height, engine, outputFormat, quality, nameTemplate, startIndex, pad]);
+  }, [items, convertOne]);
 
   return (
     <div className="container flex flex-col gap-6 py-4">
@@ -416,7 +500,7 @@ export function ImageResizeConvertApp() {
             <span className="font-semibold text-sm">IMG</span>
           </div>
           <div className="min-w-0">
-            <h1 className="truncate font-semibold text-3xl tracking-tight md:text-4xl">
+            <h1 className={cn(toolHeroTitleClassName, "truncate")}>
               Resize/Crop + Convert
             </h1>
           </div>
@@ -425,7 +509,8 @@ export function ImageResizeConvertApp() {
           </div>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Bulk resize, center-crop (preset ratios), convert, and bulk rename images locally in your browser, no uploads.
+          Bulk resize, center-crop (preset ratios), convert, and bulk rename
+          images locally in your browser, no uploads.
         </p>
       </header>
 
@@ -437,7 +522,11 @@ export function ImageResizeConvertApp() {
         multiple
         onFiles={addFiles}
         fileIcon={ImageIcon}
-        dropTitle={items.length ? "Drop more images or click to add" : "Drop images here or click to browse"}
+        dropTitle={
+          items.length
+            ? "Drop more images or click to add"
+            : "Drop images here or click to browse"
+        }
         dropHint="Bulk queue · resize/crop/convert · local-only"
         chooseLabel={items.length ? "Add images" : "Choose images"}
         fileHint="Bulk add: PNG, JPG/JPEG, WebP, AVIF, HEIC/HEIF and more. Everything stays on this device."
@@ -445,7 +534,11 @@ export function ImageResizeConvertApp() {
       />
 
       {engineStatus ? (
-        <div className="flex items-center gap-2 text-muted-foreground text-sm" role="status" aria-live="polite">
+        <div
+          className="flex items-center gap-2 text-muted-foreground text-sm"
+          role="status"
+          aria-live="polite"
+        >
           <Loader2 className="size-4 animate-spin" aria-hidden />
           <span>{engineStatus}</span>
         </div>
@@ -466,7 +559,11 @@ export function ImageResizeConvertApp() {
                 <Badge variant="outline">{items.length} items</Badge>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <Button type="button" disabled={busy || !hasQueued} onClick={() => void onConvertAll()}>
+                <Button
+                  type="button"
+                  disabled={busy || !hasQueued}
+                  onClick={() => void onConvertAll()}
+                >
                   Convert all
                 </Button>
                 <Button
@@ -493,12 +590,24 @@ export function ImageResizeConvertApp() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
-                          <div className="truncate font-medium text-sm">{it.file.name}</div>
+                          <div className="truncate font-medium text-sm">
+                            {it.file.name}
+                          </div>
                           <div className="mt-1 flex flex-wrap items-center gap-2">
-                            <Badge variant={it.status === "error" ? "destructive" : it.status === "done" ? "secondary" : "outline"}>
+                            <Badge
+                              variant={
+                                it.status === "error"
+                                  ? "destructive"
+                                  : it.status === "done"
+                                    ? "secondary"
+                                    : "outline"
+                              }
+                            >
                               {it.status}
                             </Badge>
-                            <Badge variant="outline">{outputFormat.toUpperCase()}</Badge>
+                            <Badge variant="outline">
+                              {outputFormat.toUpperCase()}
+                            </Badge>
                             <Badge variant="outline">#{idx + 1}</Badge>
                           </div>
                         </div>
@@ -511,7 +620,8 @@ export function ImageResizeConvertApp() {
                           onClick={() => {
                             setItems((prev) => {
                               const target = prev.find((x) => x.id === it.id);
-                              if (target) URL.revokeObjectURL(target.previewUrl);
+                              if (target)
+                                URL.revokeObjectURL(target.previewUrl);
                               return prev.filter((x) => x.id !== it.id);
                             });
                           }}
@@ -521,12 +631,22 @@ export function ImageResizeConvertApp() {
                         </Button>
                       </div>
 
-                      {it.error ? <div className="mt-2 text-destructive text-xs">{it.error}</div> : null}
+                      {it.error ? (
+                        <div className="mt-2 text-destructive text-xs">
+                          {it.error}
+                        </div>
+                      ) : null}
 
                       <div className="mt-2 flex flex-wrap items-center gap-2 text-muted-foreground text-xs">
                         <span>In: {formatBytes(it.originalBytes)}</span>
-                        {it.outputBytes ? <span>Out: {formatBytes(it.outputBytes)}</span> : null}
-                        {it.outputName ? <span className="truncate">Name: {it.outputName}</span> : null}
+                        {it.outputBytes ? (
+                          <span>Out: {formatBytes(it.outputBytes)}</span>
+                        ) : null}
+                        {it.outputName ? (
+                          <span className="truncate">
+                            Name: {it.outputName}
+                          </span>
+                        ) : null}
                       </div>
 
                       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -563,7 +683,10 @@ export function ImageResizeConvertApp() {
               <div className="grid gap-3 sm:grid-cols-3">
                 <div className="grid gap-2">
                   <Label className="text-sm">Crop</Label>
-                  <Select value={cropPreset} onValueChange={(v) => setCropPreset(v as CropPreset)}>
+                  <Select
+                    value={cropPreset}
+                    onValueChange={(v) => setCropPreset(v as CropPreset)}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -579,7 +702,10 @@ export function ImageResizeConvertApp() {
 
                 <div className="grid gap-2">
                   <Label className="text-sm">Resize</Label>
-                  <Select value={resizeMode} onValueChange={(v) => setResizeMode(v as ResizeMode)}>
+                  <Select
+                    value={resizeMode}
+                    onValueChange={(v) => setResizeMode(v as ResizeMode)}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -614,11 +740,23 @@ export function ImageResizeConvertApp() {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="grid gap-2">
                     <Label className="text-sm">Width</Label>
-                    <Input inputMode="numeric" value={String(width)} onChange={(e) => setWidth(Number(e.target.value) || width)} />
+                    <Input
+                      inputMode="numeric"
+                      value={String(width)}
+                      onChange={(e) =>
+                        setWidth(Number(e.target.value) || width)
+                      }
+                    />
                   </div>
                   <div className="grid gap-2">
                     <Label className="text-sm">Height</Label>
-                    <Input inputMode="numeric" value={String(height)} onChange={(e) => setHeight(Number(e.target.value) || height)} />
+                    <Input
+                      inputMode="numeric"
+                      value={String(height)}
+                      onChange={(e) =>
+                        setHeight(Number(e.target.value) || height)
+                      }
+                    />
                   </div>
                 </div>
               ) : null}
@@ -628,7 +766,10 @@ export function ImageResizeConvertApp() {
               <div className="grid gap-3 sm:grid-cols-3">
                 <div className="grid gap-2">
                   <Label className="text-sm">Output</Label>
-                  <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as OutputFormat)}>
+                  <Select
+                    value={outputFormat}
+                    onValueChange={(v) => setOutputFormat(v as OutputFormat)}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -643,14 +784,19 @@ export function ImageResizeConvertApp() {
 
                 <div className="grid gap-2">
                   <Label className="text-sm">Conversion mode</Label>
-                  <Select value={engine} onValueChange={(v) => setEngine(v as ConvertEngine)}>
+                  <Select
+                    value={engine}
+                    onValueChange={(v) => setEngine(v as ConvertEngine)}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="auto">Recommended</SelectItem>
                       <SelectItem value="browser">Fast</SelectItem>
-                      <SelectItem value="ffmpeg">Works with more formats</SelectItem>
+                      <SelectItem value="ffmpeg">
+                        Works with more formats
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -658,7 +804,9 @@ export function ImageResizeConvertApp() {
                 <div className="grid gap-2 sm:col-span-1">
                   <div className="flex items-center justify-between gap-2">
                     <Label className="text-sm">Quality</Label>
-                    <span className="text-muted-foreground text-xs">{quality}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {quality}
+                    </span>
                   </div>
                   <Slider
                     value={[quality]}
@@ -681,26 +829,47 @@ export function ImageResizeConvertApp() {
 
               <div className="grid gap-2">
                 <Label className="text-sm">Bulk rename template</Label>
-                <Input value={nameTemplate} onChange={(e) => setNameTemplate(e.target.value)} placeholder="{name}-{index}" />
+                <Input
+                  value={nameTemplate}
+                  onChange={(e) => setNameTemplate(e.target.value)}
+                  placeholder="{name}-{index}"
+                />
                 <div className="text-muted-foreground text-xs">
-                  Use <code className={cn("rounded bg-muted px-1 py-0.5")}>{"{name}"}</code> and{" "}
-                  <code className={cn("rounded bg-muted px-1 py-0.5")}>{"{index}"}</code>.
+                  Use{" "}
+                  <code className={cn("rounded bg-muted px-1 py-0.5")}>
+                    {"{name}"}
+                  </code>{" "}
+                  and{" "}
+                  <code className={cn("rounded bg-muted px-1 py-0.5")}>
+                    {"{index}"}
+                  </code>
+                  .
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 <div className="grid gap-2">
                   <Label className="text-sm">Start</Label>
-                  <Input inputMode="numeric" value={String(startIndex)} onChange={(e) => setStartIndex(Number(e.target.value) || 1)} />
+                  <Input
+                    inputMode="numeric"
+                    value={String(startIndex)}
+                    onChange={(e) => setStartIndex(Number(e.target.value) || 1)}
+                  />
                 </div>
                 <div className="grid gap-2">
                   <Label className="text-sm">Pad</Label>
-                  <Input inputMode="numeric" value={String(pad)} onChange={(e) => setPad(Number(e.target.value) || 2)} />
+                  <Input
+                    inputMode="numeric"
+                    value={String(pad)}
+                    onChange={(e) => setPad(Number(e.target.value) || 2)}
+                  />
                 </div>
                 <div className="grid gap-2">
                   <Label className="text-sm">Example</Label>
                   <div className="rounded-md border bg-muted/10 px-3 py-2 text-muted-foreground text-xs">
-                    {items[0] ? buildOutputName(items[0].file, 0) : `photo-01.${outputExt(outputFormat)}`}
+                    {items[0]
+                      ? buildOutputName(items[0].file, 0)
+                      : `photo-01.${outputExt(outputFormat)}`}
                   </div>
                 </div>
               </div>
@@ -711,4 +880,3 @@ export function ImageResizeConvertApp() {
     </div>
   );
 }
-

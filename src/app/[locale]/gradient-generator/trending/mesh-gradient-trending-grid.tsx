@@ -1,7 +1,7 @@
 "use client";
 
-import { MeshGradientTrendingCard } from "./mesh-gradient-trending-card";
 import type { TrendingMeshGradientItem } from "@/lib/mesh-gradient/trending-mesh-types";
+import { MeshGradientTrendingCard } from "./mesh-gradient-trending-card";
 
 interface MeshGradientTrendingGridProps {
   items: TrendingMeshGradientItem[];

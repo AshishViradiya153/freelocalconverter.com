@@ -24,20 +24,20 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
             Browser-based viewers parse files with JavaScript on your device.
             That keeps data local, but it also means{" "}
             <strong>memory and CPU</strong> set the ceiling. This app applies{" "}
-            <strong>row and byte caps</strong> on import so typical sessions stay
-            responsive. If you hit a cap, the honest fix is usually to split the
-            extract by date, region, or entity in your warehouse or source system,
-            then review each slice here.
+            <strong>row and byte caps</strong> on import so typical sessions
+            stay responsive. If you hit a cap, the honest fix is usually to
+            split the extract by date, region, or entity in your warehouse or
+            source system, then review each slice here.
           </p>
           <h2>What to expect</h2>
           <ul>
             <li>
-              Very wide files cost more than very tall ones because every visible
-              column participates in layout work.
+              Very wide files cost more than very tall ones because every
+              visible column participates in layout work.
             </li>
             <li>
-              Pagination in the grid reduces how many rows the UI treats as active
-              at once, which helps scrolling and editing stay smooth.
+              Pagination in the grid reduces how many rows the UI treats as
+              active at once, which helps scrolling and editing stay smooth.
             </li>
             <li>
               Closing other heavy tabs and using an up-to-date browser improves
@@ -45,8 +45,9 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
             </li>
           </ul>
           <p>
-            Check the in-app hints and import errors when a file is rejected. They
-            describe the constraint so you can adjust the export, not guess.
+            Check the in-app hints and import errors when a file is rejected.
+            They describe the constraint so you can adjust the export, not
+            guess.
           </p>
         </BlogProse>
       );
@@ -85,16 +86,17 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
             </li>
             <li>
               Clearing removes the saved session for this site in this browser
-              profile. It does not erase copies you already downloaded or emailed.
+              profile. It does not erase copies you already downloaded or
+              emailed.
             </li>
             <li>
               Pair this habit with your org policy on PII and regulated exports.
             </li>
           </ul>
           <p>
-            Read the Privacy page for how processing relates to your browser, and
-            treat local persistence as a feature to manage, not a silent backup of
-            record.
+            Read the Privacy page for how processing relates to your browser,
+            and treat local persistence as a feature to manage, not a silent
+            backup of record.
           </p>
         </BlogProse>
       );
@@ -128,12 +130,13 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
           <h2>Contracts and caution</h2>
           <ul>
             <li>
-              Pipelines that map columns <strong>by position</strong> break if you
-              change order before load. Prefer name-based loaders when possible.
+              Pipelines that map columns <strong>by position</strong> break if
+              you change order before load. Prefer name-based loaders when
+              possible.
             </li>
             <li>
-              Row order rarely matters to SQL imports, but it can matter for human
-              reviewers reading the file top to bottom.
+              Row order rarely matters to SQL imports, but it can matter for
+              human reviewers reading the file top to bottom.
             </li>
             <li>
               Undo and redo apply to many edits, so exploratory reordering stays
@@ -153,11 +156,7 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
       publishedAt: "2025-03-20",
       category: "guide",
       readTimeMinutes: 7,
-      keywords: [
-        "csv insert column",
-        "delete rows csv",
-        "paste tsv into grid",
-      ],
+      keywords: ["csv insert column", "delete rows csv", "paste tsv into grid"],
     },
     Content: function Post() {
       return (
@@ -173,8 +172,8 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
           <ul>
             <li>
               Pasting from Excel or Sheets usually arrives as tab-separated
-              values. The grid maps tabs into adjacent cells and can grow the table
-              when the paste is larger than the selection.
+              values. The grid maps tabs into adjacent cells and can grow the
+              table when the paste is larger than the selection.
             </li>
             <li>
               Huge clipboard payloads can hit browser limits. Chunk pastes when
@@ -210,14 +209,15 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
           <p>
             The toolbar groups the same primitives analysts use daily:{" "}
             <strong>sort</strong> from headers, <strong>filters</strong> for
-            subsetting, <strong>row height</strong> for readability on dense files,
-            and <strong>view options</strong> to show or hide columns without
-            changing the underlying row values until you export.
+            subsetting, <strong>row height</strong> for readability on dense
+            files, and <strong>view options</strong> to show or hide columns
+            without changing the underlying row values until you export.
           </p>
           <h2>Workflow tips</h2>
           <ul>
             <li>
-              Sort on a stable key before you spot-check duplicates or sequences.
+              Sort on a stable key before you spot-check duplicates or
+              sequences.
             </li>
             <li>
               Combine filters when validating joins you already modeled in SQL.
@@ -254,11 +254,11 @@ export const plannedPostsPartC: PublishedBlogPost[] = [
       return (
         <BlogProse>
           <p>
-            Power users should open the in-app <strong>keyboard shortcuts</strong>{" "}
-            panel. It lists navigation, selection, copy and paste, search, row
-            add, delete, and undo or redo chords supported in this build. Focus
-            management follows grid semantics so screen readers and keyboard-only
-            paths stay coherent.
+            Power users should open the in-app{" "}
+            <strong>keyboard shortcuts</strong> panel. It lists navigation,
+            selection, copy and paste, search, row add, delete, and undo or redo
+            chords supported in this build. Focus management follows grid
+            semantics so screen readers and keyboard-only paths stay coherent.
           </p>
           <h2>Habits that prevent mistakes</h2>
           <ul>

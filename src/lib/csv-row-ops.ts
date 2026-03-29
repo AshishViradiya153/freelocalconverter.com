@@ -1,7 +1,7 @@
 import { cellValueToPlainString } from "@/lib/csv-column-ops";
 import type { CsvViewerRow } from "@/lib/csv-import";
-import { parseTsv } from "@/lib/data-grid";
 import { createEmptyCsvViewerRow } from "@/lib/csv-viewer";
+import { parseTsv } from "@/lib/data-grid";
 import { generateId } from "@/lib/id";
 
 export function buildCsvRowClipboardTsv(

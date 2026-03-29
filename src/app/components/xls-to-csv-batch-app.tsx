@@ -5,24 +5,23 @@ import { Download, Loader2, Play, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
-import { Label } from "@/components/ui/label";
+import { FileExcelGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
-
+import { FileDropZone } from "@/components/ui/file-drop-zone";
+import { Label } from "@/components/ui/label";
 import { downloadCsvExport, downloadXmlExport } from "@/lib/csv-export";
 import {
   CSV_IMPORT_MAX_FILE_BYTES,
   CSV_IMPORT_MAX_ROWS,
   CsvImportError,
-  type ParseStringMatrixHeaderOptions,
   type CsvViewerRow,
+  type ParseStringMatrixHeaderOptions,
 } from "@/lib/csv-import";
-import { parseExcelFile } from "@/lib/excel-import";
 import { resultToSession } from "@/lib/csv-viewer-session";
-import { xlsExportCsvBaseName } from "@/lib/xls-to-csv-utils";
-import { FileDropZone } from "@/components/ui/file-drop-zone";
-import { FileExcelGlyph } from "@/components/file-glyphs";
+import { parseExcelFile } from "@/lib/excel-import";
 import { cn } from "@/lib/utils";
+import { xlsExportCsvBaseName } from "@/lib/xls-to-csv-utils";
 
 interface XlsToCsvBatchEntry {
   id: string;
@@ -44,7 +43,9 @@ export function XlsToCsvBatchApp() {
   const tXls = useTranslations("xlsToCsv");
   const tl = useTranslations("landing");
 
-  const [batchEntries, setBatchEntries] = React.useState<XlsToCsvBatchEntry[]>([]);
+  const [batchEntries, setBatchEntries] = React.useState<XlsToCsvBatchEntry[]>(
+    [],
+  );
   const [batchBusy, setBatchBusy] = React.useState(false);
 
   const fileInputId = "xls-to-csv-batch-input";
@@ -83,9 +84,12 @@ export function XlsToCsvBatchApp() {
     });
   }, []);
 
-  const onDropZonePick = React.useCallback((files: FileList | null) => {
-    onBatchAddFiles(files);
-  }, [onBatchAddFiles]);
+  const onDropZonePick = React.useCallback(
+    (files: FileList | null) => {
+      onBatchAddFiles(files);
+    },
+    [onBatchAddFiles],
+  );
 
   const onBatchRemoveEntry = React.useCallback((id: string) => {
     setBatchEntries((prev) => prev.filter((e) => e.id !== id));
@@ -119,9 +123,7 @@ export function XlsToCsvBatchApp() {
       );
 
       try {
-        const matrixHeader = buildMatrixHeaderFromInput(
-          current.headerRowInput,
-        );
+        const matrixHeader = buildMatrixHeaderFromInput(current.headerRowInput);
         const { result } = await parseExcelFile(current.file, {
           sheetIndex: 0,
           matrixHeader,
@@ -137,15 +139,15 @@ export function XlsToCsvBatchApp() {
           prev.map((e) =>
             e.id === id
               ? {
-                ...e,
-                status: "ready",
-                payload: {
-                  rows: convertedSession.rows,
-                  columnKeys: convertedSession.columnKeys,
-                  headerLabels: convertedSession.headerLabels,
-                  fileName: convertedSession.fileName,
-                },
-              }
+                  ...e,
+                  status: "ready",
+                  payload: {
+                    rows: convertedSession.rows,
+                    columnKeys: convertedSession.columnKeys,
+                    headerLabels: convertedSession.headerLabels,
+                    fileName: convertedSession.fileName,
+                  },
+                }
               : e,
           ),
         );
@@ -168,7 +170,9 @@ export function XlsToCsvBatchApp() {
               : tl("readError");
 
         setBatchEntries((prev) =>
-          prev.map((x) => (x.id === id ? { ...x, status: "error", error: message } : x)),
+          prev.map((x) =>
+            x.id === id ? { ...x, status: "error", error: message } : x,
+          ),
         );
       }
     }
@@ -221,9 +225,7 @@ export function XlsToCsvBatchApp() {
               className="size-8 text-muted-foreground"
               aria-hidden
             />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {tBatch("heroTitle")}
-            </h1>
+            <h1 className={toolHeroTitleClassName}>{tBatch("heroTitle")}</h1>
           </div>
           <p className="max-w-3xl text-muted-foreground text-sm">
             {tBatch("heroSubtitle", {
@@ -296,7 +298,9 @@ export function XlsToCsvBatchApp() {
                   entry.status === "error" && "border-destructive/40",
                 )}
               >
-                <p className="min-w-0 flex-1 truncate text-sm">{entry.file.name}</p>
+                <p className="min-w-0 flex-1 truncate text-sm">
+                  {entry.file.name}
+                </p>
                 <p className="text-muted-foreground text-xs">
                   {entry.status === "pending"
                     ? tBatch("statusPending")
@@ -308,7 +312,9 @@ export function XlsToCsvBatchApp() {
                 </p>
 
                 {entry.error ? (
-                  <p className="w-full text-destructive text-xs">{entry.error}</p>
+                  <p className="w-full text-destructive text-xs">
+                    {entry.error}
+                  </p>
                 ) : null}
 
                 <div className="flex items-center gap-2">
@@ -330,12 +336,15 @@ export function XlsToCsvBatchApp() {
                         prev.map((x) =>
                           x.id === entry.id
                             ? {
-                              ...x,
-                              headerRowInput: next,
-                              status: x.status === "converting" ? x.status : "pending",
-                              error: undefined,
-                              payload: undefined,
-                            }
+                                ...x,
+                                headerRowInput: next,
+                                status:
+                                  x.status === "converting"
+                                    ? x.status
+                                    : "pending",
+                                error: undefined,
+                                payload: undefined,
+                              }
                             : x,
                         ),
                       );
@@ -385,4 +394,3 @@ export function XlsToCsvBatchApp() {
     </DirectionProvider>
   );
 }
-

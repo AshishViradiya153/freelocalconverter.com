@@ -1,8 +1,15 @@
 "use client";
 
+import {
+  Download,
+  FileText,
+  GripVertical,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import * as React from "react";
-import { Download, FileText, GripVertical, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
@@ -14,9 +21,9 @@ import {
   SortableItemHandle,
 } from "@/components/ui/sortable";
 import { downloadBlob } from "@/lib/download-blob";
-import { cn } from "@/lib/utils";
-import { normalizePdfPageOrder } from "@/lib/pdf/page-order";
 import { moveArrayElement } from "@/lib/move-array-element";
+import { normalizePdfPageOrder } from "@/lib/pdf/page-order";
+import { cn } from "@/lib/utils";
 
 function acceptablePdf(file: File) {
   if (file.type === "application/pdf") return true;
@@ -63,7 +70,10 @@ export function ReorderPdfApp() {
   const [error, setError] = React.useState<string | null>(null);
 
   const canExport = Boolean(file) && Boolean(pages?.length) && !busy;
-  const baseName = React.useMemo(() => (file ? baseNameFromFileName(file.name) : "reordered"), [file]);
+  const baseName = React.useMemo(
+    () => (file ? baseNameFromFileName(file.name) : "reordered"),
+    [file],
+  );
 
   async function onPick(files: FileList | null) {
     if (!files?.length) return;
@@ -98,8 +108,11 @@ export function ReorderPdfApp() {
       const msg = e instanceof Error ? e.message : "Could not read PDF";
       if (msg === "empty_file") setError(`"${first.name}" is empty (0 bytes).`);
       else if (msg === "encrypted_pdf")
-        setError(`"${first.name}" is password-protected. Please unlock it first, then try again.`);
-      else if (msg === "no_pages") setError(`"${first.name}" has no pages to reorder.`);
+        setError(
+          `"${first.name}" is password-protected. Please unlock it first, then try again.`,
+        );
+      else if (msg === "no_pages")
+        setError(`"${first.name}" has no pages to reorder.`);
       else setError(msg);
     } finally {
       setBusy(false);
@@ -120,15 +133,20 @@ export function ReorderPdfApp() {
     try {
       const order = pages.map((p) => p.pageNumber);
       const bytes = await reorderPdf({ file, order });
-      const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
+      const blob = new Blob([new Uint8Array(bytes)], {
+        type: "application/pdf",
+      });
       downloadBlob(blob, `${baseName}-reordered.pdf`);
       toast.success("Downloaded reordered PDF");
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Reorder failed";
       if (msg === "empty_file") setError(`"${file.name}" is empty (0 bytes).`);
       else if (msg === "encrypted_pdf")
-        setError(`"${file.name}" is password-protected. Please unlock it first, then try again.`);
-      else if (msg === "no_pages") setError(`"${file.name}" has no pages to reorder.`);
+        setError(
+          `"${file.name}" is password-protected. Please unlock it first, then try again.`,
+        );
+      else if (msg === "no_pages")
+        setError(`"${file.name}" has no pages to reorder.`);
       else setError(msg);
       toast.error("Reorder failed");
     } finally {
@@ -141,11 +159,12 @@ export function ReorderPdfApp() {
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <FileText className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">Reorder PDF pages</h1>
+          <h1 className={toolHeroTitleClassName}>Reorder PDF pages</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Reorder pages in a single PDF locally in your browser, no uploads. Drag pages to reorder, or use Up/Down for
-          precise ordering, then download a new PDF.
+          Reorder pages in a single PDF locally in your browser, no uploads.
+          Drag pages to reorder, or use Up/Down for precise ordering, then
+          download a new PDF.
         </p>
       </header>
 
@@ -157,14 +176,22 @@ export function ReorderPdfApp() {
         multiple={false}
         onFiles={(files) => void onPick(files)}
         fileIcon={FileText}
-        dropTitle={file ? "Drop a different PDF or click to replace" : "Drop a PDF here or click to browse"}
+        dropTitle={
+          file
+            ? "Drop a different PDF or click to replace"
+            : "Drop a PDF here or click to browse"
+        }
         dropHint="Reorder pages · export locally · no uploads"
         chooseLabel={file ? "Replace PDF" : "Choose PDF"}
         fileHint="Your PDF stays on this device."
       />
 
       {busy && !pages ? (
-        <div className="flex items-center gap-2 text-muted-foreground text-sm" role="status" aria-live="polite">
+        <div
+          className="flex items-center gap-2 text-muted-foreground text-sm"
+          role="status"
+          aria-live="polite"
+        >
           <Loader2 className="size-4 animate-spin" aria-hidden />
           <span>Reading PDF…</span>
         </div>
@@ -182,9 +209,13 @@ export function ReorderPdfApp() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex flex-col gap-0.5">
                 <div className="font-medium">Pages</div>
-                <div className="text-muted-foreground text-xs">Drag to reorder, or use Up/Down.</div>
+                <div className="text-muted-foreground text-xs">
+                  Drag to reorder, or use Up/Down.
+                </div>
               </div>
-              <div className="text-muted-foreground text-sm">{pages.length} page(s)</div>
+              <div className="text-muted-foreground text-sm">
+                {pages.length} page(s)
+              </div>
             </div>
 
             <Sortable
@@ -199,14 +230,24 @@ export function ReorderPdfApp() {
                 aria-label="Page order"
               >
                 {pages.map((p, idx) => (
-                  <SortableItem key={p.id} value={p.id} className="flex items-center gap-3 bg-background p-3">
+                  <SortableItem
+                    key={p.id}
+                    value={p.id}
+                    className="flex items-center gap-3 bg-background p-3"
+                  >
                     <div className="grid size-10 place-items-center rounded-lg border bg-muted/10">
-                      <span className="text-muted-foreground text-xs font-semibold">{idx + 1}</span>
+                      <span className="font-semibold text-muted-foreground text-xs">
+                        {idx + 1}
+                      </span>
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <div className="truncate font-medium text-sm">Page {p.pageNumber}</div>
-                      <div className="text-muted-foreground text-xs">Original page: {p.pageNumber}</div>
+                      <div className="truncate font-medium text-sm">
+                        Page {p.pageNumber}
+                      </div>
+                      <div className="text-muted-foreground text-xs">
+                        Original page: {p.pageNumber}
+                      </div>
                     </div>
 
                     <SortableItemHandle
@@ -224,7 +265,11 @@ export function ReorderPdfApp() {
                         variant="outline"
                         size="sm"
                         disabled={busy || idx === 0}
-                        onClick={() => setPages((prev) => (prev ? moveArrayElement(prev, idx, idx - 1) : prev))}
+                        onClick={() =>
+                          setPages((prev) =>
+                            prev ? moveArrayElement(prev, idx, idx - 1) : prev,
+                          )
+                        }
                       >
                         Up
                       </Button>
@@ -233,7 +278,11 @@ export function ReorderPdfApp() {
                         variant="outline"
                         size="sm"
                         disabled={busy || idx === pages.length - 1}
-                        onClick={() => setPages((prev) => (prev ? moveArrayElement(prev, idx, idx + 1) : prev))}
+                        onClick={() =>
+                          setPages((prev) =>
+                            prev ? moveArrayElement(prev, idx, idx + 1) : prev,
+                          )
+                        }
                       >
                         Down
                       </Button>
@@ -242,8 +291,14 @@ export function ReorderPdfApp() {
                         variant="outline"
                         size="sm"
                         disabled={busy}
-                        onClick={() => setPages((prev) => (prev ? prev.filter((x) => x.id !== p.id) : prev))}
-                        className={cn("text-destructive hover:text-destructive")}
+                        onClick={() =>
+                          setPages((prev) =>
+                            prev ? prev.filter((x) => x.id !== p.id) : prev,
+                          )
+                        }
+                        className={cn(
+                          "text-destructive hover:text-destructive",
+                        )}
                         aria-label={`Remove page ${p.pageNumber}`}
                         title="Remove"
                       >
@@ -264,19 +319,32 @@ export function ReorderPdfApp() {
             <div className="flex flex-col gap-4">
               <div>
                 <div className="font-medium">Export</div>
-                <div className="text-muted-foreground text-xs">Download a new PDF with pages in the order shown.</div>
+                <div className="text-muted-foreground text-xs">
+                  Download a new PDF with pages in the order shown.
+                </div>
               </div>
 
               <Separator />
 
               <div className="flex flex-wrap items-center gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={onClear} disabled={busy}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={onClear}
+                  disabled={busy}
+                >
                   <Trash2 className="size-4" aria-hidden />
                   Clear
                 </Button>
               </div>
 
-              <Button type="button" variant="default" disabled={!canExport} onClick={() => void onExport()}>
+              <Button
+                type="button"
+                variant="default"
+                disabled={!canExport}
+                onClick={() => void onExport()}
+              >
                 <Download className="size-4" aria-hidden />
                 Download reordered PDF
               </Button>
@@ -287,4 +355,3 @@ export function ReorderPdfApp() {
     </div>
   );
 }
-

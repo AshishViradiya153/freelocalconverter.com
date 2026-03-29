@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
-
+import { ImagesToPdfApp } from "@/app/components/images-to-pdf-app";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
-import { ImagesToPdfApp } from "@/app/components/images-to-pdf-app";
 
 export async function generateMetadata({
   params,
@@ -17,7 +16,9 @@ interface ImagesToPdfPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function ImagesToPdfPage({ params }: ImagesToPdfPageProps) {
+export default async function ImagesToPdfPage({
+  params,
+}: ImagesToPdfPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -37,4 +38,3 @@ export default async function ImagesToPdfPage({ params }: ImagesToPdfPageProps) 
     </Shell>
   );
 }
-

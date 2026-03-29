@@ -183,7 +183,8 @@ export const rawPseoPages = [
           "No. Both files are parsed locally in your browser. Check the Privacy page for the latest policy language and your internal data-handling rules for sensitive extracts.",
       },
       {
-        question: "Can Table align rows by a primary key instead of line number?",
+        question:
+          "Can Table align rows by a primary key instead of line number?",
         answer:
           "The shipped compare flow aligns by row index after import. For key-based joins, sort both files by the same stable key in another tool or script first, or export ordered extracts from your warehouse so row order reflects the join you care about.",
       },

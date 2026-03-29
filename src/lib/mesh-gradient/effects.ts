@@ -16,8 +16,7 @@ export function applyGrainEffect(
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
 
-  const randomFn =
-    seed != null ? createMulberry32(seed) : Math.random;
+  const randomFn = seed != null ? createMulberry32(seed) : Math.random;
   const noise2D = createNoise2D(randomFn);
 
   // UV frequency: resolution-independent grain scale
@@ -26,7 +25,7 @@ export function applyGrainEffect(
 
   for (let i = 0; i < data.length; i += 4) {
     const px = (i / 4) % w;
-    const py = Math.floor((i / 4) / w);
+    const py = Math.floor(i / 4 / w);
     const u = (px + 0.5) / w;
     const v = (py + 0.5) / h;
 

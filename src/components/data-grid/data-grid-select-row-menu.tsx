@@ -94,9 +94,7 @@ export function DataGridSelectRowMenu<TData extends RowData>({
             Add row after
           </DropdownMenuItem>
         ) : null}
-        {onRowCut || onRowCopy || onRowPaste ? (
-          <DropdownMenuSeparator />
-        ) : null}
+        {onRowCut || onRowCopy || onRowPaste ? <DropdownMenuSeparator /> : null}
         {onRowCut ? (
           <DropdownMenuItem
             className="[&_svg]:text-muted-foreground"
@@ -150,7 +148,7 @@ export function DataGridSelectRowMenu<TData extends RowData>({
         ) : null}
         {onRowDelete ? (
           <DropdownMenuItem
-            className="[&_svg]:text-destructive focus:text-destructive [&_svg]:text-destructive"
+            className="focus:text-destructive [&_svg]:text-destructive [&_svg]:text-destructive"
             disabled={readOnly}
             onSelect={() => {
               if (readOnly) return;

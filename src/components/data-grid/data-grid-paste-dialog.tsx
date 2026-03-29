@@ -39,8 +39,7 @@ export function DataGridPasteDialog<TData>({
 }
 
 interface PasteDialogProps
-  extends
-    Pick<TableMeta<unknown>, "onPasteDialogOpenChange" | "onCellsPaste">,
+  extends Pick<TableMeta<unknown>, "onPasteDialogOpenChange" | "onCellsPaste">,
     Required<Pick<TableMeta<unknown>, "pasteDialog">> {}
 
 const PasteDialog = React.memo(PasteDialogImpl, (prev, next) => {

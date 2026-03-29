@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { parseCsvText } from "@/lib/csv-import";
 import {
   applyColumnPasteToSession,
   buildColumnClipboardPayload,
+  type ColumnClipboardPayload,
   cellValueToPlainString,
   columnClipboardToTsv,
   padColumnValuesToRowCount,
   parseClipboardTextToColumnLines,
   resolvePastedColumn,
-  type ColumnClipboardPayload,
 } from "@/lib/csv-column-ops";
+import { parseCsvText } from "@/lib/csv-import";
 import { resultToSession } from "@/lib/csv-viewer-session";
 
 describe("csv-column-ops", () => {
@@ -104,7 +104,8 @@ describe("csv-column-ops", () => {
     it("collects labels, kind, and cell strings", () => {
       const r = parseCsvText("a,b\n1,2");
       const s = resultToSession("t.csv", r, "ltr");
-      const key = s.columnKeys[0]!;
+      const key = s.columnKeys[0];
+      if (!key) throw new Error("fixture: expected column key");
       const p = buildColumnClipboardPayload(s, key);
       expect(p?.headerLabel).toBeTruthy();
       expect(p?.kind).toBeDefined();
@@ -140,7 +141,8 @@ describe("csv-column-ops", () => {
     it("returns null for empty paste after trimming", () => {
       const r = parseCsvText("a,b\n1,2");
       const s = resultToSession("t.csv", r, "ltr");
-      const anchor = s.columnKeys[0]!;
+      const anchor = s.columnKeys[0];
+      if (!anchor) throw new Error("fixture: expected column key");
       expect(
         applyColumnPasteToSession(s, {
           afterColumnId: anchor,
@@ -154,7 +156,8 @@ describe("csv-column-ops", () => {
     it("inserts after anchor and pads to row count", () => {
       const r = parseCsvText("a,b\n1,2\n3,4");
       const s = resultToSession("t.csv", r, "ltr");
-      const anchor = s.columnKeys[0]!;
+      const anchor = s.columnKeys[0];
+      if (!anchor) throw new Error("fixture: expected column key");
       const next = applyColumnPasteToSession(s, {
         afterColumnId: anchor,
         newColumnKey: "pasted",
@@ -162,16 +165,17 @@ describe("csv-column-ops", () => {
         internal: null,
       });
       expect(next).not.toBeNull();
-      expect(next!.columnKeys.indexOf("pasted")).toBe(1);
-      expect(next!.rows).toHaveLength(2);
-      expect(next!.rows[0]?.pasted).toBe("x");
-      expect(next!.rows[1]?.pasted).toBe("y");
+      expect(next?.columnKeys.indexOf("pasted")).toBe(1);
+      expect(next?.rows).toHaveLength(2);
+      expect(next?.rows[0]?.pasted).toBe("x");
+      expect(next?.rows[1]?.pasted).toBe("y");
     });
 
     it("uses internal metadata when clipboard matches", () => {
       const r = parseCsvText("a,b\n1,2");
       const s = resultToSession("t.csv", r, "ltr");
-      const anchor = s.columnKeys[0]!;
+      const anchor = s.columnKeys[0];
+      if (!anchor) throw new Error("fixture: expected column key");
       const internal: ColumnClipboardPayload = {
         headerLabel: "Qty",
         kind: "number",

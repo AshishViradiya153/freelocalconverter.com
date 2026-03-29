@@ -17,7 +17,9 @@ interface ImageResizePageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function ImageResizePage({ params }: ImageResizePageProps) {
+export default async function ImageResizePage({
+  params,
+}: ImageResizePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -37,4 +39,3 @@ export default async function ImageResizePage({ params }: ImageResizePageProps) 
     </Shell>
   );
 }
-

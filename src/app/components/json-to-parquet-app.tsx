@@ -5,8 +5,9 @@ import { Download, Loader2, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
 import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-grid";
+import { FileJsonGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import {
@@ -15,11 +16,13 @@ import {
   CsvImportError,
   jsonRecordsToImportResult,
 } from "@/lib/csv-import";
-import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
+import {
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
 import { parquetCsvSessionToBuffer } from "@/lib/parquet-convert";
 import { downloadParquetExport } from "@/lib/parquet-export";
 import type { Direction } from "@/types/data-grid";
-import { FileJsonGlyph } from "@/components/file-glyphs";
 
 export function JsonToParquetApp() {
   const t = useTranslations("jsonToParquet");
@@ -106,11 +109,11 @@ export function JsonToParquetApp() {
               className="size-8 text-muted-foreground"
               aria-hidden
             />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {t("heroTitle")}
-            </h1>
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
           </div>
-          <p className="max-w-3xl text-muted-foreground text-sm">{t("heroSubtitle")}</p>
+          <p className="max-w-3xl text-muted-foreground text-sm">
+            {t("heroSubtitle")}
+          </p>
         </header>
 
         {!session ? (
@@ -153,7 +156,12 @@ export function JsonToParquetApp() {
         {session ? (
           <div className="flex flex-col gap-4">
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={onClear}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onClear}
+              >
                 {t("clearFile")}
               </Button>
               <Button
@@ -198,4 +206,3 @@ export function JsonToParquetApp() {
     </DirectionProvider>
   );
 }
-

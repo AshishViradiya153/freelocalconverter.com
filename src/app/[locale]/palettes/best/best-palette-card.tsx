@@ -1,16 +1,16 @@
 "use client";
 
-import * as React from "react";
 import {
+  ChevronDownIcon,
   Copy,
   Download,
+  Maximize2,
   Palette as PaletteIcon,
   Share2,
-  Maximize2,
-  ChevronDownIcon,
 } from "lucide-react";
-import { toast } from "sonner";
 import Link from "next/link";
+import * as React from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,13 +19,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { BestPaletteRow } from "@/lib/best-gallery/best-gallery-types";
 import {
   createPaletteStripesExportCanvas,
   downloadCanvasPng,
 } from "@/lib/canvas-png-export";
 import { bestTextColorOn } from "@/lib/color-palette";
 import { downloadTextFile } from "@/lib/download-text-file";
-import type { BestPaletteRow } from "@/lib/best-gallery/best-gallery-types";
 import { buildLocalizedPath } from "@/lib/seo/paths";
 
 function buildPaletteCssVars(hexes: string[]) {
@@ -107,7 +107,10 @@ export default function BestPaletteCard({
     "/palettes/trending",
   )}?${fullscreenHref}`;
 
-  const cssVars = React.useMemo(() => buildPaletteCssVars(row.hexes), [row.hexes]);
+  const cssVars = React.useMemo(
+    () => buildPaletteCssVars(row.hexes),
+    [row.hexes],
+  );
 
   const safeBase = row.baseHex.replace("#", "");
 
@@ -127,7 +130,11 @@ export default function BestPaletteCard({
 
   function onDownloadJson() {
     const fileName = `palette-${row.hexes.length}-${safeBase}.json`;
-    downloadTextFile(buildPaletteJson(row), fileName, "application/json;charset=utf-8");
+    downloadTextFile(
+      buildPaletteJson(row),
+      fileName,
+      "application/json;charset=utf-8",
+    );
     toast.success("Download started");
   }
 
@@ -160,19 +167,14 @@ export default function BestPaletteCard({
     <div className="group rounded-none bg-background/50 transition-colors hover:bg-background">
       <div className="flex items-start justify-between gap-3 p-3">
         <div className="min-w-0">
-          <div className="truncate text-sm font-semibold">{row.name}</div>
-          <div className="mt-1 text-xs text-muted-foreground font-mono">
+          <div className="truncate font-semibold text-sm">{row.name}</div>
+          <div className="mt-1 font-mono text-muted-foreground text-xs">
             {row.mode} · min text {row.minTextRatio.toFixed(2)}
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <Button
-            asChild
-            variant="secondary"
-            size="sm"
-            className="shrink-0"
-          >
+          <Button asChild variant="secondary" size="sm" className="shrink-0">
             <Link href={url}>Use</Link>
           </Button>
 
@@ -211,7 +213,7 @@ export default function BestPaletteCard({
             >
               <span className="sr-only">{`Copy ${hex}`}</span>
               <span
-                className="pointer-events-none absolute inset-0 flex items-center justify-center px-1 text-[10px] font-mono font-semibold opacity-0 transition-opacity group-hover:opacity-100"
+                className="pointer-events-none absolute inset-0 flex items-center justify-center px-1 font-mono font-semibold text-[10px] opacity-0 transition-opacity group-hover:opacity-100"
                 style={{ color: best.textHex }}
               >
                 {hex.replace("#", "").toUpperCase()}
@@ -303,4 +305,3 @@ export default function BestPaletteCard({
     </div>
   );
 }
-

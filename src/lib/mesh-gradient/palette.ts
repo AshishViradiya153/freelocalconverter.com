@@ -45,8 +45,7 @@ export function generateHarmoniousMeshPalette(
     { hueStep: 45, count: Math.floor(random() * 5) + 3 },
   ];
 
-  const scheme =
-    schemes[Math.floor(random() * schemes.length)] ?? schemes[0];
+  const scheme = schemes[Math.floor(random() * schemes.length)] ?? schemes[0];
   if (!scheme) {
     return {
       backgroundColor: "#001220",
@@ -71,16 +70,14 @@ export function generateHarmoniousMeshPalette(
 
   const bgHue = (baseHue + 180) % 360;
   const bgSat = 20 + random() * 40;
-  const bgLight =
-    random() > 0.5 ? 10 + random() * 20 : 80 + random() * 15;
+  const bgLight = random() > 0.5 ? 10 + random() * 20 : 80 + random() * 15;
 
   const backgroundColor = hslToHex(bgHue, bgSat, bgLight);
 
   const satRange =
     satRanges[Math.floor(random() * satRanges.length)] ?? satRanges[0];
   const lightRange =
-    lightRanges[Math.floor(random() * lightRanges.length)] ??
-    lightRanges[0];
+    lightRanges[Math.floor(random() * lightRanges.length)] ?? lightRanges[0];
   if (!satRange || !lightRange) {
     return { backgroundColor, circleColors: [hslToHex(baseHue, 70, 50)] };
   }
@@ -88,8 +85,7 @@ export function generateHarmoniousMeshPalette(
   const baseColors = Array.from({ length: scheme.count }, (_, i) => {
     const hue = (baseHue + i * scheme.hueStep) % 360;
     const sat = satRange.min + random() * (satRange.max - satRange.min);
-    const light =
-      lightRange.min + random() * (lightRange.max - lightRange.min);
+    const light = lightRange.min + random() * (lightRange.max - lightRange.min);
     return { h: hue, s: sat, l: light };
   });
 

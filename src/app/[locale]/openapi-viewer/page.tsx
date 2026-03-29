@@ -17,7 +17,9 @@ interface OpenApiViewerPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function OpenApiViewerPage({ params }: OpenApiViewerPageProps) {
+export default async function OpenApiViewerPage({
+  params,
+}: OpenApiViewerPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 

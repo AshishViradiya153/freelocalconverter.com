@@ -31,7 +31,12 @@ export function getTraceDimensions(
   width: number,
   height: number,
   preset: SvgTracePreset,
-): { tracedWidth: number; tracedHeight: number; displayWidth: number; displayHeight: number } {
+): {
+  tracedWidth: number;
+  tracedHeight: number;
+  displayWidth: number;
+  displayHeight: number;
+} {
   const displayWidth = Math.max(1, Math.floor(width));
   const displayHeight = Math.max(1, Math.floor(height));
   const caps = PRESET_CAPS[preset];
@@ -51,7 +56,9 @@ export function getTraceDimensions(
   return { tracedWidth, tracedHeight, displayWidth, displayHeight };
 }
 
-export function getVtracerConfig(preset: SvgTracePreset): Record<string, unknown> {
+export function getVtracerConfig(
+  preset: SvgTracePreset,
+): Record<string, unknown> {
   const splineBase = {
     binary: false,
     mode: "spline",
@@ -171,10 +178,18 @@ function canvasToRgbaBytes(canvas: HTMLCanvasElement): Uint8Array {
   if (imageData.data.byteLength < expected) {
     throw new Error("Unexpected ImageData size for SVG tracing.");
   }
-  return new Uint8Array(imageData.data.buffer, imageData.data.byteOffset, expected);
+  return new Uint8Array(
+    imageData.data.buffer,
+    imageData.data.byteOffset,
+    expected,
+  );
 }
 
-function scaleCanvasTo(source: HTMLCanvasElement, tw: number, th: number): HTMLCanvasElement {
+function scaleCanvasTo(
+  source: HTMLCanvasElement,
+  tw: number,
+  th: number,
+): HTMLCanvasElement {
   const out = createCanvas(tw, th);
   const ctx = out.getContext("2d");
   if (!ctx) throw new Error("Could not create trace canvas.");
@@ -192,11 +207,8 @@ export async function traceRasterCanvasToSvg(
   const width = Math.max(1, Math.floor(canvas.width));
   const height = Math.max(1, Math.floor(canvas.height));
 
-  const { tracedWidth, tracedHeight, displayWidth, displayHeight } = getTraceDimensions(
-    width,
-    height,
-    preset,
-  );
+  const { tracedWidth, tracedHeight, displayWidth, displayHeight } =
+    getTraceDimensions(width, height, preset);
 
   const traceCanvas =
     tracedWidth === width && tracedHeight === height

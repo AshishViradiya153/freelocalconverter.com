@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
+import { describe, expect, it } from "vitest";
 
 function flattenKeys(
   value: unknown,
@@ -8,7 +8,9 @@ function flattenKeys(
   out = new Set<string>(),
 ): Set<string> {
   if (value && typeof value === "object" && !Array.isArray(value)) {
-    for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+    for (const [key, child] of Object.entries(
+      value as Record<string, unknown>,
+    )) {
       const next = prefix ? `${prefix}.${key}` : key;
       flattenKeys(child, next, out);
     }
@@ -31,8 +33,11 @@ describe("i18n message parity", () => {
     const en = JSON.parse(fs.readFileSync(enPath, "utf8")) as unknown;
     const enKeys = flattenKeys(en);
 
-    const failures: Array<{ file: string; missing: string[]; extra: string[] }> =
-      [];
+    const failures: Array<{
+      file: string;
+      missing: string[];
+      extra: string[];
+    }> = [];
 
     for (const file of files) {
       if (file === "en.json") continue;
@@ -50,4 +55,3 @@ describe("i18n message parity", () => {
     expect(failures).toEqual([]);
   });
 });
-

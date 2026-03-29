@@ -17,7 +17,9 @@ interface WebhookViewerPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function WebhookViewerPage({ params }: WebhookViewerPageProps) {
+export default async function WebhookViewerPage({
+  params,
+}: WebhookViewerPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 

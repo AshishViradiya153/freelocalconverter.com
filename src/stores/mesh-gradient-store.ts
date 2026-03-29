@@ -1,7 +1,6 @@
 import { create } from "zustand";
-
-import { INITIAL_COLORS } from "@/lib/mesh-gradient/constants";
 import { repositionCirclesAvoidOverlap } from "@/lib/mesh-gradient/circle-layout";
+import { INITIAL_COLORS } from "@/lib/mesh-gradient/constants";
 import { generateHarmoniousMeshPalette } from "@/lib/mesh-gradient/palette";
 import type { TrendingMeshGradientItem } from "@/lib/mesh-gradient/trending-mesh-types";
 import type { CircleProps } from "@/lib/mesh-gradient/types";

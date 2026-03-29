@@ -21,9 +21,9 @@ import {
 } from "@/components/ui/sortable";
 import { useAsRef } from "@/hooks/use-as-ref";
 import type { useDataGrid } from "@/hooks/use-data-grid";
+import { useComposedRefs } from "@/lib/compose-refs";
 import { flexRender, getRowHeightValue } from "@/lib/data-grid";
 import { resolveVirtualizedRowOrderOnDragEnd } from "@/lib/data-grid-virtual-row-reorder";
-import { useComposedRefs } from "@/lib/compose-refs";
 import { cn } from "@/lib/utils";
 import type { Direction } from "@/types/data-grid";
 
@@ -45,7 +45,7 @@ function DataGridColumnDragPreview<TData>({
 
   return (
     <div
-      className="pointer-events-none flex h-9 max-w-md min-w-[140px] items-center overflow-hidden rounded-md border bg-background px-3 text-sm font-medium"
+      className="pointer-events-none flex h-9 min-w-[140px] max-w-md items-center overflow-hidden rounded-md border bg-background px-3 font-medium text-sm"
       style={{
         width: `calc(var(--header-${header.id}-size) * 1px)`,
       }}
@@ -63,8 +63,7 @@ function DataGridColumnDragPreview<TData>({
 }
 
 interface DataGridProps<TData>
-  extends
-    Omit<ReturnType<typeof useDataGrid<TData>>, "dir">,
+  extends Omit<ReturnType<typeof useDataGrid<TData>>, "dir">,
     Omit<React.ComponentProps<"div">, "contextMenu"> {
   dir?: Direction;
   height?: number;
@@ -165,7 +164,7 @@ export function DataGrid<TData>({
         rowHeightPx: getRowHeightValue(rowHeight),
       });
     },
-    [rowHeight],
+    [rowHeight, dataGridRef.current, headerRef.current?.offsetHeight],
   );
 
   return (
@@ -391,7 +390,7 @@ export function DataGrid<TData>({
                     }
                     return (
                       <div
-                        className="pointer-events-none flex w-max max-w-[min(100vw-2rem,56rem)] min-w-48 items-center gap-2 rounded-md border bg-background py-2 ps-3 pe-4 text-sm"
+                        className="pointer-events-none flex w-max min-w-48 max-w-[min(100vw-2rem,56rem)] items-center gap-2 rounded-md border bg-background py-2 ps-3 pe-4 text-sm"
                         style={{
                           width: Math.min(
                             table.getTotalSize(),
@@ -401,7 +400,7 @@ export function DataGrid<TData>({
                           ),
                         }}
                       >
-                        <span className="text-muted-foreground shrink-0 text-xs">
+                        <span className="shrink-0 text-muted-foreground text-xs">
                           Move row
                         </span>
                         <span className="min-w-0 truncate font-medium">

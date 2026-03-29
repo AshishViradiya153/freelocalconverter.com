@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { siteConfig } from "@/config/site";
+import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -33,7 +35,7 @@ export default async function TermsPage({
         <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
           {t("kicker")}
         </p>
-        <h1 className="mt-2 font-semibold text-3xl tracking-tight">
+        <h1 className={cn(toolHeroTitleClassName, "mt-2")}>
           {t("termsTitle")}
         </h1>
         <p className="mt-3 max-w-2xl text-muted-foreground text-sm leading-relaxed">
@@ -46,7 +48,10 @@ export default async function TermsPage({
 
       <div className="mt-10 space-y-10 text-muted-foreground text-sm leading-relaxed">
         <section className="space-y-3" aria-labelledby="terms-notice">
-          <h2 id="terms-notice" className="font-medium text-base text-foreground">
+          <h2
+            id="terms-notice"
+            className="font-medium text-base text-foreground"
+          >
             {t("termsNoticeTitle")}
           </h2>
           <p>{t("termsNoticeBody", { name: siteConfig.name })}</p>

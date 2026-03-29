@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toolCategories } from "@/data/pseo/tool-categories";
+import { routing } from "@/i18n/routing";
 import { getPseoToolPage, pseoPages } from "@/lib/pseo";
 import { generatePseoToolLandingStaticParams } from "@/lib/pseo/static-params";
 import {
   hubPathForToolCategory,
-  pseoPathForRecord,
   pickRelatedPseoPages,
+  pseoPathForRecord,
   toolsHubPath,
 } from "@/lib/seo/linking";
 import { buildPageMetadata } from "@/lib/seo/metadata";

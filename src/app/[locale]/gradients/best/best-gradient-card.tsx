@@ -1,14 +1,9 @@
 "use client";
 
-import * as React from "react";
-import {
-  Copy,
-  Download,
-  Share2,
-  ChevronDownIcon,
-} from "lucide-react";
-import { toast } from "sonner";
+import { ChevronDownIcon, Copy, Download, Share2 } from "lucide-react";
 import Link from "next/link";
+import * as React from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,14 +12,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { BestGradientRow } from "@/lib/best-gallery/best-gallery-types";
 import {
   createLinearGradientExportCanvas,
   downloadCanvasPng,
 } from "@/lib/canvas-png-export";
-import { downloadTextFile } from "@/lib/download-text-file";
-import { bestTextColorOn, wcagContrastBadge } from "@/lib/color-palette";
 import { buildCssLinearGradient } from "@/lib/color-gradients";
-import type { BestGradientRow } from "@/lib/best-gallery/best-gallery-types";
+import { bestTextColorOn, wcagContrastBadge } from "@/lib/color-palette";
+import { downloadTextFile } from "@/lib/download-text-file";
 import { buildLocalizedPath } from "@/lib/seo/paths";
 
 async function copyToClipboard(value: string) {
@@ -138,8 +133,8 @@ export default function BestGradientCard({
     <div className="group rounded-xl border bg-background/50 p-4 transition-colors hover:bg-background">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate text-sm font-semibold">{row.name}</div>
-          <div className="mt-1 text-xs text-muted-foreground font-mono">
+          <div className="truncate font-semibold text-sm">{row.name}</div>
+          <div className="mt-1 font-mono text-muted-foreground text-xs">
             {row.mode} · min text {row.minTextRatio.toFixed(2)} · {row.angle}
             deg
           </div>
@@ -151,6 +146,7 @@ export default function BestGradientCard({
       </div>
 
       <div
+        role="img"
         className="mt-3 h-28 w-full rounded-lg border"
         style={{ background: gradientCss }}
         aria-label={`Gradient preview: ${row.name}`}
@@ -176,13 +172,13 @@ export default function BestGradientCard({
             >
               <span className="sr-only">{`Copy ${hex}`}</span>
               <span
-                className="absolute inset-0 flex items-end justify-center pb-1 px-1 text-[10px] font-mono font-semibold"
+                className="absolute inset-0 flex items-end justify-center px-1 pb-1 font-mono font-semibold text-[10px]"
                 style={{ color: best.textHex }}
               >
                 {hex.replace("#", "").toUpperCase()}
               </span>
               <span
-                className="pointer-events-none absolute top-0 left-0 right-0 flex items-center justify-center bg-black/30 py-0.5 text-[10px] font-semibold"
+                className="pointer-events-none absolute top-0 right-0 left-0 flex items-center justify-center bg-black/30 py-0.5 font-semibold text-[10px]"
                 style={{ color: best.textHex }}
               >
                 {badge}
@@ -296,4 +292,3 @@ export default function BestGradientCard({
     </div>
   );
 }
-

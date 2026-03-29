@@ -45,6 +45,7 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const t = useTranslations("language");
   const [failedFlags, setFailedFlags] = React.useState(() => new Set<string>());
+  const localeFlagCc = LOCALE_TO_FLAG_CC[locale];
 
   return (
     <DropdownMenu>
@@ -58,13 +59,14 @@ export function LanguageSwitcher() {
         >
           <span className="relative grid place-items-center">
             <Globe className="size-4" aria-hidden />
-            {LOCALE_TO_FLAG_CC[locale] && !failedFlags.has(locale) ? (
+            {localeFlagCc && !failedFlags.has(locale) ? (
+              // biome-ignore lint/performance/noImgElement: external SVG flag asset
               <img
-                src={vercelFlagSvgUrl(LOCALE_TO_FLAG_CC[locale]!, "s")}
+                src={vercelFlagSvgUrl(localeFlagCc, "s")}
                 alt=""
                 width={12}
                 height={12}
-                className="absolute -bottom-1 -right-1 size-3 rounded-[4px] ring-1 ring-border/60"
+                className="absolute -right-1 -bottom-1 size-3 rounded-[4px] ring-1 ring-border/60"
                 onError={() => {
                   setFailedFlags((prev) => new Set(prev).add(locale));
                 }}
@@ -77,39 +79,43 @@ export function LanguageSwitcher() {
         align="end"
         className="max-h-[min(24rem,70vh)] min-w-48 overflow-y-auto"
       >
-        {routing.locales.map((code) => (
-          <DropdownMenuItem
-            key={code}
-            disabled={code === locale}
-            aria-label={t("switchTo", {
-              language: LOCALE_DISPLAY_NAMES[code],
-            })}
-            onSelect={() => {
-              router.replace(pathname, { locale: code });
-            }}
-          >
-            <span className="flex min-w-0 items-center gap-2">
-              {LOCALE_TO_FLAG_CC[code] && !failedFlags.has(code) ? (
-                <img
-                  src={vercelFlagSvgUrl(LOCALE_TO_FLAG_CC[code]!, "s")}
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="size-4 rounded-[6px] ring-1 ring-border/60"
-                  onError={() => {
-                    setFailedFlags((prev) => new Set(prev).add(code));
-                  }}
-                />
-              ) : (
-                <span
-                  aria-hidden
-                  className="size-4 rounded-[6px] bg-muted/50 ring-1 ring-border/60"
-                />
-              )}
-              <span className="truncate">{LOCALE_DISPLAY_NAMES[code]}</span>
-            </span>
-          </DropdownMenuItem>
-        ))}
+        {routing.locales.map((code) => {
+          const itemFlagCc = LOCALE_TO_FLAG_CC[code];
+          return (
+            <DropdownMenuItem
+              key={code}
+              disabled={code === locale}
+              aria-label={t("switchTo", {
+                language: LOCALE_DISPLAY_NAMES[code],
+              })}
+              onSelect={() => {
+                router.replace(pathname, { locale: code });
+              }}
+            >
+              <span className="flex min-w-0 items-center gap-2">
+                {itemFlagCc && !failedFlags.has(code) ? (
+                  // biome-ignore lint/performance/noImgElement: external SVG flag asset
+                  <img
+                    src={vercelFlagSvgUrl(itemFlagCc, "s")}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="size-4 rounded-[6px] ring-1 ring-border/60"
+                    onError={() => {
+                      setFailedFlags((prev) => new Set(prev).add(code));
+                    }}
+                  />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="size-4 rounded-[6px] bg-muted/50 ring-1 ring-border/60"
+                  />
+                )}
+                <span className="truncate">{LOCALE_DISPLAY_NAMES[code]}</span>
+              </span>
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );

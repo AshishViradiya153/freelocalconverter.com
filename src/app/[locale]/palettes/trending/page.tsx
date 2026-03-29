@@ -6,11 +6,11 @@ import { ColorPaletteTrendingApp } from "@/app/components/color-palette-trending
 import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
-import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
   buildPageMetaFromMessages,
   getPageMetaFaqTriples,
 } from "@/lib/seo/page-meta-messages";
+import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
   buildBreadcrumbListJsonLd,
   buildFaqPageJsonLd,
@@ -75,7 +75,7 @@ export default async function PaletteTrendingPage({
         </div>
         <Suspense
           fallback={
-            <div className="container flex flex-col gap-4 py-4 text-sm text-muted-foreground">
+            <div className="container flex flex-col gap-4 py-4 text-muted-foreground text-sm">
               {tr("palettesTrending.loadingFallback")}
             </div>
           }

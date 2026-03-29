@@ -1,31 +1,48 @@
 "use client";
 
+import {
+  Download,
+  Expand,
+  Image as ImageIcon,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import * as React from "react";
-import { Download, Expand, Image as ImageIcon, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-
+import { FilePdfGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { Separator } from "@/components/ui/separator";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { cn } from "@/lib/utils";
-import { FilePdfGlyph } from "@/components/file-glyphs";
-import { getPdfJs } from "@/lib/pdf/pdfjs";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { downloadBlob } from "@/lib/download-blob";
+import {
+  canvasToBlob,
   downloadPdfImagesAsZip,
   exportContactSheetFromCanvases,
   exportLongImageFromCanvases,
   exportPdfPagesToImages,
-  renderPdfThumbnails,
   renderPdfPageToCanvas,
-  canvasToBlob,
+  renderPdfThumbnails,
 } from "@/lib/pdf/pdf-to-image";
-import { downloadBlob } from "@/lib/download-blob";
+import { getPdfJs } from "@/lib/pdf/pdfjs";
+import { cn } from "@/lib/utils";
 
 type OutputFormat = "png" | "jpeg" | "webp";
 type PageMode = "all" | "selected" | "range";
@@ -46,8 +63,11 @@ function parsePageRange(input: string, pageCount: number): number[] {
   for (const p of parts) {
     const m = p.match(/^(\d+)\s*-\s*(\d+)$/);
     if (m) {
-      const a = Number.parseInt(m[1]!, 10);
-      const b = Number.parseInt(m[2]!, 10);
+      const g1 = m[1];
+      const g2 = m[2];
+      if (g1 === undefined || g2 === undefined) continue;
+      const a = Number.parseInt(g1, 10);
+      const b = Number.parseInt(g2, 10);
       if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
       const from = clamp(Math.min(a, b), 1, pageCount);
       const to = clamp(Math.max(a, b), 1, pageCount);
@@ -72,11 +92,19 @@ export function PdfToImageApp() {
   const [file, setFile] = React.useState<File | null>(null);
   const [busy, setBusy] = React.useState(false);
   const [loadError, setLoadError] = React.useState<string | null>(null);
-  const [preview, setPreview] = React.useState<null | { title: string; src: string }>(null);
+  const [preview, setPreview] = React.useState<null | {
+    title: string;
+    src: string;
+  }>(null);
 
   const [pageCount, setPageCount] = React.useState(0);
   const [thumbs, setThumbs] = React.useState<
-    Array<{ pageNumber: number; dataUrl: string; width: number; height: number }>
+    Array<{
+      pageNumber: number;
+      dataUrl: string;
+      width: number;
+      height: number;
+    }>
   >([]);
   const [selectedPages, setSelectedPages] = React.useState<Set<number>>(
     () => new Set(),
@@ -105,11 +133,15 @@ export function PdfToImageApp() {
   const [contactColumns, setContactColumns] = React.useState(3);
   const [contactPadding, setContactPadding] = React.useState(12);
 
-  const [progress, setProgress] = React.useState<
-    null | { done: number; total: number; pageNumber: number }
-  >(null);
+  const [progress, setProgress] = React.useState<null | {
+    done: number;
+    total: number;
+    pageNumber: number;
+  }>(null);
 
-  const pdfRef = React.useRef<import("pdfjs-dist").PDFDocumentProxy | null>(null);
+  const pdfRef = React.useRef<import("pdfjs-dist").PDFDocumentProxy | null>(
+    null,
+  );
 
   const effectiveBaseName = React.useMemo(() => {
     return file ? baseNameFromFileName(file.name) : "export";
@@ -147,9 +179,9 @@ export function PdfToImageApp() {
 
   const canConvert = Boolean(
     pdfRef.current &&
-    effectivePageNumbersFiltered.length > 0 &&
-    !busy &&
-    !loadError,
+      effectivePageNumbersFiltered.length > 0 &&
+      !busy &&
+      !loadError,
   );
 
   async function onLoadPdf(nextFile: File) {
@@ -244,7 +276,8 @@ export function PdfToImageApp() {
       // Stretch: render pages to canvases once, then combine.
       const canvases: HTMLCanvasElement[] = [];
       for (let i = 0; i < effectivePageNumbersFiltered.length; i++) {
-        const pageNumber = effectivePageNumbersFiltered[i]!;
+        const pageNumber = effectivePageNumbersFiltered[i];
+        if (pageNumber === undefined) continue;
         setProgress({
           done: i,
           total: effectivePageNumbersFiltered.length,
@@ -298,9 +331,7 @@ export function PdfToImageApp() {
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <FilePdfGlyph className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            PDF to Image
-          </h1>
+          <h1 className={toolHeroTitleClassName}>PDF to Image</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Convert PDF pages to PNG/JPG/WebP locally in your browser. Pick pages,
@@ -336,7 +367,8 @@ export function PdfToImageApp() {
           <Loader2 className="size-4 animate-spin" aria-hidden />
           {progress ? (
             <span>
-              Rendering page {progress.pageNumber} ({progress.done}/{progress.total})
+              Rendering page {progress.pageNumber} ({progress.done}/
+              {progress.total})
             </span>
           ) : (
             <span>Working…</span>
@@ -389,13 +421,13 @@ export function PdfToImageApp() {
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="text-muted-foreground text-xs">
-                  Filter
-                </div>
+                <div className="text-muted-foreground text-xs">Filter</div>
                 <ToggleGroup
                   type="single"
                   value={pageFilter}
-                  onValueChange={(v) => setPageFilter((v as PageFilter) || "all")}
+                  onValueChange={(v) =>
+                    setPageFilter((v as PageFilter) || "all")
+                  }
                   variant="outline"
                   size="sm"
                 >
@@ -459,18 +491,19 @@ export function PdfToImageApp() {
                       title={selectable ? "Click to select" : "Preview"}
                     >
                       <div className="group relative aspect-3/4 w-full bg-muted/20">
+                        {/* biome-ignore lint/performance/noImgElement: data URL canvas export */}
                         <img
                           src={t.dataUrl}
                           alt=""
                           className="h-full w-full object-contain"
                           decoding="async"
                         />
-                        <span className="absolute right-2 top-2 z-10 inline-flex">
+                        <span className="absolute top-2 right-2 z-10 inline-flex">
                           <span
                             className={cn(
                               "inline-flex items-center justify-center rounded-md border bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm",
                               "hover:bg-background",
-                              "opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100",
+                              "opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100",
                             )}
                             role="button"
                             tabIndex={0}
@@ -479,13 +512,19 @@ export function PdfToImageApp() {
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              setPreview({ title: `Page ${t.pageNumber}`, src: t.dataUrl });
+                              setPreview({
+                                title: `Page ${t.pageNumber}`,
+                                src: t.dataUrl,
+                              });
                             }}
                             onKeyDown={(e) => {
                               if (e.key !== "Enter" && e.key !== " ") return;
                               e.preventDefault();
                               e.stopPropagation();
-                              setPreview({ title: `Page ${t.pageNumber}`, src: t.dataUrl });
+                              setPreview({
+                                title: `Page ${t.pageNumber}`,
+                                src: t.dataUrl,
+                              });
                             }}
                           >
                             <Expand className="size-4" aria-hidden />
@@ -493,7 +532,7 @@ export function PdfToImageApp() {
                         </span>
                       </div>
                       <div className="flex items-center justify-between gap-2 p-2">
-                        <div className="text-xs font-medium">
+                        <div className="font-medium text-xs">
                           Page {t.pageNumber}
                         </div>
                         {selectable ? (
@@ -567,7 +606,9 @@ export function PdfToImageApp() {
                     <>
                       <div className="flex items-center justify-between gap-2">
                         <Label className="text-sm">Resolution (DPI)</Label>
-                        <span className="text-muted-foreground text-xs">{dpi}</span>
+                        <span className="text-muted-foreground text-xs">
+                          {dpi}
+                        </span>
                       </div>
                       <Slider
                         value={[dpi]}
@@ -604,7 +645,7 @@ export function PdfToImageApp() {
 
                 <div className="flex items-center justify-between gap-2 rounded-lg border bg-muted/10 p-3">
                   <div className="min-w-0">
-                    <div className="text-sm font-medium">Auto-crop margins</div>
+                    <div className="font-medium text-sm">Auto-crop margins</div>
                     <div className="text-muted-foreground text-xs">
                       Trims whitespace around page content.
                     </div>
@@ -761,7 +802,7 @@ export function PdfToImageApp() {
                   Convert & download
                 </Button>
 
-                <div className="flex items-start gap-2 rounded-lg border bg-muted/10 p-3 text-xs text-muted-foreground">
+                <div className="flex items-start gap-2 rounded-lg border bg-muted/10 p-3 text-muted-foreground text-xs">
                   <ImageIcon className="mt-0.5 size-4" aria-hidden />
                   <div className="min-w-0">
                     Everything runs locally in your browser. Your PDF is not
@@ -782,10 +823,13 @@ export function PdfToImageApp() {
       >
         <DialogContent className="h-dvh w-screen max-w-none rounded-none p-0 sm:max-w-none">
           <DialogHeader className="border-border/60 border-b p-4">
-            <DialogTitle className="truncate">{preview?.title ?? "Preview"}</DialogTitle>
+            <DialogTitle className="truncate">
+              {preview?.title ?? "Preview"}
+            </DialogTitle>
           </DialogHeader>
           <div className="h-[calc(100dvh-64px)] overflow-auto bg-muted/10 p-4">
             {preview ? (
+              // biome-ignore lint/performance/noImgElement: data/object URL preview
               <img
                 src={preview.src}
                 alt=""
@@ -799,4 +843,3 @@ export function PdfToImageApp() {
     </div>
   );
 }
-

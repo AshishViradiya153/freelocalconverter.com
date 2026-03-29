@@ -5,6 +5,10 @@ import {
 import { JsonLd } from "@/components/seo/json-ld";
 import { PseoContentLocaleNotice } from "@/components/seo/pseo-content-locale-notice";
 import { RelatedPages } from "@/components/seo/related-pages";
+import {
+  ToolSectionHeading,
+  toolHeroTitleClassName,
+} from "@/components/tool-ui";
 import type { PseoPageRecord } from "@/lib/pseo/types";
 import { pseoPathForRecord } from "@/lib/seo/linking";
 import { buildAbsoluteUrl } from "@/lib/seo/paths";
@@ -17,6 +21,7 @@ import {
   buildJsonLdGraph,
   buildOrganizationJsonLd,
 } from "@/lib/seo/schema";
+import { cn } from "@/lib/utils";
 
 interface GuidePageTemplateProps {
   locale: string;
@@ -85,7 +90,7 @@ export function GuidePageTemplate({
             <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
               {badgeGuide}
             </p>
-            <h1 className="mt-2 font-semibold text-3xl tracking-tight">
+            <h1 className={cn(toolHeroTitleClassName, "mt-2")}>
               {page.heroHeading}
             </h1>
             <p className="mt-3 max-w-2xl text-muted-foreground text-sm leading-relaxed">
@@ -99,9 +104,7 @@ export function GuidePageTemplate({
             ))}
             {page.sections.map((section) => (
               <section key={section.heading} className="pt-6">
-                <h2 className="font-semibold text-foreground text-xl tracking-tight">
-                  {section.heading}
-                </h2>
+                <ToolSectionHeading>{section.heading}</ToolSectionHeading>
                 {section.paragraphs.map((para) => (
                   <p key={para.slice(0, 24)} className="mt-3">
                     {para}
@@ -115,12 +118,9 @@ export function GuidePageTemplate({
             className="mt-14 border-border border-t pt-10"
             aria-labelledby="faq-heading"
           >
-            <h2
-              id="faq-heading"
-              className="font-semibold text-foreground text-lg tracking-tight"
-            >
+            <ToolSectionHeading id="faq-heading">
               {faqHeading}
-            </h2>
+            </ToolSectionHeading>
             <dl className="mt-6 space-y-6">
               {page.faqs.map((faq) => (
                 <div key={faq.question}>

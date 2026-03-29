@@ -1,9 +1,17 @@
 "use client";
 
-import * as React from "react";
+import {
+  Document,
+  HeadingLevel,
+  Packer,
+  PageBreak,
+  Paragraph,
+  TextRun,
+} from "docx";
 import { Download, FileText, Loader2, Trash2 } from "lucide-react";
+import * as React from "react";
 import { toast } from "sonner";
-import { Packer, Paragraph, TextRun, Document, PageBreak, HeadingLevel } from "docx";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
@@ -62,29 +70,31 @@ async function buildDocxFromPages(args: { title: string; pages: string[] }) {
       docChildren.push(new Paragraph({ children: [new PageBreak()] }));
       docChildren.push(
         new Paragraph({
-          children: [
-            new TextRun({ text: `Page ${i + 1}`, bold: true }),
-          ],
+          children: [new TextRun({ text: `Page ${i + 1}`, bold: true })],
         }),
       );
     } else {
       docChildren.push(
         new Paragraph({
-          children: [
-            new TextRun({ text: "Page 1", bold: true }),
-          ],
+          children: [new TextRun({ text: "Page 1", bold: true })],
         }),
       );
     }
 
-    const blocks = pageText.split(/\n{2,}/g).map((b) => b.trim()).filter(Boolean);
+    const blocks = pageText
+      .split(/\n{2,}/g)
+      .map((b) => b.trim())
+      .filter(Boolean);
     if (blocks.length === 0) {
       docChildren.push(new Paragraph({ text: "" }));
       continue;
     }
 
     for (const block of blocks) {
-      const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+      const lines = block
+        .split("\n")
+        .map((l) => l.trim())
+        .filter(Boolean);
       const paraText = lines.join(" ");
       docChildren.push(new Paragraph({ children: [new TextRun(paraText)] }));
     }
@@ -140,11 +150,11 @@ export function PdfToWordApp() {
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <FileText className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">PDF to Word</h1>
+          <h1 className={toolHeroTitleClassName}>PDF to Word</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Convert a PDF into a Word document (DOCX) locally in your browser. Best for text-based PDFs.
-          Scanned PDFs need OCR.
+          Convert a PDF into a Word document (DOCX) locally in your browser.
+          Best for text-based PDFs. Scanned PDFs need OCR.
         </p>
       </header>
 
@@ -165,14 +175,22 @@ export function PdfToWordApp() {
           setFile(f);
         }}
         fileIcon={FileText}
-        dropTitle={file ? "Drop another PDF or click to replace" : "Drop a PDF here or click to browse"}
+        dropTitle={
+          file
+            ? "Drop another PDF or click to replace"
+            : "Drop a PDF here or click to browse"
+        }
         dropHint="DOCX download · local-only conversion"
         chooseLabel={file ? "Replace PDF" : "Choose PDF"}
         fileHint="Your file stays on this device."
       />
 
       {busy ? (
-        <div className="flex items-center gap-2 text-muted-foreground text-sm" role="status" aria-live="polite">
+        <div
+          className="flex items-center gap-2 text-muted-foreground text-sm"
+          role="status"
+          aria-live="polite"
+        >
           <Loader2 className="size-4 animate-spin" aria-hidden />
           <span>Converting…</span>
         </div>
@@ -194,7 +212,13 @@ export function PdfToWordApp() {
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={onClear} disabled={busy}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onClear}
+                disabled={busy}
+              >
                 <Trash2 className="size-4" aria-hidden />
                 Clear
               </Button>
@@ -204,19 +228,22 @@ export function PdfToWordApp() {
           <Separator className="my-4" />
 
           <div className="flex flex-wrap items-center gap-2">
-            <Button type="button" disabled={!canConvert} onClick={() => void onConvert()}>
+            <Button
+              type="button"
+              disabled={!canConvert}
+              onClick={() => void onConvert()}
+            >
               <Download className="size-4" aria-hidden />
               Convert & download DOCX
             </Button>
           </div>
 
           <div className="mt-4 rounded-lg border bg-muted/10 p-3 text-muted-foreground text-xs">
-            Notes: This exports text content only (basic paragraphs). Complex layouts, forms, and scanned PDFs
-            may not convert faithfully.
+            Notes: This exports text content only (basic paragraphs). Complex
+            layouts, forms, and scanned PDFs may not convert faithfully.
           </div>
         </div>
       ) : null}
     </div>
   );
 }
-

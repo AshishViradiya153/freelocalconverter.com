@@ -5,13 +5,13 @@ import {
   insertSkatersSchema,
   updateSkatersSchema,
 } from "@/app/[locale]/data-grid-live/lib/validation";
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import {
   deleteSkatersByIds,
   insertSkaters,
   listSkaters,
   updateSkaters,
 } from "@/lib/skaters-store";
-import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function GET() {
   try {

@@ -10,9 +10,9 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
-
-import { FileDropZone } from "@/components/ui/file-drop-zone";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -87,7 +87,9 @@ function safeNameFromUrl(url: string) {
     const u = new URL(url);
     const leaf = u.pathname.split("/").filter(Boolean).pop() ?? "image";
     const base = leaf.replace(/[/?%*:|"<>\\]/g, "-").slice(0, 80) || "image";
-    return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?)$/i.test(base) ? base : `${base}.png`;
+    return /\.(png|jpe?g|webp|avif|gif|bmp|tiff?)$/i.test(base)
+      ? base
+      : `${base}.png`;
   } catch {
     return "image.png";
   }
@@ -182,7 +184,11 @@ function createCanvas(width: number, height: number) {
   return canvas;
 }
 
-function canvasToBlob(canvas: HTMLCanvasElement, mimeType: string, quality?: number) {
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  mimeType: string,
+  quality?: number,
+) {
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
       (blob) => {
@@ -217,7 +223,11 @@ async function encodeCandidate(args: {
   return blob;
 }
 
-function resolveCompareSize(width: number, height: number, maxPixels = 1_200_000) {
+function resolveCompareSize(
+  width: number,
+  height: number,
+  maxPixels = 1_200_000,
+) {
   const px = width * height;
   if (px <= maxPixels) return { width, height };
   const scale = Math.sqrt(maxPixels / px);
@@ -227,16 +237,21 @@ function resolveCompareSize(width: number, height: number, maxPixels = 1_200_000
   };
 }
 
-function ImageFileGlyph(props: { className?: string; "aria-hidden"?: boolean }) {
-  return <ImageIcon className={props.className} aria-hidden={props["aria-hidden"]} />;
+function ImageFileGlyph(props: {
+  className?: string;
+  "aria-hidden"?: boolean;
+}) {
+  return (
+    <ImageIcon className={props.className} aria-hidden={props["aria-hidden"]} />
+  );
 }
 
 export function ImageCompressApp() {
   const [items, setItems] = React.useState<ImageItem[]>([]);
   const [busy, setBusy] = React.useState(false);
-  const [engineStatus, setEngineStatus] = React.useState<null | { phase: string }>(
-    null,
-  );
+  const [engineStatus, setEngineStatus] = React.useState<null | {
+    phase: string;
+  }>(null);
   const [engineError, setEngineError] = React.useState<string | null>(null);
 
   const [linkInput, setLinkInput] = React.useState("");
@@ -323,12 +338,12 @@ export function ImageCompressApp() {
         prev.map((item) =>
           item.id === id
             ? {
-              ...item,
-              file,
-              status: "queued",
-              originalBytes: file.size,
-              error: null,
-            }
+                ...item,
+                file,
+                status: "queued",
+                originalBytes: file.size,
+                error: null,
+              }
             : item,
         ),
       );
@@ -374,18 +389,30 @@ export function ImageCompressApp() {
         }
 
         const sourceCanvas = createCanvas(sourceWidth, sourceHeight);
-        const sourceCtx = sourceCanvas.getContext("2d", { willReadFrequently: true });
+        const sourceCtx = sourceCanvas.getContext("2d", {
+          willReadFrequently: true,
+        });
         if (!sourceCtx) throw new Error("Could not initialize image canvas");
         sourceCtx.drawImage(sourceBitmap, 0, 0);
         sourceBitmap.close();
 
         const compareSize = resolveCompareSize(sourceWidth, sourceHeight);
-        const compareSourceCanvas = createCanvas(compareSize.width, compareSize.height);
+        const compareSourceCanvas = createCanvas(
+          compareSize.width,
+          compareSize.height,
+        );
         const compareSourceCtx = compareSourceCanvas.getContext("2d", {
           willReadFrequently: true,
         });
-        if (!compareSourceCtx) throw new Error("Could not initialize compare canvas");
-        compareSourceCtx.drawImage(sourceCanvas, 0, 0, compareSize.width, compareSize.height);
+        if (!compareSourceCtx)
+          throw new Error("Could not initialize compare canvas");
+        compareSourceCtx.drawImage(
+          sourceCanvas,
+          0,
+          0,
+          compareSize.width,
+          compareSize.height,
+        );
         const sourceRgba = compareSourceCtx.getImageData(
           0,
           0,
@@ -407,7 +434,10 @@ export function ImageCompressApp() {
           clamp(quality - 30, 30, 95),
         ];
 
-        const candidates: Array<{ format: Exclude<OutputFormat, "auto">; quality: number }> = [];
+        const candidates: Array<{
+          format: Exclude<OutputFormat, "auto">;
+          quality: number;
+        }> = [];
         if (format === "auto") {
           for (const q of ladder) {
             candidates.push({ format: "webp", quality: q });
@@ -433,12 +463,22 @@ export function ImageCompressApp() {
             });
 
             const encodedBitmap = await decodeBitmap(blob);
-            const compareEncodedCanvas = createCanvas(compareSize.width, compareSize.height);
+            const compareEncodedCanvas = createCanvas(
+              compareSize.width,
+              compareSize.height,
+            );
             const compareEncodedCtx = compareEncodedCanvas.getContext("2d", {
               willReadFrequently: true,
             });
-            if (!compareEncodedCtx) throw new Error("Could not compare output image");
-            compareEncodedCtx.drawImage(encodedBitmap, 0, 0, compareSize.width, compareSize.height);
+            if (!compareEncodedCtx)
+              throw new Error("Could not compare output image");
+            compareEncodedCtx.drawImage(
+              encodedBitmap,
+              0,
+              0,
+              compareSize.width,
+              compareSize.height,
+            );
             encodedBitmap.close();
             const encodedRgba = compareEncodedCtx.getImageData(
               0,
@@ -447,9 +487,14 @@ export function ImageCompressApp() {
               compareSize.height,
             ).data;
             const ssim = calcSsimLuma(sourceRgba, encodedRgba);
-            const currentCandidate: EncodedCandidate = { format: candidate.format, blob, ssim };
+            const currentCandidate: EncodedCandidate = {
+              format: candidate.format,
+              blob,
+              ssim,
+            };
 
-            if (!fallback || currentCandidate.ssim > fallback.ssim) fallback = currentCandidate;
+            if (!fallback || currentCandidate.ssim > fallback.ssim)
+              fallback = currentCandidate;
             if (ssim >= targetSsim) {
               if (!best || blob.size < best.blob.size) best = currentCandidate;
             }
@@ -457,7 +502,8 @@ export function ImageCompressApp() {
             // Skip unsupported encoders for the current browser/platform.
           } finally {
             processed += 1;
-            const progress = 0.3 + (processed / Math.max(candidates.length, 1)) * 0.65;
+            const progress =
+              0.3 + (processed / Math.max(candidates.length, 1)) * 0.65;
             setItems((prev) =>
               prev.map((item) =>
                 item.id === id ? { ...item, progress } : item,
@@ -471,7 +517,10 @@ export function ImageCompressApp() {
           throw new Error("No image encoder was available in this browser.");
         }
 
-        const base = baseNameFromFileName(file.name).replace(/[/?%*:|"<>\\]/g, "-");
+        const base = baseNameFromFileName(file.name).replace(
+          /[/?%*:|"<>\\]/g,
+          "-",
+        );
         const ext = outputExt(selected.format);
         const outName = `${base}-compressed.${ext}`;
 
@@ -479,15 +528,15 @@ export function ImageCompressApp() {
           prev.map((item) =>
             item.id === id
               ? {
-                ...item,
-                status: "done",
-                progress: 1,
-                outputBlob: selected.blob,
-                outputBytes: selected.blob.size,
-                outputName: outName,
-                selectedFormat: selected.format,
-                ssim: selected.ssim,
-              }
+                  ...item,
+                  status: "done",
+                  progress: 1,
+                  outputBlob: selected.blob,
+                  outputBytes: selected.blob.size,
+                  outputName: outName,
+                  selectedFormat: selected.format,
+                  ssim: selected.ssim,
+                }
               : item,
           ),
         );
@@ -525,9 +574,7 @@ export function ImageCompressApp() {
           <div className="grid size-9 place-items-center rounded-lg border bg-muted/10">
             <span className="font-semibold text-sm">IMG</span>
           </div>
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            Image Compressor
-          </h1>
+          <h1 className={toolHeroTitleClassName}>Image Compressor</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Compress images locally in your browser. Upload many files or paste a
@@ -571,7 +618,11 @@ export function ImageCompressApp() {
         multiple
         onFiles={onAddFiles}
         fileIcon={ImageFileGlyph}
-        dropTitle={items.length ? "Drop more images or click to add" : "Drop images here or click to browse"}
+        dropTitle={
+          items.length
+            ? "Drop more images or click to add"
+            : "Drop images here or click to browse"
+        }
         dropHint="Bulk queue · local-only compression"
         chooseLabel={items.length ? "Add images" : "Choose images"}
         fileHint="Compression happens locally in your browser."
@@ -617,11 +668,18 @@ export function ImageCompressApp() {
                 const outName = item.outputName ?? "compressed.webp";
                 const savings =
                   item.originalBytes && item.outputBytes
-                    ? Math.max(0, (item.originalBytes - item.outputBytes) / item.originalBytes)
+                    ? Math.max(
+                        0,
+                        (item.originalBytes - item.outputBytes) /
+                          item.originalBytes,
+                      )
                     : null;
 
                 return (
-                  <li key={item.id} className="flex items-start gap-3 bg-background p-3">
+                  <li
+                    key={item.id}
+                    className="flex items-start gap-3 bg-background p-3"
+                  >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
                         <div className="truncate font-medium text-sm">
@@ -655,20 +713,30 @@ export function ImageCompressApp() {
                       </div>
 
                       <div className="mt-1 flex flex-wrap items-center gap-2 text-muted-foreground text-xs">
-                        {item.originalBytes ? <span>In: {formatBytes(item.originalBytes)}</span> : null}
-                        {item.outputBytes ? <span>Out: {formatBytes(item.outputBytes)}</span> : null}
+                        {item.originalBytes ? (
+                          <span>In: {formatBytes(item.originalBytes)}</span>
+                        ) : null}
+                        {item.outputBytes ? (
+                          <span>Out: {formatBytes(item.outputBytes)}</span>
+                        ) : null}
                         {savings != null && item.outputBytes ? (
                           <span>Saved: {Math.round(savings * 100)}%</span>
                         ) : null}
-                        {item.selectedFormat ? <span>Format: {item.selectedFormat}</span> : null}
-                        {item.ssim ? <span>SSIM: {item.ssim.toFixed(4)}</span> : null}
+                        {item.selectedFormat ? (
+                          <span>Format: {item.selectedFormat}</span>
+                        ) : null}
+                        {item.ssim ? (
+                          <span>SSIM: {item.ssim.toFixed(4)}</span>
+                        ) : null}
                       </div>
 
                       {item.status === "running" ? (
                         <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                           <div
                             className="h-full bg-primary transition-[width]"
-                            style={{ width: `${Math.round((item.progress ?? 0) * 100)}%` }}
+                            style={{
+                              width: `${Math.round((item.progress ?? 0) * 100)}%`,
+                            }}
                           />
                         </div>
                       ) : null}
@@ -678,7 +746,9 @@ export function ImageCompressApp() {
                           type="button"
                           size="sm"
                           variant="secondary"
-                          disabled={busy || item.status !== "queued" || !item.file}
+                          disabled={
+                            busy || item.status !== "queued" || !item.file
+                          }
                           onClick={() => void compressOne(item.id)}
                         >
                           Compress
@@ -708,12 +778,17 @@ export function ImageCompressApp() {
             <div className="flex flex-col gap-4">
               <div className="grid gap-2">
                 <Label className="text-sm">Output format</Label>
-                <Select value={format} onValueChange={(value) => setFormat(value as OutputFormat)}>
+                <Select
+                  value={format}
+                  onValueChange={(value) => setFormat(value as OutputFormat)}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="auto">Auto (smallest that looks good)</SelectItem>
+                    <SelectItem value="auto">
+                      Auto (smallest that looks good)
+                    </SelectItem>
                     <SelectItem value="webp">WebP</SelectItem>
                     <SelectItem value="avif">AVIF</SelectItem>
                     <SelectItem value="jpeg">JPEG</SelectItem>
@@ -725,7 +800,9 @@ export function ImageCompressApp() {
               <div className="grid gap-2">
                 <div className="flex items-center justify-between gap-2">
                   <Label className="text-sm">Base quality</Label>
-                  <span className="text-muted-foreground text-xs">{quality}</span>
+                  <span className="text-muted-foreground text-xs">
+                    {quality}
+                  </span>
                 </div>
                 <Slider
                   value={[quality]}
@@ -760,7 +837,11 @@ export function ImageCompressApp() {
 
               <Separator />
 
-              <Button type="button" disabled={busy || !hasQueued} onClick={() => void onCompressAll()}>
+              <Button
+                type="button"
+                disabled={busy || !hasQueued}
+                onClick={() => void onCompressAll()}
+              >
                 Compress all
               </Button>
 

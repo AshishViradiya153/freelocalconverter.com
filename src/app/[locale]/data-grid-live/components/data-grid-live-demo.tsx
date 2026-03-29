@@ -20,11 +20,6 @@ import { getDataGridSelectColumn } from "@/components/data-grid/data-grid-select
 import { DataGridSortMenu } from "@/components/data-grid/data-grid-sort-menu";
 import { DataGridUndoRedoButtons } from "@/components/data-grid/data-grid-undo-redo-buttons";
 import { DataGridViewMenu } from "@/components/data-grid/data-grid-view-menu";
-import {
-  SKATER_STATUSES,
-  SKATER_STANCES,
-  SKATER_STYLES,
-} from "@/lib/skaters-model";
 import { type UseDataGridProps, useDataGrid } from "@/hooks/use-data-grid";
 import {
   type UndoRedoCellUpdate,
@@ -33,6 +28,11 @@ import {
 import { useWindowSize } from "@/hooks/use-window-size";
 import { getFilterFn } from "@/lib/data-grid-filters";
 import { generateId } from "@/lib/id";
+import {
+  SKATER_STANCES,
+  SKATER_STATUSES,
+  SKATER_STYLES,
+} from "@/lib/skaters-model";
 import { skatersCollection } from "../lib/collections";
 import type { SkaterSchema } from "../lib/validation";
 import { DataGridActionBar } from "./data-grid-action-bar";
@@ -436,20 +436,17 @@ export function DataGridLiveDemo() {
 
   const onFilesUpload: NonNullable<
     UseDataGridProps<SkaterSchema>["onFilesUpload"]
-  > = React.useCallback(
-    async ({ files }) => {
-      await new Promise((resolve) => setTimeout(resolve, 800));
+  > = React.useCallback(async ({ files }) => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-      return files.map((file) => ({
-        id: crypto.randomUUID(),
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        url: URL.createObjectURL(file),
-      }));
-    },
-    [],
-  );
+    return files.map((file) => ({
+      id: crypto.randomUUID(),
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      url: URL.createObjectURL(file),
+    }));
+  }, []);
 
   const onFilesDelete: NonNullable<
     UseDataGridProps<SkaterSchema>["onFilesDelete"]

@@ -139,11 +139,7 @@ describe("parseStringMatrixToImportResult", () => {
   });
 
   it("uses a later row as header when title rows appear above", () => {
-    const matrix = [
-      ["Q4 Report"],
-      ["name", "age"],
-      ["Ada", "40"],
-    ];
+    const matrix = [["Q4 Report"], ["name", "age"], ["Ada", "40"]];
     const { rows, headerLabels } = parseStringMatrixToImportResult(matrix, {
       headerRowIndex: 1,
     });

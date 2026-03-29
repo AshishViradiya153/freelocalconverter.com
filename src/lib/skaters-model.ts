@@ -8,7 +8,12 @@ export const SKATER_STYLES = [
   "freestyle",
   "all-around",
 ] as const;
-export const SKATER_STATUSES = ["amateur", "sponsored", "pro", "legend"] as const;
+export const SKATER_STATUSES = [
+  "amateur",
+  "sponsored",
+  "pro",
+  "legend",
+] as const;
 
 export type SkaterStance = (typeof SKATER_STANCES)[number];
 export type SkaterStyle = (typeof SKATER_STYLES)[number];

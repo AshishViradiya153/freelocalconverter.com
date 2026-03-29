@@ -6,8 +6,8 @@ import { MeshGradientApp } from "@/app/components/mesh-gradient-app";
 import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
-import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import { buildPageMetaFromMessages } from "@/lib/seo/page-meta-messages";
+import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
   buildBreadcrumbListJsonLd,
   buildJsonLdGraph,

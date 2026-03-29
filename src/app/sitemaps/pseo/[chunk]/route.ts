@@ -2,14 +2,9 @@ import {
   getPseoSitemapChunk,
   getPseoSitemapChunkCount,
 } from "@/lib/pseo/sitemap";
+import { escapeXmlForSitemap } from "@/lib/sitemap";
 
-function escapeXml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+export const revalidate = 3600;
 
 export async function GET(
   _request: Request,
@@ -36,8 +31,8 @@ ${entries
         ? e.lastModified.toISOString()
         : String(e.lastModified ?? new Date().toISOString());
     return `  <url>
-    <loc>${escapeXml(e.url)}</loc>
-    <lastmod>${escapeXml(last)}</lastmod>
+    <loc>${escapeXmlForSitemap(e.url)}</loc>
+    <lastmod>${escapeXmlForSitemap(last)}</lastmod>
   </url>`;
   })
   .join("\n")}

@@ -1,20 +1,23 @@
 import { describe, expect, it } from "vitest";
-import {
-  CSV_IMPORT_MAX_FILE_BYTES,
-  CsvImportError,
-} from "@/lib/csv-import";
+import { CSV_IMPORT_MAX_FILE_BYTES, CsvImportError } from "@/lib/csv-import";
 import { isExcelImportFile, parseExcelFile } from "@/lib/excel-import";
 
 type TestBlobPart = ArrayBuffer | SharedArrayBuffer | ArrayBufferView | string;
 
 function blobPartToArrayBuffer(part: TestBlobPart): ArrayBuffer {
   if (part instanceof ArrayBuffer) return part.slice(0);
-  if (typeof SharedArrayBuffer !== "undefined" && part instanceof SharedArrayBuffer) {
+  if (
+    typeof SharedArrayBuffer !== "undefined" &&
+    part instanceof SharedArrayBuffer
+  ) {
     return part.slice(0) as unknown as ArrayBuffer;
   }
   if (ArrayBuffer.isView(part)) {
     const v = part;
-    return v.buffer.slice(v.byteOffset, v.byteOffset + v.byteLength) as unknown as ArrayBuffer;
+    return v.buffer.slice(
+      v.byteOffset,
+      v.byteOffset + v.byteLength,
+    ) as unknown as ArrayBuffer;
   }
   if (typeof part === "string") {
     const u = new TextEncoder().encode(part);
@@ -43,7 +46,11 @@ function testFile(
     throw new Error("testFile: merge multiple parts with Blob if needed");
   }
 
-  const ab = blobPartToArrayBuffer(parts[0]!);
+  const part0 = parts[0];
+  if (part0 === undefined) {
+    throw new Error("testFile: expected one part");
+  }
+  const ab = blobPartToArrayBuffer(part0);
   const file = new File([ab], name, init ?? {});
   return Object.assign(file, {
     arrayBuffer: () => Promise.resolve(ab),
@@ -79,9 +86,9 @@ describe("isExcelImportFile", () => {
         new File([], "book.xlsx", { type: "application/octet-stream" }),
       ),
     ).toBe(true);
-    expect(
-      isExcelImportFile(new File([], "legacy.xls", { type: "" })),
-    ).toBe(true);
+    expect(isExcelImportFile(new File([], "legacy.xls", { type: "" }))).toBe(
+      true,
+    );
     expect(
       isExcelImportFile(
         new File([], "macro.xlsm", {
@@ -127,10 +134,8 @@ describe("parseExcelFile", () => {
       "scores.xlsx",
     );
 
-    const { result, sheetNames, sheetIndex, sheetRowCount } = await parseExcelFile(
-      file,
-      0,
-    );
+    const { result, sheetNames, sheetIndex, sheetRowCount } =
+      await parseExcelFile(file, 0);
     expect(sheetNames).toContain("Sheet1");
     expect(sheetIndex).toBe(0);
     expect(sheetRowCount).toBeGreaterThanOrEqual(3);
@@ -188,11 +193,7 @@ describe("parseExcelFile", () => {
       [
         {
           name: "S1",
-          aoa: [
-            ["Report"],
-            ["id", "val"],
-            ["1", "x"],
-          ],
+          aoa: [["Report"], ["id", "val"], ["1", "x"]],
         },
       ],
       "titled.xlsx",

@@ -2,6 +2,7 @@
 
 import {
   buildClientSchema,
+  type IntrospectionQuery,
   parse as parseGraphql,
   print as printGraphql,
 } from "graphql";
@@ -129,7 +130,8 @@ function parseCurl(command: string): HttpRequestModel {
   let body: string | null = null;
 
   for (let i = 0; i < tokens.length; i += 1) {
-    const t = tokens[i]!;
+    const t = tokens[i];
+    if (t === undefined) continue;
     const next = tokens[i + 1];
 
     if (t === "curl") continue;
@@ -186,7 +188,8 @@ function parseFetch(code: string): HttpRequestModel {
   if (!raw) throw new Error("Paste a fetch() snippet first.");
   const urlMatch = raw.match(/fetch\(\s*(['"`])([^'"`]+)\1\s*,?/);
   if (!urlMatch) throw new Error("Couldn't find a URL in fetch(...).");
-  const url = urlMatch[2]!;
+  const url = urlMatch[2];
+  if (url === undefined) throw new Error("Couldn't find a URL in fetch(...).");
 
   const methodMatch = raw.match(/method\s*:\s*(['"`])(\w+)\1/i);
   const method = (methodMatch?.[2]?.toUpperCase() ?? "GET") as HttpMethod;
@@ -199,14 +202,18 @@ function parseFetch(code: string): HttpRequestModel {
       body.match(/(['"`])([^'"`]+)\1\s*:\s*(['"`])([^'"`]+)\3/g) ?? [];
     for (const p of pairs) {
       const m = p.match(/(['"`])([^'"`]+)\1\s*:\s*(['"`])([^'"`]+)\3/);
-      if (m) headers[m[2]!] = m[4]!;
+      if (m) {
+        const key = m[2];
+        const val = m[4];
+        if (key !== undefined && val !== undefined) headers[key] = val;
+      }
     }
   }
 
   let body: string | null = null;
   const bodyMatch = raw.match(/body\s*:\s*([\s\S]*?)(,|\}\s*\))/m);
   if (bodyMatch) body = bodyMatch[1]?.trim() ?? null;
-  if (body && body.endsWith(",")) body = body.slice(0, -1).trim();
+  if (body?.endsWith(",")) body = body.slice(0, -1).trim();
 
   return { method, url, headers: normalizeHeaders(headers), body };
 }
@@ -237,7 +244,11 @@ function parseAxios(code: string): HttpRequestModel {
         ) ?? [];
       for (const p of pairs) {
         const m = p.match(/(['"`])([^'"`]+)\1\s*:\s*(['"`])([^'"`]+)\3/);
-        if (m) headers[m[2]!] = m[4]!;
+        if (m) {
+          const key = m[2];
+          const val = m[4];
+          if (key !== undefined && val !== undefined) headers[key] = val;
+        }
       }
     }
 
@@ -249,8 +260,9 @@ function parseAxios(code: string): HttpRequestModel {
     /axios\.(get|post|put|patch|delete)\(\s*(['"`])([^'"`]+)\2([\s\S]*?)\)/i,
   );
   if (!callStyle) throw new Error("Unsupported axios snippet format.");
-  const mName = callStyle[1]!.toUpperCase();
-  const url = callStyle[3]!;
+  const mName = callStyle[1]?.toUpperCase();
+  const url = callStyle[3];
+  if (url === undefined) throw new Error("Unsupported axios snippet format.");
   const method = (
     mName === "DELETE" ? "DELETE" : (mName as HttpMethod)
   ) as HttpMethod;
@@ -265,8 +277,10 @@ function parsePythonRequests(code: string): HttpRequestModel {
     /requests\.(get|post|put|patch|delete)\(\s*(['"])([^'"]+)\2([\s\S]*?)\)/i,
   );
   if (!call) throw new Error("Couldn't find requests.<method>(url, ...).");
-  const method = call[1]!.toUpperCase() as HttpMethod;
-  const url = call[3]!;
+  const method = call[1]?.toUpperCase() as HttpMethod;
+  const url = call[3];
+  if (url === undefined)
+    throw new Error("Couldn't find requests.<method>(url, ...).");
 
   const headers: Record<string, string> = {};
   const headersMatch = raw.match(/headers\s*=\s*\{([\s\S]*?)\}/m);
@@ -277,7 +291,11 @@ function parsePythonRequests(code: string): HttpRequestModel {
       ) ?? [];
     for (const p of pairs) {
       const m = p.match(/(['"])([^'"]+)\1\s*:\s*(['"])([^'"]*)\3/);
-      if (m) headers[m[2]!] = m[4] ?? "";
+      if (m) {
+        const key = m[2];
+        const val = m[4];
+        if (key !== undefined) headers[key] = val ?? "";
+      }
     }
   }
 
@@ -522,6 +540,20 @@ function headerHelp(name: string): { summary: string; notes: string[] } | null {
   return map[key] ?? null;
 }
 
+function toObjectRecord(value: unknown): Record<string, unknown> {
+  if (value !== null && typeof value === "object" && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return {};
+}
+
+function introspectionFromJson(json: unknown): IntrospectionQuery {
+  if (json !== null && typeof json === "object" && "data" in json) {
+    return (json as { data: unknown }).data as IntrospectionQuery;
+  }
+  return json as IntrospectionQuery;
+}
+
 function tryParseJson(text: string): unknown {
   const trimmed = text.trim();
   if (!trimmed) throw new Error("Paste JSON first.");
@@ -662,21 +694,24 @@ export function ApiWebDevHelpersApp({
       return {
         ok: false as const,
         error: null as string | null,
-        doc: null as any,
+        doc: null,
       };
     }
     try {
-      const doc = safeYamlOrJsonParse(openapiText) as any;
-      const version = doc?.openapi ?? doc?.swagger ?? null;
-      const paths =
-        doc?.paths && typeof doc.paths === "object"
-          ? (doc.paths as Record<string, any>)
-          : {};
-      const servers = Array.isArray(doc?.servers) ? doc.servers : [];
-      const components =
-        doc?.components && typeof doc.components === "object"
-          ? doc.components
-          : {};
+      const rawRoot = safeYamlOrJsonParse(openapiText);
+      const doc = toObjectRecord(rawRoot);
+      const vOpenapi = doc.openapi;
+      const vSwagger = doc.swagger;
+      const version =
+        (typeof vOpenapi === "string" || typeof vOpenapi === "number"
+          ? String(vOpenapi)
+          : null) ??
+        (typeof vSwagger === "string" || typeof vSwagger === "number"
+          ? String(vSwagger)
+          : null);
+      const paths = toObjectRecord(doc.paths);
+      const servers = Array.isArray(doc.servers) ? doc.servers : [];
+      const components = toObjectRecord(doc.components);
       return {
         ok: true as const,
         error: null as string | null,
@@ -686,7 +721,7 @@ export function ApiWebDevHelpersApp({
       return {
         ok: false as const,
         error: errorToMessage(error),
-        doc: null as any,
+        doc: null,
       };
     }
   }, [openapiText]);
@@ -701,8 +736,9 @@ export function ApiWebDevHelpersApp({
   const openapiOp = React.useMemo(() => {
     if (!openapiParsed.ok) return null;
     if (!openapiSelectedPath) return null;
-    const p = openapiParsed.doc.paths[openapiSelectedPath];
-    if (!p || typeof p !== "object") return null;
+    const pathItem = openapiParsed.doc.paths[openapiSelectedPath];
+    if (!pathItem || typeof pathItem !== "object") return null;
+    const p = pathItem as Record<string, unknown>;
     const method =
       openapiSelectedMethod ??
       Object.keys(p).find((k) => typeof p[k] === "object") ??
@@ -733,18 +769,18 @@ export function ApiWebDevHelpersApp({
       return {
         ok: false as const,
         error: null as string | null,
-        schema: null as any,
+        schema: null,
       };
     try {
-      const json = tryParseJson(gqlSchemaText) as any;
-      const data = json?.data ?? json;
+      const json = tryParseJson(gqlSchemaText);
+      const data = introspectionFromJson(json);
       const schema = buildClientSchema(data);
       return { ok: true as const, error: null as string | null, schema };
     } catch (error) {
       return {
         ok: false as const,
         error: errorToMessage(error),
-        schema: null as any,
+        schema: null,
       };
     }
   }, [gqlSchemaText]);
@@ -776,7 +812,7 @@ export function ApiWebDevHelpersApp({
       return {
         ok: false as const,
         error: null as string | null,
-        json: null as any,
+        json: null,
         pretty: "",
       };
     try {
@@ -787,7 +823,7 @@ export function ApiWebDevHelpersApp({
       return {
         ok: false as const,
         error: errorToMessage(error),
-        json: null as any,
+        json: null,
         pretty: "",
       };
     }
@@ -1183,9 +1219,9 @@ export function ApiWebDevHelpersApp({
                           )
                             .filter(
                               (k) =>
-                                typeof (openapiParsed.doc.paths[
+                                typeof openapiParsed.doc.paths[
                                   openapiOp.path
-                                ] ?? {})[k] === "object",
+                                ]?.[k] === "object",
                             )
                             .map((k) => (
                               <ToggleGroupItem key={k} value={k}>

@@ -35,8 +35,8 @@ export function BlogPostContent() {
         platforms, or ad networks. Those files are often modest in size but{" "}
         <strong>sensitive in content</strong> (customer emails, revenue,
         cohorts). A lightweight viewer lets stakeholders sanity-check structure,
-        spot obvious issues, and share screen recordings or cropped
-        screenshots, without mandating a full BI stack for every ad hoc question.
+        spot obvious issues, and share screen recordings or cropped screenshots,
+        without mandating a full BI stack for every ad hoc question.
       </p>
 
       <h2>How a browser CSV viewer fits your workflow</h2>
@@ -55,8 +55,8 @@ export function BlogPostContent() {
         preview, others add <strong>editing</strong>, <strong>undo/redo</strong>
         , column reorder, search, and export. Our app targets people who want{" "}
         <strong>spreadsheet-like control</strong> with{" "}
-        <strong>minimal setup</strong>, no install, no account for the core flow,
-        and data that stays local by default.
+        <strong>minimal setup</strong>, no install, no account for the core
+        flow, and data that stays local by default.
       </p>
 
       <h2>Who benefits most</h2>

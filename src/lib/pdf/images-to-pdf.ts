@@ -19,9 +19,10 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function getFixedPageSizePt(
-  pageSize: Exclude<ImagesToPdfPageSize, "auto">,
-): { width: number; height: number } {
+function getFixedPageSizePt(pageSize: Exclude<ImagesToPdfPageSize, "auto">): {
+  width: number;
+  height: number;
+} {
   // Points (pt) at 72 DPI.
   if (pageSize === "letter") return { width: 612, height: 792 };
   // A4
@@ -43,7 +44,10 @@ async function rasterizeToPngBytes(file: File): Promise<Uint8Array> {
   bitmap.close();
 
   const blob: Blob = await new Promise((resolve, reject) => {
-    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Failed to encode PNG"))), "image/png");
+    canvas.toBlob(
+      (b) => (b ? resolve(b) : reject(new Error("Failed to encode PNG"))),
+      "image/png",
+    );
   });
   return new Uint8Array(await blob.arrayBuffer());
 }
@@ -56,7 +60,11 @@ function computePlacedRect(args: {
   imgHeight: number;
   fit: ImagesToPdfFit;
 }): { x: number; y: number; width: number; height: number } {
-  const margin = clamp(args.margin, 0, Math.min(args.pageWidth, args.pageHeight) / 2);
+  const margin = clamp(
+    args.margin,
+    0,
+    Math.min(args.pageWidth, args.pageHeight) / 2,
+  );
   const maxW = Math.max(1, args.pageWidth - margin * 2);
   const maxH = Math.max(1, args.pageHeight - margin * 2);
 
@@ -74,7 +82,13 @@ async function embedImage(
   doc: PDFDocument,
   file: File,
   allowRasterFallback: boolean,
-): Promise<{ image: Awaited<ReturnType<PDFDocument["embedPng"]>> | Awaited<ReturnType<PDFDocument["embedJpg"]>>; width: number; height: number }> {
+): Promise<{
+  image:
+    | Awaited<ReturnType<PDFDocument["embedPng"]>>
+    | Awaited<ReturnType<PDFDocument["embedJpg"]>>;
+  width: number;
+  height: number;
+}> {
   const type = file.type.toLowerCase();
 
   if (type === "image/png") {
@@ -90,7 +104,9 @@ async function embedImage(
   }
 
   if (!allowRasterFallback) {
-    throw new Error(`Unsupported image type: ${file.type || "unknown"}. Use PNG or JPG.`);
+    throw new Error(
+      `Unsupported image type: ${file.type || "unknown"}. Use PNG or JPG.`,
+    );
   }
 
   const pngBytes = await rasterizeToPngBytes(file);
@@ -106,11 +122,11 @@ export async function imagesToPdf(opts: {
   const margin = clamp(opts.options.marginPt, 0, 200);
 
   for (const item of opts.images) {
-    const { image, width: imgWidth, height: imgHeight } = await embedImage(
-      doc,
-      item.file,
-      opts.options.allowRasterFallback,
-    );
+    const {
+      image,
+      width: imgWidth,
+      height: imgHeight,
+    } = await embedImage(doc, item.file, opts.options.allowRasterFallback);
 
     const page = (() => {
       if (opts.options.pageSize === "auto") {
@@ -124,17 +140,16 @@ export async function imagesToPdf(opts: {
       opts.options.pageSize === "auto"
         ? { x: 0, y: 0, width: imgWidth, height: imgHeight }
         : computePlacedRect({
-          pageWidth: page.getWidth(),
-          pageHeight: page.getHeight(),
-          margin,
-          imgWidth,
-          imgHeight,
-          fit: opts.options.fit,
-        });
+            pageWidth: page.getWidth(),
+            pageHeight: page.getHeight(),
+            margin,
+            imgWidth,
+            imgHeight,
+            fit: opts.options.fit,
+          });
 
     page.drawImage(image, rect);
   }
 
   return await doc.save();
 }
-

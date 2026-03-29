@@ -1,15 +1,16 @@
 "use client";
 
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { Copy, Loader2, Upload, Trash2 } from "lucide-react";
+import { Copy, Loader2, Trash2, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
 import { CsvSessionReadOnlyGrid } from "@/app/components/csv-session-read-only-grid";
+import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
-import { FileSpreadsheetGlyph } from "@/components/file-glyphs";
+import { sanitizeCsvDownloadFileBaseName } from "@/lib/csv-export";
 import {
   CSV_IMPORT_MAX_FILE_BYTES,
   CSV_IMPORT_MAX_ROWS,
@@ -17,8 +18,10 @@ import {
   parseCsvFile,
 } from "@/lib/csv-import";
 import { csvSessionToMarkdownTable } from "@/lib/csv-to-markdown";
-import { sanitizeCsvDownloadFileBaseName } from "@/lib/csv-export";
-import { type CsvViewerSession, resultToSession } from "@/lib/csv-viewer-session";
+import {
+  type CsvViewerSession,
+  resultToSession,
+} from "@/lib/csv-viewer-session";
 
 function downloadTextFile(text: string, fileName: string) {
   const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
@@ -108,11 +111,11 @@ export function CsvToMarkdownTableApp() {
               className="size-8 text-muted-foreground"
               aria-hidden
             />
-            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-              {t("heroTitle")}
-            </h1>
+            <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
           </div>
-          <p className="max-w-3xl text-muted-foreground text-sm">{t("heroSubtitle")}</p>
+          <p className="max-w-3xl text-muted-foreground text-sm">
+            {t("heroSubtitle")}
+          </p>
         </header>
 
         {!session ? (
@@ -155,14 +158,29 @@ export function CsvToMarkdownTableApp() {
         {session ? (
           <div className="flex flex-col gap-4">
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={onClear}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onClear}
+              >
                 {t("clearFile")}
               </Button>
-              <Button type="button" variant="outline" size="sm" onClick={onCopy}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onCopy}
+              >
                 <Copy className="size-3.5" aria-hidden />
                 {t("copyMarkdown")}
               </Button>
-              <Button type="button" variant="default" size="sm" onClick={onDownload}>
+              <Button
+                type="button"
+                variant="default"
+                size="sm"
+                onClick={onDownload}
+              >
                 {t("downloadMarkdown")}
               </Button>
             </div>
@@ -178,7 +196,9 @@ export function CsvToMarkdownTableApp() {
                   aria-label={t("markdownAria")}
                   className="min-h-[280px] w-full rounded-md border bg-muted/20 p-3 font-mono text-xs leading-5 md:min-h-[360px]"
                 />
-                <p className="text-muted-foreground text-xs">{t("markdownHint")}</p>
+                <p className="text-muted-foreground text-xs">
+                  {t("markdownHint")}
+                </p>
               </div>
 
               <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -190,7 +210,9 @@ export function CsvToMarkdownTableApp() {
                   onSessionChange={(next) => setSession(next)}
                   gridKey={previewKey}
                 />
-                <p className="text-muted-foreground text-xs">{t("previewHint")}</p>
+                <p className="text-muted-foreground text-xs">
+                  {t("previewHint")}
+                </p>
               </div>
             </div>
           </div>
@@ -213,4 +235,3 @@ export function CsvToMarkdownTableApp() {
     </DirectionProvider>
   );
 }
-

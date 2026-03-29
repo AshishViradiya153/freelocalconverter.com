@@ -164,12 +164,7 @@ export const trustedByEntries: TrustedByEntry[] = [
     "https://www.gatech.edu",
     "GT",
   ),
-  institution(
-    "jhu",
-    "Johns Hopkins University",
-    "https://www.jhu.edu",
-    "JHU",
-  ),
+  institution("jhu", "Johns Hopkins University", "https://www.jhu.edu", "JHU"),
   institution(
     "nu",
     "Northwestern University",
@@ -222,12 +217,7 @@ export const trustedByEntries: TrustedByEntry[] = [
     "https://www.sorbonne-universite.fr",
     "Sorbonne",
   ),
-  institution(
-    "kuleuven",
-    "KU Leuven",
-    "https://www.kuleuven.be",
-    "KU Leuven",
-  ),
+  institution("kuleuven", "KU Leuven", "https://www.kuleuven.be", "KU Leuven"),
   // Asia–Pacific
   institution(
     "nus",
@@ -294,7 +284,9 @@ export const trustedByEntries: TrustedByEntry[] = [
 
 /** @deprecated Use `trustedByEntries` and filter `type === "brand"` if you only need icons. */
 export const trustedByBrands: TrustedByBrand[] = trustedByEntries
-  .filter((e): e is Extract<TrustedByEntry, { type: "brand" }> => e.type === "brand")
+  .filter(
+    (e): e is Extract<TrustedByEntry, { type: "brand" }> => e.type === "brand",
+  )
   .map((e) => e.brand);
 
 export function trustedByEntryKey(entry: TrustedByEntry): string {

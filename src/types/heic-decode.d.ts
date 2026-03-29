@@ -5,7 +5,8 @@ declare module "heic-decode" {
     data: Uint8ClampedArray;
   }
 
-  export default function decode(args: { buffer: Uint8Array }): Promise<HeicDecodeResult>;
+  export default function decode(args: {
+    buffer: Uint8Array;
+  }): Promise<HeicDecodeResult>;
   export function all(args: { buffer: Uint8Array }): Promise<unknown>;
 }
-

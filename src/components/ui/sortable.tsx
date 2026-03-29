@@ -27,13 +27,13 @@ import {
   restrictToVerticalAxis,
 } from "@dnd-kit/modifiers";
 import {
+  type AnimateLayoutChanges,
   horizontalListSortingStrategy,
   SortableContext,
   type SortableContextProps,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-  type AnimateLayoutChanges,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Slot } from "@radix-ui/react-slot";
@@ -107,17 +107,20 @@ type SortableRootProps<T> = DndContextProps &
     strategy?: SortableContextProps["strategy"];
     orientation?: "vertical" | "horizontal" | "mixed";
     flatCursor?: boolean;
-  /**
-   * Minimum pointer movement (px) before a drag starts. Use on elements that
-   * also need click (e.g. header menus): small movement = click, drag = reorder.
-   */
-  mouseActivationDistance?: number;
-  /**
-   * When set, may replace default collision-based reorder (e.g. virtualized lists
-   * where only a subset of items mount). Return a new order, or `undefined` to
-   * use the default `over`-based behavior (keyboard / pointer hit targets).
-   */
-  resolveOrderOnDragEnd?: (event: DragEndEvent, value: T[]) => T[] | undefined;
+    /**
+     * Minimum pointer movement (px) before a drag starts. Use on elements that
+     * also need click (e.g. header menus): small movement = click, drag = reorder.
+     */
+    mouseActivationDistance?: number;
+    /**
+     * When set, may replace default collision-based reorder (e.g. virtualized lists
+     * where only a subset of items mount). Return a new order, or `undefined` to
+     * use the default `over`-based behavior (keyboard / pointer hit targets).
+     */
+    resolveOrderOnDragEnd?: (
+      event: DragEndEvent,
+      value: T[],
+    ) => T[] | undefined;
   };
 
 function SortableRoot<T>(props: SortableRootProps<T>) {

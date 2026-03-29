@@ -33,10 +33,11 @@ export function BlogPostContent() {
       <h2>Row alignment: what “compare” usually means first</h2>
       <p>
         Most lightweight compare flows line up{" "}
-        <strong>row one with row one</strong>, <strong>row two with row two</strong>
-        , and so on, after each file parses. That works beautifully when both
-        exports came from the same query with a stable sort, or when you only
-        need to verify a vendor replaced the entire file and row counts match.
+        <strong>row one with row one</strong>,{" "}
+        <strong>row two with row two</strong>, and so on, after each file
+        parses. That works beautifully when both exports came from the same
+        query with a stable sort, or when you only need to verify a vendor
+        replaced the entire file and row counts match.
       </p>
       <p>
         When row order is meaningless, think user ids that appear in different
@@ -51,8 +52,8 @@ export function BlogPostContent() {
         in the <strong>same order</strong> with compatible headers. Renamed
         fields, extra trailing columns, or a reordered export profile will break
         that assumption. Good tools still render both grids for visual review,
-        but they should stop short of claiming “37 cells differ” when fields
-        are misaligned.
+        but they should stop short of claiming “37 cells differ” when fields are
+        misaligned.
       </p>
       <ul>
         <li>

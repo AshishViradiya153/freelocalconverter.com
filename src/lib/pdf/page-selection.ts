@@ -17,7 +17,10 @@ function clamp(n: number, min: number, max: number) {
  * - ignores invalid tokens (caller can treat empty result as invalid if input was non-empty)
  * - merges overlapping/adjacent ranges
  */
-export function parsePdfPageSelection(input: string, pageCount: number): PdfPageRange[] {
+export function parsePdfPageSelection(
+  input: string,
+  pageCount: number,
+): PdfPageRange[] {
   const safePageCount = Math.max(0, Math.floor(pageCount));
   if (safePageCount <= 0) return [];
 
@@ -33,8 +36,11 @@ export function parsePdfPageSelection(input: string, pageCount: number): PdfPage
   for (const part of parts) {
     const m = part.match(/^(\d+)(?:\s*-\s*(\d+))?$/);
     if (!m) continue;
-    const a = Number.parseInt(m[1]!, 10);
-    const b = Number.parseInt(m[2] ?? m[1]!, 10);
+    const g1 = m[1];
+    if (g1 === undefined) continue;
+    const a = Number.parseInt(g1, 10);
+    const g2 = m[2] ?? g1;
+    const b = Number.parseInt(g2, 10);
     if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
     const start = clamp(Math.min(a, b), 1, safePageCount);
     const end = clamp(Math.max(a, b), 1, safePageCount);
@@ -42,7 +48,13 @@ export function parsePdfPageSelection(input: string, pageCount: number): PdfPage
   }
 
   const normalized = ranges
-    .filter((r) => r.start >= 1 && r.end >= 1 && r.start <= safePageCount && r.end <= safePageCount)
+    .filter(
+      (r) =>
+        r.start >= 1 &&
+        r.end >= 1 &&
+        r.start <= safePageCount &&
+        r.end <= safePageCount,
+    )
     .sort((x, y) => x.start - y.start || x.end - y.end);
 
   if (normalized.length <= 1) return normalized;
@@ -63,4 +75,3 @@ export function parsePdfPageSelection(input: string, pageCount: number): PdfPage
 
   return merged;
 }
-

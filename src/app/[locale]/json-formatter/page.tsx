@@ -17,7 +17,9 @@ interface JsonFormatterPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function JsonFormatterPage({ params }: JsonFormatterPageProps) {
+export default async function JsonFormatterPage({
+  params,
+}: JsonFormatterPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -37,4 +39,3 @@ export default async function JsonFormatterPage({ params }: JsonFormatterPagePro
     </Shell>
   );
 }
-

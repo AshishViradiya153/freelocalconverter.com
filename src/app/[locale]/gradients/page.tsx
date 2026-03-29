@@ -6,11 +6,11 @@ import { ColorGradientApp } from "@/app/components/color-gradients-app";
 import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
-import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
   buildPageMetaFromMessages,
   getPageMetaFaqTriples,
 } from "@/lib/seo/page-meta-messages";
+import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
   buildBreadcrumbListJsonLd,
   buildFaqPageJsonLd,
@@ -47,7 +47,10 @@ export default async function GradientsPage({ params }: GradientsPageProps) {
 
   const breadcrumb = buildBreadcrumbListJsonLd([
     { name: tr("breadcrumbHome"), url: buildAbsoluteUrl(locale, "/") },
-    { name: tr("gradients.breadcrumbLabel"), url: buildAbsoluteUrl(locale, pathname) },
+    {
+      name: tr("gradients.breadcrumbLabel"),
+      url: buildAbsoluteUrl(locale, pathname),
+    },
   ]);
 
   const graph = buildJsonLdGraph([

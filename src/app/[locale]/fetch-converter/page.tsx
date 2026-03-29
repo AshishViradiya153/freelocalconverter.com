@@ -17,7 +17,9 @@ interface FetchConverterPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function FetchConverterPage({ params }: FetchConverterPageProps) {
+export default async function FetchConverterPage({
+  params,
+}: FetchConverterPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -44,4 +46,3 @@ export default async function FetchConverterPage({ params }: FetchConverterPageP
     </Shell>
   );
 }
-

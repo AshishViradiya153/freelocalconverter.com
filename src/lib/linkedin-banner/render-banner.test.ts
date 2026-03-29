@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  type BannerDesignInput,
   DEFAULT_BANNER_TEMPLATE_TWEAKS,
   DEFAULT_HEADLINE_FONT,
   DEFAULT_SUB_FONT,
   DEFAULT_TAG_FONT,
   LINKEDIN_BANNER_FORMATS,
-  type BannerDesignInput,
   normalizedTemplateTweaks,
   renderLinkedInBannerCanvas,
 } from "@/lib/linkedin-banner/render-banner";

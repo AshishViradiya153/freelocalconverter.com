@@ -23,8 +23,8 @@ export const plannedPostsPartA: PublishedBlogPost[] = [
             preferred legacy code pages unless it detects a <strong>BOM</strong>{" "}
             (byte order mark) at the start of the file. A BOM helps Excel guess
             UTF-8; some Unix tools and strict parsers treat the BOM as an extra
-            character in the first column header, so the &quot;right&quot; choice
-            depends on your downstream consumer.
+            character in the first column header, so the &quot;right&quot;
+            choice depends on your downstream consumer.
           </p>
           <h2>Practical rules</h2>
           <ul>
@@ -187,8 +187,8 @@ export const plannedPostsPartA: PublishedBlogPost[] = [
           <p>
             Dense tables reward keyboard flow: move cell to cell, extend
             selection, paste from Excel as TSV, and invoke search without
-            reaching for the mouse. Products vary, check your app&apos;s shortcut
-            sheet.
+            reaching for the mouse. Products vary, check your app&apos;s
+            shortcut sheet.
           </p>
           <h2>Habits</h2>
           <ul>
@@ -375,7 +375,8 @@ export const plannedPostsPartA: PublishedBlogPost[] = [
               Hash or checksum large extracts when moving between systems.
             </li>
             <li>
-              Restrict who can edit authoritative extracts, view-first workflows.
+              Restrict who can edit authoritative extracts, view-first
+              workflows.
             </li>
             <li>
               Pair local review with formal workflow tools for SOX environments.
@@ -523,8 +524,8 @@ export const plannedPostsPartA: PublishedBlogPost[] = [
         <BlogProse>
           <p>
             JSON handles nesting and arrays naturally; CSV is flat. Pipelines
-            flatten nested API responses into tables, then humans open the CSV in
-            a grid. Misparented flattening shows up as duplicate keys or JSON
+            flatten nested API responses into tables, then humans open the CSV
+            in a grid. Misparented flattening shows up as duplicate keys or JSON
             blobs inside cells.
           </p>
           <h2>Flattening discipline</h2>

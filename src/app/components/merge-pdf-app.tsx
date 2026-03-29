@@ -1,8 +1,15 @@
 "use client";
 
+import {
+  Download,
+  FileText,
+  GripVertical,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import * as React from "react";
-import { Download, FileText, GripVertical, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
@@ -20,8 +27,10 @@ function moveItem<T>(arr: T[], from: number, to: number) {
   if (from < 0 || from >= arr.length) return arr;
   if (to < 0 || to >= arr.length) return arr;
   const next = arr.slice();
-  const [item] = next.splice(from, 1);
-  next.splice(to, 0, item!);
+  const removed = next.splice(from, 1);
+  const item = removed[0];
+  if (item === undefined) return arr;
+  next.splice(to, 0, item);
   return next;
 }
 
@@ -67,7 +76,9 @@ async function mergePdfs(files: File[]) {
         throw new Error(`"${file.name}" is empty (0 bytes).`);
       }
       if (msg === "encrypted_pdf") {
-        throw new Error(`"${file.name}" is password-protected. Please unlock it first, then try again.`);
+        throw new Error(
+          `"${file.name}" is password-protected. Please unlock it first, then try again.`,
+        );
       }
       if (msg === "no_pages") {
         throw new Error(`"${file.name}" has no pages to merge.`);
@@ -89,7 +100,7 @@ export function MergePdfApp() {
   const canMerge = items.length >= 2 && !busy;
   const baseName = React.useMemo(() => {
     if (items.length === 0) return "merged";
-    return baseNameFromFirstFileName(items[0]!.file.name);
+    return baseNameFromFirstFileName(items[0]?.file.name);
   }, [items]);
 
   function addFiles(files: FileList | null) {
@@ -141,10 +152,11 @@ export function MergePdfApp() {
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <FileText className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">Merge PDF</h1>
+          <h1 className={toolHeroTitleClassName}>Merge PDF</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Add multiple PDFs, reorder them, and download one merged PDF locally in your browser, no uploads.
+          Add multiple PDFs, reorder them, and download one merged PDF locally
+          in your browser, no uploads.
         </p>
       </header>
 
@@ -164,7 +176,11 @@ export function MergePdfApp() {
       />
 
       {busy ? (
-        <div className="flex items-center gap-2 text-muted-foreground text-sm" role="status" aria-live="polite">
+        <div
+          className="flex items-center gap-2 text-muted-foreground text-sm"
+          role="status"
+          aria-live="polite"
+        >
           <Loader2 className="size-4 animate-spin" aria-hidden />
           <span>Merging PDFs…</span>
         </div>
@@ -186,26 +202,33 @@ export function MergePdfApp() {
                   Drag is optional, use up/down for precise ordering.
                 </div>
               </div>
-              <div className="text-muted-foreground text-sm">{items.length} PDF(s)</div>
+              <div className="text-muted-foreground text-sm">
+                {items.length} PDF(s)
+              </div>
             </div>
 
             <ul className="divide-y overflow-hidden rounded-xl border bg-background">
               {items.map((it, idx) => (
                 <li key={it.id} className="flex items-center gap-3 p-3">
                   <div className="grid size-10 place-items-center rounded-lg border bg-muted/10">
-                    <span className="text-muted-foreground text-xs font-semibold">
+                    <span className="font-semibold text-muted-foreground text-xs">
                       {idx + 1}
                     </span>
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <div className="truncate font-medium text-sm">{it.file.name}</div>
+                    <div className="truncate font-medium text-sm">
+                      {it.file.name}
+                    </div>
                     <div className="text-muted-foreground text-xs">
                       {(it.file.size / 1024 / 1024).toFixed(2)} MB
                     </div>
                   </div>
 
-                  <GripVertical className="size-4 text-muted-foreground" aria-hidden />
+                  <GripVertical
+                    className="size-4 text-muted-foreground"
+                    aria-hidden
+                  />
 
                   <div className="flex items-center gap-2">
                     <Button
@@ -213,7 +236,9 @@ export function MergePdfApp() {
                       variant="outline"
                       size="sm"
                       disabled={busy || idx === 0}
-                      onClick={() => setItems((prev) => moveItem(prev, idx, idx - 1))}
+                      onClick={() =>
+                        setItems((prev) => moveItem(prev, idx, idx - 1))
+                      }
                     >
                       Up
                     </Button>
@@ -222,7 +247,9 @@ export function MergePdfApp() {
                       variant="outline"
                       size="sm"
                       disabled={busy || idx === items.length - 1}
-                      onClick={() => setItems((prev) => moveItem(prev, idx, idx + 1))}
+                      onClick={() =>
+                        setItems((prev) => moveItem(prev, idx, idx + 1))
+                      }
                     >
                       Down
                     </Button>
@@ -231,7 +258,9 @@ export function MergePdfApp() {
                       variant="outline"
                       size="sm"
                       disabled={busy}
-                      onClick={() => setItems((prev) => prev.filter((x) => x.id !== it.id))}
+                      onClick={() =>
+                        setItems((prev) => prev.filter((x) => x.id !== it.id))
+                      }
                       className={cn("text-destructive hover:text-destructive")}
                       aria-label={`Remove ${it.file.name}`}
                       title="Remove"
@@ -256,21 +285,33 @@ export function MergePdfApp() {
               <Separator />
 
               <div className="flex flex-wrap items-center gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={onClear} disabled={busy}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={onClear}
+                  disabled={busy}
+                >
                   <Trash2 className="size-4" aria-hidden />
                   Clear
                 </Button>
               </div>
 
-              <Button type="button" variant="default" disabled={!canMerge} onClick={() => void onMerge()}>
+              <Button
+                type="button"
+                variant="default"
+                disabled={!canMerge}
+                onClick={() => void onMerge()}
+              >
                 <Download className="size-4" aria-hidden />
                 Merge & download PDF
               </Button>
 
-              <div className="flex items-start gap-2 rounded-lg border bg-muted/10 p-3 text-xs text-muted-foreground">
+              <div className="flex items-start gap-2 rounded-lg border bg-muted/10 p-3 text-muted-foreground text-xs">
                 <FileText className="mt-0.5 size-4" aria-hidden />
                 <div className="min-w-0">
-                  Everything runs locally in your browser. Your PDFs are not uploaded.
+                  Everything runs locally in your browser. Your PDFs are not
+                  uploaded.
                 </div>
               </div>
             </div>
@@ -280,4 +321,3 @@ export function MergePdfApp() {
     </div>
   );
 }
-

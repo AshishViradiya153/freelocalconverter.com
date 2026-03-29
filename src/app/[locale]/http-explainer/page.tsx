@@ -17,7 +17,9 @@ interface HttpExplainerPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function HttpExplainerPage({ params }: HttpExplainerPageProps) {
+export default async function HttpExplainerPage({
+  params,
+}: HttpExplainerPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 

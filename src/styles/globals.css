@@ -143,15 +143,15 @@
       height: 0;
     }
   }
-@keyframes trusted-by-marquee {
-  from {
-    transform: translateX(0);
-  }
+  @keyframes trusted-by-marquee {
+    from {
+      transform: translateX(0);
+    }
 
-  to {
-    transform: translateX(-50%);
+    to {
+      transform: translateX(-50%);
+    }
   }
-}
 }
 
 @layer base {

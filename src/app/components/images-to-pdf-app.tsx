@@ -1,20 +1,42 @@
 "use client";
 
+import {
+  Download,
+  Expand,
+  GripVertical,
+  Image as ImageIcon,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import * as React from "react";
-import { Download, Expand, GripVertical, Image as ImageIcon, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-
+import { FilePdfGlyph } from "@/components/file-glyphs";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { FilePdfGlyph } from "@/components/file-glyphs";
 import { downloadBlob } from "@/lib/download-blob";
+import {
+  type ImagesToPdfFit,
+  type ImagesToPdfPageSize,
+  imagesToPdf,
+} from "@/lib/pdf/images-to-pdf";
 import { cn } from "@/lib/utils";
-import { imagesToPdf, type ImagesToPdfFit, type ImagesToPdfPageSize } from "@/lib/pdf/images-to-pdf";
 
 interface QueuedImage {
   id: string;
@@ -36,8 +58,10 @@ function moveItem<T>(arr: T[], from: number, to: number) {
   if (from < 0 || from >= arr.length) return arr;
   if (to < 0 || to >= arr.length) return arr;
   const next = arr.slice();
-  const [item] = next.splice(from, 1);
-  next.splice(to, 0, item!);
+  const removed = next.splice(from, 1);
+  const item = removed[0];
+  if (item === undefined) return arr;
+  next.splice(to, 0, item);
   return next;
 }
 
@@ -50,7 +74,10 @@ export function ImagesToPdfApp() {
   const [items, setItems] = React.useState<QueuedImage[]>([]);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [preview, setPreview] = React.useState<null | { title: string; src: string }>(null);
+  const [preview, setPreview] = React.useState<null | {
+    title: string;
+    src: string;
+  }>(null);
 
   const [pageSize, setPageSize] = React.useState<ImagesToPdfPageSize>("auto");
   const [fit, setFit] = React.useState<ImagesToPdfFit>("contain");
@@ -59,7 +86,7 @@ export function ImagesToPdfApp() {
 
   const baseName = React.useMemo(() => {
     if (items.length === 0) return "images";
-    return baseNameFromFirstFileName(items[0]!.file.name);
+    return baseNameFromFirstFileName(items[0]?.file.name);
   }, [items]);
 
   const canConvert = items.length > 0 && !busy;
@@ -85,7 +112,9 @@ export function ImagesToPdfApp() {
     }
 
     if (next.length === 0) {
-      setError("No valid images found. Please choose PNG/JPG/WebP (or other image formats).");
+      setError(
+        "No valid images found. Please choose PNG/JPG/WebP (or other image formats).",
+      );
       return;
     }
 
@@ -133,12 +162,11 @@ export function ImagesToPdfApp() {
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <FilePdfGlyph className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            Images to PDF
-          </h1>
+          <h1 className={toolHeroTitleClassName}>Images to PDF</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Add images, reorder them, and export a single PDF locally in your browser, no uploads.
+          Add images, reorder them, and export a single PDF locally in your
+          browser, no uploads.
         </p>
       </header>
 
@@ -158,7 +186,11 @@ export function ImagesToPdfApp() {
       />
 
       {busy ? (
-        <div className="flex items-center gap-2 text-muted-foreground text-sm" role="status" aria-live="polite">
+        <div
+          className="flex items-center gap-2 text-muted-foreground text-sm"
+          role="status"
+          aria-live="polite"
+        >
           <Loader2 className="size-4 animate-spin" aria-hidden />
           <span>Building PDF…</span>
         </div>
@@ -192,6 +224,7 @@ export function ImagesToPdfApp() {
                   className="overflow-hidden rounded-lg border bg-background"
                 >
                   <div className="group relative aspect-3/4 w-full bg-muted/20">
+                    {/* biome-ignore lint/performance/noImgElement: object URL preview */}
                     <img
                       src={it.previewUrl}
                       alt=""
@@ -201,11 +234,13 @@ export function ImagesToPdfApp() {
                     <button
                       type="button"
                       className={cn(
-                        "absolute right-2 top-2 inline-flex items-center justify-center rounded-md border bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm",
+                        "absolute top-2 right-2 inline-flex items-center justify-center rounded-md border bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm",
                         "hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-                        "opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100",
+                        "opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100",
                       )}
-                      onClick={() => setPreview({ title: it.file.name, src: it.previewUrl })}
+                      onClick={() =>
+                        setPreview({ title: it.file.name, src: it.previewUrl })
+                      }
                       aria-label={`Preview ${it.file.name} full screen`}
                       title="Preview"
                     >
@@ -214,11 +249,16 @@ export function ImagesToPdfApp() {
                   </div>
                   <div className="flex flex-col gap-2 p-2">
                     <div className="flex items-center justify-between gap-2">
-                      <div className="min-w-0 text-xs font-medium">
-                        <span className="text-muted-foreground">#{idx + 1}</span>{" "}
+                      <div className="min-w-0 font-medium text-xs">
+                        <span className="text-muted-foreground">
+                          #{idx + 1}
+                        </span>{" "}
                         <span className="truncate">{it.file.name}</span>
                       </div>
-                      <GripVertical className="size-4 text-muted-foreground" aria-hidden />
+                      <GripVertical
+                        className="size-4 text-muted-foreground"
+                        aria-hidden
+                      />
                     </div>
 
                     <div className="grid grid-cols-3 gap-2">
@@ -227,7 +267,9 @@ export function ImagesToPdfApp() {
                         variant="outline"
                         size="sm"
                         disabled={busy || idx === 0}
-                        onClick={() => setItems((prev) => moveItem(prev, idx, idx - 1))}
+                        onClick={() =>
+                          setItems((prev) => moveItem(prev, idx, idx - 1))
+                        }
                       >
                         Up
                       </Button>
@@ -236,7 +278,9 @@ export function ImagesToPdfApp() {
                         variant="outline"
                         size="sm"
                         disabled={busy || idx === items.length - 1}
-                        onClick={() => setItems((prev) => moveItem(prev, idx, idx + 1))}
+                        onClick={() =>
+                          setItems((prev) => moveItem(prev, idx, idx + 1))
+                        }
                       >
                         Down
                       </Button>
@@ -252,7 +296,9 @@ export function ImagesToPdfApp() {
                             return prev.filter((x) => x.id !== it.id);
                           });
                         }}
-                        className={cn("text-destructive hover:text-destructive")}
+                        className={cn(
+                          "text-destructive hover:text-destructive",
+                        )}
                         aria-label={`Remove ${it.file.name}`}
                         title="Remove"
                       >
@@ -276,12 +322,17 @@ export function ImagesToPdfApp() {
 
               <div className="grid gap-2">
                 <Label className="text-sm">Page size</Label>
-                <Select value={pageSize} onValueChange={(v) => setPageSize(v as ImagesToPdfPageSize)}>
+                <Select
+                  value={pageSize}
+                  onValueChange={(v) => setPageSize(v as ImagesToPdfPageSize)}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="auto">Auto (match each image)</SelectItem>
+                    <SelectItem value="auto">
+                      Auto (match each image)
+                    </SelectItem>
                     <SelectItem value="a4">A4</SelectItem>
                     <SelectItem value="letter">Letter</SelectItem>
                   </SelectContent>
@@ -291,12 +342,17 @@ export function ImagesToPdfApp() {
               {pageSize !== "auto" ? (
                 <div className="grid gap-2">
                   <Label className="text-sm">Fit</Label>
-                  <Select value={fit} onValueChange={(v) => setFit(v as ImagesToPdfFit)}>
+                  <Select
+                    value={fit}
+                    onValueChange={(v) => setFit(v as ImagesToPdfFit)}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="contain">Contain (no cropping)</SelectItem>
+                      <SelectItem value="contain">
+                        Contain (no cropping)
+                      </SelectItem>
                       <SelectItem value="cover">Cover (may crop)</SelectItem>
                     </SelectContent>
                   </Select>
@@ -323,7 +379,9 @@ export function ImagesToPdfApp() {
 
               <div className="flex items-center justify-between gap-2 rounded-lg border bg-muted/10 p-3">
                 <div className="min-w-0">
-                  <div className="text-sm font-medium">Support WebP / others</div>
+                  <div className="font-medium text-sm">
+                    Support WebP / others
+                  </div>
                   <div className="text-muted-foreground text-xs">
                     Converts unsupported formats to PNG locally.
                   </div>
@@ -342,21 +400,33 @@ export function ImagesToPdfApp() {
               <Separator />
 
               <div className="flex flex-wrap items-center gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={onClear} disabled={busy}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={onClear}
+                  disabled={busy}
+                >
                   <Trash2 className="size-4" aria-hidden />
                   Clear
                 </Button>
               </div>
 
-              <Button type="button" variant="default" disabled={!canConvert} onClick={() => void onConvert()}>
+              <Button
+                type="button"
+                variant="default"
+                disabled={!canConvert}
+                onClick={() => void onConvert()}
+              >
                 <Download className="size-4" aria-hidden />
                 Convert & download PDF
               </Button>
 
-              <div className="flex items-start gap-2 rounded-lg border bg-muted/10 p-3 text-xs text-muted-foreground">
+              <div className="flex items-start gap-2 rounded-lg border bg-muted/10 p-3 text-muted-foreground text-xs">
                 <ImageIcon className="mt-0.5 size-4" aria-hidden />
                 <div className="min-w-0">
-                  Everything runs locally in your browser. Your images are not uploaded.
+                  Everything runs locally in your browser. Your images are not
+                  uploaded.
                 </div>
               </div>
             </div>
@@ -372,10 +442,13 @@ export function ImagesToPdfApp() {
       >
         <DialogContent className="h-dvh w-screen max-w-none rounded-none p-0 sm:max-w-none">
           <DialogHeader className="border-border/60 border-b p-4">
-            <DialogTitle className="truncate">{preview?.title ?? "Preview"}</DialogTitle>
+            <DialogTitle className="truncate">
+              {preview?.title ?? "Preview"}
+            </DialogTitle>
           </DialogHeader>
           <div className="h-[calc(100dvh-64px)] overflow-auto bg-muted/10 p-4">
             {preview ? (
+              // biome-ignore lint/performance/noImgElement: object URL preview
               <img
                 src={preview.src}
                 alt=""
@@ -389,4 +462,3 @@ export function ImagesToPdfApp() {
     </div>
   );
 }
-

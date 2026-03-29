@@ -1,11 +1,18 @@
 "use client";
 
-import { Download, Film, Link as LinkIcon, Loader2, Trash2, X } from "lucide-react";
+import {
+  Download,
+  Film,
+  Link as LinkIcon,
+  Loader2,
+  Trash2,
+  X,
+} from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
-
-import { FileDropZone } from "@/components/ui/file-drop-zone";
+import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -112,8 +119,13 @@ function baseNameFromFileName(name: string) {
   return leaf || "video";
 }
 
-function VideoFileGlyph(props: { className?: string; "aria-hidden"?: boolean }) {
-  return <Film className={props.className} aria-hidden={props["aria-hidden"]} />;
+function VideoFileGlyph(props: {
+  className?: string;
+  "aria-hidden"?: boolean;
+}) {
+  return (
+    <Film className={props.className} aria-hidden={props["aria-hidden"]} />
+  );
 }
 
 async function ensureFfmpegLoaded(args: {
@@ -125,7 +137,8 @@ async function ensureFfmpegLoaded(args: {
   setEngineError: (s: string | null) => void;
   onProgress: (id: string, progress: number) => void;
 }) {
-  if (args.loadedRef.current && args.ffmpegRef.current) return args.ffmpegRef.current;
+  if (args.loadedRef.current && args.ffmpegRef.current)
+    return args.ffmpegRef.current;
 
   args.setEngineError(null);
   args.setEngineStatus({ phase: "Preparing video conversion…" });
@@ -181,9 +194,9 @@ export function VideoCompressApp() {
 
   const [items, setItems] = React.useState<VideoItem[]>([]);
   const [busy, setBusy] = React.useState(false);
-  const [engineStatus, setEngineStatus] = React.useState<null | { phase: string }>(
-    null,
-  );
+  const [engineStatus, setEngineStatus] = React.useState<null | {
+    phase: string;
+  }>(null);
   const [engineError, setEngineError] = React.useState<string | null>(null);
 
   const [linkInput, setLinkInput] = React.useState("");
@@ -194,7 +207,9 @@ export function VideoCompressApp() {
   const [stripAudio, setStripAudio] = React.useState(false);
 
   const hasQueued = items.some((i) => i.status === "queued");
-  const hasRunnable = items.some((i) => (i.file ? i.status === "queued" : false));
+  const hasRunnable = items.some((i) =>
+    i.file ? i.status === "queued" : false,
+  );
 
   const onAddFiles = React.useCallback((files: FileList | null) => {
     if (!files?.length) return;
@@ -265,12 +280,12 @@ export function VideoCompressApp() {
         prev.map((x) =>
           x.id === id
             ? {
-              ...x,
-              file,
-              status: "queued",
-              originalBytes: file.size,
-              error: null,
-            }
+                ...x,
+                file,
+                status: "queued",
+                originalBytes: file.size,
+                error: null,
+              }
             : x,
         ),
       );
@@ -312,9 +327,7 @@ export function VideoCompressApp() {
           onProgress: (targetId, progress) => {
             setItems((prev) =>
               prev.map((x) =>
-                x.id === targetId
-                  ? { ...x, status: "running", progress }
-                  : x,
+                x.id === targetId ? { ...x, status: "running", progress } : x,
               ),
             );
           },
@@ -356,26 +369,30 @@ export function VideoCompressApp() {
         ]);
 
         const out = await ffmpeg.readFile(outName);
-        if (typeof out === "string") throw new Error("Unexpected ffmpeg output type");
+        if (typeof out === "string")
+          throw new Error("Unexpected ffmpeg output type");
         const outBytes = out instanceof Uint8Array ? out : new Uint8Array(out);
         const outBlob = new Blob([outBytes.slice().buffer], {
           type: codec === "vp9" ? "video/webm" : "video/mp4",
         });
 
-        const base = baseNameFromFileName(file.name).replace(/[/?%*:|"<>\\]/g, "-");
+        const base = baseNameFromFileName(file.name).replace(
+          /[/?%*:|"<>\\]/g,
+          "-",
+        );
         const exportName = `${base}-compressed.${outExt}`;
 
         setItems((prev) =>
           prev.map((x) =>
             x.id === id
               ? {
-                ...x,
-                status: "done",
-                progress: 1,
-                outputBlob: outBlob,
-                outputBytes: outBlob.size,
-                outputName: exportName,
-              }
+                  ...x,
+                  status: "done",
+                  progress: 1,
+                  outputBlob: outBlob,
+                  outputBytes: outBlob.size,
+                  outputName: exportName,
+                }
               : x,
           ),
         );
@@ -415,9 +432,7 @@ export function VideoCompressApp() {
           <div className="grid size-9 place-items-center rounded-lg border bg-muted/10">
             <span className="font-semibold text-sm">MP4</span>
           </div>
-          <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
-            Video Compressor
-          </h1>
+          <h1 className={toolHeroTitleClassName}>Video Compressor</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
           Compress videos locally in your browser. Upload many files or paste a
@@ -461,7 +476,11 @@ export function VideoCompressApp() {
         multiple
         onFiles={onAddFiles}
         fileIcon={VideoFileGlyph}
-        dropTitle={items.length ? "Drop more videos or click to add" : "Drop videos here or click to browse"}
+        dropTitle={
+          items.length
+            ? "Drop more videos or click to add"
+            : "Drop videos here or click to browse"
+        }
         dropHint="Bulk queue · local-only compression"
         chooseLabel={items.length ? "Add videos" : "Choose videos"}
         fileHint="Compression happens locally in your browser."
@@ -509,11 +528,18 @@ export function VideoCompressApp() {
                 const outName = item.outputName ?? "compressed.mp4";
                 const savings =
                   item.originalBytes && item.outputBytes
-                    ? Math.max(0, (item.originalBytes - item.outputBytes) / item.originalBytes)
+                    ? Math.max(
+                        0,
+                        (item.originalBytes - item.outputBytes) /
+                          item.originalBytes,
+                      )
                     : null;
 
                 return (
-                  <li key={item.id} className="flex items-start gap-3 bg-background p-3">
+                  <li
+                    key={item.id}
+                    className="flex items-start gap-3 bg-background p-3"
+                  >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
                         <div className="truncate font-medium text-sm">
@@ -562,7 +588,9 @@ export function VideoCompressApp() {
                         <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                           <div
                             className="h-full bg-primary transition-[width]"
-                            style={{ width: `${Math.round((item.progress ?? 0) * 100)}%` }}
+                            style={{
+                              width: `${Math.round((item.progress ?? 0) * 100)}%`,
+                            }}
                           />
                         </div>
                       ) : null}
@@ -572,7 +600,9 @@ export function VideoCompressApp() {
                           type="button"
                           size="sm"
                           variant="secondary"
-                          disabled={busy || item.status !== "queued" || !item.file}
+                          disabled={
+                            busy || item.status !== "queued" || !item.file
+                          }
                           onClick={() => void compressOne(item.id)}
                         >
                           Compress
@@ -602,13 +632,20 @@ export function VideoCompressApp() {
             <div className="flex flex-col gap-4">
               <div className="grid gap-2">
                 <Label className="text-sm">Codec</Label>
-                <Select value={codec} onValueChange={(v) => setCodec(v as Codec)}>
+                <Select
+                  value={codec}
+                  onValueChange={(v) => setCodec(v as Codec)}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="h264">H.264 (best compatibility)</SelectItem>
-                    <SelectItem value="hevc">HEVC / H.265 (smaller, newer)</SelectItem>
+                    <SelectItem value="h264">
+                      H.264 (best compatibility)
+                    </SelectItem>
+                    <SelectItem value="hevc">
+                      HEVC / H.265 (smaller, newer)
+                    </SelectItem>
                     <SelectItem value="vp9">VP9 (WebM)</SelectItem>
                   </SelectContent>
                 </Select>
@@ -691,4 +728,3 @@ export function VideoCompressApp() {
     </div>
   );
 }
-

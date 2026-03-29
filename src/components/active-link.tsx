@@ -1,7 +1,7 @@
 "use client";
 
-import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 interface ActiveLinkProps extends React.ComponentProps<typeof Link> {

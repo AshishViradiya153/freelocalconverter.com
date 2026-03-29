@@ -90,7 +90,7 @@ function AlertDialogContent({
         {!hasTitle && (
           <AlertDialogPrimitive.Title
             data-slot="alert-dialog-title"
-            className="font-semibold text-lg sr-only"
+            className="sr-only font-semibold text-lg"
           >
             Alert
           </AlertDialogPrimitive.Title>

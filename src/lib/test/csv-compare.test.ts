@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 import {
   alignSessionsByKeyColumn,
   buildCompareDiffReportCsv,
@@ -11,6 +10,7 @@ import {
   prepareCompareWorkSessions,
   reorderRightSessionToMatchLeft,
 } from "@/lib/csv-compare";
+import type { CsvViewerSession } from "@/lib/csv-viewer-session";
 
 function sessionFromRows(
   columnKeys: string[],
@@ -98,10 +98,7 @@ describe("computeCsvCompareStats", () => {
     const right = sessionFromRows(
       cols,
       labels,
-      [
-        { a: "1" },
-        { a: "2" },
-      ],
+      [{ a: "1" }, { a: "2" }],
       "b.csv",
     );
     const s = computeCsvCompareStats(left, right);

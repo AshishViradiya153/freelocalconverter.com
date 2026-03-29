@@ -9,6 +9,10 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
+import {
+  ToolSectionHeading,
+  toolHeroTitleClassName,
+} from "@/components/tool-ui";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -88,10 +92,10 @@ const initialEditorState: EditorState = {
 type EditorAction =
   | { type: "patch"; patch: Partial<EditorState> }
   | {
-    type: "patchFont";
-    field: "tagFont" | "headlineFont" | "subheadlineFont";
-    partial: Partial<BannerTextFontStyle>;
-  }
+      type: "patchFont";
+      field: "tagFont" | "headlineFont" | "subheadlineFont";
+      partial: Partial<BannerTextFontStyle>;
+    }
   | { type: "patchTweak"; key: BannerTemplateTweakKey; value: number };
 
 function editorReducer(state: EditorState, action: EditorAction): EditorState {
@@ -630,9 +634,7 @@ export function LinkedInBannerApp() {
   return (
     <div className="container flex max-w-[min(100%,96rem)] flex-col gap-8 py-6 pb-16">
       <header className="flex flex-col gap-2">
-        <h1 className="font-semibold text-2xl tracking-tight md:text-3xl">
-          LinkedIn banner maker
-        </h1>
+        <h1 className={toolHeroTitleClassName}>LinkedIn banner maker</h1>
         <p className="max-w-2xl text-muted-foreground text-sm leading-relaxed">
           Pick a LinkedIn-friendly size, choose a layout, set colors and copy,
           then download a PNG, JPEG, or WebP you can upload as your profile or
@@ -643,7 +645,7 @@ export function LinkedInBannerApp() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)] lg:items-start">
         <div className="flex flex-col gap-6 rounded-xl border border-border/80 bg-card/30 p-4 shadow-xs md:p-6">
           <section className="flex flex-col gap-3">
-            <h2 className="font-medium text-sm">Format</h2>
+            <ToolSectionHeading>Format</ToolSectionHeading>
             <Select
               value={state.formatId}
               onValueChange={(v) =>
@@ -675,7 +677,7 @@ export function LinkedInBannerApp() {
           <Separator />
 
           <section className="flex flex-col gap-3">
-            <h2 className="font-medium text-sm">Template</h2>
+            <ToolSectionHeading>Template</ToolSectionHeading>
             <Select
               value={state.templateId}
               onValueChange={(v) =>
@@ -715,7 +717,7 @@ export function LinkedInBannerApp() {
           <Separator />
 
           <section className="flex flex-col gap-4">
-            <h2 className="font-medium text-sm">Content</h2>
+            <ToolSectionHeading>Content</ToolSectionHeading>
             <div className="flex flex-col gap-2">
               <Label htmlFor="li-banner-tag">Tag</Label>
               <div className="flex max-w-lg items-start gap-2">
@@ -789,7 +791,7 @@ export function LinkedInBannerApp() {
           <Separator />
 
           <section className="flex flex-col gap-4">
-            <h2 className="font-medium text-sm">Background</h2>
+            <ToolSectionHeading>Background</ToolSectionHeading>
             <div className="flex flex-col gap-2">
               <Label>Style</Label>
               <Select
@@ -1015,7 +1017,7 @@ export function LinkedInBannerApp() {
           <Separator />
 
           <section className="flex flex-col gap-4">
-            <h2 className="font-medium text-sm">Text & texture</h2>
+            <ToolSectionHeading>Text & texture</ToolSectionHeading>
             <div className="flex flex-col gap-2">
               <Label>Text contrast</Label>
               <Select
@@ -1107,7 +1109,7 @@ export function LinkedInBannerApp() {
           <Separator />
 
           <section className="flex flex-col gap-3">
-            <h2 className="font-medium text-sm">Logo (optional)</h2>
+            <ToolSectionHeading>Logo (optional)</ToolSectionHeading>
             <input
               ref={logoInputRef}
               type="file"
@@ -1153,7 +1155,7 @@ export function LinkedInBannerApp() {
 
         <div className="flex min-w-0 flex-col gap-4 lg:sticky lg:top-6">
           <div className="flex flex-col gap-3">
-            <h2 className="font-medium text-sm">Preview</h2>
+            <ToolSectionHeading>Preview</ToolSectionHeading>
             <div
               ref={previewWrapRef}
               className={cn(
@@ -1172,7 +1174,7 @@ export function LinkedInBannerApp() {
           </div>
 
           <section className="flex flex-col gap-4 rounded-xl border border-border/80 bg-card/30 p-4 shadow-xs md:p-5">
-            <h2 className="font-medium text-sm">Export</h2>
+            <ToolSectionHeading>Export</ToolSectionHeading>
             <div className="flex flex-col gap-2">
               <Label>File type</Label>
               <Select
