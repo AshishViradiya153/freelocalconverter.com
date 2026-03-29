@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { FooterBrandPretextMesh } from "@/components/layouts/footer-brand-pretext-mesh";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
@@ -90,17 +91,7 @@ export async function SiteFooter() {
             </div>
 
             <div className="flex w-full min-w-0 flex-col gap-8 border-brutal-canvas-foreground/15 border-t-4 bg-brutal-canvas px-4 py-8 text-brutal-canvas-foreground sm:gap-10 md:px-10 md:py-10 lg:px-12">
-              <p
-                className={cn(
-                  "w-full min-w-0 text-balance font-black font-mono uppercase leading-[0.9] tracking-tighter text-brutal-canvas-foreground",
-                  "text-[clamp(2.25rem,min(14vw,12rem),7.5rem)]",
-                  "origin-left transition-[transform,letter-spacing] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                  "[@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5 [@media(hover:hover)_and_(pointer:fine)]:hover:translate-x-1 [@media(hover:hover)_and_(pointer:fine)]:hover:tracking-wide",
-                  "motion-reduce:transition-none motion-reduce:hover:translate-x-0 motion-reduce:hover:translate-y-0 motion-reduce:hover:tracking-tighter",
-                )}
-              >
-                {tFooter("brandStamp")}
-              </p>
+              <FooterBrandPretextMesh />
 
               <div className="flex flex-col gap-6 border-brutal-canvas-foreground/15 border-t pt-8 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
                 <p className="max-w-2xl font-bold text-brutal-canvas-foreground/90 text-xs leading-relaxed md:text-sm">
