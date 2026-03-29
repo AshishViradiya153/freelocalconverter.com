@@ -57,6 +57,7 @@ function getLocalizedLabel(
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
+    | "imageRemoveBackground"
     | "heicToJpg"
     | "linkedinBanner"
     | "colorPaletteGenerator"
@@ -64,7 +65,13 @@ function getLocalizedLabel(
     | "meshGradientGenerator"
     | "trendingPalettes"
     | "trendingGradients"
-    | "trendingMeshGradients",
+    | "trendingMeshGradients"
+    | "guides"
+    | "tools"
+    | "blog"
+    | "privacy"
+    | "terms"
+    | "contactUs",
 ) {
   switch (key) {
     case "csvViewer":
@@ -762,6 +769,21 @@ function getLocalizedLabel(
         tr: "Boyutlandir/Kirp + Donustur",
         zh: "调整大小/裁剪 + 转换",
       });
+    case "imageRemoveBackground":
+      return localizedText(locale, {
+        en: "Remove background",
+        de: "Hintergrund entfernen",
+        es: "Quitar fondo",
+        fr: "Supprimer le fond",
+        it: "Rimuovi sfondo",
+        ja: "背景削除",
+        ko: "배경 제거",
+        nl: "Achtergrond verwijderen",
+        pt: "Remover fundo",
+        ru: "Удалить фон",
+        tr: "Arka plani kaldir",
+        zh: "去除背景",
+      });
     case "heicToJpg":
       return localizedText(locale, {
         en: "HEIC to JPG/PNG",
@@ -871,6 +893,96 @@ function getLocalizedLabel(
         tr: "Trend mesh gradyanları",
         zh: "热门网格渐变",
       });
+    case "guides":
+      return localizedText(locale, {
+        en: "Guides",
+        de: "Leitfaden",
+        es: "Guias",
+        fr: "Guides",
+        it: "Guide",
+        ja: "ガイド",
+        ko: "가이드",
+        nl: "Gidsen",
+        pt: "Guias",
+        ru: "Руководства",
+        tr: "Rehberler",
+        zh: "指南",
+      });
+    case "tools":
+      return localizedText(locale, {
+        en: "Tools",
+        de: "Werkzeuge",
+        es: "Herramientas",
+        fr: "Outils",
+        it: "Strumenti",
+        ja: "ツール",
+        ko: "도구",
+        nl: "Tools",
+        pt: "Ferramentas",
+        ru: "Инструменты",
+        tr: "Araclar",
+        zh: "工具",
+      });
+    case "blog":
+      return localizedText(locale, {
+        en: "Blog",
+        de: "Blog",
+        es: "Blog",
+        fr: "Blog",
+        it: "Blog",
+        ja: "ブログ",
+        ko: "블로그",
+        nl: "Blog",
+        pt: "Blog",
+        ru: "Блог",
+        tr: "Blog",
+        zh: "博客",
+      });
+    case "privacy":
+      return localizedText(locale, {
+        en: "Privacy",
+        de: "Datenschutz",
+        es: "Privacidad",
+        fr: "Confidentialite",
+        it: "Privacy",
+        ja: "プライバシー",
+        ko: "개인정보",
+        nl: "Privacy",
+        pt: "Privacidade",
+        ru: "Конфиденциальность",
+        tr: "Gizlilik",
+        zh: "隐私",
+      });
+    case "terms":
+      return localizedText(locale, {
+        en: "Terms",
+        de: "AGB",
+        es: "Terminos",
+        fr: "Conditions",
+        it: "Termini",
+        ja: "利用規約",
+        ko: "약관",
+        nl: "Voorwaarden",
+        pt: "Termos",
+        ru: "Условия",
+        tr: "Kosullar",
+        zh: "条款",
+      });
+    case "contactUs":
+      return localizedText(locale, {
+        en: "Contact us",
+        de: "Kontakt",
+        es: "Contacto",
+        fr: "Contact",
+        it: "Contattaci",
+        ja: "お問い合わせ",
+        ko: "문의",
+        nl: "Contact",
+        pt: "Contato",
+        ru: "Связаться",
+        tr: "Iletisim",
+        zh: "联系我们",
+      });
   }
 }
 
@@ -930,6 +1042,7 @@ function getLocalizedDescription(
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
+    | "imageRemoveBackground"
     | "heicToJpg"
     | "linkedinBanner"
     | "colorPaletteGenerator"
@@ -937,7 +1050,14 @@ function getLocalizedDescription(
     | "meshGradientGenerator"
     | "trendingPalettes"
     | "trendingGradients"
-    | "trendingMeshGradients",
+    | "trendingMeshGradients"
+    | "groupCompany"
+    | "guides"
+    | "tools"
+    | "blog"
+    | "privacy"
+    | "terms"
+    | "contactUs",
 ) {
   switch (key) {
     case "groupConverters":
@@ -1060,6 +1180,111 @@ function getLocalizedDescription(
         tr: "Renk araclari: olusturucular ve trend galeriler.",
         zh: "颜色工具：生成器和热门图库。",
       });
+    case "groupCompany":
+      return localizedText(locale, {
+        en: "Docs, hubs, and key pages.",
+        de: "Dokumentation, Hubs und wichtige Seiten.",
+        es: "Documentacion, hubs y paginas clave.",
+        fr: "Documentation, hubs et pages cles.",
+        it: "Documentazione, hub e pagine chiave.",
+        ja: "ドキュメント、ハブ、主要ページ。",
+        ko: "문서, 허브, 주요 페이지.",
+        nl: "Documentatie, hubs en belangrijke pagina's.",
+        pt: "Documentacao, hubs e paginas principais.",
+        ru: "Документация, разделы и ключевые страницы.",
+        tr: "Belgeler, merkezler ve onemli sayfalar.",
+        zh: "文档、聚合页与关键页面。",
+      });
+    case "guides":
+      return localizedText(locale, {
+        en: "Practical guides for CSV workflows.",
+        de: "Praktische Leitfaden fur CSV-Workflows.",
+        es: "Guias practicas para flujos de trabajo con CSV.",
+        fr: "Guides pratiques pour les workflows CSV.",
+        it: "Guide pratiche per i flussi di lavoro CSV.",
+        ja: "CSVワークフロー向けの実践ガイド。",
+        ko: "CSV 워크플로 실용 가이드.",
+        nl: "Praktische gidsen voor CSV-workflows.",
+        pt: "Guias praticos para fluxos de trabalho com CSV.",
+        ru: "Практические руководства по работе с CSV.",
+        tr: "CSV is akislari icin pratik rehberler.",
+        zh: "CSV 工作流的实用指南。",
+      });
+    case "tools":
+      return localizedText(locale, {
+        en: "Browse hubs and landing pages.",
+        de: "Hubs und Landingpages durchsuchen.",
+        es: "Explora hubs y paginas de aterrizaje.",
+        fr: "Parcourir les hubs et pages d'atterrissage.",
+        it: "Sfoglia hub e landing page.",
+        ja: "ハブとランディングページを見る。",
+        ko: "허브와 랜딩 페이지 둘러보기.",
+        nl: "Hubs en landingspagina's bekijken.",
+        pt: "Navegue por hubs e paginas iniciais.",
+        ru: "Обзор разделов и посадочных страниц.",
+        tr: "Merkezleri ve acilis sayfalarini gezin.",
+        zh: "浏览工具聚合与落地页。",
+      });
+    case "blog":
+      return localizedText(locale, {
+        en: "Guides and product insights.",
+        de: "Leitfaden und Produkteinblicke.",
+        es: "Guias e ideas sobre el producto.",
+        fr: "Guides et informations produit.",
+        it: "Guide e approfondimenti sul prodotto.",
+        ja: "ガイドとプロダクトの洞察。",
+        ko: "가이드와 제품 인사이트.",
+        nl: "Gidsen en productinzichten.",
+        pt: "Guias e insights do produto.",
+        ru: "Руководства и заметки о продукте.",
+        tr: "Rehberler ve urun icgoruleri.",
+        zh: "指南与产品见解。",
+      });
+    case "privacy":
+      return localizedText(locale, {
+        en: "How we handle data and privacy.",
+        de: "Wie wir Daten und Datenschutz handhaben.",
+        es: "Como tratamos los datos y la privacidad.",
+        fr: "Comment nous traitons les donnees et la vie privee.",
+        it: "Come gestiamo dati e privacy.",
+        ja: "データとプライバシーの扱い。",
+        ko: "데이터와 개인정보 처리 방식.",
+        nl: "Hoe we omgaan met data en privacy.",
+        pt: "Como tratamos dados e privacidade.",
+        ru: "Как мы обрабатываем данные и конфиденциальность.",
+        tr: "Veri ve gizliligi nasil ele aliyoruz.",
+        zh: "我们如何处理数据与隐私。",
+      });
+    case "terms":
+      return localizedText(locale, {
+        en: "Terms and conditions.",
+        de: "Allgemeine Geschaftsbedingungen.",
+        es: "Terminos y condiciones.",
+        fr: "Conditions generales.",
+        it: "Termini e condizioni.",
+        ja: "利用規約。",
+        ko: "이용 약관.",
+        nl: "Algemene voorwaarden.",
+        pt: "Termos e condicoes.",
+        ru: "Условия использования.",
+        tr: "Kosullar ve sartlar.",
+        zh: "条款与条件。",
+      });
+    case "contactUs":
+      return localizedText(locale, {
+        en: "Questions, feedback, and support by email.",
+        de: "Fragen, Feedback und Support per E-Mail.",
+        es: "Preguntas, comentarios y soporte por correo.",
+        fr: "Questions, retours et support par e-mail.",
+        it: "Domande, feedback e supporto via email.",
+        ja: "メールでの質問・フィードバック・サポート。",
+        ko: "이메일로 문의, 피드백 및 지원.",
+        nl: "Vragen, feedback en support per e-mail.",
+        pt: "Duvidas, feedback e suporte por e-mail.",
+        ru: "Вопросы, отзывы и поддержка по электронной почте.",
+        tr: "E-posta ile soru, geri bildirim ve destek.",
+        zh: "通过邮件提问、反馈与获取支持。",
+      });
     default:
       return localizedText(locale, {
         en: {
@@ -1121,6 +1346,8 @@ function getLocalizedDescription(
           imageCompressor: "Compress images locally in bulk.",
           imageConverter: "Convert to WebP, AVIF, JPG, or PNG.",
           imageResize: "Resize, crop, convert, and rename images in bulk.",
+          imageRemoveBackground:
+            "Remove backgrounds with on-device AI; download transparent PNG.",
           heicToJpg: "Convert HEIC and HEIF photos to JPG or PNG.",
           linkedinBanner:
             "Design LinkedIn profile and page banners in standard sizes; download PNG, JPEG, or WebP.",
@@ -1145,7 +1372,8 @@ function getLocalizedGroupTitle(
     | "pdf"
     | "video"
     | "image"
-    | "color",
+    | "color"
+    | "company",
 ) {
   switch (key) {
     case "converters":
@@ -1254,6 +1482,21 @@ function getLocalizedGroupTitle(
         ru: "Цвет",
         tr: "Renk",
         zh: "颜色",
+      });
+    case "company":
+      return localizedText(locale, {
+        en: "Learn & product",
+        de: "Lernen & Produkt",
+        es: "Aprender y producto",
+        fr: "Apprendre et produit",
+        it: "Impara e prodotto",
+        ja: "学ぶ・プロダクト",
+        ko: "학습 및 제품",
+        nl: "Leren en product",
+        pt: "Aprender e produto",
+        ru: "Обучение и продукт",
+        tr: "Ogren ve urun",
+        zh: "学习与产品",
       });
   }
 }
@@ -1549,6 +1792,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           description: getLocalizedDescription(safeLocale, "imageResize"),
         },
         {
+          href: "/image-remove-background",
+          label: getLocalizedLabel(safeLocale, "imageRemoveBackground"),
+          description: getLocalizedDescription(safeLocale, "imageRemoveBackground"),
+        },
+        {
           href: "/heic-to-jpg",
           label: getLocalizedLabel(safeLocale, "heicToJpg"),
           description: getLocalizedDescription(safeLocale, "heicToJpg"),
@@ -1603,6 +1851,38 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/gradients/best",
           label: getLocalizedLabel(safeLocale, "trendingGradients"),
           description: getLocalizedDescription(safeLocale, "trendingGradients"),
+        },
+      ],
+    },
+    {
+      id: "company",
+      title: getLocalizedGroupTitle(safeLocale, "company"),
+      description: getLocalizedDescription(safeLocale, "groupCompany"),
+      links: [
+        {
+          href: "/guides",
+          label: getLocalizedLabel(safeLocale, "guides"),
+          description: getLocalizedDescription(safeLocale, "guides"),
+        },
+        {
+          href: "/blog",
+          label: getLocalizedLabel(safeLocale, "blog"),
+          description: getLocalizedDescription(safeLocale, "blog"),
+        },
+        {
+          href: "/contact",
+          label: getLocalizedLabel(safeLocale, "contactUs"),
+          description: getLocalizedDescription(safeLocale, "contactUs"),
+        },
+        {
+          href: "/privacy",
+          label: getLocalizedLabel(safeLocale, "privacy"),
+          description: getLocalizedDescription(safeLocale, "privacy"),
+        },
+        {
+          href: "/terms",
+          label: getLocalizedLabel(safeLocale, "terms"),
+          description: getLocalizedDescription(safeLocale, "terms"),
         },
       ],
     },

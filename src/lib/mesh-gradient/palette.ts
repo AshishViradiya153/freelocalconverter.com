@@ -30,9 +30,6 @@ export interface HarmoniousMeshPalette {
   circleColors: string[];
 }
 
-/**
- * Port of Gradii `handlePaletteChange` color logic: random harmonic schemes in HSL → hex stops + contrasting background.
- */
 export function generateHarmoniousMeshPalette(
   random: () => number = Math.random,
 ): HarmoniousMeshPalette {

@@ -63,6 +63,7 @@ export const STATIC_SITEMAP_PATH_SEGMENTS: readonly string[] = [
   "/terms",
   "/blog",
   "/guides",
+  "/contact",
   "/tools",
 ];
 

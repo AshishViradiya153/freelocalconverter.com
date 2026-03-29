@@ -19,7 +19,6 @@ interface MeshGradientPositionControlProps {
   className?: string;
 }
 
-/** Port of Gradii `PositionControl`: drag in a mini frame; optional snap-to-grid (20px dots). */
 export function MeshGradientPositionControl({
   value,
   onChange,
