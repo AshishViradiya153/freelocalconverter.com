@@ -37,8 +37,8 @@ export default async function OpenApiViewerPage({
         <ApiWebDevHelpersApp
           initialTool="openapi"
           showToolSwitcher={false}
-          title="OpenAPI/Swagger viewer"
-          subtitle="Browse OpenAPI paths, operations, request payloads, and response contracts."
+          title="OpenAPI/Swagger viewer & editor"
+          subtitle="Paste or load YAML/JSON, edit the spec, then browse paths, operations, and request/response contracts."
         />
       </Suspense>
     </Shell>

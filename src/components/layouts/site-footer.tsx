@@ -22,12 +22,12 @@ function FooterLinkItem({ href, label }: FooterLink) {
       <Link
         href={href}
         className={cn(
-          "block rounded-none border-2 border-transparent px-2 py-1.5 font-mono text-muted-foreground text-sm transition-colors",
-          "hover:border-border hover:bg-primary hover:text-primary-foreground",
+          "flex w-full min-w-0 items-center border-2 border-border bg-background px-3 py-2.5 font-bold text-foreground text-sm uppercase tracking-tighter transition-colors",
+          "hover:bg-primary hover:text-primary-foreground",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         )}
       >
-        <span className="block truncate font-bold tracking-tight">{label}</span>
+        <span className="truncate">{label}</span>
       </Link>
     </li>
   );
@@ -36,10 +36,10 @@ function FooterLinkItem({ href, label }: FooterLink) {
 function FooterGroupColumn({ title, links }: FooterGroup) {
   return (
     <section className="flex min-w-0 flex-col gap-3">
-      <h3 className="ml-2 font-black font-mono text-[11px] text-foreground uppercase tracking-widest">
+      <h3 className="border-border border-b-2 pb-2 font-black text-[11px] text-foreground uppercase tracking-widest">
         {title}
       </h3>
-      <ul className="flex flex-col gap-1">
+      <ul className="flex flex-col gap-2">
         {links.map((l) => (
           <FooterLinkItem key={`${l.href}-${l.label}`} {...l} />
         ))}
@@ -61,52 +61,62 @@ export async function SiteFooter() {
     .filter((group) => group.links.length > 0);
 
   return (
-    <footer className="bg-background">
-      <div className="container pt-12 pb-12 md:pb-14">
-        {/* <header className="flex max-w-3xl flex-col gap-3">
-          <p className="font-mono font-black text-muted-foreground text-[11px] uppercase tracking-widest">
-            {tFooter("kicker")}
-          </p>
-          <h2 className="font-black text-2xl tracking-tighter uppercase md:text-3xl">
-            {tFooter("title", { name: siteConfig.name })}
-          </h2>
-        </header> */}
+    <footer className="bg-background font-mono text-foreground [-webkit-font-smoothing:auto]">
+      <div className="mx-auto w-full max-w-[1600px] px-3 py-6 sm:px-4 sm:py-8 md:px-8 md:py-10">
+        <div className="min-w-0 pr-2 pb-2 sm:pr-2.5 sm:pb-2.5 md:pr-3 md:pb-3">
+          <div className="flex w-full min-w-0 flex-col border-4 border-border bg-background shadow-brutal max-sm:shadow-brutal-sm">
+            <header className="shrink-0 border-border border-b-4 bg-primary p-4 text-primary-foreground sm:p-6 md:p-8 lg:p-10">
+              <p className="font-black text-[11px] uppercase tracking-widest opacity-95">
+                {tFooter("kicker")}
+              </p>
+              <h2 className="mt-3 text-balance wrap-break-word font-black text-2xl uppercase leading-[0.95] tracking-tighter sm:mt-4 sm:text-3xl md:text-4xl">
+                {tFooter("title", { name: siteConfig.name })}
+              </h2>
+              <p className="mt-4 max-w-3xl wrap-break-word font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-5 md:text-base">
+                {tFooter("subtitle")}
+              </p>
+            </header>
 
-        <div className="grid gap-8 border-border border-t-0 pt-0 md:grid-cols-2 md:gap-10 lg:grid-cols-5">
-          {groups.map((g) => (
-            <FooterGroupColumn key={g.title} title={g.title} links={g.links} />
-          ))}
-        </div>
+            <div className="bg-background px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10 lg:px-12">
+              <div className="grid gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-5">
+                {groups.map((g) => (
+                  <FooterGroupColumn
+                    key={g.title}
+                    title={g.title}
+                    links={g.links}
+                  />
+                ))}
+              </div>
+            </div>
 
-        <div className="mt-10 flex flex-col gap-6 border-border border-t-4 pt-8 font-mono md:flex-row md:items-start md:justify-between md:gap-8">
-          <div className="flex max-w-2xl flex-col gap-4">
-            <p className="text-muted-foreground text-xs leading-relaxed">
-              {tFooter("processingNotice")}{" "}
-              <Link
-                className="inline-block rounded-none border-2 border-transparent px-1.5 py-0.5 font-bold text-foreground transition-colors hover:border-border hover:bg-primary hover:text-primary-foreground"
-                href="/privacy"
-              >
-                {tNav("privacy")}
-              </Link>{" "}
-              |{" "}
-              <Link
-                className="inline-block rounded-none border-2 border-transparent px-1.5 py-0.5 font-bold text-foreground transition-colors hover:border-border hover:bg-primary hover:text-primary-foreground"
-                href="/terms"
-              >
-                {tNav("terms")}
-              </Link>
-            </p>
-            <p className="font-bold font-mono text-muted-foreground text-sm leading-relaxed">
-              {tFooter("subtitle")}
-            </p>
+            <div className="flex flex-col gap-6 border-border border-t-4 bg-brutal-canvas px-4 py-6 text-brutal-canvas-foreground sm:flex-row sm:items-start sm:justify-between sm:gap-8 md:px-10 md:py-8 lg:px-12">
+              <p className="max-w-2xl font-bold text-brutal-canvas-foreground/90 text-xs leading-relaxed md:text-sm">
+                {tFooter("processingNotice")}{" "}
+                <Link
+                  className="ms-0.5 inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
+                  href="/privacy"
+                >
+                  {tNav("privacy")}
+                </Link>{" "}
+                <span className="text-brutal-canvas-foreground/40" aria-hidden>
+                  |
+                </span>{" "}
+                <Link
+                  className="inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
+                  href="/terms"
+                >
+                  {tNav("terms")}
+                </Link>
+              </p>
+
+              <p className="shrink-0 font-black text-[10px] text-brutal-canvas-foreground/70 uppercase tracking-widest">
+                {tFooter("copyright", {
+                  year: siteConfig.copyrightYear,
+                  name: siteConfig.name,
+                })}
+              </p>
+            </div>
           </div>
-
-          <p className="font-black text-[10px] text-muted-foreground uppercase tracking-widest">
-            {tFooter("copyright", {
-              year: siteConfig.copyrightYear,
-              name: siteConfig.name,
-            })}
-          </p>
         </div>
       </div>
     </footer>
