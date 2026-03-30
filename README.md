@@ -4,7 +4,7 @@
 
 **Free, privacy-friendly utilities in the browser** — CSV, JSON, Parquet, PDF, images, and dozens of other tools. Workflows run **entirely on the client** so your files often never leave your device.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](./LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
@@ -135,6 +135,10 @@ scripts/           # Build and maintenance scripts
 
 Contributions are welcome.
 
+By submitting a pull request, you agree to the **Contributor Copyright Assignment Agreement**
+in [`docs/legal/CONTRIBUTOR-COPYRIGHT-ASSIGNMENT.md`](./docs/legal/CONTRIBUTOR-COPYRIGHT-ASSIGNMENT.md).
+If you do not agree, please do not contribute code.
+
 1. **Fork** the repository and create a branch from `main` (or the default branch).
 2. **Make changes** with clear commits.
 3. **Run checks** before opening a PR:
@@ -159,7 +163,7 @@ If you discover a security issue, please **do not** open a public issue. Contact
 
 ## License
 
-This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file.
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0-only)** — see the [LICENSE](./LICENSE) file.
 
 `"private": true` in `package.json` only prevents accidental publishing to the npm registry; it does **not** stop you from hosting a public GitHub repository.
 
