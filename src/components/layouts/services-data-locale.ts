@@ -38,6 +38,9 @@ function getLocalizedLabel(
     | "uuidGenerator"
     | "regexTester"
     | "base64Converter"
+    | "celsiusFahrenheitConverter"
+    | "decimalFractionConverter"
+    | "degreesRadiansConverter"
     | "unixTimestampConverter"
     | "curlConverter"
     | "fetchConverter"
@@ -57,6 +60,7 @@ function getLocalizedLabel(
     | "bulkPdfWatermark"
     | "videoCompressor"
     | "audioConverter"
+    | "youtubeToMp3"
     | "subtitleConverter"
     | "imageCompressor"
     | "imageConverter"
@@ -517,6 +521,51 @@ function getLocalizedLabel(
         tr: "Unix zaman damgasi donusturucu",
         zh: "Unix 时间戳转换器",
       });
+    case "celsiusFahrenheitConverter":
+      return localizedText(locale, {
+        en: "Celsius ↔ Fahrenheit",
+        de: "Celsius ↔ Fahrenheit",
+        es: "Celsius ↔ Fahrenheit",
+        fr: "Celsius ↔ Fahrenheit",
+        it: "Celsius ↔ Fahrenheit",
+        ja: "摂氏 ↔ 華氏",
+        ko: "섭씨 ↔ 화씨",
+        nl: "Celsius ↔ Fahrenheit",
+        pt: "Celsius ↔ Fahrenheit",
+        ru: "Цельсий ↔ Фаренгейт",
+        tr: "Celsius ↔ Fahrenheit",
+        zh: "摄氏 ↔ 华氏",
+      });
+    case "decimalFractionConverter":
+      return localizedText(locale, {
+        en: "Decimal ↔ fraction",
+        de: "Dezimal ↔ Bruch",
+        es: "Decimal ↔ fracción",
+        fr: "Décimal ↔ fraction",
+        it: "Decimale ↔ frazione",
+        ja: "小数 ↔ 分数",
+        ko: "소수 ↔ 분수",
+        nl: "Decimaal ↔ breuk",
+        pt: "Decimal ↔ fração",
+        ru: "Десятичная ↔ дробь",
+        tr: "Ondalik ↔ kesir",
+        zh: "小数 ↔ 分数",
+      });
+    case "degreesRadiansConverter":
+      return localizedText(locale, {
+        en: "Degrees ↔ radians",
+        de: "Grad ↔ Radiant",
+        es: "Grados ↔ radianes",
+        fr: "Degrés ↔ radians",
+        it: "Gradi ↔ radianti",
+        ja: "度 ↔ ラジアン",
+        ko: "도 ↔ 라디안",
+        nl: "Graden ↔ radialen",
+        pt: "Graus ↔ radianos",
+        ru: "Градусы ↔ радианы",
+        tr: "Derece ↔ radyan",
+        zh: "度 ↔ 弧度",
+      });
     case "curlConverter":
       return localizedText(locale, {
         en: "cURL Converter",
@@ -791,6 +840,26 @@ function getLocalizedLabel(
         he: "ממיר אודיו",
         az: "Audio cevirici",
         el: "Μετατροπέας ήχου",
+      });
+    case "youtubeToMp3":
+      return localizedText(locale, {
+        en: "YouTube to MP3 converter",
+        de: "YouTube zu MP3",
+        es: "YouTube a MP3",
+        fr: "YouTube vers MP3",
+        it: "YouTube in MP3",
+        ja: "YouTubeをMP3へ",
+        ko: "YouTube MP3",
+        nl: "YouTube naar MP3",
+        pt: "YouTube para MP3",
+        ru: "YouTube в MP3",
+        tr: "YouTube MP3",
+        zh: "YouTube 转 MP3",
+        ar: "يوتيوب إلى MP3",
+        fa: "یوتیوب به MP3",
+        he: "YouTube ל-MP3",
+        az: "YouTube MP3",
+        el: "YouTube σε MP3",
       });
     case "subtitleConverter":
       return localizedText(locale, {
@@ -1132,6 +1201,9 @@ function getLocalizedDescription(
     | "uuidGenerator"
     | "regexTester"
     | "base64Converter"
+    | "celsiusFahrenheitConverter"
+    | "decimalFractionConverter"
+    | "degreesRadiansConverter"
     | "unixTimestampConverter"
     | "curlConverter"
     | "fetchConverter"
@@ -1151,6 +1223,7 @@ function getLocalizedDescription(
     | "bulkPdfWatermark"
     | "videoCompressor"
     | "audioConverter"
+    | "youtubeToMp3"
     | "subtitleConverter"
     | "imageCompressor"
     | "imageConverter"
@@ -1281,6 +1354,26 @@ function getLocalizedDescription(
         ru: "Конвертируйте аудио или извлекайте звук из видео локально в браузере.",
         tr: "Ses formatlarini donusturun veya videodan sesi yerelde ayiklayin.",
         zh: "在浏览器本地转换音频格式或从视频提取音频。",
+      });
+    case "youtubeToMp3":
+      return localizedText(locale, {
+        en: "Extract MP3 from video files on your device—local in your browser, no uploads. Does not download from URLs.",
+        de: "MP3 aus Videodateien auf Ihrem Geraet extrahieren—lokal im Browser, ohne Upload. Laedt keine URLs herunter.",
+        es: "Extrae MP3 de archivos de video en tu dispositivo: local en el navegador, sin subidas. No descarga desde URLs.",
+        fr: "Extrayez l'MP3 des fichiers video sur votre appareil—localement dans le navigateur, sans envoi. Ne telecharge pas depuis des URL.",
+        it: "Estrai MP3 da file video sul dispositivo—in locale nel browser, nessun caricamento. Non scarica da URL.",
+        ja: "端末上の動画からMP3を抽出。ブラウザ内でローカル処理、アップロードなし。URLからは取得しません。",
+        ko: "기기의 동영상 파일에서 MP3 추출—브라우저에서 로컬 처리, 업로드 없음. URL에서 받아오지 않습니다.",
+        nl: "Haal MP3 uit videobestanden op je apparaat—lokaal in je browser, geen uploads. Haalt niet van URLs.",
+        pt: "Extraia MP3 de arquivos de video no seu dispositivo—local no navegador, sem uploads. Nao baixa de URLs.",
+        ru: "Извлекайте MP3 из видеофайлов на устройстве—локально в браузере, без загрузки на сервер. Не скачивает по URL.",
+        tr: "Cihazinizdaki video dosyalarindan MP3 cikarin—tarayicide yerel, yukleme yok. URL'lerden indirmez.",
+        zh: "从本机视频文件提取 MP3，浏览器本地处理，不上传。不从网址下载。",
+        ar: "استخراج MP3 من ملفات الفيديو على جهازك—محليا في المتصفح دون رفع. لا يحمّل من عناوين URL.",
+        fa: "استخراج MP3 از فایل ویدیو روی دستگاهتان—به صورت محلی در مرورگر، بدون آپلود. از URL دانلود نمی‌کند.",
+        he: "חילוץ MP3 מקבצי וידאו במכשיר—מקומי בדפדפן, ללא העלאה. לא מוריד מכתובות URL.",
+        az: "Cihazinizdaki video fayllarindan MP3 cixarin—brauzerde lokal, yukleme yoxdur. URL-lərdən endirmir.",
+        el: "Εξαγετε MP3 απο αρχεια βιντεο στη συσκευη σας—τοπικα στον browser, χωρις uploads. Δεν κατεβαζει απο URL.",
       });
     case "subtitleConverter":
       return localizedText(locale, {
@@ -1477,6 +1570,12 @@ function getLocalizedDescription(
             "Encode UTF-8 or files to Base64; decode to text or download binary.",
           unixTimestampConverter:
             "Convert epoch seconds or milliseconds to human dates and back with IANA timezones locally.",
+          celsiusFahrenheitConverter:
+            "Convert °C and °F both ways in the browser.",
+          decimalFractionConverter:
+            "Convert decimals to simplified fractions and fractions to decimals.",
+          degreesRadiansConverter:
+            "Convert degrees and radians for angles and trig.",
           curlConverter:
             "Convert cURL request snippets to fetch, axios, or Python.",
           fetchConverter: "Convert fetch snippets to cURL, axios, or Python.",
@@ -1755,6 +1854,30 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           ),
         },
         {
+          href: "/celsius-fahrenheit-converter",
+          label: getLocalizedLabel(safeLocale, "celsiusFahrenheitConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "celsiusFahrenheitConverter",
+          ),
+        },
+        {
+          href: "/decimal-fraction-converter",
+          label: getLocalizedLabel(safeLocale, "decimalFractionConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "decimalFractionConverter",
+          ),
+        },
+        {
+          href: "/degrees-radians-converter",
+          label: getLocalizedLabel(safeLocale, "degreesRadiansConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "degreesRadiansConverter",
+          ),
+        },
+        {
           href: "/curl-converter",
           label: getLocalizedLabel(safeLocale, "curlConverter"),
           description: getLocalizedDescription(safeLocale, "curlConverter"),
@@ -1946,6 +2069,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/audio-convert",
           label: getLocalizedLabel(safeLocale, "audioConverter"),
           description: getLocalizedDescription(safeLocale, "audioConverter"),
+        },
+        {
+          href: "/youtube-to-mp3",
+          label: getLocalizedLabel(safeLocale, "youtubeToMp3"),
+          description: getLocalizedDescription(safeLocale, "youtubeToMp3"),
         },
         {
           href: "/srt-to-vtt",

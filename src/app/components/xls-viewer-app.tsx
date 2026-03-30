@@ -256,7 +256,7 @@ export function XlsViewerApp() {
 
   React.useLayoutEffect(() => {
     if (sheetNames.length <= 1) return;
-    activeSheetTabRef.current?.scrollIntoView({
+    activeSheetTabRef.current?.scrollIntoView?.({
       behavior: "smooth",
       block: "nearest",
       inline: "center",
@@ -375,13 +375,11 @@ export function XlsViewerApp() {
                 windowedDirtyRef={windowedDirtyRef}
               />
               {canEditXlsMeta && sheetNames.length > 1 ? (
-                <nav
-                  aria-label={t("sheetLabel")}
-                  className="border-border bg-muted/30 shrink-0 border-t"
-                >
+                <div className="border-border bg-muted/30 shrink-0 border-t">
                   <div
-                    className="flex gap-1 overflow-x-auto px-2 py-2 [scrollbar-width:thin]"
                     role="tablist"
+                    aria-label={t("sheetLabel")}
+                    className="flex gap-1 overflow-x-auto px-2 py-2 [scrollbar-width:thin]"
                   >
                     {sheetNames.map((name, i) => {
                       const label =
@@ -414,7 +412,7 @@ export function XlsViewerApp() {
                       );
                     })}
                   </div>
-                </nav>
+                </div>
               ) : null}
             </div>
           ) : null}

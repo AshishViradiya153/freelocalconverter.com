@@ -731,6 +731,8 @@
     "groupColorDescription": "颜色工具：生成器和热门图库。",
     "audioConverterLabel": "Audio converter",
     "audioConverterDesc": "Convert audio formats or extract audio from video locally in your browser.",
+    "youtubeToMp3Label": "YouTube to MP3 converter",
+    "youtubeToMp3Desc": "Extract MP3 from video files on your device—local in your browser, no uploads. Does not download from URLs.",
     "subtitleConverterLabel": "SRT to VTT converter",
     "subtitleConverterDesc": "Convert subtitles locally: SRT ⇄ WebVTT (VTT).",
     "csvViewerLabel": "CSV viewer & editor",
@@ -774,6 +776,12 @@
     "base64ConverterDesc": "Encode UTF-8 or files to Base64; decode to text or download binary.",
     "unixTimestampConverterLabel": "Unix timestamp converter",
     "unixTimestampConverterDesc": "Convert epoch seconds or milliseconds to human dates and back with IANA timezones locally.",
+    "celsiusFahrenheitConverterLabel": "Celsius ↔ Fahrenheit",
+    "celsiusFahrenheitConverterDesc": "Convert °C and °F both ways in the browser.",
+    "decimalFractionConverterLabel": "Decimal ↔ fraction",
+    "decimalFractionConverterDesc": "Convert decimals to simplified fractions and fractions to decimals.",
+    "degreesRadiansConverterLabel": "Degrees ↔ radians",
+    "degreesRadiansConverterDesc": "Convert degrees and radians for angles and trig.",
     "curlConverterLabel": "cURL转换器",
     "curlConverterDesc": "将cURL请求片段转换为fetch/axios/Python。",
     "fetchConverterLabel": "Fetch 转换器",
@@ -1139,6 +1147,11 @@
       "description": "Audio converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "audio converter | video to mp3 | extract audio from video | mp4 to mp3 | mkv to mp3 | webm to mp3 | mp3 converter | aac converter | opus converter | wav converter | ffmpeg wasm audio | convert audio locally | no upload audio converter | browser audio converter"
     },
+    "youtube-to-mp3": {
+      "title": "YouTube to MP3 converter",
+      "description": "YouTube to MP3 converter: free in your browser. Add a video file you already have; we extract MP3 locally. Private, client-side processing—no uploads to our servers. Does not fetch videos from URLs.",
+      "keywords": "youtube to mp3 | youtube mp3 converter | video to mp3 | extract mp3 from video | mp4 to mp3 | webm to mp3 | local mp3 converter | browser mp3 extractor | no upload mp3 | ffmpeg wasm"
+    },
     "html-to-text-email": {
       "title": "HTML to Text Email Converter",
       "description": "HTML to Text Email Converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
@@ -1194,6 +1207,11 @@
       "description": "批量 PDF 水印：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "批量pdf水印|多个pdf文件加水印|批量pdf水印工具| pdf水印无法上传|带有文字的水印pdf |带图像的水印pdf |免费在线 pdf 水印 |浏览器中的水印pdf"
     },
+    "celsius-fahrenheit-converter": {
+      "title": "Celsius and Fahrenheit converter",
+      "description": "Celsius and Fahrenheit converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "celsius to fahrenheit | fahrenheit to celsius | c to f converter | f to c calculator | temperature converter | deg c to deg f | celsius fahrenheit formula | browser temperature converter"
+    },
     "compare": {
       "title": "比较 CSV 文件",
       "description": "比较 CSV 文件：在浏览器中免费在线比较。私有的客户端处理；您的文件不会上传到我们的服务器。",
@@ -1248,6 +1266,16 @@
       "title": "数据网格渲染演示",
       "description": "数据网格渲染演示：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "数据网格渲染演示 |网格渲染演示 |反应网格性能|渲染数据网格 |浏览器网格基准测试|数据网格渲染示例|虚拟化网格性能|大型数据集表渲染"
+    },
+    "decimal-fraction-converter": {
+      "title": "Decimal and fraction converter",
+      "description": "Decimal and fraction converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "decimal to fraction | fraction to decimal | convert decimal to fraction | mixed number to decimal | simplify fraction from decimal | browser fraction calculator | math converter local | fraction decimal converter online"
+    },
+    "degrees-radians-converter": {
+      "title": "Degrees and radians converter",
+      "description": "Degrees and radians converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "degrees to radians | radians to degrees | deg to rad | rad to deg | angle converter | pi radians to degrees | trig angle converter | browser degrees radians tool"
     },
     "fetch-converter": {
       "title": "获取转换器",

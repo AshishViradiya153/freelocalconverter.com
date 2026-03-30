@@ -175,6 +175,21 @@ export const LLMS_SECTIONS: LlmsSection[] = [
           "Epoch seconds or ms to human time and back; IANA timezones; local only.",
       },
       {
+        path: "/celsius-fahrenheit-converter",
+        label: "Celsius ↔ Fahrenheit",
+        detail: "Temperature conversion both ways; local calculator.",
+      },
+      {
+        path: "/decimal-fraction-converter",
+        label: "Decimal ↔ fraction",
+        detail: "Decimals to simplified fractions and fractions to decimals; local.",
+      },
+      {
+        path: "/degrees-radians-converter",
+        label: "Degrees ↔ radians",
+        detail: "Angle units for trig; local conversion.",
+      },
+      {
         path: "/regex-tester",
         label: "Regex tester",
         detail:
@@ -216,6 +231,7 @@ export const LLMS_SECTIONS: LlmsSection[] = [
     items: [
       { path: "/video-compress", label: "Video compress" },
       { path: "/audio-convert", label: "Audio converter" },
+      { path: "/youtube-to-mp3", label: "YouTube to MP3 converter" },
       { path: "/srt-to-vtt", label: "SRT to VTT converter" },
     ],
   },
