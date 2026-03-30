@@ -26,7 +26,7 @@ export function RelatedAppTools({ className }: { className?: string }) {
 
   const CardIcon =
     toolDirectoryGroupIcons[
-    (groupId as ToolDirectoryGroupId | null) ?? "all"
+      (groupId as ToolDirectoryGroupId | null) ?? "all"
     ] ?? toolDirectoryGroupIcons.all;
 
   if (links.length === 0) return null;
@@ -53,7 +53,7 @@ export function RelatedAppTools({ className }: { className?: string }) {
               {tPseo("relatedAppToolsTitle")}
             </h2>
             {categoryTitle ? (
-              <p className="mt-1 max-w-3xl wrap-break-word font-black text-[8px] uppercase leading-snug tracking-widest opacity-90 sm:text-[9px]">
+              <p className="wrap-break-word mt-1 max-w-3xl font-black text-[8px] uppercase leading-snug tracking-widest opacity-90 sm:text-[9px]">
                 {tPseo("relatedAppToolsSubtitle", { category: categoryTitle })}
               </p>
             ) : null}
@@ -89,7 +89,7 @@ export function RelatedAppTools({ className }: { className?: string }) {
                   </div>
 
                   <div className="flex min-h-0 flex-1 flex-col gap-3 sm:gap-4">
-                    <h3 className="text-balance wrap-break-word font-black text-lg uppercase leading-none tracking-tighter sm:text-xl md:text-2xl">
+                    <h3 className="wrap-break-word text-balance font-black text-lg uppercase leading-none tracking-tighter sm:text-xl md:text-2xl">
                       {link.label}
                     </h3>
                     <p className="wrap-break-word font-bold text-muted-foreground text-sm leading-snug group-hover:text-primary-foreground/80">

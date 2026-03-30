@@ -58,8 +58,12 @@ function getLocalizedLabel(
     | "imageConverter"
     | "imageResize"
     | "faviconGenerator"
+    | "gifTools"
     | "heicToJpg"
+    | "imageBase64"
     | "linkedinBanner"
+    | "ogPreview"
+    | "svgToPng"
     | "colorPaletteGenerator"
     | "gradientGenerator"
     | "meshGradientGenerator"
@@ -783,6 +787,15 @@ function getLocalizedLabel(
         ru: "Генератор favicon",
         tr: "Favicon uretici",
         zh: "网站图标生成器",
+        ar: "مولّد أيقونة الموقع",
+        fa: "تولیدکننده فاویکون",
+        he: "מחולל favicon",
+        az: "Favicon generatoru",
+        el: "Γεννητρια favicon",
+      });
+    case "gifTools":
+      return localizedText(locale, {
+        en: "GIF & motion tools",
       });
     case "heicToJpg":
       return localizedText(locale, {
@@ -799,6 +812,10 @@ function getLocalizedLabel(
         tr: "HEIC'den JPG/PNG'ye",
         zh: "HEIC 转 JPG/PNG",
       });
+    case "imageBase64":
+      return localizedText(locale, {
+        en: "Image Base64",
+      });
     case "linkedinBanner":
       return localizedText(locale, {
         en: "LinkedIn Banner Maker",
@@ -813,6 +830,14 @@ function getLocalizedLabel(
         ru: "Создатель баннеров LinkedIn",
         tr: "LinkedIn Banner Olusturucu",
         zh: "LinkedIn 横幅制作",
+      });
+    case "ogPreview":
+      return localizedText(locale, {
+        en: "Open Graph preview",
+      });
+    case "svgToPng":
+      return localizedText(locale, {
+        en: "SVG to PNG (sizes)",
       });
     case "colorPaletteGenerator":
       return localizedText(locale, {
@@ -1043,8 +1068,12 @@ function getLocalizedDescription(
     | "imageConverter"
     | "imageResize"
     | "faviconGenerator"
+    | "gifTools"
     | "heicToJpg"
+    | "imageBase64"
     | "linkedinBanner"
+    | "ogPreview"
+    | "svgToPng"
     | "colorPaletteGenerator"
     | "gradientGenerator"
     | "meshGradientGenerator"
@@ -1355,8 +1384,14 @@ function getLocalizedDescription(
           faviconGenerator:
             "Upload one image; download a ZIP with favicon.ico, PNG sizes, and site.webmanifest.",
           heicToJpg: "Convert HEIC and HEIF photos to JPG or PNG.",
+          gifTools:
+            "GIF to MP4, video to GIF, frame ZIP, stills to GIF.",
+          imageBase64:
+            "Data URLs from images and decode back to files locally.",
           linkedinBanner:
             "Design LinkedIn profile and page banners in standard sizes; download PNG, JPEG, or WebP.",
+          ogPreview: "Parse meta tags locally (paste HTML or CORS fetch).",
+          svgToPng: "Rasterize SVG to multiple square PNGs in one ZIP.",
           colorPaletteGenerator: "Generate palettes and export PNG or JSON.",
           gradientGenerator: "Create gradients and export PNG or JSON.",
           meshGradientGenerator: "Blur mesh blobs and export PNG.",
@@ -1811,6 +1846,26 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/linkedin-banner",
           label: getLocalizedLabel(safeLocale, "linkedinBanner"),
           description: getLocalizedDescription(safeLocale, "linkedinBanner"),
+        },
+        {
+          href: "/gif-tools",
+          label: getLocalizedLabel(safeLocale, "gifTools"),
+          description: getLocalizedDescription(safeLocale, "gifTools"),
+        },
+        {
+          href: "/image-base64",
+          label: getLocalizedLabel(safeLocale, "imageBase64"),
+          description: getLocalizedDescription(safeLocale, "imageBase64"),
+        },
+        {
+          href: "/svg-to-png",
+          label: getLocalizedLabel(safeLocale, "svgToPng"),
+          description: getLocalizedDescription(safeLocale, "svgToPng"),
+        },
+        {
+          href: "/open-graph-preview",
+          label: getLocalizedLabel(safeLocale, "ogPreview"),
+          description: getLocalizedDescription(safeLocale, "ogPreview"),
         },
       ],
     },

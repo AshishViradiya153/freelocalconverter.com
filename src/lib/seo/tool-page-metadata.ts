@@ -20,13 +20,16 @@ export type ToolPageSlug =
   | "data-grid-live"
   | "data-grid-render"
   | "fetch-converter"
+  | "gif-tools"
   | "graphql-tools"
   | "heic-to-jpg"
   | "http-explainer"
   | "image-compress"
+  | "image-base64"
   | "image-convert"
   | "image-resize"
   | "images-to-pdf"
+  | "open-graph-preview"
   | "json-formatter"
   | "json-to-csv"
   | "json-to-excel"
@@ -47,6 +50,7 @@ export type ToolPageSlug =
   | "regex-tester"
   | "request-converter"
   | "split-pdf"
+  | "svg-to-png"
   | "sql-formatter"
   | "unix-timestamp-converter"
   | "uuid-generator"
@@ -684,6 +688,8 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       });
     case "fetch-converter":
       return converterTitle(TERMS.fetch);
+    case "gif-tools":
+      return localizedRecord(() => "GIF & motion tools");
     case "graphql-tools":
       return localizedRecord((locale) => {
         switch (locale) {
@@ -803,6 +809,8 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       });
     case "image-compress":
       return compressorTitle(TERMS.image);
+    case "image-base64":
+      return localizedRecord(() => "Image Base64");
     case "image-convert":
       return converterTitle(TERMS.image);
     case "image-resize":
@@ -1010,6 +1018,8 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       });
     case "openapi-viewer":
       return viewerTitle(TERMS.openapi);
+    case "open-graph-preview":
+      return localizedRecord(() => "Open Graph preview");
     case "parquet-to-csv":
       return convertTitle(TERMS.parquet, TERMS.csv);
     case "parquet-to-json":
@@ -1217,6 +1227,8 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Split PDF";
         }
       });
+    case "svg-to-png":
+      return localizedRecord(() => "SVG to PNG (multi-size)");
     case "sql-formatter":
       return localizedRecord((locale) => {
         switch (locale) {
@@ -1611,6 +1623,20 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "free fetch api converter",
     ],
   },
+  "gif-tools": {
+    pathname: "/gif-tools",
+    titleByLocale: localizedTitle("gif-tools"),
+    keywords: [
+      "gif to mp4",
+      "mp4 to gif",
+      "gif frames to png",
+      "images to gif",
+      "animated webp from gif",
+      "browser gif converter",
+      "ffmpeg wasm gif",
+      "split gif frames zip",
+    ],
+  },
   "favicon-generator": {
     pathname: "/favicon-generator",
     titleByLocale: localizedTitle("favicon-generator"),
@@ -1681,6 +1707,19 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "no upload image compression",
       "free compress images online",
       "reduce image file size",
+    ],
+  },
+  "image-base64": {
+    pathname: "/image-base64",
+    titleByLocale: localizedTitle("image-base64"),
+    keywords: [
+      "image to base64",
+      "data url generator",
+      "base64 image decode",
+      "png to base64 online",
+      "browser image base64",
+      "decode data url image",
+      "css background base64",
     ],
   },
   "image-convert": {
@@ -1852,6 +1891,19 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "view openapi yaml json",
     ],
   },
+  "open-graph-preview": {
+    pathname: "/open-graph-preview",
+    titleByLocale: localizedTitle("open-graph-preview"),
+    keywords: [
+      "open graph preview",
+      "og image checker",
+      "twitter card preview",
+      "meta tags debugger",
+      "og:title viewer",
+      "social share preview",
+      "linkedin preview image",
+    ],
+  },
   "parquet-to-csv": {
     pathname: "/parquet-to-csv",
     titleByLocale: localizedTitle("parquet-to-csv"),
@@ -2004,6 +2056,19 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "no upload pdf split",
       "extract pages from pdf",
       "separate pdf online free",
+    ],
+  },
+  "svg-to-png": {
+    pathname: "/svg-to-png",
+    titleByLocale: localizedTitle("svg-to-png"),
+    keywords: [
+      "svg to png",
+      "rasterize svg",
+      "svg icon sizes",
+      "export svg png zip",
+      "browser svg to png",
+      "pwa icon sizes png",
+      "multi size png from svg",
     ],
   },
   "sql-formatter": {

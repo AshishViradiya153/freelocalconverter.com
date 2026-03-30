@@ -27,6 +27,7 @@ export interface FaviconCropEditorLabels {
   cropAriaLabel: string;
   dimensionsLine: string;
   dragBadge: string;
+  editorImageAlt: string;
 }
 
 interface FaviconCropEditorProps {
@@ -96,17 +97,7 @@ export function FaviconCropEditor({
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
     ctx.clearRect(0, 0, out, out);
-    ctx.drawImage(
-      img,
-      crop.sx,
-      crop.sy,
-      crop.side,
-      crop.side,
-      0,
-      0,
-      out,
-      out,
-    );
+    ctx.drawImage(img, crop.sx, crop.sy, crop.side, crop.side, 0, 0, out, out);
   }, [crop, imageUrl, imageWidth, imageHeight]);
 
   const onCropPointerDown = React.useCallback(
@@ -162,9 +153,7 @@ export function FaviconCropEditor({
     (values: number[]) => {
       const raw = values[0];
       if (raw === undefined || Number.isNaN(raw)) return;
-      const nextSide = Math.round(
-        Math.min(maxSide, Math.max(minSide, raw)),
-      );
+      const nextSide = Math.round(Math.min(maxSide, Math.max(minSide, raw)));
       onCropChange(
         recenterSquareCropSide(imageWidth, imageHeight, crop, nextSide),
       );
@@ -189,7 +178,7 @@ export function FaviconCropEditor({
           <Label className="text-foreground text-xs uppercase tracking-[0.18em]">
             {labels.previewLabel}
           </Label>
-          <p className="mt-1 text-muted-foreground text-[11px] leading-snug">
+          <p className="mt-1 text-[11px] text-muted-foreground leading-snug">
             {labels.previewNote}
           </p>
         </div>
@@ -206,7 +195,7 @@ export function FaviconCropEditor({
         </Button>
       </div>
 
-      <div className="flex justify-center rounded-lg border-2 border-dashed border-border/80 bg-muted/40 p-4">
+      <div className="flex justify-center rounded-lg border-2 border-border/80 border-dashed bg-muted/40 p-4">
         <canvas
           ref={canvasRef}
           width={RESULT_PREVIEW_PX}
@@ -216,7 +205,7 @@ export function FaviconCropEditor({
         />
       </div>
 
-      <p className="text-center font-mono text-muted-foreground text-[10px] uppercase tracking-wider">
+      <p className="text-center font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
         {labels.dimensionsLine}
       </p>
 
@@ -230,10 +219,10 @@ export function FaviconCropEditor({
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-10">
-      <div className="flex min-w-0 min-h-0 flex-1 flex-col gap-6">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-6">
         <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div className="min-w-0 space-y-2">
-            <h3 className="font-semibold text-foreground text-base tracking-tight md:text-lg">
+            <h3 className="font-semibold text-base text-foreground tracking-tight md:text-lg">
               {labels.sectionTitle}
             </h3>
             <p className="max-w-prose text-muted-foreground text-sm leading-relaxed">
@@ -255,7 +244,7 @@ export function FaviconCropEditor({
               {/* biome-ignore lint/performance/noImgElement: object URL editor */}
               <img
                 src={imageUrl}
-                alt=""
+                alt={labels.editorImageAlt}
                 width={imageWidth}
                 height={imageHeight}
                 draggable={false}
@@ -297,7 +286,7 @@ export function FaviconCropEditor({
             <div className="flex items-baseline gap-2 sm:flex-col sm:items-end sm:gap-0">
               <span className="font-black font-mono text-foreground text-lg tabular-nums">
                 {crop.side}
-                <span className="ms-1 text-muted-foreground text-sm font-semibold">
+                <span className="ms-1 font-semibold text-muted-foreground text-sm">
                   px
                 </span>
               </span>

@@ -4,20 +4,7 @@ import { Loader2, Package, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
-import {
-  LINEAR_GRADIENT_PRESETS,
-  MESH_GRADIENT_PRESETS,
-  TEXT_FONT_PRESETS,
-} from "@/lib/favicon-pack/design-presets";
-import {
-  buildDesignedSpec,
-  canvasToPngFile,
-  renderDesignedFaviconCanvas,
-} from "@/lib/favicon-pack/render-designed-favicon";
-import { buildFaviconZipFromImageFile } from "@/lib/favicon-pack/build-favicon-zip";
-import { downloadBlob } from "@/lib/download-blob";
-import { cn } from "@/lib/utils";
+import { ToolPane, ToolSectionHeading } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -29,8 +16,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ToolPane, ToolSectionHeading } from "@/components/tool-ui";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { downloadBlob } from "@/lib/download-blob";
+import { buildFaviconZipFromImageFile } from "@/lib/favicon-pack/build-favicon-zip";
+import {
+  LINEAR_GRADIENT_PRESETS,
+  MESH_GRADIENT_PRESETS,
+  TEXT_FONT_PRESETS,
+} from "@/lib/favicon-pack/design-presets";
+import {
+  buildDesignedSpec,
+  canvasToPngFile,
+  renderDesignedFaviconCanvas,
+} from "@/lib/favicon-pack/render-designed-favicon";
+import { cn } from "@/lib/utils";
 
 const QUICK_EMOJIS = [
   "🚀",
@@ -60,7 +59,7 @@ function zipBaseName(sourceMode: "text" | "emoji", text: string): string {
   const s = text
     .trim()
     .slice(0, 24)
-    .replace(/[^\w\-]+/g, "-")
+    .replace(/[^\w-]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .toLowerCase();
   return s || "favicon";
@@ -180,7 +179,7 @@ export function FaviconDesignStudio({
       </ToolSectionHeading>
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
-        <ToolPane className="flex w-full flex-col gap-4 border-border/50 border p-4 lg:max-w-84 lg:shrink-0">
+        <ToolPane className="flex w-full flex-col gap-4 border border-border/50 p-4 lg:max-w-84 lg:shrink-0">
           <div className="flex flex-col gap-2">
             <Label className="text-muted-foreground text-xs uppercase tracking-wide">
               {t("designBgKindLabel")}
@@ -212,7 +211,9 @@ export function FaviconDesignStudio({
 
           {bgKind === "solid" ? (
             <div className="flex flex-col gap-2">
-              <Label htmlFor="favicon-solid-color">{t("designSolidColor")}</Label>
+              <Label htmlFor="favicon-solid-color">
+                {t("designSolidColor")}
+              </Label>
               <div className="flex items-center gap-3">
                 <input
                   id="favicon-solid-color"
@@ -285,7 +286,11 @@ export function FaviconDesignStudio({
                     </SelectTrigger>
                     <SelectContent>
                       {LINEAR_GRADIENT_PRESETS.map((p) => (
-                        <SelectItem key={p.id} value={p.id} className="font-mono text-xs">
+                        <SelectItem
+                          key={p.id}
+                          value={p.id}
+                          className="font-mono text-xs"
+                        >
                           {t(`linearPreset.${p.id}`)}
                         </SelectItem>
                       ))}
@@ -327,7 +332,9 @@ export function FaviconDesignStudio({
                   );
                 })}
               </div>
-              <p className="text-muted-foreground text-xs">{t("designMeshHint")}</p>
+              <p className="text-muted-foreground text-xs">
+                {t("designMeshHint")}
+              </p>
             </div>
           ) : null}
 
@@ -335,7 +342,9 @@ export function FaviconDesignStudio({
             {sourceMode === "text" ? (
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
-                  <Label htmlFor="favicon-design-text">{t("designTextLabel")}</Label>
+                  <Label htmlFor="favicon-design-text">
+                    {t("designTextLabel")}
+                  </Label>
                   <Input
                     id="favicon-design-text"
                     value={textValue}
@@ -345,7 +354,9 @@ export function FaviconDesignStudio({
                     className="max-w-xs font-mono text-lg tracking-tight"
                     placeholder={t("designTextPlaceholder")}
                   />
-                  <p className="text-muted-foreground text-xs">{t("designTextHint")}</p>
+                  <p className="text-muted-foreground text-xs">
+                    {t("designTextHint")}
+                  </p>
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label>{t("designFontLabel")}</Label>
@@ -367,7 +378,9 @@ export function FaviconDesignStudio({
                   </Select>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <Label htmlFor="favicon-text-color">{t("designTextColor")}</Label>
+                  <Label htmlFor="favicon-text-color">
+                    {t("designTextColor")}
+                  </Label>
                   <div className="flex items-center gap-3">
                     <input
                       id="favicon-text-color"
@@ -390,7 +403,9 @@ export function FaviconDesignStudio({
             ) : (
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
-                  <Label htmlFor="favicon-design-emoji">{t("designEmojiLabel")}</Label>
+                  <Label htmlFor="favicon-design-emoji">
+                    {t("designEmojiLabel")}
+                  </Label>
                   <Input
                     id="favicon-design-emoji"
                     value={emojiValue}
@@ -426,7 +441,7 @@ export function FaviconDesignStudio({
           </div>
         </ToolPane>
 
-        <ToolPane className="flex w-full min-w-0 flex-1 flex-col items-center gap-4 border-border/50 border p-4 lg:py-6">
+        <ToolPane className="flex w-full min-w-0 flex-1 flex-col items-center gap-4 border border-border/50 p-4 lg:py-6">
           <span className="text-muted-foreground text-xs uppercase tracking-wide">
             {t("designPreviewLabel")}
           </span>

@@ -1,6 +1,12 @@
 "use client";
 
-import { AlertTriangle, ChevronRight, Filter, Search, Star } from "lucide-react";
+import {
+  AlertTriangle,
+  ChevronRight,
+  Filter,
+  Search,
+  Star,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
@@ -150,7 +156,7 @@ export function HomeToolsDirectory() {
   }
 
   return (
-    <section className="flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col overflow-x-hidden bg-background font-mono text-foreground [-webkit-font-smoothing:auto]">
+    <section className="flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col overflow-x-hidden bg-background font-mono text-foreground [-webkit-font-smoothing:auto] relative">
       <div className="mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col px-3 py-3 sm:px-4 sm:py-4 md:px-8 md:py-6">
         <div className="min-w-0 pr-2 pb-2 sm:pr-2.5 sm:pb-2.5 md:pr-3 md:pb-3">
           <div
@@ -164,17 +170,17 @@ export function HomeToolsDirectory() {
                 initial={{ x: -16, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="whitespace-pre-line text-balance wrap-break-word font-black text-[clamp(1.75rem,8vw,3rem)] uppercase leading-[0.95] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl"
+                className="wrap-break-word whitespace-pre-line text-balance font-black text-[clamp(1.75rem,8vw,3rem)] uppercase leading-[0.95] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl"
               >
                 {tLanding("heroTitle")}
               </motion.h1>
-              <p className="mt-4 max-w-3xl wrap-break-word font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-6 md:text-base">
+              <p className="wrap-break-word mt-4 max-w-3xl font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-6 md:text-base">
                 {tLanding("directorySubtitle")}
               </p>
             </header>
 
             <div className="flex w-full min-w-0 flex-col lg:flex-row lg:items-stretch">
-              <aside className="w-full min-w-0 shrink-0 border-border border-b-4 bg-background p-4 sm:p-6 md:p-8 lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:border-e-4 lg:border-b-0 xl:w-80">
+              <aside className="w-full min-w-0 shrink-0 border-border border-b-4 bg-background p-4 sm:p-6 md:p-8 lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:border-e-4 lg:border-b-0 xl:w-80 sticky top-0">
                 <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
                   <div className="flex min-w-0 flex-col gap-3">
                     <label
@@ -437,7 +443,7 @@ function ToolCardBrutalist({
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col gap-4">
-          <h2 className="text-balance wrap-break-word font-black text-xl uppercase leading-none tracking-tighter sm:text-2xl md:text-3xl">
+          <h2 className="wrap-break-word text-balance font-black text-xl uppercase leading-none tracking-tighter sm:text-2xl md:text-3xl">
             {item.label}
           </h2>
           <p className="wrap-break-word font-bold text-muted-foreground text-sm leading-snug group-hover:text-primary-foreground/80">

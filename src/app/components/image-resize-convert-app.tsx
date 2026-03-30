@@ -3,8 +3,8 @@
 import { Download, Image as ImageIcon, Loader2, Trash2, X } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
+import { ImageResizeCropPreview } from "@/app/components/image-resize-crop-preview";
 import { toolHeroTitleClassName } from "@/components/tool-ui";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
@@ -19,22 +19,21 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
-import { ImageResizeCropPreview } from "@/app/components/image-resize-crop-preview";
 import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 import {
   clampPixelCrop,
   defaultPixelCropForPreset,
   IMAGE_RESIZE_CROP_PRESETS,
-  pixelToNorm,
   type ImageResizeCropPreset,
   type NormSourceCrop,
+  pixelToNorm,
 } from "@/lib/image-resize/norm-source-crop";
 import { renderImageFileToPipelineCanvas } from "@/lib/image-resize/render-from-file";
 import {
   FIT_PIPELINE_MODES,
-  RESIZE_PIPELINE_MODES,
   type FitPipelineMode,
+  RESIZE_PIPELINE_MODES,
   type ResizePipelineMode,
 } from "@/lib/image-resize/render-pipeline";
 import { cn } from "@/lib/utils";
@@ -266,8 +265,7 @@ export function ImageResizeConvertApp() {
     sw: number;
     sh: number;
   } | null>(null);
-  const [resizeMode, setResizeMode] =
-    React.useState<ResizePipelineMode>("fit");
+  const [resizeMode, setResizeMode] = React.useState<ResizePipelineMode>("fit");
   const [fitMode, setFitMode] = React.useState<FitPipelineMode>("contain");
   const [width, setWidth] = React.useState(1920);
   const [height, setHeight] = React.useState(1080);

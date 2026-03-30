@@ -64,7 +64,10 @@ const MAX_COLUMN_SIZE = 800;
 const SEARCH_SHORTCUT_KEY = "f";
 const NON_NAVIGABLE_COLUMN_IDS = new Set(["select", "actions"]);
 
-function resolveCoreRowDataIndex<TData>(row: Row<TData>, data: TData[]): number {
+function resolveCoreRowDataIndex<TData>(
+  row: Row<TData>,
+  data: TData[],
+): number {
   const i = row.index;
   if (i >= 0 && i < data.length && data[i] === row.original) return i;
   return data.indexOf(row.original);
@@ -1747,10 +1750,10 @@ function useDataGrid<TData>({
       const preIdx =
         m.dataRowIndex !== undefined
           ? getPrePaginationRowIndexForDataRow(
-            currentTable,
-            gridData,
-            m.dataRowIndex,
-          )
+              currentTable,
+              gridData,
+              m.dataRowIndex,
+            )
           : m.rowIndex;
       if (preIdx < 0) continue;
       const v = getVirtualRowIndexForPrePaginationMatch(
@@ -1782,10 +1785,10 @@ function useDataGrid<TData>({
       const preIdx =
         currentMatch.dataRowIndex !== undefined
           ? getPrePaginationRowIndexForDataRow(
-            currentTable,
-            gridData,
-            currentMatch.dataRowIndex,
-          )
+              currentTable,
+              gridData,
+              currentMatch.dataRowIndex,
+            )
           : currentMatch.rowIndex;
       if (preIdx < 0) return false;
       const v = getVirtualRowIndexForPrePaginationMatch(
@@ -1810,10 +1813,10 @@ function useDataGrid<TData>({
       const preIdx =
         match.dataRowIndex !== undefined
           ? getPrePaginationRowIndexForDataRow(
-            currentTable,
-            gridData,
-            match.dataRowIndex,
-          )
+              currentTable,
+              gridData,
+              match.dataRowIndex,
+            )
           : match.rowIndex;
       if (preIdx < 0) continue;
       const v = getVirtualRowIndexForPrePaginationMatch(
@@ -2477,7 +2480,7 @@ function useDataGrid<TData>({
           return;
         }
 
-        let flatIndex = getPrePaginationRowIndexForDataRow(
+        const flatIndex = getPrePaginationRowIndexForDataRow(
           tbl,
           currentData,
           boundedDataIdx,
@@ -2508,7 +2511,9 @@ function useDataGrid<TData>({
 
         let safeRowIndex = flatIndex;
         const pagination = tbl.getState().pagination;
-        const paginationModelActive = Boolean(tbl.options.getPaginationRowModel);
+        const paginationModelActive = Boolean(
+          tbl.options.getPaginationRowModel,
+        );
         if (pagination && paginationModelActive) {
           const preRows = tbl.getPrePaginationRowModel().rows;
           const preCount = preRows.length;

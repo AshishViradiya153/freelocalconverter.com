@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { getPseoSitemapChunkCount, pseoSitemapIndexUrl } from "@/lib/pseo/sitemap";
+import {
+  getPseoSitemapChunkCount,
+  pseoSitemapIndexUrl,
+} from "@/lib/pseo/sitemap";
 import { buildRootSitemapIndexLocators } from "@/lib/sitemap/root-index";
 import { staticChildSitemapUrl } from "@/lib/sitemap/site-urls";
 
@@ -16,9 +19,6 @@ describe("sitemap architecture (100k+ scale)", () => {
       expect(locs).toEqual([staticChildSitemapUrl()]);
       return;
     }
-    expect(locs).toEqual([
-      staticChildSitemapUrl(),
-      pseoSitemapIndexUrl(),
-    ]);
+    expect(locs).toEqual([staticChildSitemapUrl(), pseoSitemapIndexUrl()]);
   });
 });

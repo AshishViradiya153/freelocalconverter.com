@@ -73,10 +73,7 @@ export async function POST(request: Request) {
 
   if (!isContactMailConfigured()) {
     console.error({ message: "Contact mail env not configured" });
-    return NextResponse.json(
-      { error: "unavailable" },
-      { status: 503 },
-    );
+    return NextResponse.json({ error: "unavailable" }, { status: 503 });
   }
 
   let body: unknown;
@@ -94,8 +91,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { name, email, message, linkX, linkGithub, linkLinkedin } =
-    parsed.data;
+  const { name, email, message, linkX, linkGithub, linkLinkedin } = parsed.data;
 
   try {
     await sendContactMail({

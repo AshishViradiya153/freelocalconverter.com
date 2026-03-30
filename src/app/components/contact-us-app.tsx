@@ -170,7 +170,9 @@ export function ContactUsApp() {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label htmlFor="contact-link-github">{t("fieldLinkGithub")}</Label>
+              <Label htmlFor="contact-link-github">
+                {t("fieldLinkGithub")}
+              </Label>
               <Input
                 id="contact-link-github"
                 type="url"

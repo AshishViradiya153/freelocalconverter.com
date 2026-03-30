@@ -7,24 +7,24 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import {
+  type CropCorner,
   clampPixelCrop,
   cropRatio,
   defaultPixelCropForPreset,
+  type ImageResizeCropPreset,
   maxCropSizeForRatio,
   minCropWidthForRatio,
+  type NormSourceCrop,
   normToPixel,
   pixelToNorm,
   resizeCropFromCorner,
   scalePixelCropWidth,
   translatePixelCrop,
-  type CropCorner,
-  type ImageResizeCropPreset,
-  type NormSourceCrop,
 } from "@/lib/image-resize/norm-source-crop";
 import { renderImageFileToPipelineCanvas } from "@/lib/image-resize/render-from-file";
-import {
-  type FitPipelineMode,
-  type ResizePipelineMode,
+import type {
+  FitPipelineMode,
+  ResizePipelineMode,
 } from "@/lib/image-resize/render-pipeline";
 import { cn } from "@/lib/utils";
 
@@ -101,8 +101,9 @@ export function ImageResizeCropPreview({
   const rawMinW = minCropWidthForRatio(sw, sh, R);
   const minW = Math.min(rawMinW, maxW);
 
-  const [resizingCorner, setResizingCorner] =
-    React.useState<CropCorner | null>(null);
+  const [resizingCorner, setResizingCorner] = React.useState<CropCorner | null>(
+    null,
+  );
 
   const clientToImage = React.useCallback(
     (clientX: number, clientY: number) => {
@@ -277,9 +278,7 @@ export function ImageResizeCropPreview({
     (values: number[]) => {
       const raw = values[0];
       if (raw === undefined || Number.isNaN(raw)) return;
-      const w = Math.round(
-        Math.min(maxW, Math.max(minW, raw)),
-      );
+      const w = Math.round(Math.min(maxW, Math.max(minW, raw)));
       const next = scalePixelCropWidth(sw, sh, pixelCrop, w, R);
       onNormCropChange(pixelToNorm(next, sw, sh));
     },
@@ -356,7 +355,7 @@ export function ImageResizeCropPreview({
 
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
-      <div className="flex min-w-0 min-h-0 flex-1 flex-col gap-4">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4">
         <header className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0 space-y-1">
             <h3 className="font-semibold text-foreground text-sm tracking-tight">
@@ -368,7 +367,7 @@ export function ImageResizeCropPreview({
                 : "Drag the center to move, hover corners for resize handles, or use the slider. The same relative framing applies to every image in the queue."}
             </p>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-1.5 self-start border border-border bg-muted/50 px-2.5 py-1 font-mono text-muted-foreground text-[10px] uppercase">
+          <span className="inline-flex shrink-0 items-center gap-1.5 self-start border border-border bg-muted/50 px-2.5 py-1 font-mono text-[10px] text-muted-foreground uppercase">
             <Move className="size-3 opacity-70" aria-hidden />
             Drag
           </span>
@@ -388,10 +387,10 @@ export function ImageResizeCropPreview({
                 width={sw}
                 height={sh}
                 draggable={false}
-                className="block size-full max-h-full max-w-full min-h-0 min-w-0 select-none object-contain object-center"
+                className="block size-full max-h-full min-h-0 min-w-0 max-w-full select-none object-contain object-center"
               />
               <div
-                className="pointer-events-none absolute shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] ring-2 ring-inset ring-background/90"
+                className="pointer-events-none absolute shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] ring-2 ring-background/90 ring-inset"
                 style={{
                   left: overlayPx.left,
                   top: overlayPx.top,
@@ -412,17 +411,17 @@ export function ImageResizeCropPreview({
                 style={
                   centerW > 0 && centerH > 0
                     ? {
-                      left: overlayPx.left + CENTER_INSET,
-                      top: overlayPx.top + CENTER_INSET,
-                      width: centerW,
-                      height: centerH,
-                    }
+                        left: overlayPx.left + CENTER_INSET,
+                        top: overlayPx.top + CENTER_INSET,
+                        width: centerW,
+                        height: centerH,
+                      }
                     : {
-                      left: overlayPx.left,
-                      top: overlayPx.top,
-                      width: overlayPx.width,
-                      height: overlayPx.height,
-                    }
+                        left: overlayPx.left,
+                        top: overlayPx.top,
+                        width: overlayPx.width,
+                        height: overlayPx.height,
+                      }
                 }
                 onPointerDown={onCropPointerDown}
                 onPointerMove={onCropPointerMove}
@@ -437,7 +436,7 @@ export function ImageResizeCropPreview({
                   disabled={disabled}
                   className={cn(
                     "absolute z-20 flex size-7 touch-none items-center justify-center rounded-full border border-primary/50 bg-background/95 text-primary shadow-sm transition-opacity duration-150",
-                    "opacity-0 group-hover/crop-stage:opacity-100 hover:opacity-100 focus-visible:opacity-100",
+                    "opacity-0 hover:opacity-100 focus-visible:opacity-100 group-hover/crop-stage:opacity-100",
                     resizingCorner === c.corner && "opacity-100",
                     disabled && "pointer-events-none opacity-40",
                   )}
@@ -455,7 +454,7 @@ export function ImageResizeCropPreview({
                   }}
                 >
                   <Scaling
-                    className="size-2.5 shrink-0 pointer-events-none"
+                    className="pointer-events-none size-2.5 shrink-0"
                     style={{ transform: `rotate(${c.iconRotate})` }}
                     aria-hidden
                   />
@@ -499,8 +498,9 @@ export function ImageResizeCropPreview({
             <Label className="text-foreground text-xs uppercase tracking-wider">
               Output preview
             </Label>
-            <p className="mt-1 text-muted-foreground text-[11px] leading-snug">
-              After crop and resize settings ({resizeMode === "fit" ? fitMode : resizeMode}).
+            <p className="mt-1 text-[11px] text-muted-foreground leading-snug">
+              After crop and resize settings (
+              {resizeMode === "fit" ? fitMode : resizeMode}).
             </p>
           </div>
           <Button
@@ -516,7 +516,7 @@ export function ImageResizeCropPreview({
           </Button>
         </div>
 
-        <div className="flex justify-center rounded-lg border border-dashed border-border/80 bg-muted/30 p-4">
+        <div className="flex justify-center rounded-lg border border-border/80 border-dashed bg-muted/30 p-4">
           <canvas
             ref={outputCanvasRef}
             className="max-h-60 max-w-full border border-border bg-background shadow-sm"

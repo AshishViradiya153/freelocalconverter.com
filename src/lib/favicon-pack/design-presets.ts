@@ -328,10 +328,19 @@ export const MESH_GRADIENT_PRESETS: readonly MeshGradientPreset[] = [
 ] as const;
 
 export const TEXT_FONT_PRESETS: readonly { id: string; stack: string }[] = [
-  { id: "system", stack: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif" },
+  {
+    id: "system",
+    stack: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+  },
   { id: "georgia", stack: "Georgia, 'Times New Roman', serif" },
-  { id: "mono", stack: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" },
-  { id: "display", stack: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif" },
+  {
+    id: "mono",
+    stack: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+  },
+  {
+    id: "display",
+    stack: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif",
+  },
   { id: "rounded", stack: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" },
 ] as const;
 

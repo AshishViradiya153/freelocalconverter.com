@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 export type RateLimitResult =
   | { success: true }
   | {
-    success: false;
-    limit?: number;
-    reset?: number;
-    remaining?: number;
-  };
+      success: false;
+      limit?: number;
+      reset?: number;
+      remaining?: number;
+    };
 
 /**
  * In-memory friendly rate limiting stub (always allows).

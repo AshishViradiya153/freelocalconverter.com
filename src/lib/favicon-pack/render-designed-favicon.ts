@@ -1,9 +1,9 @@
 import {
   LINEAR_GRADIENT_PRESETS,
-  MESH_GRADIENT_PRESETS,
   type LinearGradientPreset,
-  type MeshGradientPreset,
   linearPresetById,
+  MESH_GRADIENT_PRESETS,
+  type MeshGradientPreset,
   meshPresetById,
 } from "./design-presets";
 import { MASTER_SQUARE_MAX } from "./render-square-png";
@@ -25,7 +25,9 @@ export interface DesignedForegroundEmoji {
   emoji: string;
 }
 
-export type DesignedForeground = DesignedForegroundText | DesignedForegroundEmoji;
+export type DesignedForeground =
+  | DesignedForegroundText
+  | DesignedForegroundEmoji;
 
 export interface DesignedFaviconSpec {
   background: DesignedBackground;
@@ -179,7 +181,9 @@ function drawForeground(
 }
 
 /** Renders a square favicon master (same edge as MASTER_SQUARE_MAX) for ZIP export and preview. */
-export function renderDesignedFaviconCanvas(spec: DesignedFaviconSpec): HTMLCanvasElement {
+export function renderDesignedFaviconCanvas(
+  spec: DesignedFaviconSpec,
+): HTMLCanvasElement {
   const edge = MASTER_SQUARE_MAX;
   const canvas = document.createElement("canvas");
   canvas.width = edge;
@@ -259,11 +263,11 @@ export function buildDesignedSpec(args: {
     args.sourceMode === "emoji"
       ? { kind: "emoji", emoji: args.emojiValue }
       : {
-        kind: "text",
-        text: args.textValue,
-        color: args.textColor,
-        fontStack: args.fontStack,
-      };
+          kind: "text",
+          text: args.textValue,
+          color: args.textColor,
+          fontStack: args.fontStack,
+        };
 
   return { background, foreground };
 }
