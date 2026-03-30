@@ -22,7 +22,12 @@ import {
 import { useAsRef } from "@/hooks/use-as-ref";
 import type { useDataGrid } from "@/hooks/use-data-grid";
 import { useComposedRefs } from "@/lib/compose-refs";
-import { flexRender, getRowHeightValue } from "@/lib/data-grid";
+import {
+  flexRender,
+  getPrePaginationRowIndexForDataRow,
+  getRowHeightValue,
+  getVirtualRowIndexForPrePaginationMatch,
+} from "@/lib/data-grid";
 import { resolveVirtualizedRowOrderOnDragEnd } from "@/lib/data-grid-virtual-row-reorder";
 import { cn } from "@/lib/utils";
 import type { Direction } from "@/types/data-grid";
@@ -67,14 +72,10 @@ interface DataGridProps<TData>
     Omit<React.ComponentProps<"div">, "contextMenu"> {
   dir?: Direction;
   height?: number;
-  /** Optional ref to the scrollable grid body (merged with internal `dataGridRef`). */
   scrollContainerRef?: React.Ref<HTMLDivElement | null>;
-  /** Fires on the scrollable `role="grid"` element (e.g. paired sync scroll). */
   onGridScroll?: React.UIEventHandler<HTMLDivElement>;
   stretchColumns?: boolean;
-  /** Reorder columns via the grip on the right of each header (hover to show). Requires controlled `columnOrder`. */
   enableColumnReorder?: boolean;
-  /** Row reorder: grip in the select column (hover to show), same pattern as column headers. */
   enableRowReorder?: boolean;
   onRowOrderChange?: (orderedRowIds: string[]) => void;
 }
@@ -115,6 +116,23 @@ export function DataGrid<TData>({
 }: DataGridProps<TData>) {
   const composedGridRef = useComposedRefs(dataGridRef, scrollContainerRef);
   const rows = table.getRowModel().rows;
+  const paginationEnabledForSearch = Boolean(table.options.getPaginationRowModel);
+  const activeSearchPrePaginationIndex =
+    activeSearchMatch?.dataRowIndex !== undefined
+      ? getPrePaginationRowIndexForDataRow(
+          table,
+          table.options.data,
+          activeSearchMatch.dataRowIndex,
+        )
+      : (activeSearchMatch?.rowIndex ?? -1);
+  const activeSearchVirtualRowIndex =
+    activeSearchPrePaginationIndex >= 0
+      ? getVirtualRowIndexForPrePaginationMatch(
+          table,
+          activeSearchPrePaginationIndex,
+          paginationEnabledForSearch,
+        )
+      : null;
   const footerTrackWidth =
     table.getTotalSize() +
     (table.getVisibleLeafColumns().some((c) => c.id === "select") ? 48 : 0);
@@ -319,7 +337,8 @@ export function DataGrid<TData>({
               const searchMatchColumns =
                 searchMatchesByRow?.get(virtualItem.index) ?? null;
               const isActiveSearchRow =
-                activeSearchMatch?.rowIndex === virtualItem.index;
+                activeSearchVirtualRowIndex !== null &&
+                activeSearchVirtualRowIndex === virtualItem.index;
 
               const sharedRowProps = {
                 row,

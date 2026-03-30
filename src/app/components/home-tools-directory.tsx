@@ -1,25 +1,17 @@
 "use client";
 
-import {
-  AlertTriangle,
-  ArrowRightLeft,
-  Braces,
-  ChevronRight,
-  FileImage,
-  FileSpreadsheet,
-  FileText,
-  Filter,
-  Palette,
-  Search,
-  Sparkles,
-  Star,
-  TableProperties,
-  Video,
-} from "lucide-react";
+import { AlertTriangle, ChevronRight, Filter, Search, Star } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
+import { LandingFaq } from "@/app/components/landing-faq";
+import { LandingFeatures } from "@/app/components/landing-features";
+import { LandingHowItWorks } from "@/app/components/landing-how-it-works";
+import {
+  type ToolDirectoryGroupId,
+  toolDirectoryGroupIcons,
+} from "@/app/components/tool-directory-group-icons";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import {
   flattenServiceGroups,
@@ -30,21 +22,6 @@ import {
 import { usePinnedTools } from "@/hooks/use-pinned-tools";
 import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-
-const groupIcons = {
-  all: Sparkles,
-  favorites: Star,
-  converters: ArrowRightLeft,
-  viewers: TableProperties,
-  excel: FileSpreadsheet,
-  developer: Braces,
-  pdf: FileText,
-  video: Video,
-  image: FileImage,
-  color: Palette,
-} as const;
-
-type GroupId = keyof typeof groupIcons;
 
 function buildDirectoryItems(locale: string) {
   const serviceGroups = getLocalizedServiceGroups(locale);
@@ -84,7 +61,8 @@ export function HomeToolsDirectory() {
   );
 
   const [query, setQuery] = React.useState("");
-  const [activeGroup, setActiveGroup] = React.useState<GroupId>("all");
+  const [activeGroup, setActiveGroup] =
+    React.useState<ToolDirectoryGroupId>("viewers");
 
   React.useLayoutEffect(() => {
     function syncQueryFromUrl() {
@@ -118,27 +96,32 @@ export function HomeToolsDirectory() {
 
   const visibleItems = React.useMemo(() => {
     const normalizedQuery = normalizeSearchValue(query);
+    const hasSearch = Boolean(normalizedQuery);
 
-    const filtered = rankedItems.filter((item) => {
-      const matchesGroup =
-        activeGroup === "all"
-          ? true
-          : activeGroup === "favorites"
-            ? pinnedSet.has(item.href)
-            : item.groupId === activeGroup;
+    function matchesActiveCategory(item: ToolSearchItem) {
+      if (activeGroup === "all") return true;
+      if (activeGroup === "favorites") return pinnedSet.has(item.href);
+      return item.groupId === activeGroup;
+    }
 
-      if (!matchesGroup) return false;
-      if (!normalizedQuery) return true;
+    if (!hasSearch) {
+      const filtered = rankedItems.filter(matchesActiveCategory);
+      if (activeGroup !== "favorites") return filtered;
 
-      return getSearchScore(item, query) > 0;
-    });
+      const order = new Map(pinnedHrefs.map((href, index) => [href, index]));
+      return [...filtered].sort(
+        (a, b) => (order.get(a.href) ?? 1e9) - (order.get(b.href) ?? 1e9),
+      );
+    }
+    if (activeGroup === "all") return rankedItems;
 
-    if (activeGroup !== "favorites") return filtered;
-
-    const order = new Map(pinnedHrefs.map((href, index) => [href, index]));
-    return [...filtered].sort(
-      (a, b) => (order.get(a.href) ?? 1e9) - (order.get(b.href) ?? 1e9),
-    );
+    const inCategory: ToolSearchItem[] = [];
+    const globalRest: ToolSearchItem[] = [];
+    for (const item of rankedItems) {
+      if (matchesActiveCategory(item)) inCategory.push(item);
+      else globalRest.push(item);
+    }
+    return [...inCategory, ...globalRest];
   }, [activeGroup, pinnedHrefs, pinnedSet, query, rankedItems]);
 
   const topHit = visibleItems[0] ?? null;
@@ -162,14 +145,13 @@ export function HomeToolsDirectory() {
       urlSyncTimeoutRef.current = null;
     }
     setQuery("");
-    setActiveGroup("all");
+    setActiveGroup("viewers");
     replaceSearchParamQ("");
   }
 
   return (
     <section className="flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col overflow-x-hidden bg-background font-mono text-foreground [-webkit-font-smoothing:auto]">
       <div className="mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col px-3 py-3 sm:px-4 sm:py-4 md:px-8 md:py-6">
-        {/* Room for hard shadow so the page does not gain a horizontal scrollbar */}
         <div className="min-w-0 pr-2 pb-2 sm:pr-2.5 sm:pb-2.5 md:pr-3 md:pb-3">
           <div
             className={cn(
@@ -182,11 +164,11 @@ export function HomeToolsDirectory() {
                 initial={{ x: -16, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="whitespace-pre-line text-balance break-words font-black text-[clamp(1.75rem,8vw,3rem)] uppercase leading-[0.95] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl"
+                className="whitespace-pre-line text-balance wrap-break-word font-black text-[clamp(1.75rem,8vw,3rem)] uppercase leading-[0.95] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl"
               >
                 {tLanding("heroTitle")}
               </motion.h1>
-              <p className="mt-4 max-w-3xl break-words font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-6 md:text-base">
+              <p className="mt-4 max-w-3xl wrap-break-word font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-6 md:text-base">
                 {tLanding("directorySubtitle")}
               </p>
             </header>
@@ -243,17 +225,17 @@ export function HomeToolsDirectory() {
                     </div>
                     <div className="no-scrollbar flex min-w-0 flex-row gap-2 overflow-x-auto overscroll-x-contain pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
                       <CategoryBrutalistButton
-                        label={tLanding("directoryAllLabel")}
-                        count={searchItems.length}
-                        active={activeGroup === "all"}
-                        onClick={() => setActiveGroup("all")}
-                      />
-                      <CategoryBrutalistButton
                         icon={Star}
                         label={tLanding("directoryFavoritesLabel")}
                         count={pinnedHrefs.length}
                         active={activeGroup === "favorites"}
                         onClick={() => setActiveGroup("favorites")}
+                      />
+                      <CategoryBrutalistButton
+                        label={tLanding("directoryAllLabel")}
+                        count={searchItems.length}
+                        active={activeGroup === "all"}
+                        onClick={() => setActiveGroup("all")}
                       />
                       {serviceGroups.map((group) => {
                         const count = searchItems.filter(
@@ -266,7 +248,9 @@ export function HomeToolsDirectory() {
                             label={group.title}
                             count={count}
                             active={activeGroup === group.id}
-                            onClick={() => setActiveGroup(group.id as GroupId)}
+                            onClick={() =>
+                              setActiveGroup(group.id as ToolDirectoryGroupId)
+                            }
                           />
                         );
                       })}
@@ -276,15 +260,15 @@ export function HomeToolsDirectory() {
               </aside>
 
               <div className="flex min-w-0 flex-1 flex-col bg-brutal-canvas">
-                <div className="min-w-0 shrink-0 break-words border-border border-b-4 bg-brutal-canvas px-3 py-2.5 font-black text-[9px] text-brutal-canvas-foreground uppercase leading-tight tracking-widest sm:px-4 sm:py-3 sm:text-[10px]">
+                <div className="min-w-0 shrink-0 wrap-break-word border-border border-b-4 bg-brutal-canvas px-3 py-2.5 font-black text-[9px] text-brutal-canvas-foreground uppercase leading-tight tracking-widest sm:px-4 sm:py-3 sm:text-[10px]">
                   {query.trim()
                     ? tLanding("directoryResultsLabel", {
-                        count: visibleItems.length,
-                        query: query.trim(),
-                      })
+                      count: visibleItems.length,
+                      query: query.trim(),
+                    })
                     : tLanding("directoryReadyLabel", {
-                        count: visibleItems.length,
-                      })}
+                      count: visibleItems.length,
+                    })}
                 </div>
 
                 <div className="grid min-w-0 auto-rows-fr grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
@@ -313,15 +297,15 @@ export function HomeToolsDirectory() {
                           className="mx-auto mb-6 size-16 text-foreground"
                           aria-hidden
                         />
-                        <h2 className="break-words font-black text-2xl uppercase tracking-tighter sm:text-3xl md:text-4xl">
+                        <h2 className="wrap-break-word font-black text-2xl uppercase tracking-tighter sm:text-3xl md:text-4xl">
                           {activeGroup === "favorites" &&
-                          !normalizeSearchValue(query)
+                            !normalizeSearchValue(query)
                             ? tLanding("directoryFavoritesEmptyTitle")
                             : tLanding("directoryEmptyTitle")}
                         </h2>
                         <p className="mt-4 font-bold text-muted-foreground text-sm md:text-base">
                           {activeGroup === "favorites" &&
-                          !normalizeSearchValue(query)
+                            !normalizeSearchValue(query)
                             ? tLanding("directoryFavoritesEmptyDescription")
                             : tLanding("directoryEmptyDescription")}
                         </p>
@@ -338,6 +322,10 @@ export function HomeToolsDirectory() {
                 </div>
               </div>
             </div>
+
+            <LandingHowItWorks />
+            <LandingFeatures />
+            <LandingFaq />
           </div>
         </div>
       </div>
@@ -402,7 +390,9 @@ function ToolCardBrutalist({
   unpinAriaLabel: string;
   onTogglePin: () => void;
 }) {
-  const CardIcon = groupIcons[(item.groupId as GroupId) ?? "all"] ?? Sparkles;
+  const CardIcon =
+    toolDirectoryGroupIcons[(item.groupId as ToolDirectoryGroupId) ?? "all"] ??
+    toolDirectoryGroupIcons.all;
 
   return (
     <motion.div
@@ -447,10 +437,10 @@ function ToolCardBrutalist({
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col gap-4">
-          <h2 className="text-balance break-words font-black text-xl uppercase leading-none tracking-tighter sm:text-2xl md:text-3xl">
+          <h2 className="text-balance wrap-break-word font-black text-xl uppercase leading-none tracking-tighter sm:text-2xl md:text-3xl">
             {item.label}
           </h2>
-          <p className="break-words font-bold text-muted-foreground text-sm leading-snug group-hover:text-primary-foreground/80">
+          <p className="wrap-break-word font-bold text-muted-foreground text-sm leading-snug group-hover:text-primary-foreground/80">
             {item.description}
           </p>
         </div>

@@ -294,6 +294,11 @@ export function getServiceGroups({
           description: services("imageResizeDesc"),
         },
         {
+          href: "/favicon-generator",
+          label: services("faviconGeneratorLabel"),
+          description: services("faviconGeneratorDesc"),
+        },
+        {
           href: "/heic-to-jpg",
           label: services("heicToJpgLabel"),
           description: services("heicToJpgDesc"),

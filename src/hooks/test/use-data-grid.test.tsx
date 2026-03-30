@@ -1571,6 +1571,31 @@ describe("useDataGrid", () => {
       expect(result.current.searchState?.matchIndex).toBe(0);
     });
 
+    it("should include matches in rows hidden by column filters (global search)", () => {
+      const { result } = renderHook(
+        () =>
+          useDataGrid({
+            data: testData,
+            columns: testColumns,
+            enableSearch: true,
+            initialState: {
+              columnFilters: [{ id: "name", value: "Tony" }],
+            },
+          }),
+        { wrapper: createWrapper() },
+      );
+
+      expect(result.current.table.getRowModel().rows).toHaveLength(1);
+
+      act(() => {
+        result.current.searchState?.onSearch("Kickflip");
+      });
+
+      const matches = result.current.searchState?.searchMatches ?? [];
+      expect(matches.length).toBeGreaterThan(0);
+      expect(matches.some((m) => m.dataRowIndex === 1)).toBe(true);
+    });
+
     it("should provide searchMatchesByRow computed value", () => {
       const { result } = renderHook(
         () =>

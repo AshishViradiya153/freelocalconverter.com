@@ -57,7 +57,7 @@ function getLocalizedLabel(
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
-    | "imageRemoveBackground"
+    | "faviconGenerator"
     | "heicToJpg"
     | "linkedinBanner"
     | "colorPaletteGenerator"
@@ -76,23 +76,23 @@ function getLocalizedLabel(
   switch (key) {
     case "csvViewer":
       return localizedText(locale, {
-        en: "CSV Viewer",
-        de: "CSV-Viewer",
-        es: "Visor CSV",
-        fr: "Visionneuse CSV",
-        it: "Visualizzatore CSV",
-        ja: "CSVビューア",
-        ko: "CSV 뷰어",
-        nl: "CSV-viewer",
-        pt: "Visualizador CSV",
-        ru: "Просмотр CSV",
-        tr: "CSV Goruntuleyici",
-        zh: "CSV 查看器",
-        ar: "عارض CSV",
-        fa: "نمایشگر CSV",
-        he: "מציג CSV",
-        az: "CSV goruntuleyici",
-        el: "Προβολη CSV",
+        en: "CSV viewer & editor",
+        de: "CSV-Viewer & Editor",
+        es: "Visor y editor CSV",
+        fr: "Visionneuse et éditeur CSV",
+        it: "Visualizzatore e editor CSV",
+        ja: "CSVビューアとエディタ",
+        ko: "CSV 뷰어·편집기",
+        nl: "CSV-viewer en editor",
+        pt: "Visualizador e editor CSV",
+        ru: "Просмотр и редактирование CSV",
+        tr: "CSV goruntuleyici ve duzenleyici",
+        zh: "CSV 查看器与编辑器",
+        ar: "عارض ومحرر CSV",
+        fa: "نمایشگر و ویرایشگر CSV",
+        he: "מציג ועורך CSV",
+        az: "CSV baxıcı və redaktor",
+        el: "Προβολη και επεξεργασια CSV",
       });
     case "csvCompare":
       return localizedText(locale, {
@@ -236,33 +236,33 @@ function getLocalizedLabel(
       });
     case "xlsViewer":
       return localizedText(locale, {
-        en: "Excel Viewer",
-        de: "Excel-Viewer",
-        es: "Visor de Excel",
-        fr: "Visionneuse Excel",
-        it: "Visualizzatore Excel",
-        ja: "Excelビューア",
-        ko: "Excel 뷰어",
-        nl: "Excel-viewer",
-        pt: "Visualizador de Excel",
-        ru: "Просмотр Excel",
-        tr: "Excel Goruntuleyici",
-        zh: "Excel 查看器",
+        en: "Excel viewer & editor",
+        de: "Excel-Viewer & Editor",
+        es: "Visor y editor de Excel",
+        fr: "Visionneuse et éditeur Excel",
+        it: "Visualizzatore e editor Excel",
+        ja: "Excelビューアとエディタ",
+        ko: "Excel 뷰어·편집기",
+        nl: "Excel-viewer en editor",
+        pt: "Visualizador e editor Excel",
+        ru: "Просмотр и редактирование Excel",
+        tr: "Excel goruntuleyici ve duzenleyici",
+        zh: "Excel 查看器与编辑器",
       });
     case "parquetViewer":
       return localizedText(locale, {
-        en: "Parquet Viewer",
-        de: "Parquet-Viewer",
-        es: "Visor Parquet",
-        fr: "Visionneuse Parquet",
-        it: "Visualizzatore Parquet",
-        ja: "Parquetビューア",
-        ko: "Parquet 뷰어",
-        nl: "Parquet-viewer",
-        pt: "Visualizador Parquet",
-        ru: "Просмотр Parquet",
-        tr: "Parquet Goruntuleyici",
-        zh: "Parquet 查看器",
+        en: "Parquet viewer & editor",
+        de: "Parquet-Viewer & Editor",
+        es: "Visor y editor Parquet",
+        fr: "Visionneuse et éditeur Parquet",
+        it: "Visualizzatore e editor Parquet",
+        ja: "Parquetビューアとエディタ",
+        ko: "Parquet 뷰어·편집기",
+        nl: "Parquet-viewer en editor",
+        pt: "Visualizador e editor Parquet",
+        ru: "Просмотр и редактирование Parquet",
+        tr: "Parquet goruntuleyici ve duzenleyici",
+        zh: "Parquet 查看器与编辑器",
       });
     case "csvToExcel":
       return localizedText(locale, {
@@ -546,18 +546,18 @@ function getLocalizedLabel(
       });
     case "openapiViewer":
       return localizedText(locale, {
-        en: "OpenAPI Viewer",
-        de: "OpenAPI-Viewer",
-        es: "Visor OpenAPI",
-        fr: "Visionneuse OpenAPI",
-        it: "Visualizzatore OpenAPI",
-        ja: "OpenAPIビューア",
-        ko: "OpenAPI 뷰어",
-        nl: "OpenAPI-viewer",
-        pt: "Visualizador OpenAPI",
-        ru: "Просмотр OpenAPI",
-        tr: "OpenAPI Goruntuleyici",
-        zh: "OpenAPI 查看器",
+        en: "OpenAPI viewer & editor",
+        de: "OpenAPI-Viewer & Editor",
+        es: "Visor y editor OpenAPI",
+        fr: "Visionneuse et éditeur OpenAPI",
+        it: "Visualizzatore e editor OpenAPI",
+        ja: "OpenAPIビューアとエディタ",
+        ko: "OpenAPI 뷰어·편집기",
+        nl: "OpenAPI-viewer en editor",
+        pt: "Visualizador e editor OpenAPI",
+        ru: "Просмотр и правка OpenAPI",
+        tr: "OpenAPI goruntuleyici ve duzenleyici",
+        zh: "OpenAPI 查看器与编辑器",
       });
     case "graphqlTools":
       return localizedText(locale, {
@@ -576,18 +576,18 @@ function getLocalizedLabel(
       });
     case "webhookViewer":
       return localizedText(locale, {
-        en: "Webhook Viewer",
-        de: "Webhook-Viewer",
-        es: "Visor de Webhooks",
-        fr: "Visionneuse Webhook",
-        it: "Visualizzatore Webhook",
-        ja: "Webhookビューア",
-        ko: "Webhook 뷰어",
-        nl: "Webhook-viewer",
-        pt: "Visualizador de Webhook",
-        ru: "Просмотр Webhook",
-        tr: "Webhook Goruntuleyici",
-        zh: "Webhook 查看器",
+        en: "Webhook viewer & editor",
+        de: "Webhook-Viewer & Editor",
+        es: "Visor y editor de webhooks",
+        fr: "Visionneuse et éditeur webhook",
+        it: "Visualizzatore e editor webhook",
+        ja: "Webhookビューアとエディタ",
+        ko: "Webhook 뷰어·편집기",
+        nl: "Webhook-viewer en editor",
+        pt: "Visualizador e editor de webhook",
+        ru: "Просмотр и правка webhook",
+        tr: "Webhook goruntuleyici ve duzenleyici",
+        zh: "Webhook 查看器与编辑器",
       });
     case "pdfToWord":
       return localizedText(locale, {
@@ -769,20 +769,20 @@ function getLocalizedLabel(
         tr: "Boyutlandir/Kirp + Donustur",
         zh: "调整大小/裁剪 + 转换",
       });
-    case "imageRemoveBackground":
+    case "faviconGenerator":
       return localizedText(locale, {
-        en: "Remove background",
-        de: "Hintergrund entfernen",
-        es: "Quitar fondo",
-        fr: "Supprimer le fond",
-        it: "Rimuovi sfondo",
-        ja: "背景削除",
-        ko: "배경 제거",
-        nl: "Achtergrond verwijderen",
-        pt: "Remover fundo",
-        ru: "Удалить фон",
-        tr: "Arka plani kaldir",
-        zh: "去除背景",
+        en: "Favicon generator",
+        de: "Favicon-Generator",
+        es: "Generador de favicon",
+        fr: "Generateur de favicon",
+        it: "Generatore favicon",
+        ja: "ファビコン生成",
+        ko: "파비콘 생성기",
+        nl: "Favicon-generator",
+        pt: "Gerador de favicon",
+        ru: "Генератор favicon",
+        tr: "Favicon uretici",
+        zh: "网站图标生成器",
       });
     case "heicToJpg":
       return localizedText(locale, {
@@ -1042,7 +1042,7 @@ function getLocalizedDescription(
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
-    | "imageRemoveBackground"
+    | "faviconGenerator"
     | "heicToJpg"
     | "linkedinBanner"
     | "colorPaletteGenerator"
@@ -1077,18 +1077,18 @@ function getLocalizedDescription(
       });
     case "groupViewers":
       return localizedText(locale, {
-        en: "Preview and inspect files in your browser.",
-        de: "Dateien direkt im Browser ansehen und prufen.",
-        es: "Previsualiza e inspecciona archivos en tu navegador.",
-        fr: "Previsualisez et inspectez les fichiers dans votre navigateur.",
-        it: "Anteprima e controllo dei file nel browser.",
-        ja: "ブラウザでファイルをプレビューして確認。",
-        ko: "브라우저에서 파일을 미리 보고 확인합니다.",
-        nl: "Bekijk en inspecteer bestanden in je browser.",
-        pt: "Visualize e inspecione arquivos no navegador.",
-        ru: "Просматривайте и проверяйте файлы в браузере.",
-        tr: "Dosyalari tarayicinizda onizleyin ve inceleyin.",
-        zh: "在浏览器中预览并检查文件。",
+        en: "Open, search, and edit locally—editable grids, specs, and JSON payloads in your browser.",
+        de: "Lokal oeffnen, suchen und bearbeiten: editierbare Tabellen, Spezifikationen und JSON-Nutzdaten im Browser.",
+        es: "Abre, busca y edita en local: rejillas, especificaciones y JSON en el navegador.",
+        fr: "Ouvrez, cherchez et modifiez en local : grilles, specs et JSON dans le navigateur.",
+        it: "Apri, cerca e modifica in locale: griglie, spec e payload JSON nel browser.",
+        ja: "ブラウザでローカルに開く・検索・編集（表、仕様、JSON）。",
+        ko: "브라우저에서 로컬로 열기·검색·편집—편집 가능한 그리드, 스펙, JSON 페이로드.",
+        nl: "Open, zoek en bewerk lokaal: bewerkbare grids, specs en JSON in je browser.",
+        pt: "Abra, pesquise e edite localmente: grades editaveis, specs e JSON no navegador.",
+        ru: "Открывайте, ищите и правьте локально: редактируемые таблицы, спеки и JSON в браузере.",
+        tr: "Yerelde acin, arayin ve duzenleyin: tarayicida duzenlenebilir izgaralar, spec ve JSON.",
+        zh: "在浏览器本地打开、搜索和编辑—可编辑表格、规格与 JSON 负载。",
       });
     case "groupExcel":
       return localizedText(locale, {
@@ -1152,18 +1152,18 @@ function getLocalizedDescription(
       });
     case "groupImage":
       return localizedText(locale, {
-        en: "Image tools: compress, convert, resize, and remove backgrounds locally.",
-        de: "Bildwerkzeuge: lokal komprimieren, konvertieren, skalieren und Hintergrunde entfernen.",
-        es: "Herramientas de imagen: comprime, convierte, cambia tamano y quita fondos localmente.",
-        fr: "Outils image : compresser, convertir, redimensionner et supprimer l'arriere-plan localement.",
-        it: "Strumenti immagine: comprimi, converti, ridimensiona e rimuovi lo sfondo in locale.",
-        ja: "画像ツール：ローカルで圧縮、変換、リサイズ、背景削除。",
-        ko: "이미지 도구: 로컬에서 압축, 변환, 크기 조정, 배경 제거.",
-        nl: "Afbeeldingstools: lokaal comprimeren, converteren, schalen en achtergronden verwijderen.",
-        pt: "Ferramentas de imagem: comprima, converta, redimensione e remova fundos localmente.",
-        ru: "Инструменты для изображений: сжатие, конвертация, изменение размера и удаление фона локально.",
-        tr: "Gorsel araclari: yerelde sikistir, donustur, boyutlandir ve arka plani kaldir.",
-        zh: "图片工具：本地压缩、转换、调整大小并去除背景。",
+        en: "Image tools: compress, convert, and resize locally.",
+        de: "Bildwerkzeuge: lokal komprimieren, konvertieren und skalieren.",
+        es: "Herramientas de imagen: comprime, convierte y cambia tamano localmente.",
+        fr: "Outils image : compresser, convertir et redimensionner localement.",
+        it: "Strumenti immagine: comprimi, converti e ridimensiona in locale.",
+        ja: "画像ツール：ローカルで圧縮、変換、リサイズ。",
+        ko: "이미지 도구: 로컬에서 압축, 변환, 크기 조정.",
+        nl: "Afbeeldingstools: lokaal comprimeren, converteren en schalen.",
+        pt: "Ferramentas de imagem: comprima, converta e redimensione localmente.",
+        ru: "Инструменты для изображений: сжатие, конвертация и изменение размера локально.",
+        tr: "Gorsel araclari: yerelde sikistir, donustur ve boyutlandir.",
+        zh: "图片工具：本地压缩、转换和调整大小。",
       });
     case "groupColor":
       return localizedText(locale, {
@@ -1288,7 +1288,8 @@ function getLocalizedDescription(
     default:
       return localizedText(locale, {
         en: {
-          csvViewer: "Open and inspect CSV data quickly.",
+          csvViewer:
+            "Open CSV in an editable grid, search and export—runs locally in your browser.",
           csvCompare: "Compare two CSV files side by side.",
           csvToJson: "Convert CSV files to JSON.",
           jsonToCsv: "Convert JSON to CSV format.",
@@ -1299,8 +1300,10 @@ function getLocalizedDescription(
           csvToMarkdownTable: "Generate Markdown tables from CSV files.",
           csvToSql:
             "Generate CREATE TABLE and INSERT statements from CSV (PostgreSQL, MySQL, SQLite).",
-          xlsViewer: "View Excel files directly in a grid.",
-          parquetViewer: "Open and browse Parquet files.",
+          xlsViewer:
+            "Open Excel in an editable grid; edit cells and export locally.",
+          parquetViewer:
+            "Browse Parquet in an editable grid and export back to .parquet locally.",
           csvToExcel: "Convert CSV to XLSX files.",
           xlsToCsv: "Turn Excel sheets into CSV.",
           jsonToExcel: "Convert JSON into XLSX.",
@@ -1330,9 +1333,12 @@ function getLocalizedDescription(
           pythonRequestsConverter:
             "Convert Python requests snippets to cURL, fetch, or axios.",
           httpExplainer: "Explain status codes and common HTTP headers.",
-          openapiViewer: "Load OpenAPI specs and browse endpoints.",
-          graphqlTools: "Format queries and inspect schema types.",
-          webhookViewer: "Pretty-print payloads and search JSONPath.",
+          openapiViewer:
+            "Paste or load OpenAPI YAML/JSON, edit the spec, and browse paths and operations.",
+          graphqlTools:
+            "Write and format GraphQL queries; load schema JSON and inspect types locally.",
+          webhookViewer:
+            "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
           pdfToWord: "Convert PDFs to DOCX files.",
           splitPdf: "Split PDF files by page or range.",
           reorderPdf: "Reorder or remove pages, then save a new PDF.",
@@ -1346,8 +1352,8 @@ function getLocalizedDescription(
           imageCompressor: "Compress images locally in bulk.",
           imageConverter: "Convert to WebP, AVIF, JPG, or PNG.",
           imageResize: "Resize, crop, convert, and rename images in bulk.",
-          imageRemoveBackground:
-            "Remove backgrounds with on-device AI; download transparent PNG.",
+          faviconGenerator:
+            "Upload one image; download a ZIP with favicon.ico, PNG sizes, and site.webmanifest.",
           heicToJpg: "Convert HEIC and HEIF photos to JPG or PNG.",
           linkedinBanner:
             "Design LinkedIn profile and page banners in standard sizes; download PNG, JPEG, or WebP.",
@@ -1393,18 +1399,18 @@ function getLocalizedGroupTitle(
       });
     case "viewers":
       return localizedText(locale, {
-        en: "Viewers",
-        de: "Viewer",
-        es: "Visores",
-        fr: "Visionneuses",
-        it: "Visualizzatori",
-        ja: "ビューア",
-        ko: "뷰어",
-        nl: "Viewers",
-        pt: "Visualizadores",
-        ru: "Просмотр",
-        tr: "Goruntuleyiciler",
-        zh: "查看器",
+        en: "Viewers & editors",
+        de: "Viewer & Editoren",
+        es: "Visores y editores",
+        fr: "Visionneuses et éditeurs",
+        it: "Visualizzatori e editor",
+        ja: "ビューアとエディタ",
+        ko: "뷰어·편집기",
+        nl: "Viewers en editors",
+        pt: "Visualizadores e editores",
+        ru: "Просмотр и редакторы",
+        tr: "Goruntuleyiciler ve duzenleyiciler",
+        zh: "查看与编辑",
       });
     case "excel":
       return localizedText(locale, {
@@ -1792,9 +1798,9 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           description: getLocalizedDescription(safeLocale, "imageResize"),
         },
         {
-          href: "/image-remove-background",
-          label: getLocalizedLabel(safeLocale, "imageRemoveBackground"),
-          description: getLocalizedDescription(safeLocale, "imageRemoveBackground"),
+          href: "/favicon-generator",
+          label: getLocalizedLabel(safeLocale, "faviconGenerator"),
+          description: getLocalizedDescription(safeLocale, "faviconGenerator"),
         },
         {
           href: "/heic-to-jpg",

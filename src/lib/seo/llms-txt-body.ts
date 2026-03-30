@@ -197,6 +197,7 @@ export const LLMS_SECTIONS: LlmsSection[] = [
       { path: "/image-compress", label: "Image compress" },
       { path: "/image-convert", label: "Image convert hub" },
       { path: "/image-resize", label: "Image resize" },
+      { path: "/favicon-generator", label: "Favicon generator" },
       { path: "/heic-to-jpg", label: "HEIC to JPG" },
       { path: "/linkedin-banner", label: "LinkedIn banner maker" },
       { path: "/svg-to-code", label: "SVG to code" },

@@ -7,8 +7,8 @@
     "csvToExcel": "CSV → Excel",
     "jsonToExcel": "JSON → Excel",
     "xlsToCsv": "Excel ← CSV",
-    "xlsViewer": "מציג Excel",
-    "parquetViewer": "מציג Parquet",
+    "xlsViewer": "Excel viewer & editor",
+    "parquetViewer": "Parquet viewer & editor",
     "guides": "מדריכים",
     "tools": "כלים",
     "blog": "בלוג",
@@ -210,6 +210,55 @@
   "landing": {
     "heroTitle": "כלים חינמיים, מודרניים,\nמקומיים ומאובטחים.",
     "heroSubtitle": "גררו קובץ CSV לרשת: מיון, סינון, חיפוש, עריכה, הדבקה, ביטול/ביצוע מחדש, הוספת או מחיקת שורות. הנתונים נשארים במכשיר זה.",
+    "featuresAria": "Product features",
+    "featuresKicker": "Features",
+    "featuresTitle": "Designed for fast, private work",
+    "featuresSubtitle": "Brutalist UI, smooth interactions, and client-side processing. Browse tools, pin favorites, and move data between formats without leaving the page.",
+    "featuresItems": {
+      "localTitle": "Local-first by default",
+      "localDescription": "Most tools run in your browser tab—no uploads for processing.",
+      "fastTitle": "Fast even on big files",
+      "fastDescription": "Responsive grids, search, and previews tuned for large datasets.",
+      "searchTitle": "Find tools instantly",
+      "searchDescription": "Search by name, category, or workflow. Jump with Enter.",
+      "favoritesTitle": "Pin your favorites",
+      "favoritesDescription": "Star tools to keep a personal shortlist on this device.",
+      "convertTitle": "Convert & export",
+      "convertDescription": "CSV, JSON, Excel, Parquet, PDF, images, video—export in one click.",
+      "polishTitle": "Nice details everywhere",
+      "polishDescription": "Keyboard shortcuts, sensible defaults, and a UI that stays out of your way."
+    },
+    "howItWorksKicker": "How it works",
+    "howItWorksTitle": "Three steps. No account.",
+    "howItWorksSubtitle": "Pick a tool from the directory, add your files in the browser, then copy or download the result. Data stays on this device for most tools.",
+    "howItWorksStep1Label": "01",
+    "howItWorksStep1Title": "Choose a tool",
+    "howItWorksStep1Description": "Press Ctrl+K or ⌘K to focus search, filter by category, or open a pinned favorite.",
+    "howItWorksStep2Label": "02",
+    "howItWorksStep2Title": "Add your files",
+    "howItWorksStep2Description": "Drop files or browse. Converters, viewers, and editors run locally in your tab—no upload queue for core workflows.",
+    "howItWorksStep3Label": "03",
+    "howItWorksStep3Title": "Copy or download",
+    "howItWorksStep3Description": "Grab the output in one click, then leave whenever you're done—no signup wall.",
+    "faqKicker": "FAQ",
+    "faqTitle": "Questions, answered",
+    "faqSubtitle": "Straight answers about privacy, limits, and how this directory works.",
+    "faq1Question": "Do you upload my files to your servers?",
+    "faq1Answer": "Most tools process files entirely in your browser. Data does not leave your device for those workflows unless a specific tool states otherwise.",
+    "faq2Question": "Do I need an account?",
+    "faq2Answer": "No. Open a tool and start working. Favorites are stored locally in your browser on this device only.",
+    "faq3Question": "Are these tools free?",
+    "faq3Answer": "Yes—the tools in this directory are free to use in the browser. There is no paywall to run conversions or open viewers listed here.",
+    "faq4Question": "Are there file size or row limits?",
+    "faq4Answer": "Yes. Each tool shows its own limits (for example max file size and row caps in the grid). Large files may be trimmed or previewed partially so the page stays responsive.",
+    "faq5Question": "What formats can I use?",
+    "faq5Answer": "The directory includes CSV, JSON, Excel, Parquet, PDF, images, video, and developer helpers such as OpenAPI and webhooks—use search to find the right workflow.",
+    "faq6Question": "Where are my pinned favorites saved?",
+    "faq6Answer": "Favorites are saved in your browser's local storage on this device. They are not synced to an account and won't appear on another browser or device unless you pin again there.",
+    "faq7Question": "How do I search the tool list quickly?",
+    "faq7Answer": "Use Ctrl+K or ⌘K to focus the directory search, type a keyword, and press Enter to open the top result.",
+    "faq8Question": "Can I use this offline or after I close the tab?",
+    "faq8Answer": "You need a network connection to load the site. Once a tool is open, much of the work happens locally in your tab. Closing the tab clears that session unless the tool stores recovery data on your device (such as draft grid state on some viewers).",
     "directoryKicker": "Tool Directory",
     "directorySubtitle": "חפשו בין ממירים, מציגים, מעצבי טקסט, כלי OpenAPI, כלי PDF, כלי תמונה ועוד. הכל נשאר קל לעיון ממקום אחד.",
     "directorySearchLabel": "Search tools",
@@ -367,15 +416,15 @@
     "subtitle": "Convert, compare, and review tabular files in your browser. Use the categories below to find the right workflow fast, without uploading sensitive data to unknown servers.",
     "groupConvertersTitle": "Converters",
     "groupConvertersDescription": "Format-to-format tools for clean handoffs.",
-    "groupViewersTitle": "Viewers & compare",
-    "groupViewersDescription": "Inspect, search, and spot differences locally.",
+    "groupViewersTitle": "Viewers, editors & compare",
+    "groupViewersDescription": "Inspect, search, edit grids and payloads, and spot CSV differences locally.",
     "groupExcelTitle": "Excel workflows",
     "groupExcelDescription": "Move between CSV/Excel/JSON while staying in-browser.",
     "groupCompanyTitle": "Learn & product",
     "groupCompanyDescription": "Docs, hubs, and key pages.",
     "viewerDesc": "Open, edit, and export CSV locally.",
     "compareDesc": "Side-by-side CSV diff with filters.",
-    "xlsViewerDesc": "Open Excel in a grid (local parsing).",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
     "parquetViewerDesc": "פתח Parquet בתוך טבלה, ערוך מקומית, ואז ייצא חזרה ל־‎.parquet.",
     "csvToExcelDesc": "Batch convert CSV files to .xlsx.",
     "xlsToCsvDesc": "Convert Excel sheets to CSV output.",
@@ -394,7 +443,8 @@
     "privacyDesc": "How we handle data and privacy.",
     "termsDesc": "Terms and conditions.",
     "copyright": "© {year} {name}. All rights reserved.",
-    "processingNotice": "We do not store your uploaded files. Processing happens in your browser."
+    "processingNotice": "We do not store your uploaded files. Processing happens in your browser.",
+    "brandStamp": "Free Local Converter"
   },
   "contactUs": {
     "metaTitle": "Contact us",
@@ -432,14 +482,69 @@
     "backToViewer": "חזרה לדף הבית",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How {name} handles information when you view files in your browser.",
-    "privacyNoticeTitle": "Privacy notice",
-    "privacyNoticeBody": "{name} is designed to process your files locally in your browser for the core experience. Your data is not uploaded for basic viewing. Some deployments may show ads and use cookies for measurement and fraud prevention.",
+    "privacySectionWhoTitle": "Who we are and what this policy covers",
+    "privacySectionWhoBody": "This Privacy Policy describes how {name} (\"we\", \"us\", or \"our\") handles information when you visit {url} (the \"Service\") and use our pages, tools, and related features.\n\nThis policy applies whether you browse informational pages, run utilities in your browser, or interact with site controls. If you use a third-party deployment, mirror, or fork of this project, another party may operate hosting and analytics. In that case, their privacy notices may apply instead of or in addition to this policy.",
+    "privacySectionScopeTitle": "What the Service is",
+    "privacySectionScopeBody": "{name} provides free, web-based utilities such as viewers and converters for data, documents, images, video, and developer workflows, together with informational content. Functionality may change over time as tools are added, updated, or retired.\n\nUnless a specific tool page clearly states otherwise, many features are implemented to perform processing in your web browser on your device. That design goal does not guarantee that no information is transmitted when you load or use the site.",
+    "privacySectionLocalTitle": "Local processing in your browser",
+    "privacySectionLocalBody": "Where a tool is designed for local processing, files you select, text you paste, and similar inputs may not leave your device for that operation. The code running in your browser performs the work. We do not receive the contents of those files on our servers solely because you opened them in such a tool.\n\nLocal processing does not remove ordinary risks on your device (for example shared devices, unlocked screens, or malware). You are responsible for securing your hardware, browser, and operating system.\n\nSome tools may store preferences, draft inputs, or recent selections using your browser storage (such as localStorage or sessionStorage). That data remains on your device unless you clear it or your browser profile syncs it across devices.",
+    "privacySectionCollectTitle": "Information we may collect or observe",
+    "privacySectionCollectBody": "Even when individual tools process data locally, operating a public website commonly involves collecting or generating limited technical and usage information. Depending on how this deployment is configured, examples may include:\n\n- Network and device technical data, such as IP address, approximate location derived from IP, browser type and version, device type, operating system, referrer URL, pages viewed, timestamps, and diagnostic logs used for security and reliability.\n\n- Information you voluntarily submit through site features, such as a contact or feedback form, including the content of your message, your email address if you provide one, and related metadata needed to deliver or respond.\n\n- Records needed to meet legal obligations, respond to lawful requests, or protect the rights, safety, and integrity of users and the Service.",
+    "privacySectionCookiesTitle": "Cookies, analytics, and similar technologies",
+    "privacySectionCookiesBody": "We and our service providers may use cookies, pixels, local storage, and similar technologies for purposes such as remembering preferences, measuring traffic and performance, debugging errors, preventing fraud or abuse, and (if enabled on this deployment) displaying or measuring advertising.\n\nWhere required by law, we will seek consent before using non-essential cookies or similar technologies, consistent with any cookie banner or preference tool presented on the site.",
+    "privacySectionThirdPartiesTitle": "Third-party services and links",
+    "privacySectionThirdPartiesBody": "We may rely on vendors for hosting, content delivery, analytics, security, email delivery, advertising, error reporting, and similar functions. Those vendors may process limited information under their own terms and privacy policies.\n\nThe Service may link to external sites, repositories, or resources. We do not control third-party practices, and this policy does not apply there.",
+    "privacySectionLegalBasesTitle": "Legal bases (EEA, UK, Switzerland, and similar regions)",
+    "privacySectionLegalBasesBody": "If you are in the European Economic Area, the United Kingdom, Switzerland, or another jurisdiction with similar rules, we process personal data only where we have a valid legal basis. Depending on the activity, bases may include: performance of a contract or steps you request; our legitimate interests that are not overridden by your rights (such as securing the Service, understanding aggregate usage, and improving reliability); compliance with law; or your consent where required (for example certain analytics or marketing technologies).",
+    "privacySectionRightsTitle": "Your privacy rights and choices",
+    "privacySectionRightsBody": "Depending on where you live, you may have rights to access, correct, delete, port, or restrict processing of personal information, or to object to certain processing. You may also have the right to withdraw consent where processing is consent-based.\n\nYou can manage many browser controls yourself, including cookies, storage, and site permissions. You may also use industry opt-out tools where available for advertising or analytics, subject to provider support.\n\nTo exercise rights related to information we control, contact us using any contact method published on the Service. We may need to verify your request as permitted by law. You may also lodge a complaint with your local supervisory authority.",
+    "privacySectionRetentionTitle": "Retention",
+    "privacySectionRetentionBody": "We retain information only for as long as needed for the purposes described in this policy, unless a longer period is required or permitted by law. Technical logs may be kept for a limited period for security and operations. Aggregated or de-identified data may be retained longer where it no longer identifies you.",
+    "privacySectionSecurityTitle": "Security",
+    "privacySectionSecurityBody": "We implement reasonable administrative, technical, and organizational safeguards designed to protect information we process. No method of transmission over the Internet or electronic storage is completely secure, so we cannot guarantee absolute security.",
+    "privacySectionChildrenTitle": "Children",
+    "privacySectionChildrenBody": "The Service is not directed to children under 13 (or the minimum age required in your jurisdiction to consent to data processing without parental permission). We do not knowingly collect personal information from children. If you believe a child provided personal information, contact us using published contact details so we can take appropriate steps.",
+    "privacySectionIntlTitle": "International visitors",
+    "privacySectionIntlBody": "We may process information in countries other than where you live. Those countries may have data protection laws that differ from your own. Where required, we use appropriate safeguards for international transfers.",
+    "privacySectionChangesTitle": "Changes to this Privacy Policy",
+    "privacySectionChangesBody": "We may update this policy to reflect changes to practices, features, legal requirements, or clarifications. When we do, we will revise the \"Last updated\" date at the top of this page. If changes are material, we will provide additional notice as appropriate (for example a banner on the site).",
+    "privacySectionDisclaimerTitle": "Important notice",
+    "privacySectionDisclaimerBody": "This policy is provided for transparency. It is not legal advice. If you run your own copy or deployment of this software for others, you are independently responsible for your privacy disclosures, contracts, vendor relationships, and compliance with applicable law.",
     "termsTitle": "Terms of Service",
     "termsDescription": "Terms of use for {name}.",
     "termsBody": "These terms govern your use of {name}. By using the site, you agree to them.",
-    "termsNoticeTitle": "Terms notice",
-    "termsNoticeBody": "{name} is provided “as is”. Don’t use the service for unlawful content or data you’re not allowed to process. Limits may apply to keep the in-browser experience reliable.",
-    "termsNoticeHint": "If you operate this deployment, update these terms with your legal entity details and any additional disclosures required in your region.",
+    "termsSectionAgreementTitle": "Agreement to these Terms",
+    "termsSectionAgreementBody": "These Terms of Service (\"Terms\") govern your access to and use of {name}, including {url} and all related pages, tools, documentation, and features (collectively, the \"Service\"). By accessing or using the Service, you agree to these Terms. If you do not agree, do not use the Service.\n\nIf you use the Service on behalf of an organization, you represent that you have authority to bind that organization, and \"you\" includes that organization.",
+    "termsSectionServiceTitle": "The Service",
+    "termsSectionServiceBody": "The Service provides informational content and browser-based utilities. Features, availability, and limits may change at any time. We may test new functionality, run maintenance, or discontinue parts of the Service without liability except where prohibited by law.\n\nUnless stated otherwise for a specific tool, many utilities are designed so that files and inputs you provide are processed locally in your browser. Our Privacy Policy describes what information may still be collected in connection with operating the site.",
+    "termsSectionEligibilityTitle": "Eligibility and your responsibilities",
+    "termsSectionEligibilityBody": "You may use the Service only if you can form a binding contract in your jurisdiction and are not barred from using the Service under applicable law. You are responsible for your conduct, your devices, your network connection, and compliance with laws that apply to you.\n\nYou represent that you have all rights and consents needed for any data, files, or content you process with the Service, including any personal data about other people.",
+    "termsSectionAcceptableUseTitle": "Acceptable use",
+    "termsSectionAcceptableUseBody": "You will not misuse the Service. Without limitation, you agree not to: violate law or third-party rights; attempt to gain unauthorized access to systems, data, or accounts; interfere with or disrupt the Service or its infrastructure; probe, scan, or test vulnerabilities except as expressly permitted in writing; distribute malware; engage in automated access that imposes an unreasonable load; scrape or harvest data in bulk in breach of these Terms or technical measures; impersonate others; or use the Service to generate or distribute unlawful, harmful, harassing, deceptive, or infringing materials.\n\nWe may investigate violations and cooperate with law enforcement where required.",
+    "termsSectionUserContentTitle": "Your content and outputs",
+    "termsSectionUserContentBody": "You retain any rights you already hold in files, text, and other materials you provide. You grant us a limited license to host, process, and display such materials only to the extent technically required to operate the Service for you (for example transmitting page assets, handling voluntary submissions such as contact messages, and providing security protections).\n\nYou are solely responsible for inputs you provide, outputs you generate, and how you store or share results. We are not responsible for decisions you make based on tool output, including business, medical, legal, financial, or safety decisions.\n\nIf you believe content on the Service infringes your rights, contact us using published contact details with enough information for us to evaluate the request.",
+    "termsSectionIpTitle": "Intellectual property",
+    "termsSectionIpBody": "{name}, its branding, and the site's design, text, graphics, and original code are protected by intellectual property laws except where open-source licenses apply to specific components as stated in repository notices (for example a LICENSE file). You may not remove proprietary notices, copy the Service's look and feel to confuse users, or use our trademarks in a misleading way.\n\nOpen-source components, if any, remain subject to their respective license terms.",
+    "termsSectionNoWarrantyTitle": "No warranty",
+    "termsSectionNoWarrantyBody": "THE SERVICE IS PROVIDED \"AS IS\" AND \"AS AVAILABLE\" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT, TO THE MAXIMUM EXTENT PERMITTED BY LAW.\n\nWe do not warrant that the Service will be uninterrupted, error-free, secure, or free of harmful components, or that outputs will be accurate, complete, or fit for any purpose.",
+    "termsSectionLiabilityTitle": "Limitation of liability",
+    "termsSectionLiabilityBody": "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL THE SERVICE OPERATOR OR ITS SUPPLIERS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, DATA, GOODWILL, OR BUSINESS OPPORTUNITY, ARISING OUT OF OR RELATED TO YOUR USE OF THE SERVICE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.\n\nTO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, OUR AGGREGATE LIABILITY FOR ALL CLAIMS ARISING OUT OF OR RELATED TO THE SERVICE OR THESE TERMS WILL NOT EXCEED THE GREATER OF (A) THE AMOUNTS YOU PAID US FOR THE SERVICE IN THE TWELVE MONTHS BEFORE THE EVENT GIVING RISE TO LIABILITY OR (B) ONE HUNDRED US DOLLARS (US $100), IF YOU HAVE NOT PAID US ANYTHING.\n\nSome jurisdictions do not allow certain limitations. In those cases, limitations apply to you only to the extent permitted by law.",
+    "termsSectionIndemnityTitle": "Indemnity",
+    "termsSectionIndemnityBody": "You will defend, indemnify, and hold harmless the Service operator and its affiliates, directors, officers, employees, and agents from and against any claims, liabilities, damages, losses, and expenses (including reasonable attorneys' fees) arising out of or related to your use of the Service, your violation of these Terms, or your violation of third-party rights.",
+    "termsSectionThirdPartyTitle": "Third-party services",
+    "termsSectionThirdPartyBody": "The Service may integrate with or link to third-party websites, APIs, libraries, advertisements, analytics tools, or repositories. Your use of third-party services is governed by their terms and policies. We are not responsible for third-party services.",
+    "termsSectionAvailabilityTitle": "Availability and changes",
+    "termsSectionAvailabilityBody": "We may modify, suspend, or discontinue the Service, in whole or in part, at any time. We may impose limits (such as rate limits) to protect reliability and fair use.",
+    "termsSectionChangesTitle": "Changes to these Terms",
+    "termsSectionChangesBody": "We may update these Terms from time to time. If we make material changes, we will provide reasonable notice as appropriate, such as posting an updated version with a new effective date or using on-site notices. Continued use after changes become effective constitutes acceptance unless applicable law requires a different process for your situation.",
+    "termsSectionTerminationTitle": "Termination",
+    "termsSectionTerminationBody": "You may stop using the Service at any time. We may suspend or terminate access if we reasonably believe you violated these Terms, create risk or legal exposure, or must do so to comply with law. Provisions that by their nature should survive will survive termination (including disclaimers, limitations of liability, indemnity, governing law, and dispute provisions where applicable).",
+    "termsSectionLawTitle": "Governing law and disputes",
+    "termsSectionLawBody": "These Terms are governed by the laws of the jurisdiction where the Service operator is established, without regard to conflict-of-law principles, except that mandatory consumer-protection rules in your country may still apply to you where required by law.\n\nSubject to those mandatory rules, exclusive jurisdiction and venue for disputes will lie with the courts of that same jurisdiction, unless applicable law requires a different forum for consumers.\n\nBefore filing a claim, you agree to try to resolve the dispute informally by contacting us using published contact details.",
+    "termsSectionGeneralTitle": "General",
+    "termsSectionGeneralBody": "These Terms constitute the entire agreement between you and the operator regarding the Service and supersede prior understandings on the same subject. If any provision is found unenforceable, the remaining provisions remain in effect. Our failure to enforce a provision is not a waiver. You may not assign these Terms without our consent; we may assign them in connection with a merger, acquisition, corporate reorganization, or sale of assets.",
+    "termsSectionNotLegalAdviceTitle": "Not legal advice",
+    "termsSectionNotLegalAdviceBody": "These Terms are a practical template for a browser-utility site. They are not a substitute for advice from a qualified attorney. If you operate the Service commercially, serve regulated industries, or handle sensitive categories of personal data, obtain professional guidance appropriate to your situation and region.",
     "termsLink": "Terms of Service",
     "privacyLink": "Privacy"
   },
@@ -503,6 +608,8 @@
     "toolsHubDescription": "דפים מותאמים לכוונת חיפוש לבדיקת CSV בדפדפן, ייצוא מסחר אלקטרוני ותהליכים קשורים, עם נתונים מובנים ומטא-דאטה עקבית.",
     "toolsHubSectionsTitle": "עיון לפי קטגוריה",
     "relatedPagesTitle": "דפים קשורים",
+    "relatedAppToolsTitle": "Related tools",
+    "relatedAppToolsSubtitle": "More from {category}",
     "relatedImageConvertTitle": "Related conversions",
     "contentLocaleNotice": "גוף התוכן באנגלית. הממשק בשפה שבחרת לניווט ונגישות.",
     "faqHeading": "שאלות נפוצות",
@@ -584,8 +691,8 @@
   "services": {
     "groupConvertersTitle": "Converters",
     "groupConvertersDescription": "Convert between CSV, JSON, and Parquet instantly.",
-    "groupViewersTitle": "Viewers",
-    "groupViewersDescription": "Preview and inspect files in your browser.",
+    "groupViewersTitle": "Viewers & editors",
+    "groupViewersDescription": "Open, search, and edit locally—editable grids, OpenAPI specs, webhook JSON, and more in your browser.",
     "groupExcelTitle": "Excel",
     "groupExcelDescription": "Import and export between CSV, JSON, and Excel.",
     "groupDeveloperTitle": "Developer",
@@ -598,8 +705,8 @@
     "groupImageDescription": "Image tools: compress, convert, and resize locally.",
     "groupColorTitle": "Color",
     "groupColorDescription": "Color tools: generators and trending galleries.",
-    "csvViewerLabel": "CSV Viewer",
-    "csvViewerDesc": "Open and inspect CSV data quickly.",
+    "csvViewerLabel": "CSV viewer & editor",
+    "csvViewerDesc": "Open CSV in an editable grid, search and export—runs locally in your browser.",
     "csvCompareLabel": "CSV Compare",
     "csvCompareDesc": "Compare two CSV files side by side.",
     "csvToExcelDesc": "Convert CSV to XLSX files.",
@@ -613,8 +720,8 @@
     "parquetToJsonDesc": "Convert Parquet into JSON.",
     "csvToMarkdownTableDesc": "Generate markdown tables from CSV files.",
     "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
-    "xlsViewerDesc": "View Excel XLS files directly.",
-    "parquetViewerDesc": "Open and browse Parquet files.",
+    "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
+    "parquetViewerDesc": "Browse Parquet in an editable grid and export back to .parquet locally.",
     "jsonFormatterLabel": "JSON Formatter",
     "jsonFormatterDesc": "Format, minify, and validate JSON locally.",
     "sqlFormatterLabel": "SQL formatter",
@@ -645,12 +752,12 @@
     "pythonRequestsConverterDesc": "Convert Python requests snippets to cURL/fetch/axios.",
     "httpExplainerLabel": "HTTP Explainer",
     "httpExplainerDesc": "Explain status codes and common HTTP headers.",
-    "openapiViewerLabel": "OpenAPI Viewer",
-    "openapiViewerDesc": "Load OpenAPI specs and browse endpoints.",
+    "openapiViewerLabel": "OpenAPI viewer & editor",
+    "openapiViewerDesc": "Paste or load OpenAPI YAML/JSON, edit the spec, and browse paths and operations.",
     "graphqlToolsLabel": "GraphQL Tools",
-    "graphqlToolsDesc": "Format queries and inspect schema types.",
-    "webhookViewerLabel": "Webhook Viewer",
-    "webhookViewerDesc": "Pretty-print payloads and search JSONPath.",
+    "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
+    "webhookViewerLabel": "Webhook viewer & editor",
+    "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
     "pdfToWordLabel": "PDF to Word",
     "pdfToWordDesc": "Convert PDFs to DOCX files.",
     "splitPdfLabel": "Split PDF",
@@ -675,8 +782,8 @@
     "imageConverterDesc": "Convert to WebP, AVIF, JPG, or PNG.",
     "imageResizeLabel": "Resize/Crop + Convert",
     "imageResizeDesc": "Resize, crop, convert, and rename images in bulk.",
-    "imageRemoveBackgroundLabel": "Remove background",
-    "imageRemoveBackgroundDesc": "Remove backgrounds with on-device AI; transparent PNG.",
+    "faviconGeneratorLabel": "Favicon generator",
+    "faviconGeneratorDesc": "Turn one image into favicon.ico, PNG sizes, and site.webmanifest in a ZIP.",
     "heicToJpgLabel": "HEIC to JPG/PNG",
     "heicToJpgDesc": "Convert HEIC/HEIF photos to JPG or PNG.",
     "colorPaletteGeneratorLabel": "Color Palette Generator",
@@ -704,10 +811,110 @@
     "faq3Answer": "Yes. The hub at /image-convert lists the full tool; this URL sets the default output to {to} and targets people who already know their source is {from}. You can still change output format in the tool if you need a different export.",
     "keywordsLine": "{from} to {to} | convert {from} to {to} online free | {from} to {to} converter | free {from} to {to} no upload | browser {from} to {to} private | local {from} to {to}"
   },
+  "faviconGenerator": {
+    "heroTitle": "Favicon generator",
+    "heroDescription": "Upload a square or rectangular logo. We center-crop to a square, scale to standard sizes, build a multi-size favicon.ico, and package everything in a ZIP—same layout as typical favicon.io exports. All processing runs in your browser.",
+    "sectionInput": "Source image",
+    "sourceModeLabel": "Start from",
+    "sourceModeText": "Text",
+    "sourceModeEmoji": "Emoji",
+    "sourceModeImage": "Image",
+    "designSectionTitle": "Design studio",
+    "designBgKindLabel": "Background",
+    "designBgSolid": "Solid",
+    "designBgLinear": "Gradient",
+    "designBgMesh": "Mesh",
+    "designSolidColor": "Background color",
+    "designCustomGradient": "Use two custom colors",
+    "designGradientFrom": "Color at start",
+    "designGradientTo": "Color at end",
+    "designGradientPreset": "Gradient style",
+    "designMeshPreset": "Mesh style",
+    "designMeshHint": "Soft, layered blobs—good for modern app icons.",
+    "designTextLabel": "Letters (up to 3)",
+    "designTextPlaceholder": "A",
+    "designTextHint": "Short initials or a single letter read best at 16×16.",
+    "designFontLabel": "Typeface",
+    "designTextColor": "Text color",
+    "designEmojiLabel": "Emoji",
+    "designEmojiPlaceholder": "Paste or pick one",
+    "designEmojiQuick": "Quick picks",
+    "designPreviewLabel": "Live preview",
+    "linearPreset": {
+      "indigo-violet": "Indigo → violet",
+      "ocean": "Ocean blue",
+      "sunset": "Sunset pink",
+      "forest": "Forest green",
+      "midnight": "Midnight blue",
+      "ember": "Ember gold",
+      "lavender": "Lavender sky",
+      "slate-rose": "Slate rose",
+      "mint": "Mint teal",
+      "gold": "Deep gold"
+    },
+    "meshPreset": {
+      "aurora": "Aurora",
+      "coral-bloom": "Coral bloom",
+      "deep-sea": "Deep sea",
+      "lime-pop": "Lime pop",
+      "plum-mist": "Plum mist",
+      "sand-stone": "Sand stone",
+      "electric": "Electric",
+      "peach-sorbet": "Peach sorbet",
+      "sunset-blaze": "Sunset blaze",
+      "arctic-frost": "Arctic frost",
+      "noir-rose": "Noir rose",
+      "honey-glow": "Honey glow",
+      "cyber-mint": "Cyber mint",
+      "twilight-violet": "Twilight violet",
+      "moss-earth": "Moss earth",
+      "cherry-depth": "Cherry depth",
+      "soft-lilac": "Soft lilac",
+      "graphite-neon": "Graphite neon",
+      "cocoa-dream": "Cocoa dream",
+      "glacier-bay": "Glacier bay",
+      "ember-smoke": "Ember smoke",
+      "sakura-mist": "Sakura mist",
+      "teal-depth": "Teal depth",
+      "wine-velvet": "Wine velvet"
+    },
+    "fontPreset": {
+      "system": "System UI",
+      "georgia": "Serif (Georgia)",
+      "mono": "Monospace",
+      "display": "Bold display",
+      "rounded": "Clean sans"
+    },
+    "dropTitle": "Drop an image here or click to browse",
+    "dropHint": "PNG, JPG, WebP, GIF, AVIF, HEIC, and more · one file",
+    "chooseLabel": "Choose image",
+    "chooseReplace": "Replace image",
+    "fileHint": "No uploads: resizing and ZIP creation stay on your device.",
+    "cropSection": "Crop and result preview",
+    "cropHint": "Drag the highlighted square to reposition it. Use the slider to zoom in (smaller square) or show more of the image (larger square).",
+    "cropZoomLabel": "Square size",
+    "cropZoomHint": "Smaller square = zoomed in on the logo; larger square = more of the image visible in the favicon.",
+    "cropAriaLabel": "Draggable square crop. Drag to reposition; use the size slider to zoom.",
+    "cropDimensionsSummary": "Image {w}×{h} px · export {size}×{size} px",
+    "dragCropBadge": "Drag to move",
+    "resultPreviewLabel": "Result preview",
+    "previewFramingNote": "ZIP exports use this exact framing, then scale it to 16px through 512px.",
+    "resetCrop": "Reset to center",
+    "ctaDownload": "Download favicon pack",
+    "ctaWorking": "Working…",
+    "ctaClear": "Clear",
+    "toastNotImage": "Please choose an image file.",
+    "toastNoFile": "Choose an image first.",
+    "toastLoadError": "Could not read that image. Try another file.",
+    "toastSuccess": "ZIP downloaded.",
+    "toastError": "Could not build the favicon pack. Try another image.",
+    "sectionZip": "ZIP contents",
+    "zipNote": "Edit name and short_name inside site.webmanifest after unzipping. Place files in your site root or follow your framework’s icon conventions (for example Next.js app/icon.png)."
+  },
   "pageMeta": {
     "breadcrumbHome": "Home",
     "csvViewer": {
-      "title": "Free CSV viewer & editor (browser, no upload)",
+      "title": "Free CSV viewer & editor",
       "description": "Open large CSV files in your browser: sort, filter, search, edit cells, paste, undo/redo, add or remove rows. Private local processing; data stays on your device with optional restore when you return.",
       "keywords": "csv viewer|csv editor online free|open csv in browser|local csv tool|editable csv grid|spreadsheet viewer|csv no upload|privacy csv editor",
       "h1": "מציג ועורך CSV"
@@ -861,6 +1068,11 @@
       "description": "CSV to Parquet: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "csv to parquet | convert csv to parquet | parquet converter | browser csv to parquet | csv parquet export | local parquet tool | free csv to parquet online | apache parquet from csv"
     },
+    "cron-parser": {
+      "title": "Cron parser",
+      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
+    },
     "curl-converter": {
       "title": "cURL converter",
       "description": "cURL converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
@@ -885,6 +1097,11 @@
       "title": "fetch converter",
       "description": "fetch converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "fetch converter | fetch to curl | fetch to axios | fetch to python requests | request converter | browser api converter | javascript fetch to curl | free fetch api converter"
+    },
+    "favicon-generator": {
+      "title": "Favicon generator",
+      "description": "Favicon generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "favicon generator | favicon zip download | create favicon from image | android chrome icons | apple touch icon generator | site.webmanifest icons | browser favicon maker | free favicon generator no upload"
     },
     "graphql-tools": {
       "title": "GraphQL tools",
@@ -916,11 +1133,6 @@
       "description": "Image Resize/Crop + Convert: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "image resize | image crop | image resize convert | browser image editor | bulk image resize | local image resize tool | resize images online free | crop and export images"
     },
-    "image-remove-background": {
-      "title": "Remove image background",
-      "description": "Remove image background: free online in your browser. Private, on-device AI segmentation; your files are not uploaded to our servers.",
-      "keywords": "remove background from image | image background remover | transparent background png | browser background removal | local remove bg | free background remover online | cut out image background | ai background removal browser"
-    },
     "images-to-pdf": {
       "title": "Images to PDF",
       "description": "Images to PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
@@ -930,36 +1142,6 @@
       "title": "JSON Formatter",
       "description": "JSON Formatter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "json formatter | json beautifier | json validator | format json online | browser json tool | local json formatter | pretty print json | free json formatter no upload"
-    },
-    "json-yaml-converter": {
-      "title": "JSON YAML converter",
-      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
-    },
-    "markdown-html-converter": {
-      "title": "Markdown HTML converter",
-      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
-    },
-    "jwt-decoder": {
-      "title": "JWT decoder",
-      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
-    },
-    "cron-parser": {
-      "title": "Cron parser",
-      "description": "Cron parser: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "cron parser | cron next run | crontab calculator | human to cron | cron expression preview | kubernetes cron schedule | quartz cron helper | devops scheduler tool"
-    },
-    "uuid-generator": {
-      "title": "UUID / GUID generator",
-      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
-    },
-    "regex-tester": {
-      "title": "Regex tester",
-      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
     },
     "json-to-csv": {
       "title": "JSON to CSV",
@@ -976,15 +1158,30 @@
       "description": "JSON to Parquet: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "json to parquet | convert json to parquet | json parquet converter | browser json to parquet | local parquet export | parquet browser tool | free json to parquet | json lines to parquet"
     },
+    "json-yaml-converter": {
+      "title": "JSON YAML converter",
+      "description": "JSON YAML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "json to yaml | yaml to json | json yaml converter | convert json to yaml online | kubernetes yaml json | browser json yaml tool | local yaml converter | free json yaml converter no upload"
+    },
+    "jwt-decoder": {
+      "title": "JWT decoder",
+      "description": "JWT decoder: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "jwt decoder | decode jwt online | jwt payload viewer | jwt header decoder | browser jwt tool | debug jwt locally | jwt parser no upload | inspect jwt claims"
+    },
+    "markdown-html-converter": {
+      "title": "Markdown HTML converter",
+      "description": "Markdown HTML converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
+    },
     "merge-pdf": {
       "title": "Merge PDF",
       "description": "Merge PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "merge pdf | combine pdf | pdf merger | browser pdf merge | local pdf merger | no upload pdf merge | join pdf files online free | merge multiple pdf"
     },
     "openapi-viewer": {
-      "title": "OpenAPI Viewer",
-      "description": "OpenAPI Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "openapi viewer | swagger viewer | openapi browser | api spec viewer | swagger file viewer | browser openapi tool | free swagger ui alternative | view openapi yaml json"
+      "title": "OpenAPI viewer & editor",
+      "description": "OpenAPI/Swagger viewer and editor: paste or upload YAML/JSON, edit the spec, and browse paths and operations locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "openapi viewer | openapi editor | swagger viewer | swagger editor | openapi browser | api spec viewer | edit openapi yaml | browser openapi tool | free swagger ui alternative | view openapi yaml json"
     },
     "parquet-to-csv": {
       "title": "Parquet to CSV",
@@ -997,9 +1194,9 @@
       "keywords": "parquet to json | convert parquet to json | parquet json converter | browser parquet to json | local parquet converter | parquet export json | free parquet to json | read parquet in browser"
     },
     "parquet-viewer": {
-      "title": "Parquet Viewer",
-      "description": "Parquet Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "parquet viewer | open parquet file | parquet editor | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
+      "title": "Parquet viewer & editor",
+      "description": "Parquet viewer and editor: open .parquet in an editable grid, search and tweak values, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "parquet viewer | parquet editor | open parquet file | browser parquet viewer | local parquet tool | editable parquet grid | view parquet without python | parquet preview online"
     },
     "pdf-to-image": {
       "title": "PDF to Image",
@@ -1031,6 +1228,11 @@
       "description": "API converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "api converter | request converter | curl fetch axios converter | python requests converter | browser api tool | request snippet converter | curl to fetch axios online | http request translator"
     },
+    "regex-tester": {
+      "title": "Regex tester",
+      "description": "Regex tester: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "regex tester | javascript regex tester | regular expression tester online | regex multiline flags | test regex in browser | regex debugger local | ecmascript regex | regex match groups"
+    },
     "split-pdf": {
       "title": "Split PDF",
       "description": "Split PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
@@ -1046,15 +1248,20 @@
       "description": "Unix timestamp converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "unix timestamp converter | epoch converter | unix time to date | timestamp to date online | milliseconds to date | epoch milliseconds | timezone timestamp | utc to local timestamp | browser epoch tool | local unix time no upload"
     },
+    "uuid-generator": {
+      "title": "UUID / GUID generator",
+      "description": "UUID / GUID generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "uuid generator | guid generator | bulk uuid | uuid v4 generator | uuid v7 generator | uuid v1 generator | online uuid generator | browser uuid tool | generate uuid for tests"
+    },
     "video-compress": {
       "title": "Video Compressor",
       "description": "Video Compressor: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "video compressor | compress video | browser video compressor | local video compression | no upload video compress | video size reducer | shrink mp4 online free | client side video compression"
     },
     "webhook-viewer": {
-      "title": "Webhook payload Viewer",
-      "description": "Webhook payload Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "webhook viewer | webhook payload viewer | json payload viewer | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
+      "title": "Webhook payload viewer & editor",
+      "description": "Webhook payload viewer and editor: paste, edit, and prettify JSON; search with JSONPath locally in your browser. Private, client-side processing; your payloads are not uploaded to our servers.",
+      "keywords": "webhook viewer | webhook editor | webhook payload viewer | json payload editor | jsonpath webhook tool | browser webhook inspector | webhook json formatter | stripe webhook payload viewer | debug webhook json"
     },
     "xls-to-csv": {
       "title": "Excel to CSV batch",
@@ -1062,9 +1269,9 @@
       "keywords": "excel to csv | xls to csv | xlsx to csv | batch excel to csv | browser excel converter | local xls converter | free excel to csv online | convert spreadsheet to csv"
     },
     "xls-viewer": {
-      "title": "Excel Viewer",
-      "description": "Excel Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "excel viewer | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
+      "title": "Excel viewer & editor",
+      "description": "Excel viewer and editor: open XLS/XLSX in an editable grid, edit cells, then export locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "excel viewer | excel editor | xlsx viewer | xls viewer | browser excel viewer | editable excel grid | local spreadsheet viewer | open xlsx without excel | view excel online free"
     }
   }
 }

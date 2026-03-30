@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { LANDING_FAQ_MESSAGE_KEYS } from "@/app/components/landing-faq-constants";
 import { HomeToolsDirectory } from "@/app/components/home-tools-directory";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildAbsoluteUrl } from "@/lib/seo/paths";
 import {
+  buildFaqPageJsonLd,
   buildJsonLdGraph,
   buildOrganizationJsonLd,
   buildSoftwareApplicationJsonLd,
@@ -47,6 +49,10 @@ export default async function IndexPage({ params }: IndexPageProps) {
   setRequestLocale(locale);
   const tLanding = await getTranslations({ locale, namespace: "landing" });
   const url = buildAbsoluteUrl(locale, "/");
+  const faqForSchema = LANDING_FAQ_MESSAGE_KEYS.map(({ questionKey, answerKey }) => ({
+    question: tLanding(questionKey),
+    answer: tLanding(answerKey),
+  }));
   const graph = buildJsonLdGraph([
     buildOrganizationJsonLd() as unknown as Record<string, unknown>,
     buildWebSiteJsonLd({ locale }) as unknown as Record<string, unknown>,
@@ -62,6 +68,7 @@ export default async function IndexPage({ params }: IndexPageProps) {
       url,
       applicationCategory: "UtilitiesApplication",
     }) as unknown as Record<string, unknown>,
+    buildFaqPageJsonLd(faqForSchema) as unknown as Record<string, unknown>,
   ]);
 
   return (

@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "localtool",
-  "homepage": "https://csveditoronline.org/",
+  "homepage": "https://csveditoronline.com/",
   "items": [
     {
       "name": "data-grid",
