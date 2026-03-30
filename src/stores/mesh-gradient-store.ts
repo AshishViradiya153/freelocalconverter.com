@@ -1,19 +1,22 @@
 import { create } from "zustand";
-import { repositionCirclesAvoidOverlap } from "@/lib/mesh-gradient/circle-layout";
-import { INITIAL_COLORS } from "@/lib/mesh-gradient/constants";
-import { generateHarmoniousMeshPalette } from "@/lib/mesh-gradient/palette";
+import { nanoid } from "nanoid";
+
+import type { AuroraBlob, BlobShape } from "@/lib/mesh-gradient/aurora-types";
+import {
+  AURORA_RANDOM_COLORS,
+  createInitialAuroraBlobs,
+  generateRandomAuroraBlob,
+} from "@/lib/mesh-gradient/aurora-initial";
+import { MAX_MESH_BLOB_COUNT } from "@/lib/mesh-gradient/constants";
 import type { TrendingMeshGradientItem } from "@/lib/mesh-gradient/trending-mesh-types";
-import type { CircleProps } from "@/lib/mesh-gradient/types";
 
 interface MeshGradientState {
-  circles: CircleProps[];
+  blobs: AuroraBlob[];
   backgroundColor: string;
   blur: number;
-  saturation: number;
-  contrast: number;
-  brightness: number;
-  grainIntensity: number;
+  noiseOpacity: number;
   resolution: { width: number; height: number };
+  selectedBlobId: string | null;
 
   text: string;
   fontSize: number;
@@ -35,19 +38,19 @@ interface MeshGradientState {
   textPosition: { x: number; y: number };
   textAlign: "left" | "center" | "right";
 
-  setCircles: (circles: CircleProps[]) => void;
-  updateCircleColor: (index: number, color: string) => void;
+  setBlobs: (blobs: AuroraBlob[]) => void;
+  updateBlob: (id: string, updates: Partial<AuroraBlob>) => void;
+  addBlob: () => void;
+  removeBlob: (id: string) => void;
+  randomizeAllBlobs: () => void;
+  randomizeBlobColors: () => void;
+  resetToDefaults: () => void;
   setBackgroundColor: (color: string) => void;
-  shufflePositions: () => void;
-  resetPalette: () => void;
-  applyHarmoniousPalette: () => void;
-  applyTrendingMeshPreset: (preset: TrendingMeshGradientItem) => void;
   setBlur: (blur: number) => void;
-  setSaturation: (saturation: number) => void;
-  setContrast: (contrast: number) => void;
-  setBrightness: (brightness: number) => void;
-  setGrainIntensity: (grainIntensity: number) => void;
+  setNoiseOpacity: (noiseOpacity: number) => void;
   setResolution: (resolution: { width: number; height: number }) => void;
+  setSelectedBlobId: (id: string | null) => void;
+  applyTrendingMeshPreset: (preset: TrendingMeshGradientItem) => void;
 
   setText: (text: string) => void;
   setFontSize: (fontSize: number) => void;
@@ -65,21 +68,34 @@ interface MeshGradientState {
   setTextAlign: (textAlign: "left" | "center" | "right") => void;
 }
 
-const initialCircles: CircleProps[] = INITIAL_COLORS.map((color) => ({
-  color,
-  cx: Math.random() * 100,
-  cy: Math.random() * 100,
-}));
+function mapTrendingToBlobs(preset: TrendingMeshGradientItem): AuroraBlob[] {
+  return preset.circles.map((c, i) => ({
+    id: nanoid(),
+    color: c.color,
+    x: c.cx,
+    y: c.cy,
+    size: 55,
+    opacity: 0.75,
+    shape: "circle" as const,
+    zIndex: i + 1,
+  }));
+}
+
+function trendingBlurToAurora(canvasBlur: number): number {
+  return Math.min(200, Math.max(0, Math.round(canvasBlur / 4)));
+}
+
+function trendingGrainToNoise(grain: number): number {
+  return Math.min(0.5, Math.max(0, (grain / 100) * 0.5));
+}
 
 export const useMeshGradientStore = create<MeshGradientState>((set, get) => ({
-  circles: repositionCirclesAvoidOverlap(initialCircles),
-  backgroundColor: "#001220",
-  blur: 600,
-  saturation: 100,
-  contrast: 100,
-  brightness: 100,
-  grainIntensity: 25,
+  blobs: createInitialAuroraBlobs(),
+  backgroundColor: "#f5f5f0",
+  blur: 80,
+  noiseOpacity: 0,
   resolution: { width: 1920, height: 1080 },
+  selectedBlobId: null,
 
   text: "Your title",
   fontSize: 6,
@@ -88,7 +104,7 @@ export const useMeshGradientStore = create<MeshGradientState>((set, get) => ({
   opacity: 100,
   fontFamily: "Geist Sans, ui-sans-serif, system-ui, sans-serif",
   lineHeight: 1,
-  textColor: "#f1f1f1",
+  textColor: "#000000",
   isItalic: false,
   isUnderline: false,
   isStrikethrough: false,
@@ -101,78 +117,87 @@ export const useMeshGradientStore = create<MeshGradientState>((set, get) => ({
   textPosition: { x: 0, y: 0 },
   textAlign: "center",
 
-  setCircles: (circles) =>
-    set({ circles: repositionCirclesAvoidOverlap(circles) }),
+  setBlobs: (blobs) => set({ blobs }),
 
-  updateCircleColor: (index, color) => {
-    const { circles } = get();
-    if (index < 0 || index >= circles.length) return;
-    const next = [...circles];
-    const current = next[index];
-    if (!current) return;
-    next[index] = { ...current, color };
-    set({ circles: next });
+  updateBlob: (id, updates) => {
+    set({
+      blobs: get().blobs.map((b) => (b.id === id ? { ...b, ...updates } : b)),
+    });
   },
 
-  setBackgroundColor: (backgroundColor) => set({ backgroundColor }),
-
-  shufflePositions: () => {
-    const { circles } = get();
+  addBlob: () => {
+    const { blobs } = get();
+    if (blobs.length >= MAX_MESH_BLOB_COUNT) return;
+    const maxZ = blobs.reduce((acc, b) => Math.max(acc, b.zIndex), 0);
     set({
-      circles: circles.map((c) => ({
-        ...c,
-        cx: Math.random() * 100,
-        cy: Math.random() * 100,
+      blobs: [...blobs, { ...generateRandomAuroraBlob(), zIndex: maxZ + 1 }],
+    });
+  },
+
+  removeBlob: (id) => {
+    const { blobs, selectedBlobId } = get();
+    if (blobs.length <= 1) return;
+    const next = blobs.filter((b) => b.id !== id);
+    set({
+      blobs: next,
+      selectedBlobId: selectedBlobId === id ? null : selectedBlobId,
+    });
+  },
+
+  randomizeAllBlobs: () => {
+    const shapes: BlobShape[] = ["circle", "square", "pill", "organic"];
+    set({
+      blobs: get().blobs.map((b) => ({
+        ...b,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: 40 + Math.random() * 60,
+        color:
+          AURORA_RANDOM_COLORS[
+            Math.floor(Math.random() * AURORA_RANDOM_COLORS.length)
+          ] ?? b.color,
+        shape: shapes[Math.floor(Math.random() * shapes.length)] ?? "circle",
       })),
     });
   },
 
-  resetPalette: () => {
-    const { circles } = get();
-    const newCircles = INITIAL_COLORS.map((color, index) => ({
-      color,
-      cx: circles[index]?.cx ?? Math.random() * 100,
-      cy: circles[index]?.cy ?? Math.random() * 100,
-    }));
+  randomizeBlobColors: () => {
     set({
-      backgroundColor: "#001220",
-      circles: repositionCirclesAvoidOverlap(newCircles),
+      blobs: get().blobs.map((b) => ({
+        ...b,
+        color:
+          AURORA_RANDOM_COLORS[
+            Math.floor(Math.random() * AURORA_RANDOM_COLORS.length)
+          ] ?? b.color,
+      })),
     });
   },
 
-  applyHarmoniousPalette: () => {
-    const { circles } = get();
-    const { backgroundColor, circleColors } = generateHarmoniousMeshPalette();
+  resetToDefaults: () => {
     set({
-      backgroundColor,
-      circles: repositionCirclesAvoidOverlap(
-        circleColors.map((color, i) => ({
-          color,
-          cx: circles[i]?.cx ?? Math.random() * 100,
-          cy: circles[i]?.cy ?? Math.random() * 100,
-        })),
-      ),
+      blobs: createInitialAuroraBlobs(),
+      backgroundColor: "#f5f5f0",
+      blur: 80,
+      noiseOpacity: 0,
+      selectedBlobId: null,
     });
   },
+
+  setBackgroundColor: (backgroundColor) => set({ backgroundColor }),
+  setBlur: (blur) => set({ blur }),
+  setNoiseOpacity: (noiseOpacity) => set({ noiseOpacity }),
+  setResolution: (resolution) => set({ resolution }),
+  setSelectedBlobId: (selectedBlobId) => set({ selectedBlobId }),
 
   applyTrendingMeshPreset: (preset) => {
     set({
-      circles: preset.circles.map((c) => ({ ...c })),
+      blobs: mapTrendingToBlobs(preset),
       backgroundColor: preset.backgroundColor,
-      blur: preset.blur,
-      saturation: preset.saturation,
-      contrast: preset.contrast,
-      brightness: preset.brightness,
-      grainIntensity: preset.grainIntensity,
+      blur: trendingBlurToAurora(preset.blur),
+      noiseOpacity: trendingGrainToNoise(preset.grainIntensity),
+      selectedBlobId: null,
     });
   },
-
-  setBlur: (blur) => set({ blur }),
-  setSaturation: (saturation) => set({ saturation }),
-  setContrast: (contrast) => set({ contrast }),
-  setBrightness: (brightness) => set({ brightness }),
-  setGrainIntensity: (grainIntensity) => set({ grainIntensity }),
-  setResolution: (resolution) => set({ resolution }),
 
   setText: (text) => set({ text }),
   setFontSize: (fontSize) => set({ fontSize }),

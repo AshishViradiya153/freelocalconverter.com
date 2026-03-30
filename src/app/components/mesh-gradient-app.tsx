@@ -1,25 +1,42 @@
 "use client";
 
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "motion/react";
 import {
   AlignCenter,
   AlignLeft,
   AlignRight,
-  Download,
+  Check,
+  Code,
+  Copy,
+  Image as ImageIcon,
   Italic,
+  Layers,
+  Palette,
+  Plus,
+  RefreshCw,
   RotateCcw,
   Shuffle,
-  Sparkles,
+  Star,
   Strikethrough,
+  Trash2,
   Underline,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { getMeshGradientCanvasElement } from "@/app/components/mesh-gradient-canvas";
+
 import { MeshGradientPositionControl } from "@/app/components/mesh-gradient-position-control";
 import { MeshGradientPreview } from "@/app/components/mesh-gradient-preview";
 import { MeshGradientQueryPresetSync } from "@/app/components/mesh-gradient-query-preset-sync";
 import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -34,68 +51,114 @@ import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Link } from "@/i18n/navigation";
+import { RESOLUTION_PRESETS as ALL_RESOLUTION_PRESETS } from "@/app/lib/utils";
+import { generateAuroraCss } from "@/lib/mesh-gradient/aurora-css";
+import { BLOB_SHAPE_OPTIONS } from "@/lib/mesh-gradient/aurora-types";
+import { MAX_MESH_BLOB_COUNT } from "@/lib/mesh-gradient/constants";
 import { cn } from "@/lib/utils";
 import { useMeshGradientStore } from "@/stores/mesh-gradient-store";
 
-const RESOLUTION_PRESETS = [
-  { label: "1920 × 1080 (FHD)", width: 1920, height: 1080 },
-  { label: "1080 × 1080 (Square)", width: 1080, height: 1080 },
-  { label: "1080 × 1920 (Story)", width: 1080, height: 1920 },
-  { label: "1280 × 720 (HD)", width: 1280, height: 720 },
-] as const;
+const GENERATOR_FAVORITES_KEY = "mesh-gradient-generator-favorites";
 
-function downloadMeshPng() {
-  const source = getMeshGradientCanvasElement();
-  if (!source) {
-    toast.error("Canvas not ready");
+interface GeneratorFavoriteSnapshot {
+  blobs: ReturnType<typeof useMeshGradientStore.getState>["blobs"];
+  backgroundColor: string;
+  blur: number;
+  noiseOpacity: number;
+  resolution: { width: number; height: number };
+  text: string;
+  textColor: string;
+  textAlign: "left" | "center" | "right";
+  textPosition: { x: number; y: number };
+  textShadow: {
+    color: string;
+    blur: number;
+    offsetX: number;
+    offsetY: number;
+  };
+  fontSize: number;
+  fontWeight: number;
+  opacityText: number;
+  lineHeight: number;
+  letterSpacing: number;
+  isItalic: boolean;
+  isUnderline: boolean;
+  isStrikethrough: boolean;
+}
+
+interface GeneratorFavoriteEntry {
+  id: string;
+  createdAt: number;
+  fingerprint: string;
+  snapshot: GeneratorFavoriteSnapshot;
+}
+
+async function exportMeshPng(exportRoot: HTMLDivElement | null) {
+  if (!exportRoot) {
+    toast.error("Preview not ready");
     return;
   }
-
   const s = useMeshGradientStore.getState();
-  const temp = document.createElement("canvas");
-  temp.width = s.resolution.width;
-  temp.height = s.resolution.height;
-  const ctx = temp.getContext("2d");
-  if (!ctx) {
-    toast.error("Could not export");
-    return;
+  try {
+    const { toPng } = await import("html-to-image");
+    const dataUrl = await toPng(exportRoot, {
+      cacheBust: true,
+      width: s.resolution.width,
+      height: s.resolution.height,
+      pixelRatio: 1,
+      style: {
+        transform: "scale(1)",
+        transformOrigin: "top left",
+        width: `${s.resolution.width}px`,
+        height: `${s.resolution.height}px`,
+      },
+    });
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = `aurora-gradient-${s.resolution.width}x${s.resolution.height}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    toast.success("Download started");
+  } catch {
+    toast.error("PNG export failed");
   }
-  ctx.drawImage(source, 0, 0);
-  const url = temp.toDataURL("image/png");
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `mesh-gradient-${s.resolution.width}x${s.resolution.height}.png`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  toast.success("Download started");
 }
 
 export function MeshGradientApp() {
   const t = useTranslations("pageMeta");
-  const circles = useMeshGradientStore((s) => s.circles);
+  const exportRef = useRef<HTMLDivElement>(null);
+  const [cssOpen, setCssOpen] = useState(false);
+  const [copyOk, setCopyOk] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  const blobs = useMeshGradientStore((s) => s.blobs);
   const backgroundColor = useMeshGradientStore((s) => s.backgroundColor);
   const blur = useMeshGradientStore((s) => s.blur);
-  const grainIntensity = useMeshGradientStore((s) => s.grainIntensity);
-  const saturation = useMeshGradientStore((s) => s.saturation);
-  const contrast = useMeshGradientStore((s) => s.contrast);
-  const brightness = useMeshGradientStore((s) => s.brightness);
+  const noiseOpacity = useMeshGradientStore((s) => s.noiseOpacity);
   const resolution = useMeshGradientStore((s) => s.resolution);
+  const selectedBlobId = useMeshGradientStore((s) => s.selectedBlobId);
 
   const setBackgroundColor = useMeshGradientStore((s) => s.setBackgroundColor);
-  const updateCircleColor = useMeshGradientStore((s) => s.updateCircleColor);
-  const shufflePositions = useMeshGradientStore((s) => s.shufflePositions);
-  const resetPalette = useMeshGradientStore((s) => s.resetPalette);
-  const applyHarmoniousPalette = useMeshGradientStore(
-    (s) => s.applyHarmoniousPalette,
-  );
   const setBlur = useMeshGradientStore((s) => s.setBlur);
-  const setGrainIntensity = useMeshGradientStore((s) => s.setGrainIntensity);
-  const setSaturation = useMeshGradientStore((s) => s.setSaturation);
-  const setContrast = useMeshGradientStore((s) => s.setContrast);
-  const setBrightness = useMeshGradientStore((s) => s.setBrightness);
+  const setNoiseOpacity = useMeshGradientStore((s) => s.setNoiseOpacity);
   const setResolution = useMeshGradientStore((s) => s.setResolution);
+  const setBlobs = useMeshGradientStore((s) => s.setBlobs);
+  const updateBlob = useMeshGradientStore((s) => s.updateBlob);
+  const addBlob = useMeshGradientStore((s) => s.addBlob);
+  const removeBlob = useMeshGradientStore((s) => s.removeBlob);
+  const randomizeAllBlobs = useMeshGradientStore((s) => s.randomizeAllBlobs);
+  const randomizeBlobColors = useMeshGradientStore(
+    (s) => s.randomizeBlobColors,
+  );
+  const resetToDefaults = useMeshGradientStore((s) => s.resetToDefaults);
+  const setSelectedBlobId = useMeshGradientStore((s) => s.setSelectedBlobId);
 
   const text = useMeshGradientStore((s) => s.text);
   const textColor = useMeshGradientStore((s) => s.textColor);
@@ -125,20 +188,203 @@ export function MeshGradientApp() {
   const setIsUnderline = useMeshGradientStore((s) => s.setIsUnderline);
   const setIsStrikethrough = useMeshGradientStore((s) => s.setIsStrikethrough);
 
-  const presetMatch = RESOLUTION_PRESETS.find(
+  const currentSnapshot = useMemo<GeneratorFavoriteSnapshot>(
+    () => ({
+      blobs,
+      backgroundColor,
+      blur,
+      noiseOpacity,
+      resolution,
+      text,
+      textColor,
+      textAlign,
+      textPosition,
+      textShadow,
+      fontSize,
+      fontWeight,
+      opacityText,
+      lineHeight,
+      letterSpacing,
+      isItalic,
+      isUnderline,
+      isStrikethrough,
+    }),
+    [
+      blobs,
+      backgroundColor,
+      blur,
+      noiseOpacity,
+      resolution,
+      text,
+      textColor,
+      textAlign,
+      textPosition,
+      textShadow,
+      fontSize,
+      fontWeight,
+      opacityText,
+      lineHeight,
+      letterSpacing,
+      isItalic,
+      isUnderline,
+      isStrikethrough,
+    ],
+  );
+  const favoriteFingerprint = useMemo(
+    () => JSON.stringify(currentSnapshot),
+    [currentSnapshot],
+  );
+  const [favoriteEntries, setFavoriteEntries] = useState<
+    GeneratorFavoriteEntry[]
+  >([]);
+  const isFavoriteConfig = favoriteEntries.some(
+    (entry) => entry.fingerprint === favoriteFingerprint,
+  );
+
+  const resolutionOptions = ALL_RESOLUTION_PRESETS.map((p) => {
+    const category = p.category || "General";
+    return {
+      value: `${category}::${p.name}::${p.width}x${p.height}`,
+      label: p.category ? `${p.name} (${p.category})` : p.name,
+      width: p.width,
+      height: p.height,
+    };
+  });
+  const presetMatch = resolutionOptions.find(
     (p) => p.width === resolution.width && p.height === resolution.height,
   );
-  const resolutionSelectValue = presetMatch?.label ?? "__custom__";
+  const resolutionSelectValue = presetMatch?.value ?? "__custom__";
+
+  const cssPayload = generateAuroraCss({
+    baseColor: backgroundColor,
+    blur,
+    noiseOpacity,
+    blobs,
+  });
+
+  const onCopyCss = async () => {
+    try {
+      await navigator.clipboard.writeText(cssPayload);
+      setCopyOk(true);
+      toast.success("CSS copied");
+    } catch {
+      toast.error("Could not copy");
+    }
+  };
+
+  useEffect(() => {
+    if (!copyOk) return;
+    const tmr = setTimeout(() => setCopyOk(false), 2000);
+    return () => clearTimeout(tmr);
+  }, [copyOk]);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(GENERATOR_FAVORITES_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as unknown;
+      if (!Array.isArray(parsed)) return;
+      const entries = parsed.filter((x) => {
+        if (!x || typeof x !== "object") return false;
+        const maybe = x as Partial<GeneratorFavoriteEntry>;
+        return (
+          typeof maybe.id === "string" &&
+          typeof maybe.createdAt === "number" &&
+          typeof maybe.fingerprint === "string" &&
+          !!maybe.snapshot
+        );
+      }) as GeneratorFavoriteEntry[];
+      setFavoriteEntries(entries);
+    } catch {
+      // ignore bad local data
+    }
+  }, []);
+
+  const onExportPng = async () => {
+    setExporting(true);
+    try {
+      await exportMeshPng(exportRef.current);
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const onToggleFavoriteConfig = () => {
+    try {
+      const exists = favoriteEntries.some(
+        (entry) => entry.fingerprint === favoriteFingerprint,
+      );
+      const next = exists
+        ? favoriteEntries.filter(
+            (entry) => entry.fingerprint !== favoriteFingerprint,
+          )
+        : [
+            ...favoriteEntries,
+            {
+              id: crypto.randomUUID(),
+              createdAt: Date.now(),
+              fingerprint: favoriteFingerprint,
+              snapshot: currentSnapshot,
+            },
+          ];
+      window.localStorage.setItem(
+        GENERATOR_FAVORITES_KEY,
+        JSON.stringify(next),
+      );
+      setFavoriteEntries(next);
+      toast.message(exists ? "Removed from favorites" : "Saved to favorites");
+    } catch {
+      toast.error("Could not update favorites");
+    }
+  };
+
+  const onApplyFavorite = (entry: GeneratorFavoriteEntry) => {
+    const snap = entry.snapshot;
+    setBlobs(snap.blobs);
+    setBackgroundColor(snap.backgroundColor);
+    setBlur(snap.blur);
+    setNoiseOpacity(snap.noiseOpacity);
+    setResolution(snap.resolution);
+    setText(snap.text);
+    setTextColor(snap.textColor);
+    setTextAlign(snap.textAlign);
+    setTextPosition(snap.textPosition);
+    setTextShadow(snap.textShadow);
+    setFontSize(snap.fontSize);
+    setFontWeight(snap.fontWeight);
+    setOpacity(snap.opacityText);
+    setLineHeight(snap.lineHeight);
+    setLetterSpacing(snap.letterSpacing);
+    setIsItalic(snap.isItalic);
+    setIsUnderline(snap.isUnderline);
+    setIsStrikethrough(snap.isStrikethrough);
+    toast.success("Favorite loaded");
+  };
+
+  const onRemoveFavorite = (id: string) => {
+    const next = favoriteEntries.filter((entry) => entry.id !== id);
+    setFavoriteEntries(next);
+    try {
+      window.localStorage.setItem(
+        GENERATOR_FAVORITES_KEY,
+        JSON.stringify(next),
+      );
+    } catch {
+      // ignore storage errors
+    }
+  };
 
   return (
     <div className="container flex flex-col gap-6 py-6">
       <MeshGradientQueryPresetSync />
+
       <div className="flex flex-col gap-2">
         <h1 className={toolHeroTitleClassName}>Mesh gradient generator</h1>
         <p className="max-w-2xl text-muted-foreground text-sm">
-          Soft color fields from blurred blobs on canvas, with harmonious
-          palettes, grain, and PNG export. Distinct from the CSS linear-gradient
-          tool at <span className="text-foreground/80">/gradients</span>.
+          Aurora-style blurred radial blobs, noise overlay, draggable shapes,
+          CSS export, and PNG at your chosen resolution. Distinct from the CSS
+          linear-gradient tool at{" "}
+          <span className="text-foreground/80">/gradients</span>.
         </p>
         <p className="text-sm">
           <Link
@@ -150,395 +396,729 @@ export function MeshGradientApp() {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(300px,440px)] lg:items-start">
-        <div className="lg:sticky lg:top-20 lg:z-10 lg:w-full lg:self-start">
-          <MeshGradientPreview />
+      <div className="flex min-h-0 flex-col gap-4 lg:flex-row lg:items-stretch">
+        <div className="relative min-h-[min(56vh,520px)] flex-1 lg:min-h-[min(70vh,640px)]">
+          <MeshGradientPreview ref={exportRef} />
         </div>
 
-        <div className="flex min-w-0 flex-col gap-4">
-          <div className="flex flex-wrap gap-2">
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => {
-                applyHarmoniousPalette();
-                toast.success("New harmonious palette");
-              }}
-            >
-              <Sparkles className="size-4" />
-              Harmonize
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => shufflePositions()}
-            >
-              <Shuffle className="size-4" />
-              Shuffle positions
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => {
-                resetPalette();
-                toast.message("Reset to default colors");
-              }}
-            >
-              <RotateCcw className="size-4" />
-              Reset
-            </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => downloadMeshPng()}
-            >
-              <Download className="size-4" />
-              PNG
-            </Button>
-          </div>
+        <motion.aside
+          key="sidebar"
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 320, damping: 30 }}
+          className="flex min-h-0 w-full shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-md lg:w-96"
+        >
+          <div className="flex min-h-0 max-h-[min(80vh,920px)] flex-1 flex-col">
+            <div className="min-h-0 flex-1 space-y-6 overflow-y-auto p-4">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="flex items-center gap-2 font-semibold text-sm">
+                  <Palette className="size-4 text-primary" />
+                  Generator
+                </h2>
+                <div className="flex gap-1">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="size-8"
+                        onClick={() => randomizeAllBlobs()}
+                      >
+                        <Shuffle className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent sideOffset={6}>
+                      Randomize all blobs (color, position, size, shape)
+                    </TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="size-8"
+                        onClick={() => randomizeBlobColors()}
+                      >
+                        <RefreshCw className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent sideOffset={6}>
+                      Randomize colors only
+                    </TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="size-8"
+                        onClick={() => {
+                          resetToDefaults();
+                          toast.message("Reset to defaults");
+                        }}
+                      >
+                        <RotateCcw className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent sideOffset={6}>
+                      Reset to default settings
+                    </TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="size-8 hover:bg-transparent"
+                        onClick={onToggleFavoriteConfig}
+                      >
+                        <Star
+                          className={cn(
+                            "size-4",
+                            isFavoriteConfig ? "fill-primary text-primary" : "",
+                          )}
+                        />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent sideOffset={6}>
+                      {isFavoriteConfig
+                        ? "Remove this config from favorites"
+                        : "Save this config to favorites"}
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="mesh-resolution">Export size</Label>
-            <Select
-              value={resolutionSelectValue}
-              onValueChange={(v) => {
-                if (v === "__custom__") return;
-                const preset = RESOLUTION_PRESETS.find((p) => p.label === v);
-                if (preset) {
-                  setResolution({ width: preset.width, height: preset.height });
-                }
-              }}
-            >
-              <SelectTrigger id="mesh-resolution" className="w-full">
-                <SelectValue placeholder="Resolution" />
-              </SelectTrigger>
-              <SelectContent>
-                {RESOLUTION_PRESETS.map((p) => (
-                  <SelectItem key={p.label} value={p.label}>
-                    {p.label}
-                  </SelectItem>
+              <section className="space-y-4">
+                <SliderRow
+                  label="Global blur"
+                  value={blur}
+                  min={0}
+                  max={200}
+                  step={1}
+                  suffix=" px"
+                  onValueChange={setBlur}
+                />
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-sm">
+                    <Label>Noise intensity</Label>
+                    <span className="text-muted-foreground tabular-nums">
+                      {Math.round(noiseOpacity * 100)}%
+                    </span>
+                  </div>
+                  <Slider
+                    value={[Math.round(noiseOpacity * 100)]}
+                    min={0}
+                    max={50}
+                    step={1}
+                    onValueChange={(v) => setNoiseOpacity((v[0] ?? 0) / 100)}
+                    className="py-1"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Base background</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      aria-label="Base background"
+                      className="h-10 w-14 shrink-0 cursor-pointer p-1"
+                      value={
+                        /^#[0-9A-Fa-f]{6}$/.test(backgroundColor)
+                          ? backgroundColor
+                          : "#f5f5f0"
+                      }
+                      onChange={(e) => setBackgroundColor(e.target.value)}
+                    />
+                    <Input
+                      value={backgroundColor}
+                      onChange={(e) => setBackgroundColor(e.target.value)}
+                      className="font-mono text-sm"
+                    />
+                  </div>
+                </div>
+              </section>
+
+              <Separator />
+
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="flex items-center gap-2 font-medium text-muted-foreground text-xs uppercase tracking-wide">
+                  <Layers className="size-3.5" />
+                  Blobs ({blobs.length})
+                </h3>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 gap-1 text-primary"
+                  disabled={blobs.length >= MAX_MESH_BLOB_COUNT}
+                  onClick={() => addBlob()}
+                >
+                  <Plus className="size-3.5" />
+                  Add blob
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                {blobs.map((blob, index) => (
+                  <div
+                    key={blob.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelectedBlobId(blob.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedBlobId(blob.id);
+                      }
+                    }}
+                    className={cn(
+                      "cursor-pointer rounded-xl border p-3 transition-colors",
+                      selectedBlobId === blob.id
+                        ? "border-primary bg-muted/80"
+                        : "border-border/60 bg-muted/30 hover:bg-muted/50",
+                    )}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex min-w-0 items-center gap-2">
+                        <Input
+                          type="color"
+                          className="h-8 w-8 shrink-0 cursor-pointer rounded-full border-0 p-0.5"
+                          value={
+                            /^#[0-9A-Fa-f]{6}$/.test(blob.color)
+                              ? blob.color
+                              : "#000000"
+                          }
+                          onChange={(e) =>
+                            updateBlob(blob.id, { color: e.target.value })
+                          }
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <span
+                          className={cn(
+                            "truncate text-xs font-medium",
+                            selectedBlobId === blob.id
+                              ? "text-primary"
+                              : "text-foreground",
+                          )}
+                        >
+                          Blob {index + 1}
+                        </span>
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="size-8 shrink-0 text-muted-foreground hover:text-destructive"
+                        disabled={blobs.length <= 1}
+                        aria-label="Remove blob"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeBlob(blob.id);
+                        }}
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
+                    </div>
+
+                    <div className="mt-3 grid grid-cols-2 gap-3">
+                      <SliderRow
+                        label="X"
+                        value={Math.round(blob.x)}
+                        min={0}
+                        max={100}
+                        step={1}
+                        suffix="%"
+                        onValueChange={(n) => updateBlob(blob.id, { x: n })}
+                      />
+                      <SliderRow
+                        label="Y"
+                        value={Math.round(blob.y)}
+                        min={0}
+                        max={100}
+                        step={1}
+                        suffix="%"
+                        onValueChange={(n) => updateBlob(blob.id, { y: n })}
+                      />
+                    </div>
+                    <div className="mt-2 grid grid-cols-2 gap-3">
+                      <SliderRow
+                        label="Size"
+                        value={Math.round(blob.size)}
+                        min={10}
+                        max={150}
+                        step={1}
+                        suffix="%"
+                        onValueChange={(n) => updateBlob(blob.id, { size: n })}
+                      />
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between text-sm">
+                          <Label>Opacity</Label>
+                          <span className="text-muted-foreground tabular-nums">
+                            {Math.round(blob.opacity * 100)}%
+                          </span>
+                        </div>
+                        <Slider
+                          value={[Math.round(blob.opacity * 100)]}
+                          min={0}
+                          max={100}
+                          step={1}
+                          onValueChange={(v) =>
+                            updateBlob(blob.id, {
+                              opacity: (v[0] ?? 0) / 100,
+                            })
+                          }
+                          className="py-1"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <Label className="text-muted-foreground text-xs">
+                        Layer (z-index)
+                      </Label>
+                      <Input
+                        type="number"
+                        min={1}
+                        max={999}
+                        step={1}
+                        value={blob.zIndex}
+                        onChange={(e) => {
+                          const v = Number.parseInt(e.target.value, 10);
+                          if (!Number.isFinite(v)) return;
+                          updateBlob(blob.id, {
+                            zIndex: Math.max(1, Math.min(999, v)),
+                          });
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-1 h-8 w-28 font-mono text-xs"
+                      />
+                    </div>
+
+                    <div className="mt-3 space-y-1.5">
+                      <Label className="text-muted-foreground text-xs">
+                        Shape
+                      </Label>
+                      <ToggleGroup
+                        type="single"
+                        value={blob.shape}
+                        onValueChange={(v) => {
+                          if (
+                            v === "circle" ||
+                            v === "square" ||
+                            v === "pill" ||
+                            v === "organic"
+                          ) {
+                            updateBlob(blob.id, { shape: v });
+                          }
+                        }}
+                        variant="outline"
+                        className="grid w-full grid-cols-4 gap-1"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {BLOB_SHAPE_OPTIONS.map((s) => (
+                          <ToggleGroupItem
+                            key={s}
+                            value={s}
+                            className="px-1 text-[10px] uppercase"
+                          >
+                            {s}
+                          </ToggleGroupItem>
+                        ))}
+                      </ToggleGroup>
+                    </div>
+                  </div>
                 ))}
-                {!presetMatch ? (
-                  <SelectItem value="__custom__" disabled>
-                    Custom ({resolution.width} × {resolution.height})
-                  </SelectItem>
-                ) : null}
-              </SelectContent>
-            </Select>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-2">
+                <Label htmlFor="mesh-resolution">Export size</Label>
+                <Select
+                  value={resolutionSelectValue}
+                  onValueChange={(v) => {
+                    if (v === "__custom__") return;
+                    const preset = resolutionOptions.find((p) => p.value === v);
+                    if (preset) {
+                      setResolution({
+                        width: preset.width,
+                        height: preset.height,
+                      });
+                    }
+                  }}
+                >
+                  <SelectTrigger id="mesh-resolution" className="w-full">
+                    <SelectValue placeholder="Resolution" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-80">
+                    {resolutionOptions.map((p) => (
+                      <SelectItem key={p.value} value={p.value}>
+                        {p.label}
+                      </SelectItem>
+                    ))}
+                    {!presetMatch ? (
+                      <SelectItem value="__custom__" disabled>
+                        Custom ({resolution.width} × {resolution.height})
+                      </SelectItem>
+                    ) : null}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <p className="font-medium text-sm">Text on image</p>
+                <Textarea
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder="Title or short copy"
+                  rows={3}
+                  className="min-h-[72px] resize-y font-sans text-sm"
+                />
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-sm">
+                    <Label>Text color</Label>
+                    <span className="font-mono text-muted-foreground text-xs">
+                      {textColor}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      aria-label="Text color"
+                      className="h-10 w-14 cursor-pointer p-1"
+                      value={
+                        /^#[0-9A-Fa-f]{6}$/.test(textColor)
+                          ? textColor
+                          : "#f1f1f1"
+                      }
+                      onChange={(e) => setTextColor(e.target.value)}
+                    />
+                    <Input
+                      value={textColor}
+                      onChange={(e) => setTextColor(e.target.value)}
+                      className="font-mono text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-muted-foreground text-xs">
+                    Alignment
+                  </Label>
+                  <ToggleGroup
+                    type="single"
+                    value={textAlign}
+                    onValueChange={(v) => {
+                      if (v === "left" || v === "center" || v === "right") {
+                        setTextAlign(v);
+                      }
+                    }}
+                    variant="outline"
+                    className="w-full justify-stretch *:flex-1"
+                  >
+                    <ToggleGroupItem value="left" aria-label="Align left">
+                      <AlignLeft className="size-4" />
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="center" aria-label="Align center">
+                      <AlignCenter className="size-4" />
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="right" aria-label="Align right">
+                      <AlignRight className="size-4" />
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </div>
+
+                <div className="flex flex-wrap gap-1">
+                  <Toggle
+                    pressed={isItalic}
+                    onPressedChange={setIsItalic}
+                    variant="outline"
+                    size="sm"
+                    aria-label="Italic"
+                  >
+                    <Italic className="size-4" />
+                  </Toggle>
+                  <Toggle
+                    pressed={isUnderline}
+                    onPressedChange={setIsUnderline}
+                    variant="outline"
+                    size="sm"
+                    aria-label="Underline"
+                  >
+                    <Underline className="size-4" />
+                  </Toggle>
+                  <Toggle
+                    pressed={isStrikethrough}
+                    onPressedChange={setIsStrikethrough}
+                    variant="outline"
+                    size="sm"
+                    aria-label="Strikethrough"
+                  >
+                    <Strikethrough className="size-4" />
+                  </Toggle>
+                </div>
+
+                <SliderRow
+                  label="Type size"
+                  value={fontSize}
+                  min={1}
+                  max={14}
+                  step={0.25}
+                  onValueChange={setFontSize}
+                  suffix=" em"
+                />
+                <SliderRow
+                  label="Weight"
+                  value={fontWeight}
+                  min={100}
+                  max={900}
+                  step={100}
+                  onValueChange={setFontWeight}
+                  suffix=""
+                />
+                <SliderRow
+                  label="Text opacity"
+                  value={opacityText}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={setOpacity}
+                  suffix="%"
+                />
+                <SliderRow
+                  label="Line height"
+                  value={lineHeight}
+                  min={0.8}
+                  max={2}
+                  step={0.05}
+                  onValueChange={setLineHeight}
+                  suffix=""
+                />
+                <SliderRow
+                  label="Letter spacing"
+                  value={letterSpacing}
+                  min={-0.08}
+                  max={0.2}
+                  step={0.01}
+                  onValueChange={setLetterSpacing}
+                  suffix=" em"
+                />
+
+                <p className="pt-1 font-medium text-muted-foreground text-xs">
+                  Shadow
+                </p>
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Shadow color</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      aria-label="Shadow color"
+                      className="h-9 w-12 cursor-pointer p-1"
+                      value={
+                        /^#[0-9A-Fa-f]{6}$/.test(textShadow.color)
+                          ? textShadow.color
+                          : "#f5f5f5"
+                      }
+                      onChange={(e) => setTextShadow({ color: e.target.value })}
+                    />
+                    <Input
+                      value={textShadow.color}
+                      onChange={(e) => setTextShadow({ color: e.target.value })}
+                      className="font-mono text-xs"
+                    />
+                  </div>
+                </div>
+                <SliderRow
+                  label="Shadow blur"
+                  value={textShadow.blur}
+                  min={0}
+                  max={80}
+                  step={1}
+                  onValueChange={(n) => setTextShadow({ blur: n })}
+                  suffix=" px"
+                />
+                <SliderRow
+                  label="Shadow X"
+                  value={textShadow.offsetX}
+                  min={-40}
+                  max={40}
+                  step={1}
+                  onValueChange={(n) => setTextShadow({ offsetX: n })}
+                  suffix=" px"
+                />
+                <SliderRow
+                  label="Shadow Y"
+                  value={textShadow.offsetY}
+                  min={-40}
+                  max={40}
+                  step={1}
+                  onValueChange={(n) => setTextShadow({ offsetY: n })}
+                  suffix=" px"
+                />
+
+                <div className="rounded-xl border border-border/60 bg-muted/40 p-3">
+                  <MeshGradientPositionControl
+                    value={textPosition}
+                    onChange={setTextPosition}
+                    width={resolution.width}
+                    height={resolution.height}
+                    className="max-h-[120px] max-w-[min(100%,160px)]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-border bg-background/95 p-3 backdrop-blur-sm">
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="gap-2"
+                  onClick={() => setCssOpen(true)}
+                >
+                  <Code className="size-4" />
+                  Export CSS
+                </Button>
+                <Button
+                  type="button"
+                  variant="default"
+                  className="gap-2"
+                  disabled={exporting}
+                  onClick={() => void onExportPng()}
+                >
+                  {exporting ? (
+                    <RefreshCw className="size-4 animate-spin" />
+                  ) : (
+                    <ImageIcon className="size-4" />
+                  )}
+                  Export PNG
+                </Button>
+              </div>
+            </div>
           </div>
-
-          <Separator />
-
-          <div className="space-y-3">
-            <p className="font-medium text-sm">Text on image</p>
-            <Textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Title or short copy"
-              rows={3}
-              className="min-h-[72px] resize-y font-sans text-sm"
-            />
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-sm">
-                <Label>Text color</Label>
-                <span className="font-mono text-muted-foreground text-xs">
-                  {textColor}
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <Input
-                  type="color"
-                  aria-label="Text color"
-                  className="h-10 w-14 cursor-pointer p-1"
-                  value={
-                    /^#[0-9A-Fa-f]{6}$/.test(textColor) ? textColor : "#f1f1f1"
-                  }
-                  onChange={(e) => setTextColor(e.target.value)}
-                />
-                <Input
-                  value={textColor}
-                  onChange={(e) => setTextColor(e.target.value)}
-                  className="font-mono text-sm"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <Label className="text-muted-foreground text-xs">Alignment</Label>
-              <ToggleGroup
-                type="single"
-                value={textAlign}
-                onValueChange={(v) => {
-                  if (v === "left" || v === "center" || v === "right") {
-                    setTextAlign(v);
-                  }
-                }}
-                variant="outline"
-                className="w-full justify-stretch *:flex-1"
-              >
-                <ToggleGroupItem value="left" aria-label="Align left">
-                  <AlignLeft className="size-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="center" aria-label="Align center">
-                  <AlignCenter className="size-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="right" aria-label="Align right">
-                  <AlignRight className="size-4" />
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </div>
-
-            <div className="flex flex-wrap gap-1">
-              <Toggle
-                pressed={isItalic}
-                onPressedChange={setIsItalic}
-                variant="outline"
-                size="sm"
-                aria-label="Italic"
-              >
-                <Italic className="size-4" />
-              </Toggle>
-              <Toggle
-                pressed={isUnderline}
-                onPressedChange={setIsUnderline}
-                variant="outline"
-                size="sm"
-                aria-label="Underline"
-              >
-                <Underline className="size-4" />
-              </Toggle>
-              <Toggle
-                pressed={isStrikethrough}
-                onPressedChange={setIsStrikethrough}
-                variant="outline"
-                size="sm"
-                aria-label="Strikethrough"
-              >
-                <Strikethrough className="size-4" />
-              </Toggle>
-            </div>
-
-            <SliderRow
-              label="Type size"
-              value={fontSize}
-              min={1}
-              max={14}
-              step={0.25}
-              onValueChange={setFontSize}
-              suffix=" em"
-            />
-            <SliderRow
-              label="Weight"
-              value={fontWeight}
-              min={100}
-              max={900}
-              step={100}
-              onValueChange={setFontWeight}
-              suffix=""
-            />
-            <SliderRow
-              label="Text opacity"
-              value={opacityText}
-              min={0}
-              max={100}
-              step={1}
-              onValueChange={setOpacity}
-              suffix="%"
-            />
-            <SliderRow
-              label="Line height"
-              value={lineHeight}
-              min={0.8}
-              max={2}
-              step={0.05}
-              onValueChange={setLineHeight}
-              suffix=""
-            />
-            <SliderRow
-              label="Letter spacing"
-              value={letterSpacing}
-              min={-0.08}
-              max={0.2}
-              step={0.01}
-              onValueChange={setLetterSpacing}
-              suffix=" em"
-            />
-
-            <p className="pt-1 font-medium text-muted-foreground text-xs">
-              Shadow
-            </p>
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-sm">
-                <Label className="text-xs">Shadow color</Label>
-              </div>
-              <div className="flex gap-2">
-                <Input
-                  type="color"
-                  aria-label="Shadow color"
-                  className="h-9 w-12 cursor-pointer p-1"
-                  value={
-                    /^#[0-9A-Fa-f]{6}$/.test(textShadow.color)
-                      ? textShadow.color
-                      : "#f5f5f5"
-                  }
-                  onChange={(e) => setTextShadow({ color: e.target.value })}
-                />
-                <Input
-                  value={textShadow.color}
-                  onChange={(e) => setTextShadow({ color: e.target.value })}
-                  className="font-mono text-xs"
-                />
-              </div>
-            </div>
-            <SliderRow
-              label="Shadow blur"
-              value={textShadow.blur}
-              min={0}
-              max={80}
-              step={1}
-              onValueChange={(n) => setTextShadow({ blur: n })}
-              suffix=" px"
-            />
-            <SliderRow
-              label="Shadow X"
-              value={textShadow.offsetX}
-              min={-40}
-              max={40}
-              step={1}
-              onValueChange={(n) => setTextShadow({ offsetX: n })}
-              suffix=" px"
-            />
-            <SliderRow
-              label="Shadow Y"
-              value={textShadow.offsetY}
-              min={-40}
-              max={40}
-              step={1}
-              onValueChange={(n) => setTextShadow({ offsetY: n })}
-              suffix=" px"
-            />
-
-            <div className="rounded-xl border border-border/60 bg-muted/40 p-3">
-              <MeshGradientPositionControl
-                value={textPosition}
-                onChange={setTextPosition}
-                width={resolution.width}
-                height={resolution.height}
-                className="max-h-[120px] max-w-[min(100%,160px)]"
-              />
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-sm">
-              <Label>Background</Label>
-              <span className="font-mono text-muted-foreground text-xs">
-                {backgroundColor}
-              </span>
-            </div>
-            <div className="flex gap-2">
-              <Input
-                type="color"
-                aria-label="Background color"
-                className="h-10 w-14 cursor-pointer p-1"
-                value={
-                  /^#[0-9A-Fa-f]{6}$/.test(backgroundColor)
-                    ? backgroundColor
-                    : "#001220"
-                }
-                onChange={(e) => setBackgroundColor(e.target.value)}
-              />
-              <Input
-                value={backgroundColor}
-                onChange={(e) => setBackgroundColor(e.target.value)}
-                className="font-mono text-sm"
-              />
-            </div>
-          </div>
-
-          <SliderRow
-            label="Blur"
-            value={blur}
-            min={0}
-            max={800}
-            step={10}
-            onValueChange={setBlur}
-            suffix=""
-          />
-          <SliderRow
-            label="Grain"
-            value={grainIntensity}
-            min={0}
-            max={100}
-            step={1}
-            onValueChange={setGrainIntensity}
-            suffix="%"
-          />
-          <SliderRow
-            label="Saturation"
-            value={saturation}
-            min={0}
-            max={200}
-            step={1}
-            onValueChange={setSaturation}
-            suffix="%"
-          />
-          <SliderRow
-            label="Contrast"
-            value={contrast}
-            min={0}
-            max={200}
-            step={1}
-            onValueChange={setContrast}
-            suffix="%"
-          />
-          <SliderRow
-            label="Brightness"
-            value={brightness}
-            min={0}
-            max={200}
-            step={1}
-            onValueChange={setBrightness}
-            suffix="%"
-          />
-
-          <Separator />
-
-          <p className="font-medium text-muted-foreground text-xs">
-            Blob colors ({circles.length})
-          </p>
-          <div className="max-h-[220px] space-y-2 overflow-y-auto pr-1">
-            {circles.map((c, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <Input
-                  type="color"
-                  aria-label={`Color ${i + 1}`}
-                  className="h-9 w-11 shrink-0 cursor-pointer p-1"
-                  value={
-                    /^#[0-9A-Fa-f]{6}$/.test(c.color) ? c.color : "#000000"
-                  }
-                  onChange={(e) => updateCircleColor(i, e.target.value)}
-                />
-                <Input
-                  value={c.color}
-                  onChange={(e) => updateCircleColor(i, e.target.value)}
-                  className="font-mono text-xs"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        </motion.aside>
       </div>
+
+      {favoriteEntries.length > 0 ? (
+        <section className="space-y-3 border-border border-t pt-5">
+          <h2 className="font-semibold text-sm">Starred</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[...favoriteEntries]
+              .sort((a, b) => b.createdAt - a.createdAt)
+              .map((entry) => (
+                <button
+                  key={entry.id}
+                  type="button"
+                  onClick={() => onApplyFavorite(entry)}
+                  className="group overflow-hidden rounded-xl border border-border/60 bg-card/40 text-left transition-colors hover:border-border hover:bg-card/80"
+                >
+                  <div
+                    className="relative w-full overflow-hidden"
+                    style={{
+                      aspectRatio: `${entry.snapshot.resolution.width} / ${entry.snapshot.resolution.height}`,
+                      backgroundColor: entry.snapshot.backgroundColor,
+                    }}
+                  >
+                    <div
+                      className="absolute inset-[-20%] h-[140%] w-[140%]"
+                      style={{
+                        filter:
+                          entry.snapshot.blur > 0
+                            ? `blur(${entry.snapshot.blur}px)`
+                            : undefined,
+                      }}
+                    >
+                      {entry.snapshot.blobs.map((blob, i) => (
+                        <div
+                          key={`${entry.id}-${i}`}
+                          className="absolute"
+                          style={{
+                            left: `${blob.x}%`,
+                            top: `${blob.y}%`,
+                            width: `${blob.size}%`,
+                            height: `${blob.size}%`,
+                            transform: "translate(-50%, -50%)",
+                            opacity: blob.opacity,
+                            zIndex: blob.zIndex,
+                            borderRadius:
+                              blob.shape === "circle"
+                                ? "50%"
+                                : blob.shape === "square"
+                                  ? "0%"
+                                  : blob.shape === "pill"
+                                    ? "100px"
+                                    : "30% 70% 70% 30% / 30% 30% 70% 70%",
+                            backgroundColor: blob.color,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between gap-2 p-2">
+                    <span className="truncate text-muted-foreground text-xs">
+                      {new Date(entry.createdAt).toLocaleString()}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="size-7 text-muted-foreground hover:bg-transparent hover:text-destructive"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onRemoveFavorite(entry.id);
+                      }}
+                      aria-label="Remove favorite"
+                    >
+                      <Star className="size-4 fill-primary text-primary" />
+                    </Button>
+                  </div>
+                </button>
+              ))}
+          </div>
+        </section>
+      ) : null}
+
+      <Dialog open={cssOpen} onOpenChange={setCssOpen}>
+        <DialogContent className="w-[min(96vw,980px)] max-w-[min(96vw,980px)] p-0">
+          <DialogHeader className="border-b border-border px-4 py-3 sm:px-6">
+            <DialogTitle className="flex items-center gap-2">
+              <Code className="size-5 text-primary" />
+              Generated CSS
+            </DialogTitle>
+          </DialogHeader>
+          <div className="min-h-0 p-4 sm:p-6">
+            <div className="relative">
+              <pre className="max-h-[min(60vh,520px)] overflow-auto rounded-xl border border-border bg-muted/50 p-4 font-mono text-xs whitespace-pre-wrap wrap-break-word">
+                {cssPayload}
+              </pre>
+              <Button
+                type="button"
+                variant="secondary"
+                size="icon"
+                className="absolute top-2 right-2"
+                onClick={() => void onCopyCss()}
+                aria-label="Copy CSS"
+              >
+                {copyOk ? (
+                  <Check className="size-4 text-green-600" />
+                ) : (
+                  <Copy className="size-4" />
+                )}
+              </Button>
+            </div>
+          </div>
+          <DialogFooter className="border-t border-border px-4 py-3 sm:px-6">
+            <Button type="button" onClick={() => void onCopyCss()}>
+              Copy to clipboard
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

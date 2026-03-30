@@ -79,13 +79,14 @@ export async function SiteFooter() {
             </header>
 
             <div className="bg-background px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10 lg:px-12">
-              <div className="grid gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-5">
+              <div className="columns-1 gap-8 md:columns-2 md:gap-10 lg:columns-3">
                 {groups.map((g) => (
-                  <FooterGroupColumn
+                  <div
                     key={g.title}
-                    title={g.title}
-                    links={g.links}
-                  />
+                    className="mb-8 inline-block w-full break-inside-avoid align-top md:mb-10"
+                  >
+                    <FooterGroupColumn title={g.title} links={g.links} />
+                  </div>
                 ))}
               </div>
             </div>
@@ -102,7 +103,10 @@ export async function SiteFooter() {
                   >
                     {tNav("privacy")}
                   </Link>{" "}
-                  <span className="text-brutal-canvas-foreground/40" aria-hidden>
+                  <span
+                    className="text-brutal-canvas-foreground/40"
+                    aria-hidden
+                  >
                     |
                   </span>{" "}
                   <Link

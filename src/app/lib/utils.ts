@@ -128,3 +128,145 @@ export function getStyleIcon(style: Skater["style"]) {
 
   return styleIcons[style];
 }
+
+type ResolutionPreset = {
+  name: string;
+  width: number;
+  height: number;
+  category: string;
+};
+
+export const RESOLUTION_PRESETS: ResolutionPreset[] = [
+  {
+    name: "16:9",
+    width: 1920,
+    height: 1080,
+    category: "",
+  },
+  {
+    name: "3:2",
+    width: 1920,
+    height: 1280,
+    category: "",
+  },
+  {
+    name: "4:3",
+    width: 1920,
+    height: 1440,
+    category: "",
+  },
+  {
+    name: "5:4",
+    width: 1920,
+    height: 1536,
+    category: "",
+  },
+  {
+    name: "1:1",
+    width: 1920,
+    height: 1920,
+    category: "",
+  },
+  {
+    name: "4:5",
+    width: 1080,
+    height: 1350,
+    category: "",
+  },
+  {
+    name: "3:4",
+    width: 1080,
+    height: 1440,
+    category: "",
+  },
+  {
+    name: "2:3",
+    width: 1080,
+    height: 1620,
+    category: "",
+  },
+  {
+    name: "9:16",
+    width: 1080,
+    height: 1920,
+    category: "",
+  },
+
+  // Mobile Devices
+  {
+    name: "iPhone 15",
+    width: 1179,
+    height: 2556,
+    category: "Mobile Devices",
+  },
+  {
+    name: "iPhone 15 Pro",
+    width: 1179,
+    height: 2556,
+    category: "Mobile Devices",
+  },
+  {
+    name: "iPhone 15 Pro Max",
+    width: 1290,
+    height: 2796,
+    category: "Mobile Devices",
+  },
+  {
+    name: "Android (S)",
+    width: 720,
+    height: 1520,
+    category: "Mobile Devices",
+  },
+  {
+    name: "Android (M)",
+    width: 1080,
+    height: 2400,
+    category: "Mobile Devices",
+  },
+  {
+    name: "Android (L)",
+    width: 1440,
+    height: 3200,
+    category: "Mobile Devices",
+  },
+
+  // Tablets
+  { name: 'iPad Pro 12.9"', width: 2048, height: 2732, category: "Tablets" },
+  { name: "iPad Air", width: 1668, height: 2388, category: "Tablets" },
+  { name: "Samsung Tab S7", width: 2560, height: 1600, category: "Tablets" },
+
+  // Desktop & Monitors
+  {
+    name: "2K (QHD)",
+    width: 2560,
+    height: 1440,
+    category: "Desktop & Monitors",
+  },
+  {
+    name: "Full HD",
+    width: 1920,
+    height: 1080,
+    category: "Desktop & Monitors",
+  },
+  { name: "4K UHD", width: 3840, height: 2160, category: "Desktop & Monitors" },
+
+  // Use:
+  { name: "Open Graph", width: 1200, height: 630, category: "Metadata" },
+
+  // Facebook
+  { name: "Story/Reels", width: 1080, height: 1920, category: "Facebook" },
+  { name: "Event Cover", width: 1920, height: 1005, category: "Facebook" },
+
+  // Instagram
+  { name: "Square Post", width: 1080, height: 1080, category: "Instagram" },
+  { name: "Portrait Post", width: 1080, height: 1350, category: "Instagram" },
+  { name: "Story/Reels", width: 1080, height: 1920, category: "Instagram" },
+
+  // Twitter
+  { name: "Post Image", width: 1600, height: 900, category: "Twitter" },
+  { name: "Header", width: 1500, height: 500, category: "Twitter" },
+
+  // LinkedIn
+  { name: "Post", width: 1200, height: 627, category: "LinkedIn" },
+  { name: "Banner", width: 1584, height: 396, category: "LinkedIn" },
+];

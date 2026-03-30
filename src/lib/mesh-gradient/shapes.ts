@@ -119,7 +119,11 @@ export function renderShape(shape: ShapeProps): string {
   }
 }
 
-export function drawShape(ctx: CanvasRenderingContext2D, circle: CircleProps) {
+export function drawShape(
+  ctx: CanvasRenderingContext2D,
+  circle: CircleProps,
+  sizeScale = 1,
+) {
   const path = new Path2D();
   const rnd = shapeRngForCircle(circle);
 
@@ -129,7 +133,8 @@ export function drawShape(ctx: CanvasRenderingContext2D, circle: CircleProps) {
 
   // Generate blob path
   const points = 6;
-  const radius = (30 / 100) * Math.min(ctx.canvas.width, ctx.canvas.height); // Scale radius
+  const radius =
+    (30 / 100) * Math.min(ctx.canvas.width, ctx.canvas.height) * sizeScale;
   const variance = 0.4;
 
   path.moveTo(x + radius, y);
