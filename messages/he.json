@@ -21,7 +21,8 @@
     "jsonToParquet": "JSON → Parquet",
     "parquetToJson": "Parquet → JSON",
     "csvToMarkdownTable": "CSV → Markdown Table",
-    "csvToSql": "CSV → SQL"
+    "csvToSql": "CSV → SQL",
+    "markdownToEpub": "Markdown → ePub"
   },
   "language": {
     "menuAria": "שפה",
@@ -686,7 +687,17 @@
     "searchPlaceholder": "Search tools, pages, or categories...",
     "closeSearch": "Close search",
     "noResults": "No results found.",
-    "topResults": "Top results"
+    "topResults": "Top results",
+    "pinBookmarkAria": "Pin or bookmark this tab",
+    "pinBookmarkTitle": "Pin / bookmark this tab",
+    "pinBookmarkDescription": "Browsers don’t allow websites to pin or bookmark for you, but you can do it in a few seconds:",
+    "bookmarkSection": "Bookmark",
+    "bookmarkMac": "Mac: press ⌘D (or use the browser’s bookmark/star icon).",
+    "bookmarkWindows": "Windows/Linux: press Ctrl+D (or use the browser’s bookmark/star icon).",
+    "pinSection": "Pin tab",
+    "pinChrome": "Chrome/Edge: right‑click the tab → Pin.",
+    "pinSafari": "Safari: right‑click the tab → Pin Tab.",
+    "pinFirefox": "Firefox: right‑click the tab → Pin Tab."
   },
   "services": {
     "groupConvertersTitle": "Converters",
@@ -705,6 +716,10 @@
     "groupImageDescription": "Image tools: compress, convert, and resize locally.",
     "groupColorTitle": "Color",
     "groupColorDescription": "Color tools: generators and trending galleries.",
+    "audioConverterLabel": "Audio converter",
+    "audioConverterDesc": "Convert audio formats or extract audio from video locally in your browser.",
+    "subtitleConverterLabel": "SRT to VTT converter",
+    "subtitleConverterDesc": "Convert subtitles locally: SRT ⇄ WebVTT (VTT).",
     "csvViewerLabel": "CSV viewer & editor",
     "csvViewerDesc": "Open CSV in an editable grid, search and export—runs locally in your browser.",
     "csvCompareLabel": "CSV Compare",
@@ -730,6 +745,8 @@
     "jsonYamlConverterDesc": "Convert between JSON and YAML for configs and APIs locally.",
     "markdownHtmlConverterLabel": "Markdown HTML converter",
     "markdownHtmlConverterDesc": "Convert Markdown and HTML with GFM tables, live preview, and safe copy.",
+    "markdownToEpubLabel": "Markdown to ePub",
+    "markdownToEpubDesc": "Convert Markdown into a .epub file for offline reading—runs locally in your browser.",
     "jwtDecoderLabel": "JWT decoder",
     "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
     "cronParserLabel": "Cron parser",
@@ -1102,6 +1119,21 @@
     }
   },
   "toolMeta": {
+    "audio-convert": {
+      "title": "Audio converter",
+      "description": "Audio converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "audio converter | video to mp3 | extract audio from video | mp4 to mp3 | mkv to mp3 | webm to mp3 | mp3 converter | aac converter | opus converter | wav converter | ffmpeg wasm audio | convert audio locally | no upload audio converter | browser audio converter"
+    },
+    "markdown-to-epub": {
+      "title": "Markdown to ePub",
+      "description": "Markdown to ePub: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to epub | md to epub | epub generator | create epub from markdown | ebook converter | epub 3 | toc ncx | offline reading | convert markdown locally | no upload epub converter"
+    },
+    "srt-to-vtt": {
+      "title": "SRT to VTT converter",
+      "description": "SRT to VTT converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "srt to vtt | vtt to srt | subtitle converter | webvtt converter | convert subtitles | srt vtt converter | captions converter | browser subtitle converter | no upload subtitle converter"
+    },
     "axios-converter": {
       "title": "axios converter",
       "description": "axios converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",

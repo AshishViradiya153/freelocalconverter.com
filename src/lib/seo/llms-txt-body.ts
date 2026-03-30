@@ -52,6 +52,11 @@ export const LLMS_SECTIONS: LlmsSection[] = [
           "Convert Markdown ↔ HTML with GFM tables and live preview; sanitized output.",
       },
       {
+        path: "/markdown-to-epub",
+        label: "Markdown to ePub",
+        detail: "Convert Markdown into a valid .epub archive locally.",
+      },
+      {
         path: "/csv-to-sql",
         label: "CSV to SQL",
         detail:
@@ -118,6 +123,11 @@ export const LLMS_SECTIONS: LlmsSection[] = [
         path: "/markdown-html-converter",
         label: "Markdown HTML converter",
         detail: "Markdown ↔ HTML with GFM and live preview; sanitized HTML.",
+      },
+      {
+        path: "/markdown-to-epub",
+        label: "Markdown to ePub",
+        detail: "Markdown → ePub for offline reading; built locally.",
       },
       {
         path: "/jwt-decoder",
@@ -187,7 +197,11 @@ export const LLMS_SECTIONS: LlmsSection[] = [
   },
   {
     heading: "Video",
-    items: [{ path: "/video-compress", label: "Video compress" }],
+    items: [
+      { path: "/video-compress", label: "Video compress" },
+      { path: "/audio-convert", label: "Audio converter" },
+      { path: "/srt-to-vtt", label: "SRT to VTT converter" },
+    ],
   },
   {
     heading: "Images",

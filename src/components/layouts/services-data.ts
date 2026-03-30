@@ -77,6 +77,11 @@ export function getServiceGroups({
           description: services("markdownHtmlConverterDesc"),
         },
         {
+          href: "/markdown-to-epub",
+          label: services("markdownToEpubLabel"),
+          description: services("markdownToEpubDesc"),
+        },
+        {
           href: "/base64-converter",
           label: services("base64ConverterLabel"),
           description: services("base64ConverterDesc"),
@@ -270,6 +275,16 @@ export function getServiceGroups({
           href: "/video-compress",
           label: services("videoCompressorLabel"),
           description: services("videoCompressorDesc"),
+        },
+        {
+          href: "/audio-convert",
+          label: services("audioConverterLabel"),
+          description: services("audioConverterDesc"),
+        },
+        {
+          href: "/srt-to-vtt",
+          label: services("subtitleConverterLabel"),
+          description: services("subtitleConverterDesc"),
         },
       ],
     },

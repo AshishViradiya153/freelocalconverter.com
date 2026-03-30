@@ -31,6 +31,7 @@ function getLocalizedLabel(
     | "sqlFormatter"
     | "jsonYamlConverter"
     | "markdownHtmlConverter"
+    | "markdownToEpub"
     | "jwtDecoder"
     | "cronParser"
     | "uuidGenerator"
@@ -54,6 +55,8 @@ function getLocalizedLabel(
     | "pdfWatermark"
     | "bulkPdfWatermark"
     | "videoCompressor"
+    | "audioConverter"
+    | "subtitleConverter"
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
@@ -372,6 +375,26 @@ function getLocalizedLabel(
         ru: "Конвертер Markdown и HTML",
         tr: "Markdown HTML donusturucu",
         zh: "Markdown HTML 转换器",
+      });
+    case "markdownToEpub":
+      return localizedText(locale, {
+        en: "Markdown to ePub",
+        de: "Markdown zu ePub",
+        es: "Markdown a ePub",
+        fr: "Markdown vers ePub",
+        it: "Da Markdown a ePub",
+        ja: "Markdown から ePub",
+        ko: "Markdown에서 ePub",
+        nl: "Markdown naar ePub",
+        pt: "Markdown para ePub",
+        ru: "Из Markdown в ePub",
+        tr: "Markdown'dan ePub'a",
+        zh: "Markdown 转 ePub",
+        ar: "Markdown إلى ePub",
+        fa: "Markdown به ePub",
+        he: "Markdown ל-ePub",
+        az: "Markdown-dan ePub-a",
+        el: "Markdown σε ePub",
       });
     case "jwtDecoder":
       return localizedText(locale, {
@@ -728,6 +751,46 @@ function getLocalizedLabel(
         tr: "Video Sikistirici",
         zh: "视频压缩器",
       });
+    case "audioConverter":
+      return localizedText(locale, {
+        en: "Video to MP3 converter",
+        de: "Audio-Konverter",
+        es: "Convertidor de audio",
+        fr: "Convertisseur audio",
+        it: "Convertitore audio",
+        ja: "音声変換",
+        ko: "오디오 변환기",
+        nl: "Audio-converter",
+        pt: "Conversor de áudio",
+        ru: "Аудио конвертер",
+        tr: "Ses donusturucu",
+        zh: "音频转换器",
+        ar: "محول الصوت",
+        fa: "مبدل صدا",
+        he: "ממיר אודיו",
+        az: "Audio cevirici",
+        el: "Μετατροπέας ήχου",
+      });
+    case "subtitleConverter":
+      return localizedText(locale, {
+        en: "SRT to VTT converter",
+        de: "SRT zu VTT",
+        es: "SRT a VTT",
+        fr: "SRT vers VTT",
+        it: "Da SRT a VTT",
+        ja: "SRT から VTT",
+        ko: "SRT에서 VTT",
+        nl: "SRT naar VTT",
+        pt: "SRT para VTT",
+        ru: "Из SRT в VTT",
+        tr: "SRT'den VTT'ye",
+        zh: "SRT 转 VTT",
+        ar: "SRT إلى VTT",
+        fa: "SRT به VTT",
+        he: "SRT ל-VTT",
+        az: "SRT-dən VTT-yə",
+        el: "SRT σε VTT",
+      });
     case "imageCompressor":
       return localizedText(locale, {
         en: "Image Compressor",
@@ -1041,6 +1104,7 @@ function getLocalizedDescription(
     | "sqlFormatter"
     | "jsonYamlConverter"
     | "markdownHtmlConverter"
+    | "markdownToEpub"
     | "jwtDecoder"
     | "cronParser"
     | "uuidGenerator"
@@ -1064,6 +1128,8 @@ function getLocalizedDescription(
     | "pdfWatermark"
     | "bulkPdfWatermark"
     | "videoCompressor"
+    | "audioConverter"
+    | "subtitleConverter"
     | "imageCompressor"
     | "imageConverter"
     | "imageResize"
@@ -1166,7 +1232,7 @@ function getLocalizedDescription(
       });
     case "groupVideo":
       return localizedText(locale, {
-        en: "Video tools: optimize media directly in the browser.",
+        en: "Video & audio tools: compress video and convert audio locally in the browser.",
         de: "Videowerkzeuge: Medien direkt im Browser optimieren.",
         es: "Herramientas de video: optimiza archivos directamente en el navegador.",
         fr: "Outils video : optimisez vos medias directement dans le navigateur.",
@@ -1178,6 +1244,36 @@ function getLocalizedDescription(
         ru: "Видеоинструменты: оптимизация медиа прямо в браузере.",
         tr: "Video araclari: medyayi dogrudan tarayicida optimize edin.",
         zh: "视频工具：直接在浏览器中优化媒体。",
+      });
+    case "audioConverter":
+      return localizedText(locale, {
+        en: "Convert audio formats or extract audio from video locally in your browser.",
+        de: "Audioformate konvertieren oder Audio aus Videos lokal im Browser extrahieren.",
+        es: "Convierte formatos de audio o extrae audio de un video localmente en tu navegador.",
+        fr: "Convertissez des formats audio ou extrayez l'audio d'une video localement dans votre navigateur.",
+        it: "Converti formati audio o estrai audio dai video localmente nel browser.",
+        ja: "音声形式の変換や動画からの音声抽出をブラウザ内でローカル実行。",
+        ko: "오디오 포맷 변환 또는 비디오에서 오디오를 로컬로 추출합니다.",
+        nl: "Converteer audioformaten of extraheer audio uit video lokaal in je browser.",
+        pt: "Converta formatos de áudio ou extraia áudio de video localmente no navegador.",
+        ru: "Конвертируйте аудио или извлекайте звук из видео локально в браузере.",
+        tr: "Ses formatlarini donusturun veya videodan sesi yerelde ayiklayin.",
+        zh: "在浏览器本地转换音频格式或从视频提取音频。",
+      });
+    case "subtitleConverter":
+      return localizedText(locale, {
+        en: "Convert subtitles locally: SRT ⇄ WebVTT (VTT).",
+        de: "Untertitel lokal konvertieren: SRT ⇄ WebVTT (VTT).",
+        es: "Convierte subtítulos localmente: SRT ⇄ WebVTT (VTT).",
+        fr: "Convertissez les sous-titres localement : SRT ⇄ WebVTT (VTT).",
+        it: "Converti sottotitoli in locale: SRT ⇄ WebVTT (VTT).",
+        ja: "字幕をローカルで変換：SRT ⇄ WebVTT (VTT)。",
+        ko: "자막을 로컬로 변환: SRT ⇄ WebVTT (VTT).",
+        nl: "Converteer ondertitels lokaal: SRT ⇄ WebVTT (VTT).",
+        pt: "Converta legendas localmente: SRT ⇄ WebVTT (VTT).",
+        ru: "Конвертируйте субтитры локально: SRT ⇄ WebVTT (VTT).",
+        tr: "Altyazilari yerelde donusturun: SRT ⇄ WebVTT (VTT).",
+        zh: "本地转换字幕：SRT ⇄ WebVTT (VTT)。",
       });
     case "groupImage":
       return localizedText(locale, {
@@ -1343,6 +1439,8 @@ function getLocalizedDescription(
             "Convert between JSON and YAML for configs and APIs locally.",
           markdownHtmlConverter:
             "Convert Markdown and HTML with GFM tables, live preview, and safe copy.",
+          markdownToEpub:
+            "Convert Markdown into an EPUB ebook locally in your browser.",
           jwtDecoder:
             "Decode JWT header and payload locally for API debugging.",
           cronParser:
@@ -1481,7 +1579,7 @@ function getLocalizedGroupTitle(
       return "PDF";
     case "video":
       return localizedText(locale, {
-        en: "Video",
+        en: "Video & Audio",
         de: "Video",
         es: "Video",
         fr: "Video",
@@ -1608,6 +1706,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
             safeLocale,
             "markdownHtmlConverter",
           ),
+        },
+        {
+          href: "/markdown-to-epub",
+          label: getLocalizedLabel(safeLocale, "markdownToEpub"),
+          description: getLocalizedDescription(safeLocale, "markdownToEpub"),
         },
         {
           href: "/base64-converter",
@@ -1809,6 +1912,16 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/video-compress",
           label: getLocalizedLabel(safeLocale, "videoCompressor"),
           description: getLocalizedDescription(safeLocale, "videoCompressor"),
+        },
+        {
+          href: "/audio-convert",
+          label: getLocalizedLabel(safeLocale, "audioConverter"),
+          description: getLocalizedDescription(safeLocale, "audioConverter"),
+        },
+        {
+          href: "/srt-to-vtt",
+          label: getLocalizedLabel(safeLocale, "subtitleConverter"),
+          description: getLocalizedDescription(safeLocale, "subtitleConverter"),
         },
       ],
     },
