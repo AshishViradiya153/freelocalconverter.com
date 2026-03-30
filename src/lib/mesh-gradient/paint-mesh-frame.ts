@@ -1,3 +1,7 @@
+import {
+  blobSizeScaleForWeight,
+  effectiveWeights,
+} from "@/lib/mesh-gradient/blob-weights";
 import { applyGrainEffect } from "@/lib/mesh-gradient/effects";
 import { meshGrainSeedFromVisualState } from "@/lib/mesh-gradient/mesh-grain-seed";
 import { drawShape } from "@/lib/mesh-gradient/shapes";
@@ -40,9 +44,13 @@ export function paintMeshGradientFrame(
   bctx.clearRect(0, 0, width, height);
   bctx.fillStyle = item.backgroundColor;
   bctx.fillRect(0, 0, width, height);
-  for (const circle of item.circles) {
-    drawShape(bctx, circle);
-  }
+  const circles = item.circles ?? [];
+  const weights = effectiveWeights(circles);
+  const n = circles.length;
+  circles.forEach((circle, i) => {
+    const w = weights[i] ?? 100 / Math.max(1, n);
+    drawShape(bctx, circle, blobSizeScaleForWeight(w, n));
+  });
 
   octx.clearRect(0, 0, width, height);
   octx.fillStyle = item.backgroundColor;
@@ -63,7 +71,7 @@ export function paintMeshGradientFrame(
   if (item.grainIntensity > 0) {
     const grainSeed = meshGrainSeedFromVisualState({
       backgroundColor: item.backgroundColor,
-      circles: item.circles,
+      circles,
       blur: item.blur,
       saturation: item.saturation,
       contrast: item.contrast,

@@ -48,7 +48,7 @@ export function LandingHowItWorks({ className }: { className?: string }) {
       id="how-it-works"
       aria-labelledby="how-it-works-heading"
       className={cn(
-        "border-border border-t-4 border-b-4 bg-brutal-canvas px-4 py-6 text-brutal-canvas-foreground sm:px-6 sm:py-8 md:px-10 md:py-10 lg:px-12",
+        "border-yellow-400 border-t-4 bg-brutal-canvas px-4 py-6 text-brutal-canvas-foreground sm:px-6 sm:py-8 md:px-10 md:py-10 lg:px-12",
         className,
       )}
     >

@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { MeshGradientApp } from "@/app/components/mesh-gradient-app";
-import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
 import { buildPageMetaFromMessages } from "@/lib/seo/page-meta-messages";
@@ -63,9 +62,6 @@ export default async function GradientGeneratorPage({
     <>
       <JsonLd data={graph} />
       <Shell>
-        <div className="container pt-4">
-          <HubDiscoveryLinks locale={locale} />
-        </div>
         <Suspense
           fallback={
             <div className="container flex flex-col gap-4 py-4">

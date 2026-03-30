@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import * as React from "react";
-import { HubDiscoveryLinks } from "@/components/seo/hub-discovery-links";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Shell } from "@/components/shell";
 import {
@@ -96,7 +95,6 @@ export default async function MeshGradientTrendingPage({
                   {tr("meshGradientTrending.linkToGenerator")}
                 </Link>
               </p>
-              <HubDiscoveryLinks locale={locale} />
             </div>
           </header>
 

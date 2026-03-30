@@ -106,7 +106,7 @@ export function FooterBrandPretextMesh() {
     if (!node) return;
 
     function sync() {
-      const next = Math.max(0, Math.floor(node.getBoundingClientRect().width));
+      const next = Math.max(0, Math.floor(node?.getBoundingClientRect().width ?? 0));
       setWidth((prev) => (prev === next ? prev : next));
     }
 

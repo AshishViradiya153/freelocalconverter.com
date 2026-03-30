@@ -1,6 +1,6 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { Download, Star } from "lucide-react";
 import {
   type MouseEvent as ReactMouseEvent,
   useLayoutEffect,
@@ -26,12 +26,16 @@ interface MeshGradientTrendingCardProps {
   item: TrendingMeshGradientItem;
   openLabel: string;
   downloadLabel: string;
+  isFavorite?: boolean;
+  onToggleFavorite?: (id: number) => void;
 }
 
 export function MeshGradientTrendingCard({
   item,
   openLabel,
   downloadLabel,
+  isFavorite = false,
+  onToggleFavorite,
 }: MeshGradientTrendingCardProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -85,6 +89,12 @@ export function MeshGradientTrendingCard({
     toast.success("Download started");
   }
 
+  function onToggleFavoriteClick(e: ReactMouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    onToggleFavorite?.(item.id);
+  }
+
   return (
     <div ref={wrapRef} className="min-w-0">
       <div
@@ -106,7 +116,26 @@ export function MeshGradientTrendingCard({
             aria-label={`${openLabel}: ${item.name}`}
             className="absolute inset-0 z-0"
           />
-          <div className="pointer-events-none absolute inset-0 flex justify-end p-1.5">
+          <div className="pointer-events-none absolute inset-0 flex justify-between p-1.5">
+            <Button
+              type="button"
+              variant="secondary"
+              size="icon"
+              className="pointer-events-auto z-10 size-8 shrink-0 bg-background/85 shadow-sm backdrop-blur-sm"
+              aria-label={
+                isFavorite ? "Remove from favorites" : "Add to favorites"
+              }
+              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              onClick={onToggleFavoriteClick}
+            >
+              <Star
+                className={cn(
+                  "size-4",
+                  isFavorite ? "fill-primary text-primary" : "text-foreground",
+                )}
+                aria-hidden
+              />
+            </Button>
             <Button
               type="button"
               variant="secondary"
