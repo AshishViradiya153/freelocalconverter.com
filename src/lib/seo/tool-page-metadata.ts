@@ -6,10 +6,17 @@ import { buildPageMetadata } from "./metadata";
 export type ToolPageSlug =
   | "audio-convert"
   | "srt-to-vtt"
+  | "html-to-text-email"
   | "axios-converter"
   | "base64-converter"
   | "bulk-pdf-watermark"
   | "compare"
+  | "online-msg-viewer"
+  | "total-mail-converter"
+  | "convert-email-to-pdf-free"
+  | "convert-email-to-html-free"
+  | "convert-email-to-jpeg-free"
+  | "convert-email-to-text-free"
   | "csv-to-excel"
   | "csv-to-json"
   | "csv-to-markdown-table"
@@ -437,6 +444,41 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Μετατροπέας ήχου";
           default:
             return "Audio converter";
+        }
+      });
+    case "html-to-text-email":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "HTML 转纯文本邮件";
+          case "fr":
+            return "Convertisseur d'e-mail HTML en texte";
+          case "es":
+            return "HTML a texto (correo electrónico)";
+          case "pt":
+            return "HTML para texto (e-mail)";
+          case "de":
+            return "HTML-zu-Text E-Mail-Konverter";
+          case "nl":
+            return "HTML-naar-tekst e-mail converter";
+          case "it":
+            return "Convertitore email HTML in testo";
+          case "ja":
+            return "HTMLからテキストメールへ";
+          case "ko":
+            return "HTML → 텍스트 이메일";
+          case "ar":
+            return "تحويل بريد HTML إلى نص";
+          case "fa":
+            return "تبدیل ایمیل HTML به متن";
+          case "ru":
+            return "HTML в текст (письмо)";
+          case "he":
+            return "ממיר אימייל HTML לטקסט";
+          case "el":
+            return "HTML σε κείμενο (email)";
+          default:
+            return "HTML to Text Email Converter";
         }
       });
     case "srt-to-vtt":
@@ -1495,6 +1537,22 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser audio converter",
     ],
   },
+  "html-to-text-email": {
+    pathname: "/html-to-text-email",
+    titleByLocale: localizedTitle("html-to-text-email"),
+    keywords: [
+      "html to text email",
+      "html email to plain text",
+      "email plain text generator",
+      "convert html email to text",
+      "html to plaintext",
+      "email text version",
+      "strip html tags email",
+      "browser html to text converter",
+      "no upload html to text",
+      "local html email converter",
+    ],
+  },
   "srt-to-vtt": {
     pathname: "/srt-to-vtt",
     titleByLocale: localizedTitle("srt-to-vtt"),
@@ -1509,6 +1567,90 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "closed captions vtt srt",
       "browser subtitle converter",
       "no upload subtitle converter",
+    ],
+  },
+  "online-msg-viewer": {
+    pathname: "/online-msg-viewer",
+    titleByLocale: localizedRecord(() => "Online MSG Viewer"),
+    keywords: [
+      "msg viewer",
+      "online msg viewer",
+      "open outlook msg",
+      "view msg file",
+      "outlook message viewer",
+      "msg email viewer",
+      "browser msg viewer",
+      "no upload msg viewer",
+    ],
+  },
+  "total-mail-converter": {
+    pathname: "/total-mail-converter",
+    titleByLocale: localizedRecord(() => "Total Mail Converter"),
+    keywords: [
+      "mail converter",
+      "total mail converter",
+      "email converter",
+      "convert msg",
+      "convert eml",
+      "email to pdf html jpeg text",
+      "browser email converter",
+      "no upload email converter",
+    ],
+  },
+  "convert-email-to-pdf-free": {
+    pathname: "/convert-email-to-pdf-free",
+    titleByLocale: localizedRecord(() => "Convert Email to PDF Free"),
+    keywords: [
+      "convert email to pdf",
+      "eml to pdf",
+      "msg to pdf",
+      "outlook msg to pdf",
+      "download email as pdf",
+      "email pdf export",
+      "browser email to pdf",
+      "no upload email to pdf",
+    ],
+  },
+  "convert-email-to-html-free": {
+    pathname: "/convert-email-to-html-free",
+    titleByLocale: localizedRecord(() => "Convert Email to HTML Free"),
+    keywords: [
+      "convert email to html",
+      "eml to html",
+      "msg to html",
+      "outlook msg to html",
+      "email html export",
+      "download email as html",
+      "browser email converter",
+      "no upload email converter",
+    ],
+  },
+  "convert-email-to-jpeg-free": {
+    pathname: "/convert-email-to-jpeg-free",
+    titleByLocale: localizedRecord(() => "Convert Email to JPEG Free"),
+    keywords: [
+      "convert email to jpeg",
+      "email to jpg",
+      "eml to jpg",
+      "msg to jpg",
+      "outlook msg to jpeg",
+      "render email to image",
+      "browser email to jpeg",
+      "no upload email to jpg",
+    ],
+  },
+  "convert-email-to-text-free": {
+    pathname: "/convert-email-to-text-free",
+    titleByLocale: localizedRecord(() => "Convert Email to Text Free"),
+    keywords: [
+      "convert email to text",
+      "email to txt",
+      "eml to text",
+      "msg to text",
+      "plain text email converter",
+      "strip html email",
+      "browser email to text",
+      "no upload email to txt",
     ],
   },
   "axios-converter": {

@@ -104,6 +104,22 @@ export const LLMS_SECTIONS: LlmsSection[] = [
     blurb: "HTTP clients, specs, and payload inspection.",
     items: [
       {
+        path: "/html-to-text-email",
+        label: "HTML to text email converter",
+        detail:
+          "Convert HTML email markup into a clean plain-text version locally in your browser.",
+      },
+      { path: "/online-msg-viewer", label: "Online MSG viewer" },
+      {
+        path: "/total-mail-converter",
+        label: "Total mail converter",
+        detail: "Convert .msg/.eml emails into PDF, HTML, JPEG, or plain text.",
+      },
+      { path: "/convert-email-to-pdf-free", label: "Convert email to PDF" },
+      { path: "/convert-email-to-html-free", label: "Convert email to HTML" },
+      { path: "/convert-email-to-jpeg-free", label: "Convert email to JPEG" },
+      { path: "/convert-email-to-text-free", label: "Convert email to text" },
+      {
         path: "/json-formatter",
         label: "JSON formatter",
         detail: "Format and validate JSON locally.",

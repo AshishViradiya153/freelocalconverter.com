@@ -82,6 +82,11 @@ export function getServiceGroups({
           description: services("markdownToEpubDesc"),
         },
         {
+          href: "/html-to-text-email",
+          label: services("htmlToTextEmailLabel"),
+          description: services("htmlToTextEmailDesc"),
+        },
+        {
           href: "/base64-converter",
           label: services("base64ConverterLabel"),
           description: services("base64ConverterDesc"),

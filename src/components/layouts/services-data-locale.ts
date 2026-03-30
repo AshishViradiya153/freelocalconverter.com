@@ -32,6 +32,7 @@ function getLocalizedLabel(
     | "jsonYamlConverter"
     | "markdownHtmlConverter"
     | "markdownToEpub"
+    | "htmlToTextEmail"
     | "jwtDecoder"
     | "cronParser"
     | "uuidGenerator"
@@ -395,6 +396,26 @@ function getLocalizedLabel(
         he: "Markdown ל-ePub",
         az: "Markdown-dan ePub-a",
         el: "Markdown σε ePub",
+      });
+    case "htmlToTextEmail":
+      return localizedText(locale, {
+        en: "HTML to Text Email Converter",
+        zh: "HTML 转纯文本邮件",
+        fr: "Convertisseur d'e-mail HTML en texte",
+        es: "HTML a texto (correo electrónico)",
+        pt: "HTML para texto (e-mail)",
+        de: "HTML-zu-Text E-Mail-Konverter",
+        nl: "HTML-naar-tekst e-mail converter",
+        it: "Convertitore email HTML in testo",
+        ja: "HTMLからテキストメールへ",
+        ko: "HTML → 텍스트 이메일",
+        ar: "تحويل بريد HTML إلى نص",
+        fa: "تبدیل ایمیل HTML به متن",
+        ru: "HTML в текст (письмо)",
+        he: "ממיר אימייל HTML לטקסט",
+        tr: "HTML'den metin e-postaya",
+        az: "HTML-dən mətn e-poçtuna",
+        el: "HTML σε κείμενο (email)",
       });
     case "jwtDecoder":
       return localizedText(locale, {
@@ -1105,6 +1126,7 @@ function getLocalizedDescription(
     | "jsonYamlConverter"
     | "markdownHtmlConverter"
     | "markdownToEpub"
+    | "htmlToTextEmail"
     | "jwtDecoder"
     | "cronParser"
     | "uuidGenerator"
@@ -1441,6 +1463,8 @@ function getLocalizedDescription(
             "Convert Markdown and HTML with GFM tables, live preview, and safe copy.",
           markdownToEpub:
             "Convert Markdown into an EPUB ebook locally in your browser.",
+          htmlToTextEmail:
+            "Convert HTML email markup into a clean plain-text version locally in your browser.",
           jwtDecoder:
             "Decode JWT header and payload locally for API debugging.",
           cronParser:
@@ -1711,6 +1735,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/markdown-to-epub",
           label: getLocalizedLabel(safeLocale, "markdownToEpub"),
           description: getLocalizedDescription(safeLocale, "markdownToEpub"),
+        },
+        {
+          href: "/html-to-text-email",
+          label: getLocalizedLabel(safeLocale, "htmlToTextEmail"),
+          description: getLocalizedDescription(safeLocale, "htmlToTextEmail"),
         },
         {
           href: "/base64-converter",
