@@ -125,7 +125,7 @@ export function UuidGeneratorApp() {
 
       <ToolCard>
         <ToolToolbar className="flex-col items-stretch gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
+          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end items-start">
             <div className="flex min-w-[min(100%,220px)] flex-col gap-2">
               <Label htmlFor="uuid-version">Version</Label>
               <Select

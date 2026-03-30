@@ -230,7 +230,7 @@ export function CsvToSqlApp() {
               <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
                 {t("optionsTitle")}
               </p>
-              <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
+              <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end items-start">
                 <div className="flex min-w-[200px] flex-col gap-2">
                   <Label htmlFor="csv-sql-table-name">
                     {t("tableNameLabel")}
