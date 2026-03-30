@@ -292,7 +292,7 @@ export function buildLlmsTxtBody(): string {
     const intro = section.blurb ? `\n${section.blurb}\n` : "\n";
     const lines = section.items.map((item) => {
       const url = abs(base, item.path);
-      const suffix = item.detail ? ` — ${item.detail}` : "";
+      const suffix = item.detail ? ` - ${item.detail}` : "";
       return `- [${item.label}](${url})${suffix}`;
     });
     return `## ${section.heading}${intro}${lines.join("\n")}`;

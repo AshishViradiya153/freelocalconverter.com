@@ -1194,18 +1194,18 @@ function getLocalizedDescription(
       });
     case "groupViewers":
       return localizedText(locale, {
-        en: "Open, search, and edit locally—editable grids, specs, and JSON payloads in your browser.",
+        en: "Open, search, and edit locally, editable grids, specs, and JSON payloads in your browser.",
         de: "Lokal oeffnen, suchen und bearbeiten: editierbare Tabellen, Spezifikationen und JSON-Nutzdaten im Browser.",
         es: "Abre, busca y edita en local: rejillas, especificaciones y JSON en el navegador.",
         fr: "Ouvrez, cherchez et modifiez en local : grilles, specs et JSON dans le navigateur.",
         it: "Apri, cerca e modifica in locale: griglie, spec e payload JSON nel browser.",
         ja: "ブラウザでローカルに開く・検索・編集（表、仕様、JSON）。",
-        ko: "브라우저에서 로컬로 열기·검색·편집—편집 가능한 그리드, 스펙, JSON 페이로드.",
+        ko: "브라우저에서 로컬로 열기·검색·편집 - 편집 가능한 그리드, 스펙, JSON 페이로드.",
         nl: "Open, zoek en bewerk lokaal: bewerkbare grids, specs en JSON in je browser.",
         pt: "Abra, pesquise e edite localmente: grades editaveis, specs e JSON no navegador.",
         ru: "Открывайте, ищите и правьте локально: редактируемые таблицы, спеки и JSON в браузере.",
         tr: "Yerelde acin, arayin ve duzenleyin: tarayicida duzenlenebilir izgaralar, spec ve JSON.",
-        zh: "在浏览器本地打开、搜索和编辑—可编辑表格、规格与 JSON 负载。",
+        zh: "在浏览器本地打开、搜索和编辑 - 可编辑表格、规格与 JSON 负载。",
       });
     case "groupExcel":
       return localizedText(locale, {
@@ -1436,7 +1436,7 @@ function getLocalizedDescription(
       return localizedText(locale, {
         en: {
           csvViewer:
-            "Open CSV in an editable grid, search and export—runs locally in your browser.",
+            "Open CSV in an editable grid, search and export, runs locally in your browser.",
           csvCompare: "Compare two CSV files side by side.",
           csvToJson: "Convert CSV files to JSON.",
           jsonToCsv: "Convert JSON to CSV format.",

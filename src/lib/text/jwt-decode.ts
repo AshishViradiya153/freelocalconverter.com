@@ -1,6 +1,6 @@
 /**
  * Decodes JWS compact JWTs (header.payload.signature) per RFC 7515 / 7519.
- * Does not verify signatures — callers must treat payload as untrusted until verified server-side.
+ * Does not verify signatures - callers must treat payload as untrusted until verified server-side.
  */
 
 export type JwtSecurityAlert = {
@@ -44,7 +44,7 @@ const UNVERIFIED_MESSAGE =
   "Signatures are not verified here. Anyone can forge a JWT’s header and payload; only verification with a shared secret (HMAC) or public key (RSA, ECDSA, EdDSA) proves integrity. Treat decoded claims as untrusted until your backend validates the token.";
 
 const ALG_NONE_MESSAGE =
-  'Algorithm "none" means no signature. Reject these tokens in production APIs — they are trivially forgeable.';
+  'Algorithm "none" means no signature. Reject these tokens in production APIs - they are trivially forgeable.';
 
 function decodeBase64UrlToBytes(segment: string): Uint8Array | null {
   const trimmed = segment.trim();
@@ -240,7 +240,7 @@ export function decodeJwt(
           level: "warning",
           code: "expired",
           message:
-            "The exp claim is in the past — many servers will reject this token. This does not prove the signature was valid.",
+            "The exp claim is in the past - many servers will reject this token. This does not prove the signature was valid.",
         });
       }
     }
@@ -252,7 +252,7 @@ export function decodeJwt(
           level: "warning",
           code: "nbf_future",
           message:
-            "The nbf (not before) time is still in the future — the token may not be accepted yet.",
+            "The nbf (not before) time is still in the future - the token may not be accepted yet.",
         });
       }
     }

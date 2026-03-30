@@ -63,9 +63,85 @@ describe("parseCsvFile", () => {
       code: "file_too_large",
     });
   });
+
+  it("parses CSV files without loading full text and truncates above max rows", async () => {
+    const header = "c\n";
+    const body = Array.from(
+      { length: CSV_IMPORT_MAX_ROWS + 5 },
+      (_, i) => `${i}\n`,
+    ).join("");
+    const file = new File([header + body], "rows.csv", { type: "text/csv" });
+
+    const { rows, truncated, rowCountBeforeCap } = await parseCsvFile(file);
+    expect(truncated).toBe(true);
+    expect(rows).toHaveLength(CSV_IMPORT_MAX_ROWS);
+    expect(rowCountBeforeCap).toBe(CSV_IMPORT_MAX_ROWS + 5);
+  });
+
+  it("rejects with import_aborted when signal is already aborted", async () => {
+    const file = new File(["a,b\n1,2"], "x.csv", { type: "text/csv" });
+    const ac = new AbortController();
+    ac.abort();
+    await expect(
+      parseCsvFile(file, { signal: ac.signal }),
+    ).rejects.toMatchObject({ code: "import_aborted" });
+  });
+
+  it("uses dialect.delimiter in streaming parse", async () => {
+    const file = new File(["a;b\n9;8"], "semi.csv", { type: "text/csv" });
+    const { rows, columns } = await parseCsvFile(file, {
+      dialect: { delimiter: ";", hasHeaderRow: true },
+    });
+    expect(columns.map((c) => c.id)).toEqual(["a", "b"]);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]?.a).toBe(9);
+    expect(rows[0]?.b).toBe(8);
+  });
+
+  it("loads full file when hasHeaderRow is false", async () => {
+    const file = new File(["0,1\n2,3"], "plain.csv", { type: "text/csv" });
+    const { rows } = await parseCsvFile(file, {
+      dialect: { hasHeaderRow: false },
+    });
+    expect(rows).toHaveLength(2);
+  });
+
+  it("calls onProgress and can abort mid-parse", async () => {
+    const lines = ["x\n", ...Array.from({ length: 30 }, (_, i) => `${i}\n`)];
+    const file = new File([lines.join("")], "many.csv", { type: "text/csv" });
+    const ac = new AbortController();
+    let maxRows = 0;
+    await expect(
+      parseCsvFile(file, {
+        signal: ac.signal,
+        onProgress: (p) => {
+          maxRows = Math.max(maxRows, p.rowsSoFar);
+          if (p.rowsSoFar >= 3) ac.abort();
+        },
+      }),
+    ).rejects.toMatchObject({ code: "import_aborted" });
+    expect(maxRows).toBeGreaterThanOrEqual(3);
+  });
 });
 
 describe("parseCsvText", () => {
+  it("parses semicolon-delimited CSV when dialect.delimiter is set", () => {
+    const { rows, columns } = parseCsvText("a;b\n1;2", { delimiter: ";" });
+    expect(rows).toHaveLength(1);
+    expect(columns.map((c) => c.id)).toEqual(["a", "b"]);
+    expect(rows[0]?.a).toBe(1);
+    expect(rows[0]?.b).toBe(2);
+  });
+
+  it("parses no-header CSV into synthetic Column labels", () => {
+    const { rows, headerLabels } = parseCsvText("1,2\n3,4", {
+      hasHeaderRow: false,
+    });
+    expect(rows).toHaveLength(2);
+    expect(headerLabels[0]).toContain("Column");
+    expect(headerLabels[1]).toContain("Column");
+  });
+
   it("parses basic CSV with headers", () => {
     const csv = "name,age\nAlice,30\nBob,25";
     const { rows, columns, truncated } = parseCsvText(csv);

@@ -3,7 +3,7 @@
  * Semantics follow common Vixie/cronie behavior: when both DOM and DOW are
  * restricted (not *), a date matches if either field matches (OR).
  * Runs at second 0 of each matching minute. All matching uses the chosen
- * calendar (local wall time or UTC), not a fixed offset—DST transitions are
+ * calendar (local wall time or UTC), not a fixed offset - DST transitions are
  * handled by the native Date API.
  */
 

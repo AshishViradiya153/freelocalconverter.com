@@ -92,7 +92,7 @@ export function JsonYamlConverterApp() {
     <ToolPage>
       <ToolHero
         title="JSON YAML converter"
-        description="Convert between JSON and YAML locally in your browser—handy for Kubernetes, CI configs, and API specs—with no uploads."
+        description="Convert between JSON and YAML locally in your browser - handy for Kubernetes, CI configs, and API specs - with no uploads."
       />
 
       <ToolCard>

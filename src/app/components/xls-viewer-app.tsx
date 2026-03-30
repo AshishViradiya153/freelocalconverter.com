@@ -12,18 +12,13 @@ import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   CSV_IMPORT_MAX_FILE_BYTES,
   CSV_IMPORT_MAX_ROWS,
   CsvImportError,
+  type CsvViewerRow,
   type ParseStringMatrixHeaderOptions,
 } from "@/lib/csv-import";
+import { cn } from "@/lib/utils";
 import {
   clearCsvViewerSession,
   loadCsvViewerSession,
@@ -61,6 +56,8 @@ export function XlsViewerApp() {
   const [busy, setBusy] = React.useState(false);
   const [loadError, setLoadError] = React.useState<string | null>(null);
   const fileRef = React.useRef<File | null>(null);
+  const windowedDirtyRef = React.useRef<Map<number, CsvViewerRow>>(new Map());
+  const activeSheetTabRef = React.useRef<HTMLButtonElement | null>(null);
 
   const patchSession = React.useCallback(
     (fn: (s: CsvViewerSession) => CsvViewerSession) => {
@@ -141,6 +138,7 @@ export function XlsViewerApp() {
 
   const reloadParsed = React.useCallback(
     async (file: File, index: number, headerLineInput: string) => {
+      windowedDirtyRef.current.clear();
       const parsedLine = Number.parseInt(headerLineInput.trim(), 10);
       const matrixHeader: ParseStringMatrixHeaderOptions =
         Number.isFinite(parsedLine) && parsedLine >= 1
@@ -194,6 +192,7 @@ export function XlsViewerApp() {
         fileRef.current = file;
         await reloadParsed(file, 0, headerRowInput);
       } catch (e) {
+        windowedDirtyRef.current.clear();
         fileRef.current = null;
         setSession(null);
         setSheetNames([]);
@@ -240,6 +239,7 @@ export function XlsViewerApp() {
   }, [headerRowInput, reloadParsed, sheetIndex, tl]);
 
   const onClear = React.useCallback(async () => {
+    windowedDirtyRef.current.clear();
     fileRef.current = null;
     sessionRef.current = null;
     setInMemoryXlsViewerState(null);
@@ -253,6 +253,15 @@ export function XlsViewerApp() {
   }, []);
 
   const canEditXlsMeta = fileRef.current !== null;
+
+  React.useLayoutEffect(() => {
+    if (sheetNames.length <= 1) return;
+    activeSheetTabRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, [sheetIndex, sheetNames.length]);
 
   return (
     <DirectionProvider dir="ltr">
@@ -304,35 +313,7 @@ export function XlsViewerApp() {
                   onClick={onClear}
                 >
                   {t("clearFile")}
-                </Button>
-                {canEditXlsMeta && sheetNames.length > 1 ? (
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-muted-foreground text-sm">
-                      {t("sheetLabel")}
-                    </span>
-                    <Select
-                      value={String(sheetIndex)}
-                      onValueChange={(v) => void onSheetSelect(v)}
-                      disabled={busy}
-                    >
-                      <SelectTrigger
-                        className="w-[min(100%,240px)]"
-                        aria-label={t("sheetLabel")}
-                      >
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {sheetNames.map((name, i) => (
-                          <SelectItem key={`${name}-${i}`} value={String(i)}>
-                            {name.trim() !== ""
-                              ? name
-                              : t("unnamedSheet", { index: i + 1 })}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                ) : null}
+                  </Button>
               </div>
 
               {canEditXlsMeta ? (
@@ -385,12 +366,57 @@ export function XlsViewerApp() {
           ) : null}
 
           {session ? (
-            <CsvGridPanel
-              key={loadGeneration}
-              session={session}
-              patchSession={patchSession}
-              onClear={onClear}
-            />
+            <div className="flex min-h-0 min-w-0 flex-col gap-0">
+              <CsvGridPanel
+                key={loadGeneration}
+                session={session}
+                patchSession={patchSession}
+                onClear={onClear}
+                windowedDirtyRef={windowedDirtyRef}
+              />
+              {canEditXlsMeta && sheetNames.length > 1 ? (
+                <nav
+                  aria-label={t("sheetLabel")}
+                  className="border-border bg-muted/30 shrink-0 border-t"
+                >
+                  <div
+                    className="flex gap-1 overflow-x-auto px-2 py-2 [scrollbar-width:thin]"
+                    role="tablist"
+                  >
+                    {sheetNames.map((name, i) => {
+                      const label =
+                        name.trim() !== ""
+                          ? name
+                          : t("unnamedSheet", { index: i + 1 });
+                      const isActive = i === sheetIndex;
+                      return (
+                        <button
+                          key={`${name}-${i}`}
+                          ref={isActive ? activeSheetTabRef : undefined}
+                          type="button"
+                          role="tab"
+                          aria-selected={isActive}
+                          disabled={busy}
+                          onClick={() => {
+                            if (i === sheetIndex) return;
+                            void onSheetSelect(String(i));
+                          }}
+                          className={cn(
+                            "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                            "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                            isActive
+                              ? "border-border bg-background text-foreground border shadow-sm"
+                              : "text-muted-foreground hover:bg-muted/80 hover:text-foreground",
+                          )}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </nav>
+              ) : null}
+            </div>
           ) : null}
         </div>
       </div>

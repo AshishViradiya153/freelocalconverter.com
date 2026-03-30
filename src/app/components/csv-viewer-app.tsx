@@ -61,7 +61,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -69,15 +71,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Toggle } from "@/components/ui/toggle";
+import { useAsRef } from "@/hooks/use-as-ref";
 import { type UseDataGridProps, useDataGrid } from "@/hooks/use-data-grid";
 import {
   type UndoRedoCellUpdate,
   useDataGridUndoRedo,
 } from "@/hooks/use-data-grid-undo-redo";
 import { useWindowSize } from "@/hooks/use-window-size";
-import { useAsRef } from "@/hooks/use-as-ref";
+import {
+  makeCsvCellMerge,
+  mergeCsvCellsAnyway,
+  removeCsvCellMergesIntersectingRect,
+} from "@/lib/csv-cell-merges";
 import {
   applyColumnPasteToSession,
   buildColumnClipboardPayload,
@@ -92,16 +98,12 @@ import {
   downloadXmlExport,
 } from "@/lib/csv-export";
 import {
-  makeCsvCellMerge,
-  mergeCsvCellsAnyway,
-  removeCsvCellMergesIntersectingRect,
-} from "@/lib/csv-cell-merges";
-import {
   buildColumnDefsForCsv,
   CSV_IMPORT_MAX_FILE_BYTES,
   CSV_IMPORT_MAX_ROWS,
   CsvImportError,
   type CsvImportResult,
+  type CsvParseDialect,
   type CsvViewerRow,
   parseCsvFile,
   parseCsvText,
@@ -113,7 +115,11 @@ import {
 import { createEmptyCsvViewerRow } from "@/lib/csv-viewer";
 import {
   clearCsvViewerSession,
+  csvViewerPersistDebounceMs,
+  CSV_VIEWER_WINDOWED_INITIAL_PAGE_SIZE,
   loadCsvViewerSession,
+  mergeAllCsvViewerIdbRowsWithDirty,
+  readCsvViewerIdbRowWindow,
   saveCsvViewerSession,
 } from "@/lib/csv-viewer-idb";
 import {
@@ -135,22 +141,53 @@ import {
   getInMemoryCsvViewerSession,
   setInMemoryCsvViewerSession,
 } from "@/lib/csv-viewer-session-memory";
-import type { Direction } from "@/types/data-grid";
 import { getRowHeightValue } from "@/lib/data-grid";
+import type { Direction } from "@/types/data-grid";
 import { SAMPLE_CSV_FILENAME, SAMPLE_CSV_PATH } from "../lib/sample-csv";
 
-const PERSIST_DEBOUNCE_MS = 500;
+const CSV_VIEWER_DIALECT_STORAGE_KEY = "csv-viewer-import-dialect-v1";
+
+type CsvImportDelimiterChoice = "auto" | "comma" | "semicolon" | "tab" | "pipe";
+
+type CsvImportHeaderMode = "header" | "noHeader";
+
+interface CsvImportDialectStorage {
+  delimiterChoice: CsvImportDelimiterChoice;
+  headerMode: CsvImportHeaderMode;
+}
+
+function csvParseDialectFromUi(
+  delimiterChoice: CsvImportDelimiterChoice,
+  headerMode: CsvImportHeaderMode,
+): CsvParseDialect {
+  const delimiter: CsvParseDialect["delimiter"] =
+    delimiterChoice === "auto"
+      ? ""
+      : delimiterChoice === "comma"
+        ? ","
+        : delimiterChoice === "semicolon"
+          ? ";"
+          : delimiterChoice === "tab"
+            ? "\t"
+            : "|";
+  return {
+    delimiter,
+    hasHeaderRow: headerMode === "header",
+  };
+}
 
 interface CsvGridPanelProps {
   session: CsvViewerSession;
   patchSession: (fn: (s: CsvViewerSession) => CsvViewerSession) => void;
   onClear: () => void | Promise<void>;
+  windowedDirtyRef: React.MutableRefObject<Map<number, CsvViewerRow>>;
 }
 
 export function CsvGridPanel({
   session,
   patchSession,
   onClear,
+  windowedDirtyRef,
 }: CsvGridPanelProps) {
   const tc = useTranslations("csv");
   const tCommon = useTranslations("common");
@@ -199,11 +236,24 @@ export function CsvGridPanel({
   const columnKeys = session.columnKeys;
   const firstDataColumnId = columnKeys[0] ?? "id";
   const data = session.rows;
+  const isWindowed =
+    typeof session.windowedTotalRows === "number" &&
+    session.windowedTotalRows > 0;
 
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: DEFAULT_DATA_GRID_PAGE_SIZE,
+    pageSize: isWindowed
+      ? CSV_VIEWER_WINDOWED_INITIAL_PAGE_SIZE
+      : DEFAULT_DATA_GRID_PAGE_SIZE,
   });
+
+  const windowedMountRef = React.useRef(false);
+  const windowedLastPageKeyRef = React.useRef<string | null>(null);
+
+  React.useEffect(() => {
+    windowedMountRef.current = false;
+    windowedLastPageKeyRef.current = null;
+  }, [session.fileName, session.importedRowCount, session.windowedTotalRows]);
 
   const onPaginationChange = React.useCallback(
     (updater: Updater<PaginationState>) => {
@@ -214,12 +264,80 @@ export function CsvGridPanel({
     [],
   );
 
+  const toastWindowedStructureBlocked = React.useCallback(() => {
+    toast.message(
+      "Large restored sheet: add/remove rows or columns isn’t available in page view. Edit cells or export the full file.",
+    );
+  }, []);
+
   const replaceRows = React.useCallback(
     (newRows: CsvViewerRow[]) => {
+      if (isWindowed) {
+        const base = pagination.pageIndex * pagination.pageSize;
+        newRows.forEach((row, i) => {
+          windowedDirtyRef.current.set(base + i, { ...row });
+        });
+      }
       patchSession((s) => mergeRowsIntoSession(s, newRows));
     },
-    [patchSession],
+    [
+      isWindowed,
+      pagination.pageIndex,
+      pagination.pageSize,
+      patchSession,
+      windowedDirtyRef,
+    ],
   );
+
+  React.useEffect(() => {
+    if (!isWindowed) return;
+    const key = `${pagination.pageIndex}-${pagination.pageSize}`;
+    if (!windowedMountRef.current) {
+      windowedMountRef.current = true;
+      windowedLastPageKeyRef.current = key;
+      return;
+    }
+    if (windowedLastPageKeyRef.current === key) return;
+
+    const prevKey = windowedLastPageKeyRef.current;
+    windowedLastPageKeyRef.current = key;
+
+    let cancelled = false;
+    void (async () => {
+      if (prevKey) {
+        const [prevPi, prevPs] = prevKey.split("-").map(Number);
+        const prevStart = (prevPi ?? 0) * (prevPs ?? 1);
+        const prevRows = sessionRef.current.rows;
+        for (let i = 0; i < prevRows.length; i++) {
+          const row = prevRows[i];
+          if (row) windowedDirtyRef.current.set(prevStart + i, { ...row });
+        }
+      }
+
+      const { pageIndex, pageSize } = pagination;
+      const start = pageIndex * pageSize;
+      const total = sessionRef.current.windowedTotalRows ?? 0;
+      const end = Math.min(start + pageSize, total);
+      const slice = await readCsvViewerIdbRowWindow(
+        sessionRef.current,
+        start,
+        end,
+        windowedDirtyRef.current,
+      );
+      if (cancelled || slice == null) return;
+      patchSession((s) => ({ ...s, rows: slice }));
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    isWindowed,
+    pagination.pageIndex,
+    pagination.pageSize,
+    patchSession,
+    windowedDirtyRef,
+  ]);
 
   const {
     trackCellsUpdate,
@@ -239,6 +357,10 @@ export function CsvGridPanel({
 
   const onRowAdd: NonNullable<UseDataGridProps<CsvViewerRow>["onRowAdd"]> =
     React.useCallback(() => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return null;
+      }
       const newRow = createEmptyCsvViewerRow(columnKeys);
       const newRowIndex = data.length;
       replaceRows([...data, newRow]);
@@ -247,28 +369,57 @@ export function CsvGridPanel({
         rowIndex: newRowIndex,
         columnId: firstDataColumnId,
       };
-    }, [columnKeys, data, firstDataColumnId, replaceRows, trackRowsAdd]);
+    }, [
+      columnKeys,
+      data,
+      firstDataColumnId,
+      isWindowed,
+      replaceRows,
+      toastWindowedStructureBlocked,
+      trackRowsAdd,
+    ]);
 
   const onRowsAdd: NonNullable<UseDataGridProps<CsvViewerRow>["onRowsAdd"]> =
     React.useCallback(
       (count: number) => {
+        if (isWindowed) {
+          toastWindowedStructureBlocked();
+          return;
+        }
         const newRows = Array.from({ length: count }, () =>
           createEmptyCsvViewerRow(columnKeys),
         );
         replaceRows([...data, ...newRows]);
         trackRowsAdd(newRows);
       },
-      [columnKeys, data, replaceRows, trackRowsAdd],
+      [
+        columnKeys,
+        data,
+        isWindowed,
+        replaceRows,
+        toastWindowedStructureBlocked,
+        trackRowsAdd,
+      ],
     );
 
   const onRowsDelete: NonNullable<
     UseDataGridProps<CsvViewerRow>["onRowsDelete"]
   > = React.useCallback(
     (rows) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       trackRowsDelete(rows);
       replaceRows(data.filter((row) => !rows.includes(row)));
     },
-    [data, replaceRows, trackRowsDelete],
+    [
+      data,
+      isWindowed,
+      replaceRows,
+      toastWindowedStructureBlocked,
+      trackRowsDelete,
+    ],
   );
 
   const onDataChange = React.useCallback(
@@ -310,6 +461,10 @@ export function CsvGridPanel({
 
   const onColumnInsertBefore = React.useCallback(
     (columnId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const ix = session.columnKeys.indexOf(columnId);
       if (ix < 0) return;
       const prev = cloneCsvViewerSession(session);
@@ -322,11 +477,15 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastColumnAdded"));
     },
-    [session, patchSession, trackColumnReorder, tc],
+    [isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onColumnInsertAfter = React.useCallback(
     (columnId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const ix = session.columnKeys.indexOf(columnId);
       if (ix < 0) return;
       const prev = cloneCsvViewerSession(session);
@@ -339,7 +498,7 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastColumnAdded"));
     },
-    [session, patchSession, trackColumnReorder, tc],
+    [isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onColumnCopy = React.useCallback(
@@ -362,6 +521,10 @@ export function CsvGridPanel({
 
   const onColumnCut = React.useCallback(
     async (columnId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       if (session.columnKeys.length <= 1) {
         toast.error(tc("needOneColumn"));
         return;
@@ -391,11 +554,15 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastColumnCut"));
     },
-    [session, patchSession, trackColumnReorder, tc],
+    [isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onColumnPaste = React.useCallback(
     async (columnId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       let text: string;
       try {
         text = await navigator.clipboard.readText();
@@ -429,7 +596,7 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastColumnPasted"));
     },
-    [session, patchSession, trackColumnReorder, tc],
+    [isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onColumnClearAll = React.useCallback(
@@ -443,6 +610,10 @@ export function CsvGridPanel({
 
   const onColumnDelete = React.useCallback(
     (columnId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       if (session.columnKeys.length <= 1) {
         toast.error(tc("needOneColumn"));
         return;
@@ -458,7 +629,7 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastColumnDeleted"));
     },
-    [session, patchSession, trackColumnReorder, tc],
+    [isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onColumnRename = React.useCallback(
@@ -503,6 +674,10 @@ export function CsvGridPanel({
 
   const onRowInsertBefore = React.useCallback(
     (rowId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const ix = data.findIndex((r) => r.id === rowId);
       if (ix < 0) return;
       const prev = cloneCsvViewerSession(session);
@@ -515,11 +690,15 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastRowAdded"));
     },
-    [data, session, patchSession, trackColumnReorder, tc],
+    [data, isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onRowInsertAfter = React.useCallback(
     (rowId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const ix = data.findIndex((r) => r.id === rowId);
       if (ix < 0) return;
       const prev = cloneCsvViewerSession(session);
@@ -532,7 +711,7 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastRowAdded"));
     },
-    [data, session, patchSession, trackColumnReorder, tc],
+    [data, isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onRowCopy = React.useCallback(
@@ -555,6 +734,10 @@ export function CsvGridPanel({
 
   const onRowCut = React.useCallback(
     async (rowId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const row = data.find((r) => r.id === rowId);
       if (!row) return;
       const tsv = buildCsvRowClipboardTsv(row, columnKeys);
@@ -581,11 +764,24 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastRowCut"));
     },
-    [data, session, columnKeys, patchSession, trackColumnReorder, tc],
+    [
+      data,
+      isWindowed,
+      session,
+      columnKeys,
+      patchSession,
+      toastWindowedStructureBlocked,
+      trackColumnReorder,
+      tc,
+    ],
   );
 
   const onRowPaste = React.useCallback(
     async (rowId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       let text: string;
       try {
         text = await navigator.clipboard.readText();
@@ -622,7 +818,15 @@ export function CsvGridPanel({
           : tc("toastRowsPasted", { count: newRows.length }),
       );
     },
-    [session, columnKeys, patchSession, trackColumnReorder, tc],
+    [
+      isWindowed,
+      session,
+      columnKeys,
+      patchSession,
+      toastWindowedStructureBlocked,
+      trackColumnReorder,
+      tc,
+    ],
   );
 
   const onRowClearAll = React.useCallback(
@@ -639,6 +843,10 @@ export function CsvGridPanel({
 
   const onRowDelete = React.useCallback(
     (rowId: string) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const prev = cloneCsvViewerSession(session);
       const removed = removeCsvSessionRowById(session, rowId);
       if (!removed) return;
@@ -650,7 +858,7 @@ export function CsvGridPanel({
       });
       toast.success(tc("toastRowDeleted"));
     },
-    [session, patchSession, trackColumnReorder, tc],
+    [isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const csvGridTableMeta = React.useMemo(
@@ -707,6 +915,10 @@ export function CsvGridPanel({
         }
       },
       onSelectedRowsCut: async () => {
+        if (isWindowed) {
+          toastWindowedStructureBlocked();
+          return;
+        }
         const t = csvGridTableRef.current;
         if (!t) return;
         const originals = t
@@ -766,6 +978,10 @@ export function CsvGridPanel({
         t.options.meta?.onSelectionClear?.();
       },
       onSelectedRowsDelete: () => {
+        if (isWindowed) {
+          toastWindowedStructureBlocked();
+          return;
+        }
         const t = csvGridTableRef.current;
         if (!t) return;
         const idSet = new Set(
@@ -790,6 +1006,10 @@ export function CsvGridPanel({
         t.options.meta?.onSelectionClear?.();
       },
       onCellsMerge: () => {
+        if (isWindowed) {
+          toastWindowedStructureBlocked();
+          return;
+        }
         const t = csvGridTableRef.current;
         if (!t) return;
         const s = sessionRef.current;
@@ -848,6 +1068,10 @@ export function CsvGridPanel({
         toast.success("Cells merged");
       },
       onCellsUnmerge: () => {
+        if (isWindowed) {
+          toastWindowedStructureBlocked();
+          return;
+        }
         const t = csvGridTableRef.current;
         if (!t) return;
         const s = sessionRef.current;
@@ -930,12 +1154,7 @@ export function CsvGridPanel({
           const bRow = preIndexById.get(m.endRowId);
           const aCol = s.columnKeys.indexOf(m.startColumnId);
           const bCol = s.columnKeys.indexOf(m.endColumnId);
-          if (
-            aRow === undefined ||
-            bRow === undefined ||
-            aCol < 0 ||
-            bCol < 0
-          )
+          if (aRow === undefined || bRow === undefined || aCol < 0 || bCol < 0)
             continue;
           const rowMin = Math.min(aRow, bRow);
           const rowMax = Math.max(aRow, bRow);
@@ -962,8 +1181,7 @@ export function CsvGridPanel({
           const colSpan = colMax - colMin + 1;
           if (rowSpan !== 1) continue;
 
-          const isAnchor =
-            rowId === anchorRowId && columnId === anchorColumnId;
+          const isAnchor = rowId === anchorRowId && columnId === anchorColumnId;
 
           if (!isAnchor) {
             return {
@@ -1000,8 +1218,10 @@ export function CsvGridPanel({
     [
       columnKeys,
       data,
+      isWindowed,
       session,
       patchSession,
+      toastWindowedStructureBlocked,
       trackColumnReorder,
       onDataChange,
       onColumnInsertBefore,
@@ -1036,6 +1256,10 @@ export function CsvGridPanel({
 
   const onColumnOrderChange = React.useCallback(
     (updater: Updater<ColumnOrderState>) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const prev: ColumnOrderState = ["select", ...session.columnKeys];
       const next = typeof updater === "function" ? updater(prev) : updater;
       const nextData = next.filter((id) => id !== "select");
@@ -1090,11 +1314,15 @@ export function CsvGridPanel({
         error: tc("columnReorderError"),
       });
     },
-    [session, patchSession, trackColumnReorder, tc],
+    [isWindowed, session, patchSession, toastWindowedStructureBlocked, trackColumnReorder, tc],
   );
 
   const onRowOrderChange = React.useCallback(
     (orderedPageIds: string[]) => {
+      if (isWindowed) {
+        toastWindowedStructureBlocked();
+        return;
+      }
       const t = csvGridTableRef.current;
       if (!t) return;
 
@@ -1141,10 +1369,19 @@ export function CsvGridPanel({
       patchSession((s) => mergeRowsIntoSession(s, next));
       trackRowReorder(prevIds, nextIds);
     },
-    [data, patchSession, trackRowReorder],
+    [data, isWindowed, patchSession, toastWindowedStructureBlocked, trackRowReorder],
   );
 
   const exportBaseName = session.fileName || "export";
+
+  const resolveExportRows = React.useCallback(async (): Promise<CsvViewerRow[]> => {
+    if (!isWindowed) return session.rows;
+    const merged = await mergeAllCsvViewerIdbRowsWithDirty(
+      session,
+      windowedDirtyRef.current,
+    );
+    return merged ?? session.rows;
+  }, [isWindowed, session, windowedDirtyRef]);
 
   const [addColumnOpen, setAddColumnOpen] = React.useState(false);
   const [addColumnHeader, setAddColumnHeader] = React.useState("");
@@ -1158,9 +1395,10 @@ export function CsvGridPanel({
     setAddColumnKind("short-text");
   }, [addColumnOpen]);
 
-  const onExportCsv = React.useCallback(() => {
+  const onExportCsv = React.useCallback(async () => {
+    const rows = await resolveExportRows();
     downloadCsvExport(
-      session.rows,
+      rows,
       columnKeys,
       session.headerLabels,
       exportBaseName,
@@ -1170,15 +1408,16 @@ export function CsvGridPanel({
   }, [
     columnKeys,
     exportBaseName,
-    session.headerLabels,
-    session.rows,
+    resolveExportRows,
     session.cellMerges,
+    session.headerLabels,
     tc,
   ]);
 
-  const onExportJson = React.useCallback(() => {
+  const onExportJson = React.useCallback(async () => {
+    const rows = await resolveExportRows();
     downloadJsonExport(
-      session.rows,
+      rows,
       columnKeys,
       session.headerLabels,
       exportBaseName,
@@ -1188,15 +1427,16 @@ export function CsvGridPanel({
   }, [
     columnKeys,
     exportBaseName,
-    session.headerLabels,
-    session.rows,
+    resolveExportRows,
     session.cellMerges,
+    session.headerLabels,
     tc,
   ]);
 
-  const onExportXml = React.useCallback(() => {
+  const onExportXml = React.useCallback(async () => {
+    const rows = await resolveExportRows();
     downloadXmlExport(
-      session.rows,
+      rows,
       columnKeys,
       session.headerLabels,
       exportBaseName,
@@ -1206,38 +1446,51 @@ export function CsvGridPanel({
   }, [
     columnKeys,
     exportBaseName,
-    session.headerLabels,
-    session.rows,
+    resolveExportRows,
     session.cellMerges,
+    session.headerLabels,
     tc,
   ]);
 
   const onExportXlsx = React.useCallback(() => {
     void toast.promise(
-      downloadXlsxExport(
-        session.rows,
-        columnKeys,
-        session.headerLabels,
-        exportBaseName,
-        session.cellMerges ?? [],
-      ),
+      (async () => {
+        const rows = await resolveExportRows();
+        return downloadXlsxExport(
+          rows,
+          columnKeys,
+          session.headerLabels,
+          exportBaseName,
+          session.cellMerges ?? [],
+        );
+      })(),
       {
         loading: tc("prepExcel"),
         success: tc("downloadStarted"),
         error: tc("excelError"),
       },
     );
-  }, [columnKeys, exportBaseName, session.headerLabels, session.rows, tc]);
+  }, [
+    columnKeys,
+    exportBaseName,
+    resolveExportRows,
+    session.cellMerges,
+    session.headerLabels,
+    tc,
+  ]);
 
   const onExportPdf = React.useCallback(() => {
     void toast.promise(
-      downloadPdfExport(
-        session.rows,
-        columnKeys,
-        session.headerLabels,
-        exportBaseName,
-        session.cellMerges ?? [],
-      ),
+      (async () => {
+        const rows = await resolveExportRows();
+        return downloadPdfExport(
+          rows,
+          columnKeys,
+          session.headerLabels,
+          exportBaseName,
+          session.cellMerges ?? [],
+        );
+      })(),
       {
         loading: "Preparing PDF…",
         success: tc("downloadStarted"),
@@ -1247,13 +1500,17 @@ export function CsvGridPanel({
   }, [
     columnKeys,
     exportBaseName,
-    session.headerLabels,
-    session.rows,
+    resolveExportRows,
     session.cellMerges,
+    session.headerLabels,
     tc,
   ]);
 
   const onAddColumnDialogSubmit = React.useCallback(() => {
+    if (isWindowed) {
+      toastWindowedStructureBlocked();
+      return;
+    }
     const insertIndex = session.columnKeys.length;
     const prev = cloneCsvViewerSession(session);
     const inserted = insertEmptyCsvSessionColumnAt(session, insertIndex);
@@ -1276,13 +1533,33 @@ export function CsvGridPanel({
     setAddColumnOpen(false);
     toast.success(tc("toastColumnAdded"));
   }, [
-    session,
     addColumnHeader,
     addColumnKind,
+    isWindowed,
     patchSession,
+    session,
+    toastWindowedStructureBlocked,
     trackColumnReorder,
     tc,
   ]);
+
+  const windowedTotal = session.windowedTotalRows ?? 0;
+  const windowedTableOptions =
+    isWindowed && windowedTotal > 0
+      ? {
+        manualPagination: true,
+        manualSorting: true,
+        manualFiltering: true,
+        rowCount: windowedTotal,
+        pageCount: Math.max(
+          1,
+          Math.ceil(windowedTotal / Math.max(1, pagination.pageSize)),
+        ),
+        enableSorting: false,
+        enableFilters: false,
+        enableGlobalFilter: false,
+      }
+      : {};
 
   const { table, searchState, tableMeta, ...dataGridProps } = useDataGrid({
     data,
@@ -1302,9 +1579,10 @@ export function CsvGridPanel({
     onColumnOrderChange,
     onPaginationChange,
     dir,
-    enableSearch: true,
+    ...windowedTableOptions,
+    enableSearch: !isWindowed,
     enablePaste: true,
-    enableRowReorder: true,
+    enableRowReorder: !isWindowed,
   });
 
   csvGridTableRef.current = table;
@@ -1324,7 +1602,9 @@ export function CsvGridPanel({
             <p className="truncate font-medium text-sm">{session.fileName}</p>
             <p className="text-muted-foreground text-xs">
               {tc("rowsColumns", {
-                rowCount: session.rows.length.toLocaleString(),
+                rowCount: (
+                  session.windowedTotalRows ?? session.rows.length
+                ).toLocaleString(),
                 columnCount: session.columnKeys.length.toLocaleString(),
               })}
               {session.truncated
@@ -1340,6 +1620,12 @@ export function CsvGridPanel({
               type="button"
               variant="outline"
               size="sm"
+              disabled={isWindowed}
+              title={
+                isWindowed
+                  ? "Not available while browsing a large restored sheet by page"
+                  : undefined
+              }
               onClick={() => setAddColumnOpen(true)}
             >
               <Plus className="size-4" />
@@ -1456,9 +1742,6 @@ export function CsvGridPanel({
           </DialogContent>
         </Dialog>
 
-        {/* Future: banner ad (placeholder / AdSense) */}
-        {/* <AdSlot variant="banner" className="lg:hidden" /> */}
-
         <div
           role="toolbar"
           aria-orientation="horizontal"
@@ -1495,11 +1778,11 @@ export function CsvGridPanel({
         </div>
 
         <DataGridKeyboardShortcuts
-          enableSearch
+          enableSearch={!isWindowed}
           enableUndoRedo
           enablePaste
-          enableRowAdd
-          enableRowsDelete
+          enableRowAdd={!isWindowed}
+          enableRowsDelete={!isWindowed}
         />
         <DataGrid
           {...dataGridProps}
@@ -1524,9 +1807,25 @@ export function CsvViewerApp() {
   const [hydrated, setHydrated] = React.useState(false);
   const [session, setSession] = React.useState<CsvViewerSession | null>(null);
   const sessionRef = React.useRef<CsvViewerSession | null>(null);
+  const windowedDirtyRef = React.useRef<Map<number, CsvViewerRow>>(new Map());
   const [loadGeneration, setLoadGeneration] = React.useState(0);
   const [error, setError] = React.useState<string | null>(null);
   const [busy, setBusy] = React.useState(false);
+  const [importProgress, setImportProgress] = React.useState<{
+    rowsSoFar: number;
+  } | null>(null);
+  const importAbortRef = React.useRef<AbortController | null>(null);
+  const [importDelimiterChoice, setImportDelimiterChoice] =
+    React.useState<CsvImportDelimiterChoice>("auto");
+  const [importHeaderMode, setImportHeaderMode] =
+    React.useState<CsvImportHeaderMode>("header");
+  const [importDialectHydrated, setImportDialectHydrated] =
+    React.useState(false);
+
+  const csvImportDialect = React.useMemo(
+    () => csvParseDialectFromUi(importDelimiterChoice, importHeaderMode),
+    [importDelimiterChoice, importHeaderMode],
+  );
 
   // and load `next/script` for pagead/js/adsbygoogle.js when re-enabling <AdSlot /> below.
 
@@ -1534,6 +1833,7 @@ export function CsvViewerApp() {
     let cancelled = false;
     const inMemory = getInMemoryCsvViewerSession();
     if (inMemory) {
+      windowedDirtyRef.current.clear();
       sessionRef.current = inMemory;
       setSession(inMemory);
       setHydrated(true);
@@ -1542,8 +1842,12 @@ export function CsvViewerApp() {
       };
     }
 
-    void loadCsvViewerSession().then((restored) => {
+    void loadCsvViewerSession({
+      windowed: true,
+      initialPageSize: CSV_VIEWER_WINDOWED_INITIAL_PAGE_SIZE,
+    }).then((restored) => {
       if (cancelled) return;
+      windowedDirtyRef.current.clear();
       if (restored) {
         sessionRef.current = restored;
         setInMemoryCsvViewerSession(restored);
@@ -1557,12 +1861,79 @@ export function CsvViewerApp() {
   }, []);
 
   React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CSV_VIEWER_DIALECT_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<CsvImportDialectStorage>;
+        const d = parsed.delimiterChoice;
+        const h = parsed.headerMode;
+        if (
+          d === "auto" ||
+          d === "comma" ||
+          d === "semicolon" ||
+          d === "tab" ||
+          d === "pipe"
+        ) {
+          setImportDelimiterChoice(d);
+        }
+        if (h === "header" || h === "noHeader") {
+          setImportHeaderMode(h);
+        }
+      }
+    } catch {
+      // ignore corrupt storage
+    }
+    setImportDialectHydrated(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!importDialectHydrated) return;
+    try {
+      const payload: CsvImportDialectStorage = {
+        delimiterChoice: importDelimiterChoice,
+        headerMode: importHeaderMode,
+      };
+      localStorage.setItem(
+        CSV_VIEWER_DIALECT_STORAGE_KEY,
+        JSON.stringify(payload),
+      );
+    } catch {
+      // private mode / quota
+    }
+  }, [importDelimiterChoice, importHeaderMode, importDialectHydrated]);
+
+  React.useEffect(() => {
     if (!hydrated || !session) return;
+    const rowCount = session.windowedTotalRows ?? session.rows.length;
+    const ms = csvViewerPersistDebounceMs(rowCount);
     const id = window.setTimeout(() => {
-      void saveCsvViewerSession(session);
-    }, PERSIST_DEBOUNCE_MS);
+      void saveCsvViewerSession(session, {
+        windowedDirty: session.windowedTotalRows
+          ? windowedDirtyRef.current
+          : undefined,
+      });
+    }, ms);
     return () => window.clearTimeout(id);
   }, [session, hydrated]);
+
+  React.useEffect(() => {
+    const flush = () => {
+      if (document.visibilityState !== "hidden") return;
+      const s = sessionRef.current;
+      if (!s) return;
+      void saveCsvViewerSession(s, {
+        windowedDirty: s.windowedTotalRows
+          ? windowedDirtyRef.current
+          : undefined,
+      });
+    };
+    document.addEventListener("visibilitychange", flush);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      document.removeEventListener("visibilitychange", flush);
+      window.removeEventListener("pagehide", flush);
+    };
+  }, []);
 
   // If the user switches locale, this component unmounts/remounts.
   // Flush the latest snapshot so language switching has no “state reset” side-effect.
@@ -1570,7 +1941,11 @@ export function CsvViewerApp() {
     return () => {
       const s = sessionRef.current;
       if (!s) return;
-      void saveCsvViewerSession(s);
+      void saveCsvViewerSession(s, {
+        windowedDirty: s.windowedTotalRows
+          ? windowedDirtyRef.current
+          : undefined,
+      });
     };
   }, []);
 
@@ -1588,6 +1963,7 @@ export function CsvViewerApp() {
 
   const onParsed = React.useCallback(
     (r: CsvImportResult, name: string) => {
+      windowedDirtyRef.current.clear();
       const next = resultToSession(name, r, "ltr");
       sessionRef.current = next;
       setInMemoryCsvViewerSession(next);
@@ -1612,20 +1988,33 @@ export function CsvViewerApp() {
       if (!file) return;
       setBusy(true);
       setError(null);
+      setImportProgress({ rowsSoFar: 0 });
+      const ac = new AbortController();
+      importAbortRef.current = ac;
       try {
-        const r = await parseCsvFile(file);
+        const r = await parseCsvFile(file, {
+          signal: ac.signal,
+          onProgress: (p) => setImportProgress({ rowsSoFar: p.rowsSoFar }),
+          dialect: csvImportDialect,
+        });
         onParsed(r, file.name);
       } catch (e) {
         if (e instanceof CsvImportError) {
-          setError(e.message);
+          if (e.code === "import_aborted") {
+            toast.message(tl("importCancelled"));
+          } else {
+            setError(e.message);
+          }
         } else {
           setError(tl("readError"));
         }
       } finally {
+        importAbortRef.current = null;
+        setImportProgress(null);
         setBusy(false);
       }
     },
-    [onParsed, tl],
+    [csvImportDialect, onParsed, tl],
   );
 
   const onTrySample = React.useCallback(async () => {
@@ -1638,7 +2027,7 @@ export function CsvViewerApp() {
         return;
       }
       const text = await res.text();
-      const r = parseCsvText(text);
+      const r = parseCsvText(text, csvImportDialect);
       onParsed(r, SAMPLE_CSV_FILENAME);
     } catch (e) {
       if (e instanceof CsvImportError) {
@@ -1649,10 +2038,11 @@ export function CsvViewerApp() {
     } finally {
       setBusy(false);
     }
-  }, [onParsed, tl]);
+  }, [csvImportDialect, onParsed, tl]);
 
   const onClear = React.useCallback(async () => {
     await clearCsvViewerSession();
+    windowedDirtyRef.current.clear();
     sessionRef.current = null;
     setInMemoryCsvViewerSession(null);
     setSession(null);
@@ -1661,14 +2051,6 @@ export function CsvViewerApp() {
 
   return (
     <DirectionProvider dir="ltr">
-      {/* {adsenseClient ? (
-        <Script
-          id="adsense-lib"
-          strategy="afterInteractive"
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
-          crossOrigin="anonymous"
-        />
-      ) : null} */}
 
       <div className="container flex flex-col gap-4 py-4 lg:flex-row lg:items-start">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
@@ -1690,7 +2072,68 @@ export function CsvViewerApp() {
             </div>
           ) : !session ? (
             <div className="flex flex-col gap-4">
-              {/* Future: AdSense (or similar) banner */}
+                <div className="flex flex-col gap-3 rounded-md border bg-muted/15 p-3 sm:flex-row sm:flex-wrap sm:items-end">
+                  <div className="flex min-w-40 flex-col gap-1.5">
+                    <Label htmlFor="csv-import-delimiter" className="text-xs">
+                      {tl("importDialectDelimiter")}
+                    </Label>
+                    <Select
+                      value={importDelimiterChoice}
+                      onValueChange={(v) =>
+                        setImportDelimiterChoice(v as CsvImportDelimiterChoice)
+                      }
+                    >
+                      <SelectTrigger id="csv-import-delimiter" size="sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">
+                          {tl("importDialectDelimiterAuto")}
+                        </SelectItem>
+                        <SelectItem value="comma">
+                          {tl("importDialectDelimiterComma")}
+                        </SelectItem>
+                        <SelectItem value="semicolon">
+                          {tl("importDialectDelimiterSemicolon")}
+                        </SelectItem>
+                        <SelectItem value="tab">
+                          {tl("importDialectDelimiterTab")}
+                        </SelectItem>
+                        <SelectItem value="pipe">
+                          {tl("importDialectDelimiterPipe")}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex min-w-48 flex-col gap-1.5">
+                    <Label htmlFor="csv-import-header" className="text-xs">
+                      {tl("importDialectFirstRow")}
+                    </Label>
+                    <Select
+                      value={importHeaderMode}
+                      onValueChange={(v) =>
+                        setImportHeaderMode(v as CsvImportHeaderMode)
+                      }
+                    >
+                      <SelectTrigger id="csv-import-header" size="sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="header">
+                          {tl("importDialectFirstRowHeader")}
+                        </SelectItem>
+                        <SelectItem value="noHeader">
+                          {tl("importDialectFirstRowData")}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {importHeaderMode === "noHeader" ? (
+                    <p className="max-w-md text-muted-foreground text-xs">
+                      {tl("importDialectNoHeaderHint")}
+                    </p>
+                  ) : null}
+                </div>
               <FileDropZone
                 disabled={false}
                 busy={busy}
@@ -1707,6 +2150,29 @@ export function CsvViewerApp() {
                 chooseLabel={tl("chooseFile")}
                 ariaLabel={tl("chooseFile")}
               />
+                {busy && importProgress ? (
+                  <div
+                    className="flex flex-col gap-2 rounded-md border bg-muted/20 p-3"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-muted-foreground text-sm">
+                        {tl("importReadingRows", {
+                          count: importProgress.rowsSoFar.toLocaleString(),
+                        })}
+                      </p>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => importAbortRef.current?.abort()}
+                      >
+                        {tl("importCancel")}
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
               <div className="flex flex-wrap items-center gap-2">
                 <Button
                   type="button"
@@ -1731,6 +2197,7 @@ export function CsvViewerApp() {
                 session={session}
                 patchSession={patchSession}
                 onClear={onClear}
+                    windowedDirtyRef={windowedDirtyRef}
               />
               {error ? (
                 <p className="text-destructive text-sm" role="alert">

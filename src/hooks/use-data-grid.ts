@@ -140,7 +140,7 @@ function useStore<T>(
 }
 
 interface UseDataGridProps<TData>
-  extends Omit<TableOptions<TData>, "pageCount" | "getCoreRowModel"> {
+  extends Omit<TableOptions<TData>, "getCoreRowModel"> {
   onDataChange?: (data: TData[]) => void;
   onRowAdd?: (
     event?: React.MouseEvent<HTMLDivElement>,

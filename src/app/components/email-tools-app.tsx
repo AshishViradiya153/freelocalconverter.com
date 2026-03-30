@@ -320,7 +320,7 @@ export function EmailToolsApp({ mode }: { mode: EmailToolsMode }) {
   const heroDescription =
     mode === "msg-viewer"
       ? "Open Outlook .msg files locally in your browser and preview the email safely. Nothing is uploaded."
-      : "Convert .msg and .eml emails locally in your browser. Export as PDF, HTML, JPEG, or plain text—nothing is uploaded.";
+      : "Convert .msg and .eml emails locally in your browser. Export as PDF, HTML, JPEG, or plain text - nothing is uploaded.";
 
   return (
     <ToolPage>
@@ -447,25 +447,25 @@ export function EmailToolsApp({ mode }: { mode: EmailToolsMode }) {
               <div className="min-w-0">
                 <span className="text-muted-foreground">Subject</span>
                 <div className="wrap-break-word font-medium">
-                  {email?.subject ?? "—"}
+                  {email?.subject ?? "-"}
                 </div>
               </div>
               <div className="min-w-0">
                 <span className="text-muted-foreground">Date</span>
                 <div className="wrap-break-word font-medium">
-                  {email?.date ? new Date(email.date).toLocaleString() : "—"}
+                  {email?.date ? new Date(email.date).toLocaleString() : "-"}
                 </div>
               </div>
               <div className="min-w-0">
                 <span className="text-muted-foreground">From</span>
                 <div className="wrap-break-word font-medium">
-                  {email?.from ?? "—"}
+                  {email?.from ?? "-"}
                 </div>
               </div>
               <div className="min-w-0">
                 <span className="text-muted-foreground">To</span>
                 <div className="wrap-break-word font-medium">
-                  {email?.to ?? "—"}
+                  {email?.to ?? "-"}
                 </div>
               </div>
               {email?.cc ? (

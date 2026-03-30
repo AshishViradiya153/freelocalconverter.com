@@ -14,6 +14,7 @@ export type CsvImportErrorCode =
   | "empty_file"
   | "parse_failed"
   | "no_headers"
+  | "import_aborted"
   | "json_not_array"
   | "json_empty"
   | "json_row_not_object";
@@ -237,6 +238,19 @@ export function jsonRecordsToImportResult(records: unknown): CsvImportResult {
   };
 }
 
+export interface CsvParseDialect {
+  delimiter?: "" | "," | ";" | "\t" | "|";
+  hasHeaderRow?: boolean;
+}
+
+function papaDelimiterFromDialect(
+  dialect: CsvParseDialect | undefined,
+): string | undefined {
+  const d = dialect?.delimiter;
+  if (d === undefined || d === "") return undefined;
+  return d;
+}
+
 export function buildColumnDefsForCsv(
   keys: string[],
   labels: string[],
@@ -256,11 +270,63 @@ export function buildColumnDefsForCsv(
   }));
 }
 
-export function parseCsvText(text: string): CsvImportResult {
+export function parseCsvText(
+  text: string,
+  dialect?: CsvParseDialect,
+): CsvImportResult {
+  const delim = papaDelimiterFromDialect(dialect);
+
+  if (dialect?.hasHeaderRow === false) {
+    const parsed = Papa.parse<string[]>(text, {
+      header: false,
+      skipEmptyLines: "greedy",
+      dynamicTyping: false,
+      delimiter: delim,
+    });
+    if (parsed.errors.length > 0) {
+      const fatal = parsed.errors.find(
+        (e) => e.type === "Quotes" || e.type === "FieldMismatch",
+      );
+      if (fatal) {
+        throw new CsvImportError(
+          "parse_failed",
+          fatal.message || "Could not parse CSV. Check quoting and delimiters.",
+        );
+      }
+    }
+    const data = parsed.data;
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new CsvImportError(
+        "empty_file",
+        "This CSV has no data rows. Add at least one row.",
+      );
+    }
+    const matrix: string[][] = [];
+    for (const row of data) {
+      if (!Array.isArray(row)) continue;
+      const cells = row.map((c) =>
+        c === null || c === undefined ? "" : String(c),
+      );
+      if (!cells.some((c) => c.trim() !== "")) continue;
+      matrix.push(cells);
+    }
+    if (matrix.length === 0) {
+      throw new CsvImportError(
+        "empty_file",
+        "This CSV has no data rows. Add at least one row.",
+      );
+    }
+    return parseStringMatrixToImportResult(matrix, {
+      hasHeaderRow: false,
+      autoDetectHeaderRow: false,
+    });
+  }
+
   const parsed = Papa.parse<Record<string, unknown>>(text, {
     header: true,
     skipEmptyLines: "greedy",
     dynamicTyping: false,
+    delimiter: delim,
     transformHeader: (h) => h.trim(),
   });
 
@@ -580,6 +646,23 @@ export function parseStringMatrixToImportResult(
   return buildImportResultFromLabelsAndDataRows(headerLabels, rawRows);
 }
 
+async function readFileAsUtf8Text(file: File): Promise<string> {
+  if (typeof file.text === "function") {
+    try {
+      return await file.text();
+    } catch {
+      // jsdom / older environments may expose `.text` but not implement it reliably.
+    }
+  }
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result ?? ""));
+    reader.onerror = () =>
+      reject(reader.error ?? new Error("FileReader failed"));
+    reader.readAsText(file);
+  });
+}
+
 const CSV_FILE_EXTENSION = /\.csv$/i;
 const CSV_LIKE_MIME_TYPES = new Set([
   "",
@@ -598,7 +681,25 @@ export function isCsvLikeImportFile(file: File): boolean {
   return CSV_LIKE_MIME_TYPES.has(file.type.trim().toLowerCase());
 }
 
-export async function parseCsvFile(file: File): Promise<CsvImportResult> {
+export interface ParseCsvFileProgress {
+  rowsSoFar: number;
+  fileSize: number;
+}
+
+export interface ParseCsvFileOptions {
+  signal?: AbortSignal;
+  onProgress?: (progress: ParseCsvFileProgress) => void;
+  dialect?: CsvParseDialect;
+}
+
+const PROGRESS_EMIT_INTERVAL_MS = 80;
+
+export async function parseCsvFile(
+  file: File,
+  options?: ParseCsvFileOptions,
+): Promise<CsvImportResult> {
+  const { signal, onProgress, dialect } = options ?? {};
+
   if (file.size > CSV_IMPORT_MAX_FILE_BYTES) {
     throw new CsvImportError(
       "file_too_large",
@@ -613,6 +714,223 @@ export async function parseCsvFile(file: File): Promise<CsvImportResult> {
     );
   }
 
-  const text = await file.text();
-  return parseCsvText(text);
+  if (signal?.aborted) {
+    return Promise.reject(
+      new CsvImportError("import_aborted", "Import was cancelled."),
+    );
+  }
+
+  // No-header mode reads the whole file as text (not streamed). Prefer headered + streaming for very large files.
+  if (dialect?.hasHeaderRow === false) {
+    let text: string;
+    try {
+      text = await readFileAsUtf8Text(file);
+    } catch {
+      return Promise.reject(
+        new CsvImportError("parse_failed", "Could not read CSV file."),
+      );
+    }
+    if (signal?.aborted) {
+      return Promise.reject(
+        new CsvImportError("import_aborted", "Import was cancelled."),
+      );
+    }
+    try {
+      return parseCsvText(text, dialect);
+    } catch (e) {
+      if (e instanceof CsvImportError) throw e;
+      return Promise.reject(
+        new CsvImportError(
+          "parse_failed",
+          e instanceof Error ? e.message : "Could not parse CSV.",
+        ),
+      );
+    }
+  }
+
+  const streamDelim = papaDelimiterFromDialect(dialect);
+
+  return await new Promise<CsvImportResult>((resolve, reject) => {
+    let settled = false;
+    let rawRowCount = 0;
+    const cappedRows: Array<Record<string, unknown>> = [];
+    let headerFields: string[] | null = null;
+    let parserRef: { abort: () => void } | null = null;
+    let lastProgressEmitAt = 0;
+
+    const emitProgress = (rowsSoFar: number) => {
+      if (!onProgress) return;
+      const now = Date.now();
+      const due =
+        rowsSoFar === 0 ||
+        rowsSoFar <= 10 ||
+        now - lastProgressEmitAt >= PROGRESS_EMIT_INTERVAL_MS ||
+        rowsSoFar % 500 === 0;
+      if (!due) return;
+      lastProgressEmitAt = now;
+      onProgress({ rowsSoFar, fileSize: file.size });
+    };
+
+    const onAbort = () => {
+      parserRef?.abort();
+    };
+    signal?.addEventListener("abort", onAbort);
+
+    const finish = (fn: () => void) => {
+      if (settled) return;
+      settled = true;
+      signal?.removeEventListener("abort", onAbort);
+      fn();
+    };
+
+    emitProgress(0);
+
+    Papa.parse<Record<string, unknown>>(file, {
+      header: true,
+      skipEmptyLines: "greedy",
+      dynamicTyping: false,
+      delimiter: streamDelim,
+      transformHeader: (h) => h.trim(),
+      step: (results, parser) => {
+        parserRef = parser;
+        if (signal?.aborted) {
+          parser.abort();
+          return;
+        }
+
+        const row = results.data;
+        if (!headerFields) {
+          const fromMeta =
+            Array.isArray(results.meta?.fields) &&
+            results.meta.fields.length > 0
+              ? results.meta.fields
+              : null;
+          headerFields = fromMeta ? [...fromMeta] : Object.keys(row ?? {});
+        }
+        const isNonEmpty =
+          row &&
+          Object.keys(row).some((k) => String(row[k] ?? "").trim() !== "");
+        if (!isNonEmpty) return;
+
+        rawRowCount++;
+        if (cappedRows.length < CSV_IMPORT_MAX_ROWS) {
+          cappedRows.push(row);
+        }
+        emitProgress(rawRowCount);
+      },
+      complete: (results) => {
+        try {
+          if (results.meta?.aborted) {
+            finish(() =>
+              reject(
+                new CsvImportError("import_aborted", "Import was cancelled."),
+              ),
+            );
+            return;
+          }
+
+          if (results.errors.length > 0) {
+            const fatal = results.errors.find(
+              (e) => e.type === "Quotes" || e.type === "FieldMismatch",
+            );
+            if (fatal) {
+              finish(() =>
+                reject(
+                  new CsvImportError(
+                    "parse_failed",
+                    fatal.message ||
+                      "Could not parse CSV. Check quoting and delimiters.",
+                  ),
+                ),
+              );
+              return;
+            }
+          }
+
+          if (rawRowCount === 0) {
+            finish(() =>
+              reject(
+                new CsvImportError(
+                  "empty_file",
+                  "This CSV has no data rows. Add at least one row besides the header.",
+                ),
+              ),
+            );
+            return;
+          }
+
+          const headerRow =
+            (Array.isArray(results.meta.fields) &&
+            results.meta.fields.length > 0
+              ? results.meta.fields
+              : null) ?? headerFields;
+          if (!headerRow?.length) {
+            finish(() =>
+              reject(
+                new CsvImportError(
+                  "no_headers",
+                  "No header row found. The first line should be column names.",
+                ),
+              ),
+            );
+            return;
+          }
+
+          const labels = headerRow.map((h) => h.trim() || "");
+          const keys = uniqueKeys(labels);
+
+          const rowCountBeforeCap = rawRowCount;
+          const truncated = rawRowCount > CSV_IMPORT_MAX_ROWS;
+
+          const kinds: CsvColumnKind[] = keys.map((_key, colIdx) => {
+            const sample: string[] = [];
+            const limit = Math.min(cappedRows.length, INFER_SAMPLE_ROWS);
+            for (let r = 0; r < limit; r++) {
+              const row = cappedRows[r];
+              const v = row?.[headerRow[colIdx] ?? ""];
+              sample.push(v === null || v === undefined ? "" : String(v));
+            }
+            return inferColumnKind(sample);
+          });
+
+          const rows: CsvViewerRow[] = cappedRows.map((row) => {
+            const out: CsvViewerRow = { id: generateId() };
+            for (let i = 0; i < keys.length; i++) {
+              const originalField = headerRow[i] ?? "";
+              const raw = row[originalField];
+              const colKey = keys[i];
+              if (colKey) {
+                out[colKey] = coerceValue(raw, kinds[i] ?? "short-text");
+              }
+            }
+            return out;
+          });
+
+          finish(() =>
+            resolve({
+              rows,
+              columns: buildColumnDefsForCsv(keys, labels, kinds),
+              headerLabels: labels,
+              truncated,
+              rowCountBeforeCap,
+            }),
+          );
+        } catch (e) {
+          finish(() =>
+            reject(e instanceof Error ? e : new Error("CSV parse failed")),
+          );
+        }
+      },
+      error: (error) => {
+        finish(() =>
+          reject(
+            new CsvImportError(
+              "parse_failed",
+              error?.message || "Could not parse CSV file.",
+            ),
+          ),
+        );
+      },
+    });
+  });
 }

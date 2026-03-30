@@ -90,7 +90,7 @@ export function ImageBase64App() {
       const url = URL.createObjectURL(blob);
       setDecodePreviewUrl(url);
       if (mime.startsWith("image/")) toast.success("Decoded image ready.");
-      else toast.success("Decoded binary — download to inspect.");
+      else toast.success("Decoded binary - download to inspect.");
     } catch {
       toast.error("Invalid Base64.");
     }
@@ -121,8 +121,7 @@ export function ImageBase64App() {
           <h1 className={toolHeroTitleClassName}>Image → Base64</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Turn an image into a data URL or raw Base64 for CSS, HTML, or JSON —
-          and decode a data URL back to a file. Everything runs in your browser.
+          Turn an image into a data URL or raw Base64 for CSS, HTML, or JSON - and decode a data URL back to a file. Everything runs in your browser.
         </p>
       </header>
 

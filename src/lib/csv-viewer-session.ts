@@ -25,6 +25,9 @@ export interface CsvViewerSession {
   truncated: boolean;
   rowCountBeforeCap: number;
   importedRowCount: number;
+  windowedTotalRows?: number;
+  windowedRowChunkCount?: number;
+  windowedIdbRowChunkSize?: number;
 }
 
 export interface CsvCellMerge {
@@ -43,6 +46,9 @@ export function cloneCsvViewerSession(s: CsvViewerSession): CsvViewerSession {
     columnKinds: [...s.columnKinds],
     rows: s.rows.map((row) => ({ ...row })),
     cellMerges: s.cellMerges ? s.cellMerges.map((m) => ({ ...m })) : undefined,
+    windowedTotalRows: s.windowedTotalRows,
+    windowedRowChunkCount: s.windowedRowChunkCount,
+    windowedIdbRowChunkSize: s.windowedIdbRowChunkSize,
   };
 }
 
@@ -212,6 +218,27 @@ export function normalizeCsvViewerSessionForLoad(
 
   const rowIdSet = new Set(rows.map((r) => r.id));
   const columnKeySet = new Set(columnKeys);
+  const windowedTotalRows =
+    typeof raw.windowedTotalRows === "number" && raw.windowedTotalRows >= 0
+      ? raw.windowedTotalRows
+      : undefined;
+  const windowedRowChunkCount =
+    typeof raw.windowedRowChunkCount === "number" &&
+      raw.windowedRowChunkCount >= 1
+      ? raw.windowedRowChunkCount
+      : undefined;
+  const windowedActive =
+    windowedTotalRows !== undefined &&
+    windowedTotalRows > 0 &&
+    windowedRowChunkCount !== undefined;
+  const relaxMergeRowIds = windowedActive;
+  const windowedIdbRowChunkSizeRaw = (raw as { windowedIdbRowChunkSize?: unknown })
+    .windowedIdbRowChunkSize;
+  const windowedIdbRowChunkSize =
+    typeof windowedIdbRowChunkSizeRaw === "number" &&
+      windowedIdbRowChunkSizeRaw >= 1
+      ? windowedIdbRowChunkSizeRaw
+      : undefined;
 
   const cellMerges = Array.isArray(raw.cellMerges)
     ? raw.cellMerges
@@ -226,7 +253,10 @@ export function normalizeCsvViewerSessionForLoad(
           typeof mm.endColumnId !== "string"
         )
           return false;
-        if (!rowIdSet.has(mm.startRowId) || !rowIdSet.has(mm.endRowId))
+        if (
+          !relaxMergeRowIds &&
+          (!rowIdSet.has(mm.startRowId) || !rowIdSet.has(mm.endRowId))
+        )
           return false;
         if (!columnKeySet.has(mm.startColumnId) || !columnKeySet.has(mm.endColumnId))
           return false;
@@ -263,6 +293,15 @@ export function normalizeCsvViewerSessionForLoad(
         ? raw.rowCountBeforeCap
         : rows.length,
     importedRowCount,
+    ...(windowedActive
+      ? {
+        windowedTotalRows,
+        windowedRowChunkCount,
+        ...(windowedIdbRowChunkSize !== undefined
+          ? { windowedIdbRowChunkSize }
+          : {}),
+      }
+      : {}),
   };
 }
 
@@ -452,7 +491,7 @@ export function removeCsvSessionColumn(
   });
 }
 
-/** Set every cell in `columnKey` to an empty string. */
+
 export function clearCsvSessionColumnValues(
   session: CsvViewerSession,
   columnKey: string,

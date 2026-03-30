@@ -324,7 +324,7 @@ export function GifToolsApp() {
 
       if (tooManyFrames) {
         toast.warning(
-          `Too many frames — exporting first ${MAX_SPLIT_FRAMES} frames.`,
+          `Too many frames - exporting first ${MAX_SPLIT_FRAMES} frames.`,
         );
       }
 
