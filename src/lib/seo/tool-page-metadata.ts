@@ -4,6 +4,8 @@ import { type AppLocale, routing } from "@/i18n/routing";
 import { buildPageMetadata } from "./metadata";
 
 export type ToolPageSlug =
+  | "audio-convert"
+  | "srt-to-vtt"
   | "axios-converter"
   | "base64-converter"
   | "bulk-pdf-watermark"
@@ -38,6 +40,7 @@ export type ToolPageSlug =
   | "jwt-decoder"
   | "merge-pdf"
   | "markdown-html-converter"
+  | "markdown-to-epub"
   | "openapi-viewer"
   | "parquet-to-csv"
   | "parquet-to-json"
@@ -399,6 +402,82 @@ function compressorTitle(subject: LocalizedTerm) {
 
 function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
   switch (slug) {
+    case "audio-convert":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "en":
+            return "Video to MP3 converter";
+          case "zh":
+            return "音频转换器";
+          case "es":
+            return "Convertidor de audio";
+          case "pt":
+            return "Conversor de áudio";
+          case "fr":
+            return "Convertisseur audio";
+          case "de":
+            return "Audio-Konverter";
+          case "nl":
+            return "Audio-converter";
+          case "it":
+            return "Convertitore audio";
+          case "ja":
+            return "音声変換";
+          case "ko":
+            return "오디오 변환기";
+          case "ar":
+            return "محول الصوت";
+          case "fa":
+            return "مبدل صوت";
+          case "ru":
+            return "Аудио конвертер";
+          case "he":
+            return "ממיר אודיו";
+          case "el":
+            return "Μετατροπέας ήχου";
+          default:
+            return "Audio converter";
+        }
+      });
+    case "srt-to-vtt":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "SRT 转 VTT";
+          case "ja":
+            return "SRT から VTT";
+          case "ko":
+            return "SRT에서 VTT";
+          case "tr":
+            return "SRT'den VTT'ye";
+          case "az":
+            return "SRT-dən VTT-yə";
+          case "ar":
+            return "SRT إلى VTT";
+          case "fa":
+            return "SRT به VTT";
+          case "he":
+            return "SRT ל-VTT";
+          case "el":
+            return "SRT σε VTT";
+          case "de":
+            return "SRT zu VTT";
+          case "fr":
+            return "SRT vers VTT";
+          case "it":
+            return "Da SRT a VTT";
+          case "nl":
+            return "SRT naar VTT";
+          case "pt":
+            return "SRT para VTT";
+          case "es":
+            return "SRT a VTT";
+          case "ru":
+            return "Из SRT в VTT";
+          default:
+            return "SRT to VTT converter";
+        }
+      });
     case "axios-converter":
       return converterTitle(TERMS.axios);
     case "base64-converter":
@@ -1388,12 +1467,50 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       });
     case "xls-viewer":
       return viewerTitle(TERMS.excel);
+    case "markdown-to-epub":
+      return localizedRecord(() => "Markdown to ePub");
     default:
       return localizedRecord(() => slug);
   }
 }
 
 const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
+  "audio-convert": {
+    pathname: "/audio-convert",
+    titleByLocale: localizedTitle("audio-convert"),
+    keywords: [
+      "audio converter",
+      "video to mp3",
+      "extract audio from video",
+      "mp4 to mp3",
+      "mkv to mp3",
+      "webm to mp3",
+      "mp3 converter",
+      "aac converter",
+      "opus converter",
+      "wav converter",
+      "ffmpeg wasm audio",
+      "convert audio locally",
+      "no upload audio converter",
+      "browser audio converter",
+    ],
+  },
+  "srt-to-vtt": {
+    pathname: "/srt-to-vtt",
+    titleByLocale: localizedTitle("srt-to-vtt"),
+    keywords: [
+      "srt to vtt",
+      "vtt to srt",
+      "subtitle converter",
+      "webvtt converter",
+      "convert subtitles",
+      "srt vtt converter",
+      "captions converter",
+      "closed captions vtt srt",
+      "browser subtitle converter",
+      "no upload subtitle converter",
+    ],
+  },
   "axios-converter": {
     pathname: "/axios-converter",
     titleByLocale: localizedTitle("axios-converter"),
@@ -1861,6 +1978,22 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "markdown table to html",
       "local markdown converter no upload",
       "turndown html to md",
+    ],
+  },
+  "markdown-to-epub": {
+    pathname: "/markdown-to-epub",
+    titleByLocale: localizedTitle("markdown-to-epub"),
+    keywords: [
+      "markdown to epub",
+      "md to epub",
+      "epub generator",
+      "create epub from markdown",
+      "ebook converter",
+      "offline reading",
+      "epub 3 nav",
+      "toc ncx",
+      "convert markdown locally",
+      "no upload epub converter",
     ],
   },
   "merge-pdf": {
