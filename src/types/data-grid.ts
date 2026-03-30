@@ -90,6 +90,9 @@ declare module "@tanstack/react-table" {
     onColumnClearAll?: (columnId: string) => void;
     onColumnDelete?: (columnId: string) => void;
     onColumnRename?: (columnId: string, newHeaderLabel: string) => void;
+    getColumnKind?: (columnId: string) => string | null;
+    getColumnKindOptions?: () => Array<{ value: string; label: string }>;
+    onColumnKindChange?: (columnId: string, kind: string) => void;
     onRowInsertBefore?: (rowId: string) => void;
     onRowInsertAfter?: (rowId: string) => void;
     onRowCut?: (rowId: string) => void | Promise<void>;
@@ -127,6 +130,8 @@ declare module "@tanstack/react-table" {
     onCellsCopy?: () => void;
     onCellsCut?: () => void;
     onCellsPaste?: (expand?: boolean) => void;
+    onCellsMerge?: () => void;
+    onCellsUnmerge?: () => void;
     onSelectionClear?: () => void;
     onFilesUpload?: (params: {
       files: File[];
@@ -145,6 +150,11 @@ declare module "@tanstack/react-table" {
     readOnly?: boolean;
     /** Reorder grip in select column (hover); DataGrid `enableRowReorder`. */
     enableRowReorder?: boolean;
+    /** Optional: merged-cell rendering state (spreadsheet-style). */
+    getCellMergeState?: (
+      rowIndex: number,
+      columnId: string,
+    ) => DataGridCellMergeState | null;
   }
 }
 
@@ -163,6 +173,16 @@ export interface SelectionState {
   selectedCells: Set<string>;
   selectionRange: CellRange | null;
   isSelecting: boolean;
+}
+
+export interface DataGridCellMergeState {
+  kind: "anchor" | "covered";
+  anchorRowIndex: number;
+  anchorColumnId: string;
+  rowSpan: number;
+  colSpan: number;
+  coverMode?: "collapse";
+  widthCss?: string;
 }
 
 export interface ContextMenuState {

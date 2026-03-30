@@ -8,20 +8,31 @@ import {
   createEmptyCsvViewerRow,
   getAccessorKeysFromColumnDefs,
 } from "@/lib/csv-viewer";
+import { removeCsvCellMergesForDeletedRowsOrColumns } from "@/lib/csv-cell-merges";
 import { generateId } from "@/lib/id";
 import type { Direction } from "@/types/data-grid";
+import type { FileCellData } from "@/types/data-grid";
 
 export interface CsvViewerSession {
-  version: 1;
+  version: 2;
   fileName: string;
   dir: Direction;
   columnKeys: string[];
   headerLabels: string[];
   columnKinds: CsvColumnKind[];
   rows: CsvViewerRow[];
+  cellMerges?: CsvCellMerge[];
   truncated: boolean;
   rowCountBeforeCap: number;
   importedRowCount: number;
+}
+
+export interface CsvCellMerge {
+  id: string;
+  startRowId: string;
+  endRowId: string;
+  startColumnId: string;
+  endColumnId: string;
 }
 
 export function cloneCsvViewerSession(s: CsvViewerSession): CsvViewerSession {
@@ -31,6 +42,7 @@ export function cloneCsvViewerSession(s: CsvViewerSession): CsvViewerSession {
     headerLabels: [...s.headerLabels],
     columnKinds: [...s.columnKinds],
     rows: s.rows.map((row) => ({ ...row })),
+    cellMerges: s.cellMerges ? s.cellMerges.map((m) => ({ ...m })) : undefined,
   };
 }
 
@@ -38,7 +50,48 @@ function columnKindFromDef(meta: unknown): CsvColumnKind {
   const v = (meta as { cell?: { variant?: string } } | undefined)?.cell
     ?.variant;
   if (v === "number" || v === "date") return v;
+  if (v === "file") return "image";
   return "short-text";
+}
+
+function isFileCellDataArray(value: unknown): value is FileCellData[] {
+  return (
+    Array.isArray(value) &&
+    value.every(
+      (v) =>
+        v &&
+        typeof v === "object" &&
+        typeof (v as FileCellData).id === "string" &&
+        typeof (v as FileCellData).name === "string" &&
+        typeof (v as FileCellData).size === "number" &&
+        typeof (v as FileCellData).type === "string",
+    )
+  );
+}
+
+function fileNameFromUrl(url: string): string {
+  const leaf = url.split("?")[0]?.split("#")[0]?.split("/").pop();
+  return leaf && leaf.trim() ? leaf.trim() : "image";
+}
+
+function imageCellFromString(value: string): FileCellData[] {
+  const trimmed = value.trim();
+  if (!trimmed) return [];
+  return [
+    {
+      id: generateId(),
+      name: fileNameFromUrl(trimmed),
+      size: 0,
+      type: "image/*",
+      url: trimmed,
+    },
+  ];
+}
+
+function stringFromImageCell(value: FileCellData[]): string {
+  const first = value[0];
+  if (!first) return "";
+  return first.url ?? first.name ?? "";
 }
 
 export function resultToSession(
@@ -49,13 +102,14 @@ export function resultToSession(
   const columnKeys = getAccessorKeysFromColumnDefs(result.columns);
   const columnKinds = result.columns.map((c) => columnKindFromDef(c.meta));
   return {
-    version: 1,
+    version: 2,
     fileName,
     dir,
     columnKeys,
     headerLabels: [...result.headerLabels],
     columnKinds,
     rows: result.rows.map((r) => ({ ...r })),
+    cellMerges: [],
     truncated: result.truncated,
     rowCountBeforeCap: result.rowCountBeforeCap,
     importedRowCount: result.rows.length,
@@ -136,7 +190,7 @@ export function normalizeCsvViewerSessionForLoad(
   headerLabels.length = columnKeys.length;
 
   const isKind = (k: unknown): k is CsvColumnKind =>
-    k === "number" || k === "date" || k === "short-text";
+    k === "number" || k === "date" || k === "short-text" || k === "image";
 
   for (let i = 0; i < columnKeys.length; i++) {
     if (!isKind(columnKinds[i])) {
@@ -156,6 +210,34 @@ export function normalizeCsvViewerSessionForLoad(
     return copy;
   });
 
+  const rowIdSet = new Set(rows.map((r) => r.id));
+  const columnKeySet = new Set(columnKeys);
+
+  const cellMerges = Array.isArray(raw.cellMerges)
+    ? raw.cellMerges
+      .filter((m) => {
+        if (!m || typeof m !== "object") return false;
+        const mm = m as Partial<CsvCellMerge>;
+        if (typeof mm.id !== "string" || mm.id.trim() === "") return false;
+        if (
+          typeof mm.startRowId !== "string" ||
+          typeof mm.endRowId !== "string" ||
+          typeof mm.startColumnId !== "string" ||
+          typeof mm.endColumnId !== "string"
+        )
+          return false;
+        if (!rowIdSet.has(mm.startRowId) || !rowIdSet.has(mm.endRowId))
+          return false;
+        if (!columnKeySet.has(mm.startColumnId) || !columnKeySet.has(mm.endColumnId))
+          return false;
+        if (mm.startColumnId === "select" || mm.endColumnId === "select")
+          return false;
+        if (mm.startRowId !== mm.endRowId) return false;
+        return true;
+      })
+      .map((m) => m as CsvCellMerge)
+    : [];
+
   const importedRowCount =
     typeof raw.importedRowCount === "number"
       ? raw.importedRowCount
@@ -164,7 +246,7 @@ export function normalizeCsvViewerSessionForLoad(
   const dir: Direction = raw.dir === "rtl" ? "rtl" : "ltr";
 
   return {
-    version: 1,
+    version: 2,
     fileName:
       typeof raw.fileName === "string" && raw.fileName.trim() !== ""
         ? raw.fileName
@@ -174,6 +256,7 @@ export function normalizeCsvViewerSessionForLoad(
     headerLabels,
     columnKinds,
     rows,
+    cellMerges,
     truncated: Boolean(raw.truncated),
     rowCountBeforeCap:
       typeof raw.rowCountBeforeCap === "number" && raw.rowCountBeforeCap >= 0
@@ -181,6 +264,48 @@ export function normalizeCsvViewerSessionForLoad(
         : rows.length,
     importedRowCount,
   };
+}
+
+export function setCsvSessionColumnKind(
+  session: CsvViewerSession,
+  columnKey: string,
+  kind: CsvColumnKind,
+): CsvViewerSession | null {
+  const ix = session.columnKeys.indexOf(columnKey);
+  if (ix === -1) return null;
+
+  const prevKind = session.columnKinds[ix] ?? "short-text";
+  if (prevKind === kind) return session;
+
+  const columnKinds = [...session.columnKinds];
+  columnKinds[ix] = kind;
+
+  // Keep cell shape aligned with the renderer:
+  // - image uses FileCellData[] (maxFiles=1) so FileCell can render it
+  // - other kinds use string/number/date-ish values
+  const rows = session.rows.map((row) => {
+    const raw = row[columnKey];
+
+    if (kind === "image") {
+      if (isFileCellDataArray(raw)) return row;
+      if (typeof raw === "string") {
+        return { ...row, [columnKey]: imageCellFromString(raw) };
+      }
+      if (raw === null || raw === undefined) {
+        return { ...row, [columnKey]: [] };
+      }
+      return { ...row, [columnKey]: imageCellFromString(String(raw)) };
+    }
+
+    // Switching away from image -> store a stable string (URL preferred)
+    if (isFileCellDataArray(raw)) {
+      return { ...row, [columnKey]: stringFromImageCell(raw) };
+    }
+
+    return row;
+  });
+
+  return { ...session, columnKinds, rows };
 }
 
 /** Reorder data columns (not the grid select column) while keeping labels/kinds aligned. */
@@ -317,7 +442,14 @@ export function removeCsvSessionColumn(
     return copy as CsvViewerRow;
   });
 
-  return { ...session, columnKeys, headerLabels, columnKinds, rows };
+  const next = { ...session, columnKeys, headerLabels, columnKinds, rows };
+  const validRowIds = new Set(next.rows.map((r) => r.id));
+  const validColumnIds = new Set(next.columnKeys);
+  return removeCsvCellMergesForDeletedRowsOrColumns({
+    session: next,
+    validRowIds,
+    validColumnIds,
+  });
 }
 
 /** Set every cell in `columnKey` to an empty string. */
@@ -366,7 +498,14 @@ export function removeCsvSessionRowById(
   const ix = session.rows.findIndex((r) => r.id === rowId);
   if (ix === -1) return null;
   const rows = session.rows.filter((_, i) => i !== ix);
-  return { ...session, rows };
+  const next = { ...session, rows };
+  const validRowIds = new Set(next.rows.map((r) => r.id));
+  const validColumnIds = new Set(next.columnKeys);
+  return removeCsvCellMergesForDeletedRowsOrColumns({
+    session: next,
+    validRowIds,
+    validColumnIds,
+  });
 }
 
 /** Clear all data cells; keeps the same row `id`. */

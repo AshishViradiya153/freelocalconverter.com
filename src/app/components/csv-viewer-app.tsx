@@ -13,6 +13,7 @@ import {
   Download,
   Languages,
   Loader2,
+  Plus,
   Trash2,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -47,11 +48,27 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Toggle } from "@/components/ui/toggle";
 import { type UseDataGridProps, useDataGrid } from "@/hooks/use-data-grid";
@@ -60,6 +77,7 @@ import {
   useDataGridUndoRedo,
 } from "@/hooks/use-data-grid-undo-redo";
 import { useWindowSize } from "@/hooks/use-window-size";
+import { useAsRef } from "@/hooks/use-as-ref";
 import {
   applyColumnPasteToSession,
   buildColumnClipboardPayload,
@@ -69,9 +87,15 @@ import {
 import {
   downloadCsvExport,
   downloadJsonExport,
+  downloadPdfExport,
   downloadXlsxExport,
   downloadXmlExport,
 } from "@/lib/csv-export";
+import {
+  makeCsvCellMerge,
+  mergeCsvCellsAnyway,
+  removeCsvCellMergesIntersectingRect,
+} from "@/lib/csv-cell-merges";
 import {
   buildColumnDefsForCsv,
   CSV_IMPORT_MAX_FILE_BYTES,
@@ -105,12 +129,14 @@ import {
   renameCsvSessionColumnHeader,
   reorderCsvSessionColumnKeys,
   resultToSession,
+  setCsvSessionColumnKind,
 } from "@/lib/csv-viewer-session";
 import {
   getInMemoryCsvViewerSession,
   setInMemoryCsvViewerSession,
 } from "@/lib/csv-viewer-session-memory";
 import type { Direction } from "@/types/data-grid";
+import { getRowHeightValue } from "@/lib/data-grid";
 import { SAMPLE_CSV_FILENAME, SAMPLE_CSV_PATH } from "../lib/sample-csv";
 
 const PERSIST_DEBOUNCE_MS = 500;
@@ -129,6 +155,7 @@ export function CsvGridPanel({
   const tc = useTranslations("csv");
   const tCommon = useTranslations("common");
   const csvGridTableRef = React.useRef<Table<CsvViewerRow> | null>(null);
+  const sessionRef = useAsRef(session);
   const windowSize = useWindowSize({ defaultHeight: 760 });
   const height = Math.max(400, windowSize.height - 220);
   const dir: Direction = session.dir === "rtl" ? "rtl" : "ltr";
@@ -458,6 +485,22 @@ export function CsvGridPanel({
     [session, patchSession, trackColumnReorder, tc],
   );
 
+  const onColumnKindChange = React.useCallback(
+    (columnId: string, kind: string) => {
+      const prev = cloneCsvViewerSession(session);
+      const next = setCsvSessionColumnKind(session, columnId, kind as never);
+      if (!next) return;
+      const nextSnap = cloneCsvViewerSession(next);
+      patchSession(() => next);
+      trackColumnReorder({
+        undo: () => patchSession(() => cloneCsvViewerSession(prev)),
+        redo: () => patchSession(() => cloneCsvViewerSession(nextSnap)),
+      });
+      toast.success("Column updated");
+    },
+    [session, patchSession, trackColumnReorder, tc],
+  );
+
   const onRowInsertBefore = React.useCallback(
     (rowId: string) => {
       const ix = data.findIndex((r) => r.id === rowId);
@@ -620,6 +663,18 @@ export function CsvGridPanel({
       onColumnClearAll,
       onColumnDelete,
       onColumnRename,
+      getColumnKind: (columnId: string) => {
+        const ix = session.columnKeys.indexOf(columnId);
+        if (ix < 0) return null;
+        return session.columnKinds[ix] ?? "short-text";
+      },
+      getColumnKindOptions: () => [
+        { value: "short-text", label: "Text" },
+        { value: "number", label: "Number" },
+        { value: "date", label: "Date" },
+        { value: "image", label: "Image" },
+      ],
+      onColumnKindChange,
       onRowInsertBefore,
       onRowInsertAfter,
       onRowCopy,
@@ -734,6 +789,213 @@ export function CsvGridPanel({
         t.toggleAllRowsSelected(false);
         t.options.meta?.onSelectionClear?.();
       },
+      onCellsMerge: () => {
+        const t = csvGridTableRef.current;
+        if (!t) return;
+        const s = sessionRef.current;
+        const range = t.options.meta?.selectionState?.selectionRange ?? null;
+        if (!range) return;
+        const startRow = Math.min(range.start.rowIndex, range.end.rowIndex);
+        const endRow = Math.max(range.start.rowIndex, range.end.rowIndex);
+        if (startRow !== endRow) {
+          toast.error("Only single-row (horizontal) merges are supported.");
+          return;
+        }
+        const startColId = range.start.columnId;
+        const endColId = range.end.columnId;
+        if (startColId === "select" || endColId === "select") {
+          toast.error("Cannot merge the selection column.");
+          return;
+        }
+        const startCol = session.columnKeys.indexOf(startColId);
+        const endCol = session.columnKeys.indexOf(endColId);
+        if (startCol < 0 || endCol < 0) {
+          toast.error("Cannot merge these cells.");
+          return;
+        }
+        const pageRows = t.getRowModel().rows;
+        const startRowObj = pageRows[startRow];
+        const endRowObj = pageRows[endRow];
+        if (!startRowObj || !endRowObj) return;
+
+        const orderedRowIds = t
+          .getPrePaginationRowModel()
+          .rows.map((r) => String(r.id));
+
+        const merge = makeCsvCellMerge({
+          startRowId: String(startRowObj.id),
+          endRowId: String(endRowObj.id),
+          startColumnId: s.columnKeys[Math.min(startCol, endCol)] ?? "",
+          endColumnId: s.columnKeys[Math.max(startCol, endCol)] ?? "",
+        });
+
+        const prev = cloneCsvViewerSession(s);
+        const attempt = mergeCsvCellsAnyway({
+          session: s,
+          merge,
+          orderedRowIds,
+        });
+        if (!attempt.ok) {
+          toast.error(attempt.reason);
+          return;
+        }
+        const nextSnap = cloneCsvViewerSession(attempt.session);
+        patchSession(() => attempt.session);
+        trackColumnReorder({
+          undo: () => patchSession(() => cloneCsvViewerSession(prev)),
+          redo: () => patchSession(() => cloneCsvViewerSession(nextSnap)),
+        });
+        toast.success("Cells merged");
+      },
+      onCellsUnmerge: () => {
+        const t = csvGridTableRef.current;
+        if (!t) return;
+        const s = sessionRef.current;
+        const range = t.options.meta?.selectionState?.selectionRange ?? null;
+        if (!range) return;
+        const startRow = Math.min(range.start.rowIndex, range.end.rowIndex);
+        const endRow = Math.max(range.start.rowIndex, range.end.rowIndex);
+        if (startRow !== endRow) {
+          toast.error("Only single-row (horizontal) unmerge is supported.");
+          return;
+        }
+        const startColId = range.start.columnId;
+        const endColId = range.end.columnId;
+        if (startColId === "select" || endColId === "select") return;
+        const startCol = session.columnKeys.indexOf(startColId);
+        const endCol = session.columnKeys.indexOf(endColId);
+        if (startCol < 0 || endCol < 0) return;
+
+        const pageRows = t.getRowModel().rows;
+        const startRowObj = pageRows[startRow];
+        const endRowObj = pageRows[endRow];
+        if (!startRowObj || !endRowObj) return;
+
+        const orderedRowIds = t
+          .getPrePaginationRowModel()
+          .rows.map((r) => String(r.id));
+
+        const rect = {
+          startRowId: String(startRowObj.id),
+          endRowId: String(endRowObj.id),
+          startColumnId: s.columnKeys[Math.min(startCol, endCol)] ?? "",
+          endColumnId: s.columnKeys[Math.max(startCol, endCol)] ?? "",
+        };
+
+        const prev = cloneCsvViewerSession(s);
+        const next = removeCsvCellMergesIntersectingRect({
+          session: s,
+          rect,
+          orderedRowIds,
+        });
+        if ((next.cellMerges?.length ?? 0) === (s.cellMerges?.length ?? 0))
+          return;
+        const nextSnap = cloneCsvViewerSession(next);
+        patchSession(() => next);
+        trackColumnReorder({
+          undo: () => patchSession(() => cloneCsvViewerSession(prev)),
+          redo: () => patchSession(() => cloneCsvViewerSession(nextSnap)),
+        });
+        toast.success("Cells unmerged");
+      },
+      getCellMergeState: (
+        rowIndex: number,
+        columnId: string,
+      ): import("@/types/data-grid").DataGridCellMergeState | null => {
+        if (columnId === "select") return null;
+        const t = csvGridTableRef.current;
+        if (!t) return null;
+        const s = sessionRef.current;
+        const merges = s.cellMerges ?? [];
+        if (merges.length === 0) return null;
+
+        const pageRows = t.getRowModel().rows;
+        const row = pageRows[rowIndex];
+        if (!row) return null;
+
+        const preRows = t.getPrePaginationRowModel().rows;
+        const preIndexById = new Map<string, number>();
+        for (let i = 0; i < preRows.length; i++) {
+          preIndexById.set(String(preRows[i]?.id), i);
+        }
+
+        const rowId = String(row.id);
+        const cellPreRowIndex = preIndexById.get(rowId);
+        if (cellPreRowIndex === undefined) return null;
+        const colIndex = s.columnKeys.indexOf(columnId);
+        if (colIndex < 0) return null;
+
+        for (const m of merges) {
+          const aRow = preIndexById.get(m.startRowId);
+          const bRow = preIndexById.get(m.endRowId);
+          const aCol = s.columnKeys.indexOf(m.startColumnId);
+          const bCol = s.columnKeys.indexOf(m.endColumnId);
+          if (
+            aRow === undefined ||
+            bRow === undefined ||
+            aCol < 0 ||
+            bCol < 0
+          )
+            continue;
+          const rowMin = Math.min(aRow, bRow);
+          const rowMax = Math.max(aRow, bRow);
+          const colMin = Math.min(aCol, bCol);
+          const colMax = Math.max(aCol, bCol);
+
+          const inRows = cellPreRowIndex >= rowMin && cellPreRowIndex <= rowMax;
+          const inCols = colIndex >= colMin && colIndex <= colMax;
+          if (!inRows || !inCols) continue;
+
+          const anchorRowId = String(preRows[rowMin]?.id);
+          const anchorColumnId = s.columnKeys[colMin] ?? "";
+          if (!anchorRowId || !anchorColumnId) continue;
+
+          const anchorRowIndexInPage = pageRows.findIndex(
+            (r) => String(r.id) === anchorRowId,
+          );
+          if (anchorRowIndexInPage === -1) {
+            // Avoid hiding cells on pages where the anchor isn't visible.
+            return null;
+          }
+
+          const rowSpan = rowMax - rowMin + 1;
+          const colSpan = colMax - colMin + 1;
+          if (rowSpan !== 1) continue;
+
+          const isAnchor =
+            rowId === anchorRowId && columnId === anchorColumnId;
+
+          if (!isAnchor) {
+            return {
+              kind: "covered" as const,
+              anchorRowIndex: anchorRowIndexInPage,
+              anchorColumnId,
+              rowSpan,
+              colSpan,
+              coverMode: "collapse",
+            };
+          }
+
+          const ids = s.columnKeys.slice(colMin, colMax + 1);
+          const widthCss =
+            ids.length === 1
+              ? `calc(var(--col-${ids[0]}-size) * 1px)`
+              : `calc(${ids
+                .map((id) => `var(--col-${id}-size) * 1px`)
+                .join(" + ")})`;
+
+          return {
+            kind: "anchor" as const,
+            anchorRowIndex: anchorRowIndexInPage,
+            anchorColumnId,
+            rowSpan,
+            colSpan,
+            widthCss,
+          };
+        }
+
+        return null;
+      },
     }),
     [
       columnKeys,
@@ -750,6 +1012,7 @@ export function CsvGridPanel({
       onColumnClearAll,
       onColumnDelete,
       onColumnRename,
+      onColumnKindChange,
       onRowInsertBefore,
       onRowInsertAfter,
       onRowCopy,
@@ -883,15 +1146,35 @@ export function CsvGridPanel({
 
   const exportBaseName = session.fileName || "export";
 
+  const [addColumnOpen, setAddColumnOpen] = React.useState(false);
+  const [addColumnHeader, setAddColumnHeader] = React.useState("");
+  const [addColumnKind, setAddColumnKind] = React.useState<
+    "short-text" | "number" | "date" | "image"
+  >("short-text");
+
+  React.useEffect(() => {
+    if (!addColumnOpen) return;
+    setAddColumnHeader("");
+    setAddColumnKind("short-text");
+  }, [addColumnOpen]);
+
   const onExportCsv = React.useCallback(() => {
     downloadCsvExport(
       session.rows,
       columnKeys,
       session.headerLabels,
       exportBaseName,
+      session.cellMerges ?? [],
     );
     toast.success(tc("downloadStarted"));
-  }, [columnKeys, exportBaseName, session.headerLabels, session.rows, tc]);
+  }, [
+    columnKeys,
+    exportBaseName,
+    session.headerLabels,
+    session.rows,
+    session.cellMerges,
+    tc,
+  ]);
 
   const onExportJson = React.useCallback(() => {
     downloadJsonExport(
@@ -899,9 +1182,17 @@ export function CsvGridPanel({
       columnKeys,
       session.headerLabels,
       exportBaseName,
+      session.cellMerges ?? [],
     );
     toast.success(tc("downloadStarted"));
-  }, [columnKeys, exportBaseName, session.headerLabels, session.rows, tc]);
+  }, [
+    columnKeys,
+    exportBaseName,
+    session.headerLabels,
+    session.rows,
+    session.cellMerges,
+    tc,
+  ]);
 
   const onExportXml = React.useCallback(() => {
     downloadXmlExport(
@@ -909,9 +1200,17 @@ export function CsvGridPanel({
       columnKeys,
       session.headerLabels,
       exportBaseName,
+      session.cellMerges ?? [],
     );
     toast.success(tc("downloadStarted"));
-  }, [columnKeys, exportBaseName, session.headerLabels, session.rows, tc]);
+  }, [
+    columnKeys,
+    exportBaseName,
+    session.headerLabels,
+    session.rows,
+    session.cellMerges,
+    tc,
+  ]);
 
   const onExportXlsx = React.useCallback(() => {
     void toast.promise(
@@ -920,6 +1219,7 @@ export function CsvGridPanel({
         columnKeys,
         session.headerLabels,
         exportBaseName,
+        session.cellMerges ?? [],
       ),
       {
         loading: tc("prepExcel"),
@@ -928,6 +1228,61 @@ export function CsvGridPanel({
       },
     );
   }, [columnKeys, exportBaseName, session.headerLabels, session.rows, tc]);
+
+  const onExportPdf = React.useCallback(() => {
+    void toast.promise(
+      downloadPdfExport(
+        session.rows,
+        columnKeys,
+        session.headerLabels,
+        exportBaseName,
+        session.cellMerges ?? [],
+      ),
+      {
+        loading: "Preparing PDF…",
+        success: tc("downloadStarted"),
+        error: "Could not create PDF file",
+      },
+    );
+  }, [
+    columnKeys,
+    exportBaseName,
+    session.headerLabels,
+    session.rows,
+    session.cellMerges,
+    tc,
+  ]);
+
+  const onAddColumnDialogSubmit = React.useCallback(() => {
+    const insertIndex = session.columnKeys.length;
+    const prev = cloneCsvViewerSession(session);
+    const inserted = insertEmptyCsvSessionColumnAt(session, insertIndex);
+    const newKey = inserted.columnKeys[insertIndex];
+    if (!newKey) return;
+
+    let next = inserted;
+    next =
+      addColumnHeader.trim() === ""
+        ? next
+        : (renameCsvSessionColumnHeader(next, newKey, addColumnHeader) ?? next);
+    next = setCsvSessionColumnKind(next, newKey, addColumnKind) ?? next;
+
+    const nextSnap = cloneCsvViewerSession(next);
+    patchSession(() => next);
+    trackColumnReorder({
+      undo: () => patchSession(() => cloneCsvViewerSession(prev)),
+      redo: () => patchSession(() => cloneCsvViewerSession(nextSnap)),
+    });
+    setAddColumnOpen(false);
+    toast.success(tc("toastColumnAdded"));
+  }, [
+    session,
+    addColumnHeader,
+    addColumnKind,
+    patchSession,
+    trackColumnReorder,
+    tc,
+  ]);
 
   const { table, searchState, tableMeta, ...dataGridProps } = useDataGrid({
     data,
@@ -981,6 +1336,15 @@ export function CsvGridPanel({
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setAddColumnOpen(true)}
+            >
+              <Plus className="size-4" />
+              Add column
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button type="button" variant="outline" size="sm">
@@ -1023,6 +1387,9 @@ export function CsvGridPanel({
                 <DropdownMenuItem onSelect={onExportCsv}>
                   {tc("exportCsv")}
                 </DropdownMenuItem>
+                <DropdownMenuItem onSelect={onExportPdf}>
+                  PDF (.pdf)
+                </DropdownMenuItem>
                 <DropdownMenuItem onSelect={onExportXml}>
                   XML (.xml)
                 </DropdownMenuItem>
@@ -1036,6 +1403,58 @@ export function CsvGridPanel({
             </DropdownMenu>
           </div>
         </div>
+
+        <Dialog open={addColumnOpen} onOpenChange={setAddColumnOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Add column</DialogTitle>
+              <DialogDescription>
+                Choose a header label and column type. You can leave the header
+                empty.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                <p className="font-medium text-sm">Header</p>
+                <Input
+                  value={addColumnHeader}
+                  onChange={(e) => setAddColumnHeader(e.target.value)}
+                  placeholder="e.g. Image"
+                  autoFocus
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="font-medium text-sm">Type</p>
+                <Select
+                  value={addColumnKind}
+                  onValueChange={(v) => setAddColumnKind(v as never)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choose a type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="short-text">Text</SelectItem>
+                    <SelectItem value="number">Number</SelectItem>
+                    <SelectItem value="date">Date</SelectItem>
+                    <SelectItem value="image">Image</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setAddColumnOpen(false)}
+              >
+                {tCommon("cancel")}
+              </Button>
+              <Button type="button" onClick={onAddColumnDialogSubmit}>
+                Add
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Future: banner ad (placeholder / AdSense) */}
         {/* <AdSlot variant="banner" className="lg:hidden" /> */}

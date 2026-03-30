@@ -150,6 +150,9 @@ export function DataGridColumnHeader<TData, TValue>({
   const onColClearAll = meta?.onColumnClearAll;
   const onColDelete = meta?.onColumnDelete;
   const onColRename = meta?.onColumnRename;
+  const columnKind = meta?.getColumnKind?.(column.id) ?? null;
+  const columnKindOptions = meta?.getColumnKindOptions?.() ?? null;
+  const onColKindChange = meta?.onColumnKindChange;
   const [renameOpen, setRenameOpen] = React.useState(false);
   const showColumnActions =
     column.id !== "select" &&
@@ -163,6 +166,10 @@ export function DataGridColumnHeader<TData, TValue>({
         onColClearAll ||
         onColDelete,
     );
+  const showColumnKindMenu =
+    column.id !== "select" &&
+    Boolean(onColKindChange) &&
+    Boolean(columnKindOptions && columnKindOptions.length > 0);
   return (
     <>
       <div className="relative flex min-w-0 flex-1 items-stretch gap-0">
@@ -360,7 +367,7 @@ export function DataGridColumnHeader<TData, TValue>({
                 ) : null}
                 {onColDelete ? (
                   <DropdownMenuItem
-                    className="focus:text-destructive [&_svg]:text-destructive [&_svg]:text-destructive"
+                    className="focus:text-destructive [&_svg]:text-destructive"
                     disabled={readOnly}
                     onSelect={() => {
                       if (readOnly) return;
@@ -373,6 +380,28 @@ export function DataGridColumnHeader<TData, TValue>({
                 ) : null}
               </>
             )}
+            {showColumnKindMenu ? (
+              <>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1 text-muted-foreground text-xs">
+                  Column type
+                </div>
+                {columnKindOptions?.map((opt) => (
+                  <DropdownMenuCheckboxItem
+                    key={opt.value}
+                    className="relative ltr:pr-8 ltr:pl-2 rtl:pr-2 rtl:pl-8 [&>span:first-child]:ltr:right-2 [&>span:first-child]:ltr:left-auto [&>span:first-child]:rtl:right-auto [&>span:first-child]:rtl:left-2"
+                    checked={columnKind === opt.value}
+                    disabled={readOnly}
+                    onSelect={() => {
+                      if (readOnly) return;
+                      onColKindChange?.(column.id, opt.value);
+                    }}
+                  >
+                    {opt.label}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </>
+            ) : null}
             {column.getCanHide() && (
               <>
                 <DropdownMenuSeparator />

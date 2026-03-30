@@ -81,7 +81,7 @@ function tryParseDate(value: string): Date | null {
   return d;
 }
 
-export type CsvColumnKind = "number" | "date" | "short-text";
+export type CsvColumnKind = "number" | "date" | "short-text" | "image";
 
 function inferColumnKind(sampleValues: string[]): CsvColumnKind {
   const nonEmpty = sampleValues.filter((v) => v.trim() !== "");
@@ -107,6 +107,14 @@ function buildCellOpts(kind: CsvColumnKind): CellOpts {
       return { variant: "number" };
     case "date":
       return { variant: "date" };
+    case "image":
+      return {
+        variant: "file",
+        accept: "image/*",
+        maxFiles: 1,
+        multiple: false,
+        maxFileSize: 25 * 1024 * 1024,
+      };
     default:
       return { variant: "short-text" };
   }
