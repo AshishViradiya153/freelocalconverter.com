@@ -89,7 +89,9 @@ function useLandingFeaturesTypography(locale: string) {
   return { titleProbeRef, descProbeRef, typography, refresh };
 }
 
-function useElementWidth<T extends HTMLElement>(ref: React.RefObject<T | null>) {
+function useElementWidth<T extends HTMLElement>(
+  ref: React.RefObject<T | null>,
+) {
   const [width, setWidth] = React.useState(0);
 
   React.useLayoutEffect(() => {
@@ -97,7 +99,10 @@ function useElementWidth<T extends HTMLElement>(ref: React.RefObject<T | null>) 
     if (!node) return;
 
     function syncFromDom(target: HTMLElement) {
-      const next = Math.max(0, Math.floor(target.getBoundingClientRect().width));
+      const next = Math.max(
+        0,
+        Math.floor(target.getBoundingClientRect().width),
+      );
       setWidth((prev) => (prev === next ? prev : next));
     }
 
@@ -132,11 +137,7 @@ function measureFeatureTextBlockHeight(
     typography.titleLineHeight,
   );
   const descPrepared = prepare(description, typography.descFont);
-  const descLayout = layout(
-    descPrepared,
-    colWidth,
-    typography.descLineHeight,
-  );
+  const descLayout = layout(descPrepared, colWidth, typography.descLineHeight);
   return titleLayout.height + FEATURE_TEXT_GAP_PX + descLayout.height;
 }
 
@@ -183,10 +184,10 @@ function LandingFeatureCard({
           className="min-w-0 flex-1"
           style={textMinHeight ? { minHeight: textMinHeight } : undefined}
         >
-          <h3 className="text-balance wrap-break-word font-black text-sm uppercase tracking-tight sm:text-base">
+          <h3 className="wrap-break-word text-balance font-black text-sm uppercase tracking-tight sm:text-base">
             {item.title}
           </h3>
-          <p className="mt-1 wrap-break-word font-bold text-muted-foreground text-sm leading-snug">
+          <p className="wrap-break-word mt-1 font-bold text-muted-foreground text-sm leading-snug">
             {item.description}
           </p>
         </div>
@@ -286,7 +287,7 @@ export function LandingFeatures({ className }: { className?: string }) {
         <p className="font-black text-[11px] text-foreground uppercase tracking-widest">
           {t("featuresKicker")}
         </p>
-        <h2 className="text-balance wrap-break-word font-black text-2xl uppercase leading-[0.95] tracking-tighter sm:text-3xl md:text-4xl">
+        <h2 className="wrap-break-word text-balance font-black text-2xl uppercase leading-[0.95] tracking-tighter sm:text-3xl md:text-4xl">
           {t("featuresTitle")}
         </h2>
         <p className="max-w-3xl font-bold text-muted-foreground text-sm leading-snug md:text-base">

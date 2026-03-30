@@ -10,26 +10,40 @@ import {
 
 export interface BuildPageMetadataInput {
   locale: string;
-  /** Localized path without domain, e.g. `/guides/my-topic` */
   pathname: string;
   title: string;
   description: string;
   keywords?: string[];
-  /** Canonical locale for this resource (defaults to `locale`) */
   canonicalLocale?: string;
   type?: "website" | "article";
   publishedTime?: string;
   modifiedTime?: string;
-  /** Disable alternate language links when content is language-specific only */
   alternateLocales?: boolean;
-  /** Relative OG/Twitter image path on this site */
   ogImagePath?: string;
   noindex?: boolean;
 }
 
+function normalizeOgText(raw: string): string {
+  return raw.replace(/\s+/g, " ").trim();
+}
+
+function truncateForOgQuery(raw: string, maxChars: number): string {
+  const s = normalizeOgText(raw);
+  if (s.length <= maxChars) return s;
+  return `${s.slice(0, Math.max(0, maxChars - 3))}...`;
+}
+
 /**
- * Consistent metadata: canonical, hreflang alternates, Open Graph, Twitter.
+ * shadcn/ui-style OG image URL:
+ * `https://example.com/og?title=...&description=...`
  */
+export function buildOgImageUrl(title: string, description: string): string {
+  const base = normalizeSiteBase();
+  const safeTitle = truncateForOgQuery(title, 80);
+  const safeDescription = truncateForOgQuery(description, 160);
+  return `${base}/og?title=${encodeURIComponent(safeTitle)}&description=${encodeURIComponent(safeDescription)}`;
+}
+
 export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   const {
     locale,
@@ -42,13 +56,16 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
     publishedTime,
     modifiedTime,
     alternateLocales = true,
-    ogImagePath = "/og.png",
+    ogImagePath = "/og",
     noindex = false,
   } = input;
 
   const canonicalUrl = buildAbsoluteUrl(canonicalLocale, pathname);
   const base = normalizeSiteBase();
-  const ogImageUrl = `${base}${ogImagePath.startsWith("/") ? ogImagePath : `/${ogImagePath}`}`;
+  const ogImageUrl =
+    ogImagePath === "/og"
+      ? buildOgImageUrl(title, description)
+      : `${base}${ogImagePath.startsWith("/") ? ogImagePath : `/${ogImagePath}`}`;
 
   const languages: Record<string, string> | undefined = alternateLocales
     ? {
@@ -88,7 +105,6 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   };
 }
 
-/** For Layout `metadataBase` resolution of relative OG image URLs. */
 export function metadataPathForLocale(
   locale: string,
   pathname: string,

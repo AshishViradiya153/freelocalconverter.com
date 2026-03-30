@@ -3,10 +3,9 @@
 import { layout, prepare, setLocale } from "@chenglou/pretext";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
-
-import { cn } from "@/lib/utils";
 import { FOOTER_BRAND_MESH_PRESET } from "@/lib/mesh-gradient/footer-brand-mesh-preset";
 import { paintMeshGradientFrame } from "@/lib/mesh-gradient/paint-mesh-frame";
+import { cn } from "@/lib/utils";
 
 const MESH_PRESET = FOOTER_BRAND_MESH_PRESET;
 
@@ -163,7 +162,7 @@ export function FooterBrandPretextMesh() {
       <div className="flex w-full min-w-0 justify-center overflow-x-auto overflow-y-visible px-1">
         <span
           className={cn(
-            "inline-block max-w-full text-center font-black font-mono uppercase leading-none tracking-tighter whitespace-nowrap",
+            "inline-block max-w-full whitespace-nowrap text-center font-black font-mono uppercase leading-none tracking-tighter",
             meshDataUrl ? "bg-clip-text" : "text-brutal-canvas-foreground",
           )}
           style={

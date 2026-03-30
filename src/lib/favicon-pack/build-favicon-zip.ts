@@ -4,32 +4,27 @@ import { buildIcoFromPngEntries } from "./build-ico-from-pngs";
 import {
   type CenterSquareCrop,
   loadImageFromFile,
-  renderFaviconPngMap,
+  renderFaviconPngMapWithManifest,
 } from "./render-square-png";
 
-const WEB_MANIFEST_JSON = JSON.stringify(
+const MANIFEST_ICONS = [
   {
-    name: "",
-    short_name: "",
-    icons: [
-      {
-        src: "/android-chrome-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        src: "/android-chrome-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-      },
-    ],
-    theme_color: "#ffffff",
-    background_color: "#ffffff",
-    display: "standalone",
+    src: "/android-chrome-192x192.png",
+    sizes: "192x192",
+    type: "image/png",
   },
-  null,
-  2,
-);
+  {
+    src: "/android-chrome-512x512.png",
+    sizes: "512x512",
+    type: "image/png",
+  },
+] as const;
+
+export interface BuildFaviconZipOptions {
+  crop?: CenterSquareCrop;
+  /** ZIP / favicon base name (without extension). Defaults from `file.name`. */
+  baseName?: string;
+}
 
 export interface BuildFaviconZipResult {
   baseName: string;
@@ -38,13 +33,18 @@ export interface BuildFaviconZipResult {
 
 function baseNameFromFileName(name: string): string {
   const leaf = name.replace(/\.[a-z0-9]+$/i, "").trim();
-  const safe = leaf.replace(/[^\w\-]+/g, "-").slice(0, 64);
+  const safe = leaf.replace(/[^\w-]+/g, "-").slice(0, 64);
   return safe || "favicon";
+}
+
+/** Public helper when the raster `File` name is synthetic (e.g. after normalization). */
+export function faviconPackBaseNameFromUploadName(uploadName: string): string {
+  return baseNameFromFileName(uploadName);
 }
 
 export async function buildFaviconZipFromImageFile(
   file: File,
-  crop?: CenterSquareCrop,
+  options: BuildFaviconZipOptions = {},
 ): Promise<BuildFaviconZipResult> {
   const img = await loadImageFromFile(file);
   const w = img.naturalWidth;
@@ -53,15 +53,30 @@ export async function buildFaviconZipFromImageFile(
     throw new Error("Image has invalid dimensions");
   }
 
-  const png = await renderFaviconPngMap(img, w, h, crop);
+  const {
+    map: png,
+    theme_color,
+    background_color,
+  } = await renderFaviconPngMapWithManifest(img, w, h, options.crop);
 
   const ico = buildIcoFromPngEntries([
     { width: 16, height: 16, data: png[16] },
     { width: 32, height: 32, data: png[32] },
   ]);
 
+  const manifestObj = {
+    name: "",
+    short_name: "",
+    icons: [...MANIFEST_ICONS],
+    theme_color,
+    background_color,
+    display: "standalone" as const,
+  };
+
   const encoder = new TextEncoder();
-  const manifestBytes = encoder.encode(`${WEB_MANIFEST_JSON}\n`);
+  const manifestBytes = encoder.encode(
+    `${JSON.stringify(manifestObj, null, 2)}\n`,
+  );
 
   const zipBytes = zipSync({
     "favicon.ico": ico,
@@ -74,7 +89,7 @@ export async function buildFaviconZipFromImageFile(
   });
 
   return {
-    baseName: baseNameFromFileName(file.name),
+    baseName: options.baseName ?? baseNameFromFileName(file.name),
     zipBytes,
   };
 }

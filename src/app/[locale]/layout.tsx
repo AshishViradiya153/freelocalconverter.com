@@ -17,10 +17,10 @@ import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
 import { fontMono, fontSans } from "@/lib/fonts";
 import {
   buildAbsoluteUrl,
-  normalizeSiteBase,
   openGraphLocaleForSeo,
 } from "@/lib/seo/paths";
 import { cn } from "@/lib/utils";
+import { buildOgImageUrl } from "@/lib/seo/metadata";
 
 import "@/styles/globals.css";
 import { RelatedAppTools } from "@/app/components/related-app-tools";
@@ -82,8 +82,7 @@ export async function generateMetadata({
   }
   const tLanding = await getTranslations({ locale, namespace: "landing" });
   const keywords = metaKeywordsFromLandingPipe(tLanding("metaKeywords"));
-  const base = normalizeSiteBase();
-  const ogImageUrl = `${base}/og.png`;
+  const ogImageUrl = buildOgImageUrl(siteConfig.name, siteConfig.description);
   const homeUrl = buildAbsoluteUrl(locale, "/");
   return {
     ...defaultLayoutMetadata,

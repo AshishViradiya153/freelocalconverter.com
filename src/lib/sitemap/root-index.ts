@@ -1,4 +1,7 @@
-import { getPseoSitemapChunkCount, pseoSitemapIndexUrl } from "@/lib/pseo/sitemap";
+import {
+  getPseoSitemapChunkCount,
+  pseoSitemapIndexUrl,
+} from "@/lib/pseo/sitemap";
 import { staticChildSitemapUrl } from "./site-urls";
 
 /**

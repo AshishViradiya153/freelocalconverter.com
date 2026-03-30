@@ -1,6 +1,11 @@
 "use client";
 
-import { ChevronDown, Download, FolderInput, MousePointerClick } from "lucide-react";
+import {
+  ChevronDown,
+  Download,
+  FolderInput,
+  MousePointerClick,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
@@ -64,7 +69,7 @@ export function LandingHowItWorks({ className }: { className?: string }) {
         </p>
         <h2
           id="how-it-works-heading"
-          className="text-balance wrap-break-word font-black text-2xl uppercase leading-[0.95] tracking-tighter sm:text-3xl md:text-4xl"
+          className="wrap-break-word text-balance font-black text-2xl uppercase leading-[0.95] tracking-tighter sm:text-3xl md:text-4xl"
         >
           {t("howItWorksTitle")}
         </h2>
@@ -110,10 +115,10 @@ export function LandingHowItWorks({ className }: { className?: string }) {
                     </div>
                   </div>
                   <div className="min-w-0 flex-1 pt-0.5">
-                    <h3 className="text-balance wrap-break-word font-black text-base uppercase tracking-tight sm:text-lg">
+                    <h3 className="wrap-break-word text-balance font-black text-base uppercase tracking-tight sm:text-lg">
                       {step.title}
                     </h3>
-                    <p className="mt-2 wrap-break-word font-bold text-muted-foreground text-sm leading-snug">
+                    <p className="wrap-break-word mt-2 font-bold text-muted-foreground text-sm leading-snug">
                       {step.description}
                     </p>
                   </div>

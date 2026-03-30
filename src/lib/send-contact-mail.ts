@@ -9,13 +9,11 @@ export interface ContactMailInput {
   linkLinkedin: string;
 }
 
-function getMailRuntime():
-  | {
-      transporter: nodemailer.Transporter;
-      to: string;
-      from: string;
-    }
-  | null {
+function getMailRuntime(): {
+  transporter: nodemailer.Transporter;
+  to: string;
+  from: string;
+} | null {
   const host = process.env.CONTACT_SMTP_HOST;
   const user = process.env.CONTACT_SMTP_USER;
   const pass = process.env.CONTACT_SMTP_PASS;
@@ -23,8 +21,7 @@ function getMailRuntime():
   if (!host || !user || !pass || !to) return null;
 
   const port = Number(process.env.CONTACT_SMTP_PORT ?? "587");
-  const secure =
-    process.env.CONTACT_SMTP_SECURE === "true" || port === 465;
+  const secure = process.env.CONTACT_SMTP_SECURE === "true" || port === 465;
 
   const transporter = nodemailer.createTransport({
     host,

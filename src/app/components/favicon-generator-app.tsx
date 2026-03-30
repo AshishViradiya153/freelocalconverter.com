@@ -1,9 +1,11 @@
 "use client";
 
 import {
+  ClipboardPaste,
   Image as ImageIcon,
   Loader2,
   Package,
+  RotateCw,
   Smile,
   Trash2,
   Type,
@@ -11,12 +13,11 @@ import {
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
-
-import { FaviconDesignStudio } from "@/app/components/favicon-design-studio";
 import {
   FaviconCropEditor,
   type FaviconCropEditorLabels,
 } from "@/app/components/favicon-crop-editor";
+import { FaviconDesignStudio } from "@/app/components/favicon-design-studio";
 import {
   ToolCard,
   ToolHero,
@@ -28,23 +29,42 @@ import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { downloadBlob } from "@/lib/download-blob";
-import { buildFaviconZipFromImageFile } from "@/lib/favicon-pack/build-favicon-zip";
+import {
+  buildFaviconZipFromImageFile,
+  faviconPackBaseNameFromUploadName,
+} from "@/lib/favicon-pack/build-favicon-zip";
+import {
+  type ImageRotationDeg,
+  isSupportedFaviconImageFile,
+  rasterizeImageFileToPngFile,
+} from "@/lib/favicon-pack/rasterize-image-file";
 import type { CenterSquareCrop } from "@/lib/favicon-pack/render-square-png";
 import { computeCenterSquareCrop } from "@/lib/favicon-pack/render-square-png";
 import { cn } from "@/lib/utils";
 
-function isRasterImageFile(file: File) {
-  if (file.type.startsWith("image/")) return true;
-  return /\.(png|jpe?g|webp|gif|bmp|tiff?|avif|heic|heif)$/i.test(file.name);
-}
+const LARGE_IMAGE_PIXELS = 25_000_000;
 
-function ImageGlyph(props: {
-  className?: string;
-  "aria-hidden"?: boolean;
-}) {
+function ImageGlyph(props: { className?: string; "aria-hidden"?: boolean }) {
   return (
     <ImageIcon className={props.className} aria-hidden={props["aria-hidden"]} />
   );
+}
+
+function nextRotation(r: ImageRotationDeg): ImageRotationDeg {
+  const n = (r + 90) % 360;
+  return n as ImageRotationDeg;
+}
+
+function isEditablePasteTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  if (target.closest("[data-skip-favicon-paste]")) return true;
+  if (
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLTextAreaElement
+  ) {
+    return true;
+  }
+  return target.isContentEditable;
 }
 
 type SourceMode = "text" | "emoji" | "image";
@@ -52,85 +72,149 @@ type SourceMode = "text" | "emoji" | "image";
 export function FaviconGeneratorApp() {
   const t = useTranslations("faviconGenerator");
   const [sourceMode, setSourceMode] = React.useState<SourceMode>("image");
-  const [file, setFile] = React.useState<File | null>(null);
+  const [originalFile, setOriginalFile] = React.useState<File | null>(null);
+  const [workingFile, setWorkingFile] = React.useState<File | null>(null);
+  const [rotationDeg, setRotationDeg] = React.useState<ImageRotationDeg>(0);
+  const [rasterBusy, setRasterBusy] = React.useState(false);
   const [busy, setBusy] = React.useState(false);
   const [imgMeta, setImgMeta] = React.useState<{
     w: number;
     h: number;
   } | null>(null);
   const [crop, setCrop] = React.useState<CenterSquareCrop | null>(null);
+  const pasteRegionRef = React.useRef<HTMLDivElement | null>(null);
 
-  const previewUrl = React.useMemo(
-    () => (file ? URL.createObjectURL(file) : null),
-    [file],
+  const workingPreviewUrl = React.useMemo(
+    () => (workingFile ? URL.createObjectURL(workingFile) : null),
+    [workingFile],
   );
 
   React.useEffect(
     () => () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      if (workingPreviewUrl) URL.revokeObjectURL(workingPreviewUrl);
     },
-    [previewUrl],
+    [workingPreviewUrl],
   );
 
   React.useEffect(() => {
     if (sourceMode !== "image") {
-      setFile(null);
+      setOriginalFile(null);
+      setWorkingFile(null);
+      setRotationDeg(0);
       setImgMeta(null);
       setCrop(null);
+      setRasterBusy(false);
     }
   }, [sourceMode]);
 
   React.useEffect(() => {
-    if (!previewUrl) {
+    if (!originalFile) {
+      setWorkingFile(null);
       setImgMeta(null);
       setCrop(null);
+      setRasterBusy(false);
       return;
     }
 
-    const img = new Image();
-    img.onload = () => {
-      const w = img.naturalWidth;
-      const h = img.naturalHeight;
-      if (w < 1 || h < 1) {
-        setImgMeta(null);
-        setCrop(null);
-        toast.error(t("toastLoadError"));
-        return;
+    let cancelled = false;
+    setRasterBusy(true);
+    void rasterizeImageFileToPngFile(originalFile, rotationDeg).then(
+      ({ file, width, height }) => {
+        if (cancelled) return;
+        setWorkingFile(file);
+        setImgMeta({ w: width, h: height });
+        setCrop(computeCenterSquareCrop(width, height));
+        setRasterBusy(false);
+      },
+      (e) => {
+        console.error({ err: e });
+        if (!cancelled) {
+          toast.error(t("toastLoadError"));
+          setOriginalFile(null);
+          setWorkingFile(null);
+          setImgMeta(null);
+          setCrop(null);
+          setRasterBusy(false);
+        }
+      },
+    );
+
+    return () => {
+      cancelled = true;
+    };
+  }, [originalFile, rotationDeg, t]);
+
+  React.useEffect(() => {
+    if (sourceMode !== "image" || busy || rasterBusy) return;
+
+    function onDocumentPaste(e: ClipboardEvent) {
+      if (isEditablePasteTarget(e.target)) return;
+      const items = e.clipboardData?.items;
+      if (!items?.length) return;
+      for (const item of items) {
+        if (item.kind !== "file") continue;
+        const f = item.getAsFile();
+        if (f && isSupportedFaviconImageFile(f)) {
+          e.preventDefault();
+          setRotationDeg(0);
+          setOriginalFile(f);
+          toast.success(t("toastPasteOk"));
+          return;
+        }
       }
-      setImgMeta({ w, h });
-      setCrop(computeCenterSquareCrop(w, h));
-    };
-    img.onerror = () => {
-      setImgMeta(null);
-      setCrop(null);
-      toast.error(t("toastLoadError"));
-    };
-    img.src = previewUrl;
-  }, [previewUrl, t]);
+    }
+
+    document.addEventListener("paste", onDocumentPaste);
+    return () => document.removeEventListener("paste", onDocumentPaste);
+  }, [sourceMode, busy, rasterBusy, t]);
 
   const onPickFiles = React.useCallback(
     (files: FileList | null) => {
       const next = files?.[0];
       if (!next) return;
-      if (!isRasterImageFile(next)) {
+      if (!isSupportedFaviconImageFile(next)) {
         toast.error(t("toastNotImage"));
         return;
       }
-      setFile(next);
+      setRotationDeg(0);
+      setOriginalFile(next);
+    },
+    [t],
+  );
+
+  const onPasteRegionPaste = React.useCallback(
+    (e: React.ClipboardEvent) => {
+      const items = e.clipboardData?.items;
+      if (!items?.length) return;
+      for (const item of items) {
+        if (item.kind !== "file") continue;
+        const f = item.getAsFile();
+        if (f && isSupportedFaviconImageFile(f)) {
+          e.preventDefault();
+          setRotationDeg(0);
+          setOriginalFile(f);
+          toast.success(t("toastPasteOk"));
+          return;
+        }
+      }
+      toast.error(t("toastPasteNoImage"));
     },
     [t],
   );
 
   const onGenerate = React.useCallback(async () => {
-    if (!file || !crop) {
+    if (!workingFile || !originalFile || !crop) {
       toast.error(t("toastNoFile"));
       return;
     }
     setBusy(true);
     try {
       const { baseName, zipBytes } = await buildFaviconZipFromImageFile(
-        file,
-        crop,
+        workingFile,
+        {
+          crop,
+          baseName: faviconPackBaseNameFromUploadName(originalFile.name),
+        },
       );
       const blob = new Blob([new Uint8Array(zipBytes)], {
         type: "application/zip",
@@ -143,7 +227,7 @@ export function FaviconGeneratorApp() {
     } finally {
       setBusy(false);
     }
-  }, [crop, file, t]);
+  }, [crop, originalFile, workingFile, t]);
 
   const cropLabels = React.useMemo((): FaviconCropEditorLabels => {
     return {
@@ -156,16 +240,29 @@ export function FaviconGeneratorApp() {
       resetLabel: t("resetCrop"),
       cropAriaLabel: t("cropAriaLabel"),
       dragBadge: t("dragCropBadge"),
+      editorImageAlt: t("editorImageAlt"),
       dimensionsLine:
         imgMeta && crop
           ? t("cropDimensionsSummary", {
-            w: imgMeta.w,
-            h: imgMeta.h,
-            size: crop.side,
-          })
+              w: imgMeta.w,
+              h: imgMeta.h,
+              size: crop.side,
+            })
           : "",
     };
   }, [t, imgMeta, crop]);
+
+  const imageLocked = busy || rasterBusy;
+  const showCrop =
+    sourceMode === "image" &&
+    originalFile &&
+    workingFile &&
+    workingPreviewUrl &&
+    imgMeta &&
+    crop &&
+    !rasterBusy;
+
+  const largeImage = imgMeta && imgMeta.w * imgMeta.h > LARGE_IMAGE_PIXELS;
 
   return (
     <ToolPage>
@@ -198,11 +295,17 @@ export function FaviconGeneratorApp() {
               <Type className="size-3.5" aria-hidden />
               {t("sourceModeText")}
             </ToggleGroupItem>
-            <ToggleGroupItem value="emoji" className="gap-1.5 font-mono text-xs">
+            <ToggleGroupItem
+              value="emoji"
+              className="gap-1.5 font-mono text-xs"
+            >
               <Smile className="size-3.5" aria-hidden />
               {t("sourceModeEmoji")}
             </ToggleGroupItem>
-            <ToggleGroupItem value="image" className="gap-1.5 font-mono text-xs">
+            <ToggleGroupItem
+              value="image"
+              className="gap-1.5 font-mono text-xs"
+            >
               <ImageIcon className="size-3.5" aria-hidden />
               {t("sourceModeImage")}
             </ToggleGroupItem>
@@ -210,35 +313,92 @@ export function FaviconGeneratorApp() {
         </div>
 
         {sourceMode === "text" || sourceMode === "emoji" ? (
-          <FaviconDesignStudio
-            sourceMode={sourceMode}
-            disabled={busy}
-          />
+          <FaviconDesignStudio sourceMode={sourceMode} disabled={busy} />
         ) : null}
 
         {sourceMode === "image" ? (
-          <FileDropZone
-            disabled={busy}
-            busy={busy}
-            inputId="favicon-generator-input"
-            accept="image/*,.png,.jpg,.jpeg,.webp,.avif,.gif,.bmp,.tif,.tiff,.heic,.heif"
-            multiple={false}
-            onFiles={onPickFiles}
-            fileIcon={ImageGlyph}
-            dropTitle={t("dropTitle")}
-            dropHint={t("dropHint")}
-            chooseLabel={t("chooseLabel")}
-            chooseLabelWhenFileSelected={t("chooseReplace")}
-            fileName={file?.name ?? null}
-            fileHint={t("fileHint")}
-            size="md"
-          />
+          <div
+            ref={pasteRegionRef}
+            // biome-ignore lint/a11y/noNoninteractiveTabindex: focus target for paste after "Focus import area"
+            tabIndex={0}
+            role="region"
+            aria-label={t("pasteRegionLabel")}
+            aria-describedby="favicon-paste-hint"
+            onPaste={onPasteRegionPaste}
+            className="flex flex-col gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <p
+              id="favicon-paste-hint"
+              className="text-muted-foreground text-xs leading-relaxed"
+            >
+              {t("pasteInstructions")}
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-2 font-mono text-xs uppercase"
+                disabled={imageLocked}
+                onClick={() => pasteRegionRef.current?.focus()}
+              >
+                <ClipboardPaste className="size-3.5" aria-hidden />
+                {t("pasteFocusButton")}
+              </Button>
+            </div>
+            <FileDropZone
+              disabled={imageLocked}
+              busy={busy || rasterBusy}
+              inputId="favicon-generator-input"
+              accept="image/*,.png,.jpg,.jpeg,.webp,.avif,.gif,.bmp,.tif,.tiff,.heic,.heif,.svg,.ico"
+              multiple={false}
+              onFiles={onPickFiles}
+              fileIcon={ImageGlyph}
+              dropTitle={t("dropTitle")}
+              dropHint={t("dropHint")}
+              chooseLabel={t("chooseLabel")}
+              chooseLabelWhenFileSelected={t("chooseReplace")}
+              fileName={originalFile?.name ?? null}
+              fileHint={t("fileHint")}
+              size="md"
+            />
+            {rasterBusy ? (
+              <p
+                className="flex items-center gap-2 text-muted-foreground text-sm"
+                role="status"
+                aria-live="polite"
+              >
+                <Loader2 className="size-4 shrink-0 animate-spin" aria-hidden />
+                {t("statusRasterizing")}
+              </p>
+            ) : null}
+          </div>
         ) : null}
 
-        {sourceMode === "image" && file && previewUrl && imgMeta && crop ? (
-          <ToolPane className="gap-6 border-border/60 border-t pt-4">
+        {showCrop ? (
+          <ToolPane className="flex flex-col gap-6 border-border/60 border-t pt-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-2 font-mono text-xs uppercase"
+                disabled={busy}
+                onClick={() => setRotationDeg((r) => nextRotation(r))}
+                aria-label={t("rotate90Aria")}
+              >
+                <RotateCw className="size-3.5" aria-hidden />
+                {t("rotate90Label")}
+              </Button>
+              {largeImage ? (
+                <p className="text-amber-600 text-xs dark:text-amber-500">
+                  {t("largeImageWarning")}
+                </p>
+              ) : null}
+            </div>
+
             <FaviconCropEditor
-              imageUrl={previewUrl}
+              imageUrl={workingPreviewUrl}
               imageWidth={imgMeta.w}
               imageHeight={imgMeta.h}
               crop={crop}
@@ -267,7 +427,9 @@ export function FaviconGeneratorApp() {
                     variant="outline"
                     className="w-full gap-2 rounded-none font-mono uppercase"
                     onClick={() => {
-                      setFile(null);
+                      setOriginalFile(null);
+                      setWorkingFile(null);
+                      setRotationDeg(0);
                       setImgMeta(null);
                       setCrop(null);
                     }}

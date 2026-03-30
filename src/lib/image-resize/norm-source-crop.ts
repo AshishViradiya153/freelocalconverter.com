@@ -8,8 +8,7 @@ export const IMAGE_RESIZE_CROP_PRESETS = [
   "9:16",
 ] as const;
 
-export type ImageResizeCropPreset =
-  (typeof IMAGE_RESIZE_CROP_PRESETS)[number];
+export type ImageResizeCropPreset = (typeof IMAGE_RESIZE_CROP_PRESETS)[number];
 
 export interface PixelSourceCrop {
   sx: number;
@@ -145,8 +144,8 @@ export function scalePixelCropWidth(
   const newHeight = Math.max(1, Math.round(newWidth / R));
   const cx = crop.sx + crop.sWidth / 2;
   const cy = crop.sy + crop.sHeight / 2;
-  let sx = Math.round(cx - newWidth / 2);
-  let sy = Math.round(cy - newHeight / 2);
+  const sx = Math.round(cx - newWidth / 2);
+  const sy = Math.round(cy - newHeight / 2);
   return clampPixelCrop(sw, sh, {
     sx,
     sy,
@@ -176,9 +175,7 @@ export function resolveCropForImageSize(args: {
   const refPixel = normToPixel(norm, refSw, refSh);
   const refMax = maxCropSizeForRatio(refSw, refSh, refR);
   const zoom =
-    refMax.sWidth > 0
-      ? clamp(refPixel.sWidth / refMax.sWidth, 0.01, 1)
-      : 1;
+    refMax.sWidth > 0 ? clamp(refPixel.sWidth / refMax.sWidth, 0.01, 1) : 1;
   const cx = (refPixel.sx + refPixel.sWidth / 2) / refSw;
   const cy = (refPixel.sy + refPixel.sHeight / 2) / refSh;
 

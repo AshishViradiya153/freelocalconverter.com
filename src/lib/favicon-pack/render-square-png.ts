@@ -1,3 +1,5 @@
+import { sampleManifestColorsFromImageSource } from "./manifest-colors";
+
 export const MASTER_SQUARE_MAX = 512;
 
 export const FAVICON_PNG_SIZES = [16, 32, 180, 192, 512] as const;
@@ -162,14 +164,17 @@ async function buildMasterSquare(
 
 export type FaviconPngMap = Record<FaviconPngSize, Uint8Array>;
 
-export async function renderFaviconPngMap(
+export async function renderFaviconPngMapWithManifest(
   image: CanvasImageSource,
   imageWidth: number,
   imageHeight: number,
   crop?: CenterSquareCrop,
-): Promise<FaviconPngMap> {
-  const resolved =
-    crop ?? computeCenterSquareCrop(imageWidth, imageHeight);
+): Promise<{
+  map: FaviconPngMap;
+  theme_color: string;
+  background_color: string;
+}> {
+  const resolved = crop ?? computeCenterSquareCrop(imageWidth, imageHeight);
   const master = await buildMasterSquare(
     image,
     imageWidth,
@@ -177,6 +182,12 @@ export async function renderFaviconPngMap(
     resolved,
   );
   try {
+    const { theme_color, background_color } =
+      sampleManifestColorsFromImageSource(
+        master.source,
+        master.width,
+        master.height,
+      );
     const entries = await Promise.all(
       FAVICON_PNG_SIZES.map(async (size) => {
         const png = await renderSourceToPng(
@@ -189,10 +200,29 @@ export async function renderFaviconPngMap(
         return [size, png] as const;
       }),
     );
-    return Object.fromEntries(entries) as FaviconPngMap;
+    return {
+      map: Object.fromEntries(entries) as FaviconPngMap,
+      theme_color,
+      background_color,
+    };
   } finally {
     master.dispose();
   }
+}
+
+export async function renderFaviconPngMap(
+  image: CanvasImageSource,
+  imageWidth: number,
+  imageHeight: number,
+  crop?: CenterSquareCrop,
+): Promise<FaviconPngMap> {
+  const { map } = await renderFaviconPngMapWithManifest(
+    image,
+    imageWidth,
+    imageHeight,
+    crop,
+  );
+  return map;
 }
 
 export async function loadImageFromFile(file: File): Promise<HTMLImageElement> {

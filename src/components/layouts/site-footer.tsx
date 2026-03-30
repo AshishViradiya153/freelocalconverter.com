@@ -70,10 +70,10 @@ export async function SiteFooter() {
               <p className="font-bold text-[11px] tracking-tight opacity-95 sm:text-xs">
                 {tFooter("kicker")}
               </p>
-              <h2 className="mt-3 text-balance wrap-break-word font-black text-2xl leading-[1.05] tracking-tight sm:mt-4 sm:text-3xl md:text-4xl">
+              <h2 className="wrap-break-word mt-3 text-balance font-black text-2xl leading-[1.05] tracking-tight sm:mt-4 sm:text-3xl md:text-4xl">
                 {tFooter("title", { name: siteConfig.name })}
               </h2>
-              <p className="mt-4 max-w-3xl wrap-break-word font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-5 md:text-base">
+              <p className="wrap-break-word mt-4 max-w-3xl font-bold text-primary-foreground/85 text-sm leading-snug sm:mt-5 md:text-base">
                 {tFooter("subtitle")}
               </p>
             </header>
@@ -117,7 +117,7 @@ export async function SiteFooter() {
                   </Link>
                 </p>
 
-                <p className="shrink-0 font-semibold text-brutal-canvas-foreground/70 text-[10px] tracking-tight sm:text-xs">
+                <p className="shrink-0 font-semibold text-[10px] text-brutal-canvas-foreground/70 tracking-tight sm:text-xs">
                   {tFooter("copyright", {
                     year: siteConfig.copyrightYear,
                     name: siteConfig.name,

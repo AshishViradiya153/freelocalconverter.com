@@ -303,6 +303,26 @@ export function getServiceGroups({
           label: services("heicToJpgLabel"),
           description: services("heicToJpgDesc"),
         },
+        {
+          href: "/gif-tools",
+          label: services("gifToolsLabel"),
+          description: services("gifToolsDesc"),
+        },
+        {
+          href: "/image-base64",
+          label: services("imageBase64Label"),
+          description: services("imageBase64Desc"),
+        },
+        {
+          href: "/svg-to-png",
+          label: services("svgToPngLabel"),
+          description: services("svgToPngDesc"),
+        },
+        {
+          href: "/open-graph-preview",
+          label: services("ogPreviewLabel"),
+          description: services("ogPreviewDesc"),
+        },
       ],
     },
     {

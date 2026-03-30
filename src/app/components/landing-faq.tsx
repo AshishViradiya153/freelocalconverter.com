@@ -42,7 +42,7 @@ export function LandingFaq({ className }: { className?: string }) {
         </p>
         <h2
           id="faq-heading"
-          className="text-balance wrap-break-word font-black text-2xl uppercase leading-[0.95] tracking-tighter sm:text-3xl md:text-4xl"
+          className="wrap-break-word text-balance font-black text-2xl uppercase leading-[0.95] tracking-tighter sm:text-3xl md:text-4xl"
         >
           {t("faqTitle")}
         </h2>
@@ -64,7 +64,9 @@ export function LandingFaq({ className }: { className?: string }) {
                 "[&::-webkit-details-marker]:hidden",
               )}
             >
-              <span className="min-w-0 flex-1 text-pretty">{item.question}</span>
+              <span className="min-w-0 flex-1 text-pretty">
+                {item.question}
+              </span>
               <ChevronDown
                 className="size-5 shrink-0 transition-transform duration-200 group-open:rotate-180 sm:size-6"
                 aria-hidden

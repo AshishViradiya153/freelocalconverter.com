@@ -116,7 +116,9 @@ export function DataGrid<TData>({
 }: DataGridProps<TData>) {
   const composedGridRef = useComposedRefs(dataGridRef, scrollContainerRef);
   const rows = table.getRowModel().rows;
-  const paginationEnabledForSearch = Boolean(table.options.getPaginationRowModel);
+  const paginationEnabledForSearch = Boolean(
+    table.options.getPaginationRowModel,
+  );
   const activeSearchPrePaginationIndex =
     activeSearchMatch?.dataRowIndex !== undefined
       ? getPrePaginationRowIndexForDataRow(
