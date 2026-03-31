@@ -2,22 +2,24 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { AudioConvertApp } from "@/app/components/audio-convert-app";
+import { MediaDownloaderApp } from "@/app/components/media-downloader-app";
 import { Shell } from "@/components/shell";
 import { buildToolPageMetadata } from "@/lib/seo/tool-page-metadata";
 
 export async function generateMetadata({
   params,
-}: YoutubeToMp3PageProps): Promise<Metadata> {
+}: MediaDownloaderPageProps): Promise<Metadata> {
   const { locale } = await params;
-  return await buildToolPageMetadata(locale, "youtube-to-mp3");
+  return await buildToolPageMetadata(locale, "media-downloader");
 }
 
-interface YoutubeToMp3PageProps {
+interface MediaDownloaderPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function YoutubeToMp3Page({ params }: YoutubeToMp3PageProps) {
+export default async function MediaDownloaderPage({
+  params,
+}: MediaDownloaderPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -32,19 +34,9 @@ export default async function YoutubeToMp3Page({ params }: YoutubeToMp3PageProps
           </div>
         }
       >
-        <AudioConvertApp
-          title="YouTube to MP3 converter"
-          allowUrlInput
-          subtitle="Paste a direct MP4/WebM URL (or add a video file you already have). We extract MP3 locally in your browser—no uploads to our servers. If the site blocks browser downloads (CORS), download the file first and upload it instead."
-          inputId="youtube-to-mp3-input"
-          guideLinks={[
-            {
-              href: "/blog/how-to-convert-youtube-to-mp3",
-              label: "how to convert YouTube to MP3",
-            },
-          ]}
-        />
+        <MediaDownloaderApp />
       </Suspense>
     </Shell>
   );
 }
+

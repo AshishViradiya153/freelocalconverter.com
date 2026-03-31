@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { Link, redirect } from "@/i18n/navigation";
 import { nextGuideTopics } from "@/lib/blog/next-guide-topics";
+import { resolveBlogPostSeo } from "@/lib/blog/blog-post-i18n";
 import {
   BLOG_INDEX_PAGE_SIZE,
   getBlogIndexListing,
@@ -143,39 +144,42 @@ async function BlogIndexContent({
             ) : null}
           </ToolSectionHeading>
           <ul className="flex flex-col gap-6">
-            {items.map(({ meta }) => (
-              <li key={meta.slug}>
-                <article>
-                  <Link
-                    href={`/blog/${meta.slug}`}
-                    className="group block rounded-none border-2 border-border bg-background outline-none transition-colors hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                  >
-                    <div className="px-3 py-3 sm:px-4 sm:py-4">
-                      <p className="text-muted-foreground text-xs">
-                        <span
-                          className={cn(
-                            "rounded-none border-2 border-border px-1.5 py-0.5 font-bold font-mono text-xs uppercase tracking-tight",
-                            meta.category === "guide"
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-muted text-muted-foreground",
-                          )}
-                        >
-                          {categoryLabel(meta.category)}
-                        </span>
-                        <span className="mx-2 text-border">·</span>
-                        {t("readMin", { n: meta.readTimeMinutes })}
-                      </p>
-                      <h3 className="mt-2 font-semibold text-base text-foreground tracking-tight group-hover:underline">
-                        {meta.title}
-                      </h3>
-                      <p className="mt-2 text-muted-foreground text-sm leading-relaxed">
-                        {meta.description}
-                      </p>
-                    </div>
-                  </Link>
-                </article>
-              </li>
-            ))}
+            {items.map(({ meta }) => {
+              const seo = resolveBlogPostSeo(t, meta);
+              return (
+                <li key={meta.slug}>
+                  <article>
+                    <Link
+                      href={`/blog/${meta.slug}`}
+                      className="group block rounded-none border-2 border-border bg-background outline-none transition-colors hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                    >
+                      <div className="px-3 py-3 sm:px-4 sm:py-4">
+                        <p className="text-muted-foreground text-xs">
+                          <span
+                            className={cn(
+                              "rounded-none border-2 border-border px-1.5 py-0.5 font-bold font-mono text-xs uppercase tracking-tight",
+                              meta.category === "guide"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted text-muted-foreground",
+                            )}
+                          >
+                            {categoryLabel(meta.category)}
+                          </span>
+                          <span className="mx-2 text-border">·</span>
+                          {t("readMin", { n: meta.readTimeMinutes })}
+                        </p>
+                        <h3 className="mt-2 font-semibold text-base text-foreground tracking-tight group-hover:underline">
+                          {seo.title}
+                        </h3>
+                        <p className="mt-2 text-muted-foreground text-sm leading-relaxed">
+                          {seo.description}
+                        </p>
+                      </div>
+                    </Link>
+                  </article>
+                </li>
+              );
+            })}
           </ul>
         </section>
 

@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import type { ElementType } from "react";
 
 export type BlogCategory = "guide" | "insights";
 
@@ -10,9 +10,10 @@ export interface BlogPostMeta {
   category: BlogCategory;
   readTimeMinutes: number;
   keywords?: string[];
+  contentFromMessages?: boolean;
 }
 
 export interface PublishedBlogPost {
   meta: BlogPostMeta;
-  Content: ComponentType;
+  Content: ElementType;
 }

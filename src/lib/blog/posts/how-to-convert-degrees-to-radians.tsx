@@ -1,9 +1,13 @@
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { blogPostT } from "../blog-post-i18n";
 import { BlogProse } from "../post-prose";
 import type { BlogPostMeta } from "../types";
 
+const SLUG = "how-to-convert-degrees-to-radians";
+
 export const meta: BlogPostMeta = {
-  slug: "how-to-convert-degrees-to-radians",
+  slug: SLUG,
   title: "How to convert degrees to radians (and radians to degrees) for math and geometry",
   description:
     "Convert angles between degrees and radians using rad = deg * pi / 180 and deg = rad * 180 / pi. Includes clear examples and a quick browser converter.",
@@ -17,126 +21,129 @@ export const meta: BlogPostMeta = {
     "pi radians equals 180 degrees",
     "angle unit conversion",
   ],
+  contentFromMessages: true,
 };
 
-export function BlogPostContent() {
+export async function BlogPostContent() {
+  const tBlog = await getTranslations("blog");
+  const t = (key: string) => blogPostT(tBlog, SLUG, key);
+  const pk = (key: string) => `posts.${SLUG}.${key}` as const;
   const linkClass =
     "font-medium text-foreground underline underline-offset-4 hover:text-foreground/90";
 
   return (
     <BlogProse>
       <p>
-        <strong>How to convert degrees to radians</strong> is a standard math
-        unit conversion used in trig, circles, and geometry. The core
-        relationship is:
+        {tBlog.rich(pk("intro"), {
+          lead: (chunks) => <strong>{chunks}</strong>,
+        })}{" "}
         <br />
         <code className="text-foreground">rad = deg * pi / 180</code>.
-        The inverse is:
+        {` ${t("introAfterFormula")}`}
         <br />
         <code className="text-foreground">deg = rad * 180 / pi</code>.
       </p>
 
       <p>
-        Prefer instant calculations? Use{" "}
+        {t("converterPrompt")}{" "}
         <Link href="/degrees-radians-converter" className={linkClass}>
-          Degrees ↔ radians
+          {t("converterLink")}
         </Link>
         .
       </p>
 
       <p>
-        <strong>Key takeaways</strong>
+        <strong>{t("keyTakeaways")}</strong>
       </p>
       <ul>
         <li>
-          Convert by multiplying degrees by <code className="text-foreground">pi/180</code>.
+          {tBlog.rich(pk("takeaway1"), {
+            code: (chunks) => <code className="text-foreground">{chunks}</code>,
+          })}
         </li>
         <li>
-          Convert back by multiplying radians by <code className="text-foreground">180/pi</code>.
+          {tBlog.rich(pk("takeaway2"), {
+            code: (chunks) => <code className="text-foreground">{chunks}</code>,
+          })}
         </li>
-        <li>
-          180 degrees equals pi radians.
-        </li>
-        <li>
-          Round only after computing the full expression (especially if
-          you plug into trig functions).
-        </li>
+        <li>{t("takeaway3")}</li>
+        <li>{t("takeaway4")}</li>
       </ul>
 
-      <h2>Degrees to radians (how to do it)</h2>
+      <h2>{t("h2D2R")}</h2>
       <p>
-        Take your angle in degrees (deg) and apply:
-        {" "}
-        <code className="text-foreground">rad = deg * pi / 180</code>.
+        {tBlog.rich(pk("d2rBody"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
       <ol>
-        <li>Write down the degrees value.</li>
-        <li>Multiply by pi.</li>
-        <li>Divide by 180.</li>
-        <li>Round at the end if needed.</li>
+        <li>{t("d2rOl1")}</li>
+        <li>{t("d2rOl2")}</li>
+        <li>{t("d2rOl3")}</li>
+        <li>{t("d2rOl4")}</li>
       </ol>
 
-      <h2>Examples</h2>
+      <h2>{t("h2Examples")}</h2>
       <p>
-        Example 1: 90 degrees.
-        {" "}
+        {t("ex1")}{" "}
         <br />
-        rad = 90 * pi / 180 = <code className="text-foreground">pi/2</code>.
+        {tBlog.rich(pk("ex1Eq"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
       <p>
-        Example 2: 180 degrees.
-        {" "}
+        {t("ex2")}{" "}
         <br />
-        rad = 180 * pi / 180 = <code className="text-foreground">pi</code>.
+        {tBlog.rich(pk("ex2Eq"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
-      <h2>Radians to degrees</h2>
+      <h2>{t("h2R2D")}</h2>
       <p>
-        If you already have radians and want degrees, use:
-        {" "}
-        <code className="text-foreground">deg = rad * 180 / pi</code>.
+        {tBlog.rich(pk("r2dBody"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
       <ol>
-        <li>Write down the radians value.</li>
-        <li>Multiply by 180.</li>
-        <li>Divide by pi.</li>
+        <li>{t("r2dOl1")}</li>
+        <li>{t("r2dOl2")}</li>
+        <li>{t("r2dOl3")}</li>
       </ol>
 
-      <h2>Where mistakes happen</h2>
+      <h2>{t("h2Mistakes")}</h2>
       <ul>
-        <li>
-          Confusing radians with degrees in calculators/software (for trig
-          functions, most inputs require radians).
-        </li>
-        <li>
-          Rounding pi too early instead of using a full-precision value.
-        </li>
+        <li>{t("mistake1")}</li>
+        <li>{t("mistake2")}</li>
       </ul>
 
-      <h2>Reference</h2>
+      <h2>{t("reference")}</h2>
       <p>
-        The radians definition and the degrees<->radians conversion are explained by{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Radian"
-          className={linkClass}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Wikipedia (Radian)
-        </a>
-        .
+        {tBlog.rich(pk("refBody"), {
+          wiki: (chunks) => (
+            <a
+              href="https://en.wikipedia.org/wiki/Radian"
+              className={linkClass}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {chunks}
+            </a>
+          ),
+        })}
       </p>
 
-      <h2>Next steps</h2>
+      <h2>{t("h2Next")}</h2>
       <p>
-        Convert once, then reuse the result in your trig/geometry steps.
-        If you need to check multiple values quickly, run{" "}
-        <Link href="/degrees-radians-converter" className={linkClass}>
-          Degrees ↔ radians
-        </Link>{" "}
-        and copy the output.
+        {tBlog.rich(pk("nextBody"), {
+          tool: () => (
+            <Link href="/degrees-radians-converter" className={linkClass}>
+              {t("converterLink")}
+            </Link>
+          ),
+        })}
       </p>
     </BlogProse>
   );

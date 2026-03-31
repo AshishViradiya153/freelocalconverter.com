@@ -67,6 +67,8 @@ export type ToolPageSlug =
   | "sql-formatter"
   | "unix-timestamp-converter"
   | "uuid-generator"
+  | "youtube-to-mp3"
+  | "media-downloader"
   | "video-compress"
   | "webhook-viewer"
   | "xls-to-csv"
@@ -484,6 +486,15 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Μετατροπεας YouTube σε MP3";
           default:
             return "YouTube to MP3 converter";
+        }
+      });
+    case "media-downloader":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "en":
+            return "Media downloader (links + convert)";
+          default:
+            return "Media downloader (links + convert)";
         }
       });
     case "html-to-text-email":
@@ -1709,6 +1720,24 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "no upload youtube mp3",
       "ffmpeg wasm mp3",
       "convert video file to mp3",
+    ],
+  },
+  "media-downloader": {
+    pathname: "/media-downloader",
+    titleByLocale: localizedTitle("media-downloader"),
+    keywords: [
+      "media downloader",
+      "download mp3 link",
+      "download mp4 link",
+      "download webm link",
+      "direct file download",
+      "batch downloader",
+      "bulk download",
+      "download zip",
+      "convert to mp3",
+      "convert video locally",
+      "ffmpeg wasm",
+      "no upload converter",
     ],
   },
   "html-to-text-email": {

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Link } from "@/i18n/navigation";
 import {
   celsiusToFahrenheit,
   fahrenheitToCelsius,
@@ -71,7 +72,20 @@ export function CelsiusFahrenheitConverterApp() {
       <ToolHero
         icon={<Thermometer className="size-8" aria-hidden />}
         title="Celsius ↔ Fahrenheit"
-        description="Convert between °C and °F in your browser. Values stay on your device."
+        description={
+          <>
+            Convert between °C and °F in your browser. Values stay on your device.{" "}
+            <span className="mt-2 block text-sm">
+              Read the guide:{" "}
+              <Link
+                href="/blog/how-to-convert-celsius-to-fahrenheit"
+                className="font-medium text-foreground underline underline-offset-4 hover:text-foreground/90"
+              >
+                how to convert Celsius to Fahrenheit
+              </Link>
+            </span>
+          </>
+        }
       />
 
       <ToolCard className="flex flex-col gap-4">

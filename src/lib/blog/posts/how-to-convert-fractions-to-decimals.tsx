@@ -1,9 +1,13 @@
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { blogPostT } from "../blog-post-i18n";
 import { BlogProse } from "../post-prose";
 import type { BlogPostMeta } from "../types";
 
+const SLUG = "how-to-convert-fractions-to-decimals";
+
 export const meta: BlogPostMeta = {
-  slug: "how-to-convert-fractions-to-decimals",
+  slug: SLUG,
   title: "How to convert fractions to decimals (including mixed numbers and simplified results)",
   description:
     "Convert fractions like 3/8 into decimals like 0.375. Learn the fraction-to-decimal process, how mixed numbers work, and what to do when the decimal repeats.",
@@ -17,127 +21,122 @@ export const meta: BlogPostMeta = {
     "repeating decimals",
     "simplify fraction first",
   ],
+  contentFromMessages: true,
 };
 
-export function BlogPostContent() {
+export async function BlogPostContent() {
+  const tBlog = await getTranslations("blog");
+  const t = (key: string) => blogPostT(tBlog, SLUG, key);
+  const pk = (key: string) => `posts.${SLUG}.${key}` as const;
   const linkClass =
     "font-medium text-foreground underline underline-offset-4 hover:text-foreground/90";
 
   return (
     <BlogProse>
       <p>
-        <strong>How to convert fractions to decimals</strong> is mostly about
-        dividing: the decimal value of a fraction is its numerator divided
-        by its denominator. Mixed numbers first become improper fractions,
-        then you divide. This guide also covers the important edge case:
-        some fractions produce <strong>repeating decimals</strong>, so you
-        may need a rounding policy.
+        {tBlog.rich(pk("intro"), {
+          lead: (chunks) => <strong>{chunks}</strong>,
+          strong: (chunks) => <strong>{chunks}</strong>,
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
       <p>
-        For instant conversion in your browser, use{" "}
+        {t("converterPrompt")}{" "}
         <Link href="/decimal-fraction-converter" className={linkClass}>
-          Decimal ↔ fraction
+          {t("converterLink")}
         </Link>
         .
       </p>
 
       <p>
-        <strong>Key takeaways</strong>
+        <strong>{t("keyTakeaways")}</strong>
       </p>
       <ul>
         <li>
-          Fraction-to-decimal: compute <code className="text-foreground">numerator / denominator</code>.
+          {tBlog.rich(pk("takeaway1"), {
+            code: (chunks) => <code className="text-foreground">{chunks}</code>,
+          })}
         </li>
-        <li>
-          Mixed numbers convert to improper fractions before dividing.
-        </li>
-        <li>
-          Simplifying first can make repeating decimals easier to spot.
-        </li>
-        <li>
-          Repeating decimals need a rounding or truncation decision.
-        </li>
+        <li>{t("takeaway2")}</li>
+        <li>{t("takeaway3")}</li>
+        <li>{t("takeaway4")}</li>
       </ul>
 
-      <h2>Step-by-step: simple proper fractions</h2>
+      <h2>{t("h2Step")}</h2>
       <p>
-        Example: convert <code className="text-foreground">3/8</code>.
+        {tBlog.rich(pk("stepExample"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
       <ol>
-        <li>Divide 3 by 8.</li>
-        <li>Write the decimal result.</li>
-        <li>
-          Round to the digits you need (or keep exact if it terminates).
-        </li>
+        <li>{t("stepOl1")}</li>
+        <li>{t("stepOl2")}</li>
+        <li>{t("stepOl3")}</li>
       </ol>
       <p>
-        <code className="text-foreground">3/8 = 0.375</code>.
+        {tBlog.rich(pk("stepEq"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
-      <h2>Mixed numbers: convert first, then divide</h2>
+      <h2>{t("h2Mixed")}</h2>
       <p>
-        Mixed number form looks like <code className="text-foreground">a b/c</code>
-        (a whole number plus a fraction). Convert it to an improper fraction:
-        <br />
-        <code className="text-foreground">(a * c + b) / c</code>
-        , then divide.
+        {tBlog.rich(pk("mixedBody"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
       <p>
-        Example: <code className="text-foreground">2 1/8</code>.
-        {" "}
+        {tBlog.rich(pk("mixedExampleLabel"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}{" "}
         <br />
-        Improper fraction: <code className="text-foreground">(2*8 + 1)/8 = 17/8</code>.
-        {" "}
+        {tBlog.rich(pk("mixedExample1"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}{" "}
         <br />
-        Decimal: <code className="text-foreground">17/8 = 2.125</code>.
+        {tBlog.rich(pk("mixedExample2"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
-      <h2>What about repeating decimals?</h2>
+      <h2>{t("h2Repeating")}</h2>
       <p>
-        Some fractions do not terminate and instead produce repeating decimals.
-        For example, <code className="text-foreground">1/3 = 0.333...</code>.
-        In practice, you usually round to a set number of decimal places.
+        {tBlog.rich(pk("repeatingBody"), {
+          code: (chunks) => <code className="text-foreground">{chunks}</code>,
+        })}
       </p>
 
-      <h2>Best practices</h2>
+      <h2>{t("h2Best")}</h2>
       <ul>
-        <li>
-          If you need a decimal for comparison or input fields, decide the number
-          of decimal places up front (for example 2, 3, or 6).
-        </li>
-        <li>
-          If you need exact arithmetic, keep the fraction form rather than rounding.
-        </li>
-        <li>
-          If you want simplest decimals that come from simpler fractions, simplify the
-          fraction first (divide by the greatest common divisor).
-        </li>
+        <li>{t("best1")}</li>
+        <li>{t("best2")}</li>
+        <li>{t("best3")}</li>
       </ul>
 
-      <h2>Next: convert decimals back to fractions</h2>
+      <h2>{t("h2Next")}</h2>
       <p>
-        If you want the reverse conversion, see{" "}
+        {t("nextPrompt")}{" "}
         <Link
           href="/blog/how-to-convert-decimal-to-fraction"
           className={linkClass}
         >
-          how to convert decimal to fraction
+          {t("nextLink")}
         </Link>
         .
       </p>
 
-      <h2>Reference</h2>
+      <h2>{t("reference")}</h2>
       <p>
-        For a walkthrough of converting fractions to decimals, see{" "}
+        {t("refPrompt")}{" "}
         <a
           href="https://www.mathsisfun.com/converting-fractions-decimals.html"
           className={linkClass}
           rel="noopener noreferrer"
           target="_blank"
         >
-          Maths Is Fun: Convert Fractions to Decimals
+          {t("refLink")}
         </a>
         .
       </p>

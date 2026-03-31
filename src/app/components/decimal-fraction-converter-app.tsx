@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Link } from "@/i18n/navigation";
 import {
   decimalToFraction,
   formatFractionResult,
@@ -93,7 +94,28 @@ export function DecimalFractionConverterApp() {
       <ToolHero
         icon={<Divide className="size-8" aria-hidden />}
         title="Decimal ↔ fraction"
-        description="Turn decimals into simplified fractions (and back) locally. Supports mixed numbers like 1 3/4."
+        description={
+          <>
+            Turn decimals into simplified fractions (and back) locally. Supports mixed numbers like{" "}
+            <code className="text-foreground">1 3/4</code>.{" "}
+            <span className="mt-2 block text-sm">
+              Read guides:{" "}
+              <Link
+                href="/blog/how-to-convert-decimal-to-fraction"
+                className="font-medium text-foreground underline underline-offset-4 hover:text-foreground/90"
+              >
+                decimal → fraction
+              </Link>
+              {" "}·{" "}
+              <Link
+                href="/blog/how-to-convert-fractions-to-decimals"
+                className="font-medium text-foreground underline underline-offset-4 hover:text-foreground/90"
+              >
+                fraction → decimal
+              </Link>
+            </span>
+          </>
+        }
       />
 
       <ToolCard className="flex flex-col gap-4">

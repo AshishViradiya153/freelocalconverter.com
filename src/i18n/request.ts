@@ -37,9 +37,51 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   const messages = (await load()).default as Record<string, unknown>;
 
+  const blogPostLoaders: Record<string, () => Promise<{ default: unknown }>> = {
+    en: () => import("../../messages/blog-posts/en.json"),
+    zh: () => import("../../messages/blog-posts/zh.json"),
+    es: () => import("../../messages/blog-posts/es.json"),
+    pt: () => import("../../messages/blog-posts/pt.json"),
+    fr: () => import("../../messages/blog-posts/fr.json"),
+    de: () => import("../../messages/blog-posts/de.json"),
+    nl: () => import("../../messages/blog-posts/nl.json"),
+    it: () => import("../../messages/blog-posts/it.json"),
+    ja: () => import("../../messages/blog-posts/ja.json"),
+    tr: () => import("../../messages/blog-posts/tr.json"),
+    az: () => import("../../messages/blog-posts/az.json"),
+    ko: () => import("../../messages/blog-posts/ko.json"),
+    ar: () => import("../../messages/blog-posts/ar.json"),
+    fa: () => import("../../messages/blog-posts/fa.json"),
+    ru: () => import("../../messages/blog-posts/ru.json"),
+    he: () => import("../../messages/blog-posts/he.json"),
+    el: () => import("../../messages/blog-posts/el.json"),
+  };
+
+  const blogPostsEn = (await blogPostLoaders.en()).default as {
+    posts: Record<string, Record<string, unknown>>;
+  };
+  const blogPostsLocale = (await (blogPostLoaders[locale] ?? blogPostLoaders.en)())
+    .default as { posts?: Record<string, Record<string, unknown>> };
+
+  const blogBlock = messages.blog;
+  const mergedBlog =
+    blogBlock && typeof blogBlock === "object" && !Array.isArray(blogBlock)
+      ? {
+          ...blogBlock,
+          posts: {
+            ...blogPostsEn.posts,
+            ...(blogPostsLocale.posts ?? {}),
+            ...((blogBlock as { posts?: Record<string, unknown> }).posts ?? {}),
+          },
+        }
+      : { posts: { ...blogPostsEn.posts, ...(blogPostsLocale.posts ?? {}) } };
+
   return {
     locale,
-    messages,
+    messages: {
+      ...messages,
+      blog: mergedBlog,
+    },
     getMessageFallback({ namespace, key }) {
       const path = [namespace, key].filter(Boolean).join(".");
       throw new Error(

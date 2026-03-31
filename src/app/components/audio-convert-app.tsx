@@ -18,6 +18,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { downloadBlob } from "@/lib/download-blob";
+import { Link } from "@/i18n/navigation";
 
 type OutputFormat = "mp3" | "aac" | "opus" | "wav";
 type ItemStatus = "queued" | "fetching" | "running" | "done" | "error";
@@ -173,6 +174,7 @@ interface AudioConvertAppProps {
   inputId?: string;
   allowUrlInput?: boolean;
   urlPlaceholder?: string;
+  guideLinks?: Array<{ href: string; label: string }>;
 }
 
 export function AudioConvertApp({
@@ -181,6 +183,7 @@ export function AudioConvertApp({
   inputId = "audio-convert-input",
   allowUrlInput = false,
   urlPlaceholder = "https://example.com/video.mp4",
+  guideLinks = [],
 }: AudioConvertAppProps = {}) {
   const ffmpegRef = React.useRef<null | import("@ffmpeg/ffmpeg").FFmpeg>(null);
   const loadedRef = React.useRef(false);
@@ -425,6 +428,24 @@ export function AudioConvertApp({
           <h1 className={toolHeroTitleClassName}>{title}</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">{subtitle}</p>
+        {guideLinks.length > 0 ? (
+          <p className="max-w-3xl text-muted-foreground text-sm">
+            Read guides:{" "}
+            {guideLinks.map((g, idx) => (
+              <React.Fragment key={g.href}>
+                <Link
+                  href={g.href}
+                  className="font-medium text-foreground underline underline-offset-4 hover:text-foreground/90"
+                >
+                  {g.label}
+                </Link>
+                {idx < guideLinks.length - 1 ? (
+                  <span className="mx-2 text-border">·</span>
+                ) : null}
+              </React.Fragment>
+            ))}
+          </p>
+        ) : null}
       </header>
 
       {allowUrlInput ? (

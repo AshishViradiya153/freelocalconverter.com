@@ -61,6 +61,7 @@ function getLocalizedLabel(
     | "videoCompressor"
     | "audioConverter"
     | "youtubeToMp3"
+    | "mediaDownloader"
     | "subtitleConverter"
     | "imageCompressor"
     | "imageConverter"
@@ -861,6 +862,10 @@ function getLocalizedLabel(
         az: "YouTube MP3",
         el: "YouTube σε MP3",
       });
+    case "mediaDownloader":
+      return localizedText(locale, {
+        en: "Media downloader (links + convert)",
+      });
     case "subtitleConverter":
       return localizedText(locale, {
         en: "SRT to VTT converter",
@@ -1168,6 +1173,7 @@ function getLocalizedDescription(
   locale: AppLocale,
   key:
     | "groupConverters"
+    | "groupMath"
     | "groupViewers"
     | "groupExcel"
     | "groupDeveloper"
@@ -1224,6 +1230,7 @@ function getLocalizedDescription(
     | "videoCompressor"
     | "audioConverter"
     | "youtubeToMp3"
+    | "mediaDownloader"
     | "subtitleConverter"
     | "imageCompressor"
     | "imageConverter"
@@ -1264,6 +1271,21 @@ function getLocalizedDescription(
         ru: "Мгновенно конвертируйте между CSV, JSON и Parquet.",
         tr: "CSV, JSON ve Parquet arasinda aninda donusturun.",
         zh: "在 CSV、JSON 和 Parquet 之间即时转换。",
+      });
+    case "groupMath":
+      return localizedText(locale, {
+        en: "Math & unit conversions (quick calculations that stay on your device).",
+        de: "Mathe- & Einheitenumrechnungen (schnelle Berechnungen direkt bei Ihnen).",
+        es: "Matemáticas y conversiones de unidades (cálculos rápidos en tu dispositivo).",
+        fr: "Maths & conversions d'unités (calculs rapides, sur votre appareil).",
+        it: "Matematica e conversioni di unità (calcoli rapidi sul tuo dispositivo).",
+        ja: "数学と単位変換（クイック計算を端末内で実行）。",
+        ko: "수학 및 단위 변환(단말에서 빠르게 계산).",
+        nl: "Wiskunde en eenheidsomzettingen (snelle berekeningen op je apparaat).",
+        pt: "Matemática e conversões de unidades (cálculos rápidos no seu dispositivo).",
+        ru: "Математика и конвертеры единиц (быстрые расчеты остаются у вас на устройстве).",
+        tr: "Matematik & birim donusturme (hizli hesaplamalar cihazinizda).",
+        zh: "数学与单位换算（快速计算，数据留在你的设备上）。",
       });
     case "groupViewers":
       return localizedText(locale, {
@@ -1374,6 +1396,10 @@ function getLocalizedDescription(
         he: "חילוץ MP3 מקבצי וידאו במכשיר—מקומי בדפדפן, ללא העלאה. לא מוריד מכתובות URL.",
         az: "Cihazinizdaki video fayllarindan MP3 cixarin—brauzerde lokal, yukleme yoxdur. URL-lərdən endirmir.",
         el: "Εξαγετε MP3 απο αρχεια βιντεο στη συσκευη σας—τοπικα στον browser, χωρις uploads. Δεν κατεβαζει απο URL.",
+      });
+    case "mediaDownloader":
+      return localizedText(locale, {
+        en: "Download from direct MP3/MP4/etc file links in bulk (CORS required) or upload files to convert locally in your browser. Does not download from platform pages.",
       });
     case "subtitleConverter":
       return localizedText(locale, {
@@ -1628,6 +1654,7 @@ function getLocalizedGroupTitle(
   locale: AppLocale,
   key:
     | "converters"
+    | "math"
     | "viewers"
     | "excel"
     | "developer"
@@ -1652,6 +1679,21 @@ function getLocalizedGroupTitle(
         ru: "Конвертеры",
         tr: "Donusturuculer",
         zh: "转换",
+      });
+    case "math":
+      return localizedText(locale, {
+        en: "Math & Unit conversions",
+        de: "Mathe & Einheiten",
+        es: "Matemáticas y unidades",
+        fr: "Maths & unités",
+        it: "Matematica & unità",
+        ja: "数学と単位変換",
+        ko: "수학 & 단위 변환",
+        nl: "Wiskunde & eenheden",
+        pt: "Matemática & unidades",
+        ru: "Математика & единицы",
+        tr: "Matematik & birimler",
+        zh: "数学与单位换算",
       });
     case "viewers":
       return localizedText(locale, {
@@ -1854,6 +1896,36 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           ),
         },
         {
+          href: "/curl-converter",
+          label: getLocalizedLabel(safeLocale, "curlConverter"),
+          description: getLocalizedDescription(safeLocale, "curlConverter"),
+        },
+        {
+          href: "/fetch-converter",
+          label: getLocalizedLabel(safeLocale, "fetchConverter"),
+          description: getLocalizedDescription(safeLocale, "fetchConverter"),
+        },
+        {
+          href: "/axios-converter",
+          label: getLocalizedLabel(safeLocale, "axiosConverter"),
+          description: getLocalizedDescription(safeLocale, "axiosConverter"),
+        },
+        {
+          href: "/python-requests-converter",
+          label: getLocalizedLabel(safeLocale, "pythonRequestsConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "pythonRequestsConverter",
+          ),
+        },
+      ],
+    },
+    {
+      id: "math",
+      title: getLocalizedGroupTitle(safeLocale, "math"),
+      description: getLocalizedDescription(safeLocale, "groupMath"),
+      links: [
+        {
           href: "/celsius-fahrenheit-converter",
           label: getLocalizedLabel(safeLocale, "celsiusFahrenheitConverter"),
           description: getLocalizedDescription(
@@ -1875,29 +1947,6 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           description: getLocalizedDescription(
             safeLocale,
             "degreesRadiansConverter",
-          ),
-        },
-        {
-          href: "/curl-converter",
-          label: getLocalizedLabel(safeLocale, "curlConverter"),
-          description: getLocalizedDescription(safeLocale, "curlConverter"),
-        },
-        {
-          href: "/fetch-converter",
-          label: getLocalizedLabel(safeLocale, "fetchConverter"),
-          description: getLocalizedDescription(safeLocale, "fetchConverter"),
-        },
-        {
-          href: "/axios-converter",
-          label: getLocalizedLabel(safeLocale, "axiosConverter"),
-          description: getLocalizedDescription(safeLocale, "axiosConverter"),
-        },
-        {
-          href: "/python-requests-converter",
-          label: getLocalizedLabel(safeLocale, "pythonRequestsConverter"),
-          description: getLocalizedDescription(
-            safeLocale,
-            "pythonRequestsConverter",
           ),
         },
       ],
@@ -2074,6 +2123,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/youtube-to-mp3",
           label: getLocalizedLabel(safeLocale, "youtubeToMp3"),
           description: getLocalizedDescription(safeLocale, "youtubeToMp3"),
+        },
+        {
+          href: "/media-downloader",
+          label: getLocalizedLabel(safeLocale, "mediaDownloader"),
+          description: getLocalizedDescription(safeLocale, "mediaDownloader"),
         },
         {
           href: "/srt-to-vtt",

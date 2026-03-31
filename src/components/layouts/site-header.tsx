@@ -87,10 +87,26 @@ export function SiteHeader() {
   const isHomeActive = isActiveHref(pathname, "/");
 
   const quickLinks: Array<{ href: string; label: string }> = [];
-  const serviceGroups = useMemo(
-    () => getLocalizedServiceGroups(locale),
-    [locale],
-  );
+  const serviceGroups = useMemo(() => {
+    const groups = getLocalizedServiceGroups(locale);
+    const convertersGroup = groups.find((g) => g.id === "converters");
+    const mathGroup = groups.find((g) => g.id === "math");
+    if (!convertersGroup || !mathGroup) return groups.filter((g) => g.id !== "math");
+
+    return groups
+      .filter((g) => g.id !== "math")
+      .map((g) => {
+        if (g.id !== "converters") return g;
+
+        const existingHrefs = new Set(g.links.map((l) => l.href));
+        const mergedLinks = [
+          ...g.links,
+          ...mathGroup.links.filter((l) => !existingHrefs.has(l.href)),
+        ];
+
+        return { ...g, links: mergedLinks };
+      });
+  }, [locale]);
 
   const searchItems = useMemo<ToolSearchItem[]>(
     () => flattenServiceGroups(serviceGroups),

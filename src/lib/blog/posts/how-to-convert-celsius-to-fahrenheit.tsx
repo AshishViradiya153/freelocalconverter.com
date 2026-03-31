@@ -1,9 +1,18 @@
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { blogPostT } from "../blog-post-i18n";
 import { BlogProse } from "../post-prose";
 import type { BlogPostMeta } from "../types";
 
+const SLUG = "how-to-convert-celsius-to-fahrenheit";
+
+const linkClass =
+  "font-medium text-foreground underline underline-offset-4 hover:text-foreground/90";
+
+const codeCls = "text-foreground";
+
 export const meta: BlogPostMeta = {
-  slug: "how-to-convert-celsius-to-fahrenheit",
+  slug: SLUG,
   title: "How to convert Celsius to Fahrenheit (and Fahrenheit to Celsius)",
   description:
     "Use the exact formulas to convert temperatures between Celsius and Fahrenheit: F = C × 9/5 + 32 and C = (F - 32) × 5/9. Includes examples and a quick calculator workflow.",
@@ -17,154 +26,125 @@ export const meta: BlogPostMeta = {
     "temperature conversion",
     "convert °C to °F",
   ],
+  contentFromMessages: true,
 };
 
-export function BlogPostContent() {
-  const linkClass =
-    "font-medium text-foreground underline underline-offset-4 hover:text-foreground/90";
+export async function BlogPostContent() {
+  const tBlog = await getTranslations("blog");
+  const t = (key: string) => blogPostT(tBlog, SLUG, key);
+  const pk = (key: string) => `posts.${SLUG}.${key}` as const;
+
+  const code = {
+    ninefive: () => <code className={codeCls}>* 9/5</code>,
+    plus32: () => <code className={codeCls}>+ 32</code>,
+    thirtytwo: () => <code className={codeCls}>32</code>,
+    fivenine: () => <code className={codeCls}>* 5/9</code>,
+    eighteen: () => <code className={codeCls}>1.8</code>,
+    zerofive: () => <code className={codeCls}>0.555...</code>,
+  };
 
   return (
     <BlogProse>
       <p>
-        <strong>How to convert Celsius to Fahrenheit</strong> is mostly about
-        using the right formula. The exact relationships are:
+        {tBlog.rich(pk("intro"), {
+          lead: (chunks) => <strong>{chunks}</strong>,
+        })}
         <br />
-        <code className="text-foreground">F = C * 9/5 + 32</code> and
+        <code className={codeCls}>F = C * 9/5 + 32</code> and
         <br />
-        <code className="text-foreground">C = (F - 32) * 5/9</code>.
-        This guide is for anyone who needs quick, correct conversions for
-        weather, cooking, lab work, and everyday comparisons.
+        <code className={codeCls}>C = (F - 32) * 5/9</code>
+        {t("introAfterFormulas")}
       </p>
 
       <p>
-        If you want to avoid mental math, use the in-browser converter:
-        {" "}
+        {t("converterPrompt")}{" "}
         <Link href="/celsius-fahrenheit-converter" className={linkClass}>
-          Celsius ↔ Fahrenheit
+          {t("converterLink")}
         </Link>
         .
       </p>
 
       <p>
-        <strong>Key takeaways</strong>
+        <strong>{t("keyTakeaways")}</strong>
       </p>
       <ul>
-        <li>
-          Celsius-to-Fahrenheit uses{" "}
-          <code className="text-foreground">* 9/5</code> then{" "}
-          <code className="text-foreground">+ 32</code>.
-        </li>
-        <li>
-          Fahrenheit-to-Celsius subtracts{" "}
-          <code className="text-foreground">32</code> then multiplies{" "}
-          <code className="text-foreground">* 5/9</code>.
-        </li>
-        <li>
-          Conversions are exact scale formulas; rounding is the only place
-          mistakes happen.
-        </li>
-        <li>
-          For precision, round at the end of the calculation (not after each
-          step).
-        </li>
+        <li>{tBlog.rich(pk("takeaway1"), code)}</li>
+        <li>{tBlog.rich(pk("takeaway2"), code)}</li>
+        <li>{t("takeaway3")}</li>
+        <li>{t("takeaway4")}</li>
       </ul>
 
-      <h2>Celsius to Fahrenheit (step-by-step)</h2>
+      <h2>{t("h2CtoF")}</h2>
       <p>
-        Start with a Celsius temperature (C) and plug it into:
-        {" "}
-        <code className="text-foreground">F = C * 9/5 + 32</code>.
+        {t("stepIntro")}{" "}
+        <code className={codeCls}>F = C * 9/5 + 32</code>.
       </p>
 
       <ol>
-        <li>
-          Multiply C by <code className="text-foreground">9/5</code> (also
-          written as <code className="text-foreground">1.8</code>).
-        </li>
-        <li>
-          Add <code className="text-foreground">32</code>.
-        </li>
-        <li>
-          Round only if you need a whole number (weather and rough estimates
-          often use integers).
-        </li>
+        <li>{tBlog.rich(pk("stepOl1"), code)}</li>
+        <li>{tBlog.rich(pk("stepOl2"), code)}</li>
+        <li>{t("stepOl3")}</li>
       </ol>
 
-      <h2>Worked examples</h2>
+      <h2>{t("h2Examples")}</h2>
       <p>
-        Example 1: convert 20 C.
-        {" "}
+        {t("ex1Intro")}{" "}
         <br />
-        <code className="text-foreground">F = 20 * 9/5 + 32</code> ={" "}
-        <code className="text-foreground">36 + 32</code> ={" "}
-        <code className="text-foreground">68 F</code>.
+        <code className={codeCls}>F = 20 * 9/5 + 32</code> ={" "}
+        <code className={codeCls}>36 + 32</code> ={" "}
+        <code className={codeCls}>68 F</code>.
       </p>
       <p>
-        Example 2: convert 0 C.
-        {" "}
+        {t("ex2Intro")}{" "}
         <br />
-        <code className="text-foreground">F = 0 * 9/5 + 32</code> ={" "}
-        <code className="text-foreground">32 F</code>.
+        <code className={codeCls}>F = 0 * 9/5 + 32</code> ={" "}
+        <code className={codeCls}>32 F</code>.
       </p>
 
-      <h2>Fahrenheit to Celsius (inverse)</h2>
+      <h2>{t("h2FtoC")}</h2>
       <p>
-        Use the inverse formula:
-        {" "}
-        <code className="text-foreground">C = (F - 32) * 5/9</code>.
+        {t("inverseIntro")}{" "}
+        <code className={codeCls}>C = (F - 32) * 5/9</code>.
       </p>
 
       <ol>
-        <li>
-          Subtract <code className="text-foreground">32</code> from F.
-        </li>
-        <li>
-          Multiply by <code className="text-foreground">5/9</code> (also
-          written as <code className="text-foreground">0.555...</code>).
-        </li>
-        <li>
-          Round at the end, if needed.
-        </li>
+        <li>{tBlog.rich(pk("invOl1"), code)}</li>
+        <li>{tBlog.rich(pk("invOl2"), code)}</li>
+        <li>{t("invOl3")}</li>
       </ol>
 
-      <h2>Accuracy tips (where people slip)</h2>
+      <h2>{t("h2Accuracy")}</h2>
       <ul>
-        <li>
-          If you round between steps, you can introduce small but noticeable
-          errors (especially for values like 77 F or 25 C).
-        </li>
-        <li>
-          Use consistent units. The formulas assume true Celsius (C) and true
-          Fahrenheit (F), not a local scale or “thermometer style” conversion.
-        </li>
+        <li>{t("acc1")}</li>
+        <li>{t("acc2")}</li>
       </ul>
 
-      <h2>Reference</h2>
+      <h2>{t("h2Reference")}</h2>
       <p>
-        The Celsius/Fahrenheit temperature scale relationship is documented by{" "}
-        <a
-          href="https://www.nist.gov/pml/owm/si-units-temperature"
-          className={linkClass}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          NIST
-        </a>
-        .
+        {tBlog.rich(pk("refNist"), {
+          nist: (chunks) => (
+            <a
+              href="https://www.nist.gov/pml/owm/si-units-temperature"
+              className={linkClass}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {chunks}
+            </a>
+          ),
+        })}
       </p>
 
-      <h2>Next steps</h2>
+      <h2>{t("h2Next")}</h2>
       <p>
-        Use the in-browser tool to convert instantly:
-        {" "}
-        <Link href="/celsius-fahrenheit-converter" className={linkClass}>
-          Celsius ↔ Fahrenheit
-        </Link>
-        .
-        Then apply the same “round at the end” approach to other unit
-        conversions.
+        {tBlog.rich(pk("nextBody"), {
+          tool: () => (
+            <Link href="/celsius-fahrenheit-converter" className={linkClass}>
+              {t("converterLink")}
+            </Link>
+          ),
+        })}
       </p>
     </BlogProse>
   );
 }
-

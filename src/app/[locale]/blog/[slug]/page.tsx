@@ -5,6 +5,7 @@ import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { resolveBlogPostSeo } from "@/lib/blog/blog-post-i18n";
 import { getAllPostSlugs, getPostBySlug } from "@/lib/blog/registry";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
@@ -29,13 +30,15 @@ export async function generateMetadata({
     return { title: "Not found" };
   }
   const { meta } = post;
+  const tBlog = await getTranslations({ locale, namespace: "blog" });
+  const seo = resolveBlogPostSeo(tBlog, meta);
   const pathname = `/blog/${meta.slug}`;
   return buildPageMetadata({
     locale,
     pathname,
-    title: meta.title,
-    description: meta.description,
-    keywords: meta.keywords,
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
     type: "article",
     publishedTime: `${meta.publishedAt}T12:00:00Z`,
     alternateLocales: true,
@@ -70,6 +73,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const categoryLabel =
     meta.category === "guide" ? t("categoryGuide") : t("categoryInsights");
 
+  const seo = resolveBlogPostSeo(t, meta);
+
   return (
     <div className="container max-w-3xl py-10 pb-20">
       <BlogPageFrame
@@ -84,10 +89,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 "mt-2 text-primary-foreground",
               )}
             >
-              {meta.title}
+              {seo.title}
             </h1>
             <p className="mt-3 max-w-2xl text-primary-foreground/85 text-sm leading-relaxed">
-              {meta.description}
+              {seo.description}
             </p>
             <p className="mt-4 text-primary-foreground/70 text-xs">
               {t("publishedLine", {
