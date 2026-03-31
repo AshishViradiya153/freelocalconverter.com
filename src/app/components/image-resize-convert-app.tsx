@@ -52,6 +52,7 @@ interface ImageItem {
   outputBytes: number | null;
   outputBlob: Blob | null;
   outputName: string | null;
+  outputPreviewUrl: string | null;
 }
 
 const CROP_PRESET_LABELS: Record<ImageResizeCropPreset, string> = {
@@ -285,7 +286,10 @@ export function ImageResizeConvertApp() {
 
   React.useEffect(() => {
     return () => {
-      for (const it of itemsRef.current) URL.revokeObjectURL(it.previewUrl);
+      for (const it of itemsRef.current) {
+        URL.revokeObjectURL(it.previewUrl);
+        if (it.outputPreviewUrl) URL.revokeObjectURL(it.outputPreviewUrl);
+      }
     };
   }, []);
 
@@ -300,17 +304,25 @@ export function ImageResizeConvertApp() {
     setPreviewMeta(null);
     setNormCrop(null);
     let cancelled = false;
-    void createImageBitmap(firstItem.file).then((bm) => {
-      const sw = bm.width;
-      const sh = bm.height;
-      bm.close();
-      if (cancelled) return;
-      if (sw <= 0 || sh <= 0) {
+    void createImageBitmap(firstItem.file)
+      .then((bm) => {
+        const sw = bm.width;
+        const sh = bm.height;
+        bm.close();
+        if (cancelled) return;
+        if (sw <= 0 || sh <= 0) {
+          setPreviewMeta(null);
+          return;
+        }
+        setPreviewMeta({ sw, sh });
+      })
+      .catch(() => {
+        if (cancelled) return;
         setPreviewMeta(null);
-        return;
-      }
-      setPreviewMeta({ sw, sh });
-    });
+        setEngineError(
+          `Could not preview "${firstItem.file.name}". Try converting with “Works with more formats”, or re-export the image.`,
+        );
+      });
     return () => {
       cancelled = true;
     };
@@ -343,6 +355,7 @@ export function ImageResizeConvertApp() {
         outputBytes: null,
         outputBlob: null,
         outputName: null,
+        outputPreviewUrl: null,
       });
     }
     if (next.length === 0) {
@@ -423,6 +436,7 @@ export function ImageResizeConvertApp() {
         }
 
         const outName = buildOutputName(current.file, index0);
+        const previewUrl = URL.createObjectURL(blob);
         setItems((prev) =>
           prev.map((x) =>
             x.id === itemId
@@ -432,6 +446,7 @@ export function ImageResizeConvertApp() {
                   outputBlob: blob,
                   outputBytes: blob.size,
                   outputName: outName,
+                outputPreviewUrl: previewUrl,
                 }
               : x,
           ),
@@ -592,6 +607,10 @@ export function ImageResizeConvertApp() {
                   disabled={busy}
                   onClick={() => {
                     for (const it of items) URL.revokeObjectURL(it.previewUrl);
+                    for (const it of items) {
+                      if (it.outputPreviewUrl)
+                        URL.revokeObjectURL(it.outputPreviewUrl);
+                    }
                     setItems([]);
                   }}
                 >
@@ -639,8 +658,11 @@ export function ImageResizeConvertApp() {
                           onClick={() => {
                             setItems((prev) => {
                               const target = prev.find((x) => x.id === it.id);
-                              if (target)
+                              if (target) {
                                 URL.revokeObjectURL(target.previewUrl);
+                                if (target.outputPreviewUrl)
+                                  URL.revokeObjectURL(target.outputPreviewUrl);
+                              }
                               return prev.filter((x) => x.id !== it.id);
                             });
                           }}
@@ -683,6 +705,17 @@ export function ImageResizeConvertApp() {
                           Download
                         </Button>
                       </div>
+
+                      {it.status === "done" && it.outputPreviewUrl ? (
+                        <div className="mt-3">
+                          <img
+                            src={it.outputPreviewUrl}
+                            alt=""
+                            className="max-h-48 w-full max-w-[360px] rounded-md border bg-background object-contain"
+                            draggable={false}
+                          />
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </li>
