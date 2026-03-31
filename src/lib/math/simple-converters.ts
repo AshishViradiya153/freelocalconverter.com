@@ -46,6 +46,26 @@ export function radiansToDegrees(rad: number): number {
   return (rad * 180) / Math.PI;
 }
 
+/** Pounds (lb) → kilograms (kg) */
+export function lbsToKg(lbs: number): number {
+  return lbs * 0.45359237;
+}
+
+/** Kilograms (kg) → pounds (lb) */
+export function kgToLbs(kg: number): number {
+  return kg / 0.45359237;
+}
+
+/** Feet (ft) → meters (m) */
+export function feetToMeters(ft: number): number {
+  return ft * 0.3048;
+}
+
+/** Meters (m) → feet (ft) */
+export function metersToFeet(m: number): number {
+  return m / 0.3048;
+}
+
 /**
  * Best rational approximation of the fractional part in (0, 1) with denominator ≤ maxDenominator
  * (continued-fraction convergents).

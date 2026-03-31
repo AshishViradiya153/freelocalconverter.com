@@ -4,7 +4,11 @@ import { type AppLocale, routing } from "@/i18n/routing";
 import { buildPageMetadata } from "./metadata";
 
 export type ToolPageSlug =
+  | "archive-converter"
   | "audio-convert"
+  | "cst-to-est"
+  | "pst-to-est"
+  | "rar-to-zip"
   | "youtube-to-mp3"
   | "srt-to-vtt"
   | "html-to-text-email"
@@ -33,6 +37,7 @@ export type ToolPageSlug =
   | "edit-pdf"
   | "decimal-fraction-converter"
   | "degrees-radians-converter"
+  | "feet-to-meters"
   | "fetch-converter"
   | "gif-tools"
   | "graphql-tools"
@@ -50,6 +55,8 @@ export type ToolPageSlug =
   | "json-to-parquet"
   | "json-yaml-converter"
   | "jwt-decoder"
+  | "kg-to-lbs"
+  | "lbs-to-kg"
   | "merge-pdf"
   | "markdown-html-converter"
   | "markdown-to-epub"
@@ -68,6 +75,7 @@ export type ToolPageSlug =
   | "svg-to-png"
   | "sql-formatter"
   | "unix-timestamp-converter"
+  | "unit-converter"
   | "uuid-generator"
   | "youtube-to-mp3"
   | "media-downloader"
@@ -1726,6 +1734,20 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
 }
 
 const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
+  "archive-converter": {
+    pathname: "/archive-converter",
+    titleByLocale: localizedRecord(() => "Archive Converter"),
+    keywords: [
+      "archive converter",
+      "zip tool",
+      "zip extract",
+      "zip creator",
+      "create zip in browser",
+      "extract zip in browser",
+      "no upload zip",
+      "local zip converter",
+    ],
+  },
   "audio-convert": {
     pathname: "/audio-convert",
     titleByLocale: localizedTitle("audio-convert"),
@@ -1957,6 +1979,18 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "watermark pdf in browser",
     ],
   },
+  "cst-to-est": {
+    pathname: "/cst-to-est",
+    titleByLocale: localizedRecord(() => "CST to EST"),
+    keywords: [
+      "cst to est",
+      "convert cst to est",
+      "central to eastern time",
+      "time zone converter",
+      "cst est time",
+      "meeting time converter",
+    ],
+  },
   "celsius-fahrenheit-converter": {
     pathname: "/celsius-fahrenheit-converter",
     titleByLocale: localizedTitle("celsius-fahrenheit-converter"),
@@ -2166,6 +2200,59 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "pi radians to degrees",
       "trig angle converter",
       "browser degrees radians tool",
+    ],
+  },
+  "lbs-to-kg": {
+    pathname: "/lbs-to-kg",
+    titleByLocale: localizedRecord(() => "Lbs to Kg"),
+    keywords: [
+      "lbs to kg",
+      "pounds to kilograms",
+      "lb to kg",
+      "weight converter",
+      "convert pounds to kg",
+      "lbs kg calculator",
+      "browser unit converter",
+    ],
+  },
+  "kg-to-lbs": {
+    pathname: "/kg-to-lbs",
+    titleByLocale: localizedRecord(() => "Kg to Lbs"),
+    keywords: [
+      "kg to lbs",
+      "kilograms to pounds",
+      "kg to lb",
+      "weight converter",
+      "convert kg to pounds",
+      "kg lbs calculator",
+      "browser unit converter",
+    ],
+  },
+  "feet-to-meters": {
+    pathname: "/feet-to-meters",
+    titleByLocale: localizedRecord(() => "Feet to Meters"),
+    keywords: [
+      "feet to meters",
+      "ft to m",
+      "convert feet to meters",
+      "height converter",
+      "length converter",
+      "ft m calculator",
+      "browser unit converter",
+    ],
+  },
+  "unit-converter": {
+    pathname: "/unit-converter",
+    titleByLocale: localizedRecord(() => "Unit Converter"),
+    keywords: [
+      "unit converter",
+      "convert units",
+      "weight converter",
+      "length converter",
+      "lbs to kg",
+      "kg to lbs",
+      "feet to meters",
+      "browser unit converter",
     ],
   },
   "fetch-converter": {
@@ -2521,6 +2608,18 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "parquet preview online",
     ],
   },
+  "pst-to-est": {
+    pathname: "/pst-to-est",
+    titleByLocale: localizedRecord(() => "PST to EST"),
+    keywords: [
+      "pst to est",
+      "convert pst to est",
+      "pacific to eastern time",
+      "time zone converter",
+      "pst est time",
+      "meeting time converter",
+    ],
+  },
   "pdf-to-image": {
     pathname: "/pdf-to-image",
     titleByLocale: localizedTitle("pdf-to-image"),
@@ -2575,6 +2674,19 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser api converter",
       "requests to httpx curl",
       "convert python http code",
+    ],
+  },
+  "rar-to-zip": {
+    pathname: "/rar-to-zip",
+    titleByLocale: localizedRecord(() => "RAR to ZIP"),
+    keywords: [
+      "rar to zip",
+      "convert rar to zip",
+      "rar converter",
+      "zip converter",
+      "rar extractor",
+      "unrar online",
+      "archive conversion",
     ],
   },
   "reorder-pdf": {

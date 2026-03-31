@@ -1289,6 +1289,46 @@
       "description": "Degrees and radians converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "degrees to radians | radians to degrees | deg to rad | rad to deg | angle converter | pi radians to degrees | trig angle converter | browser degrees radians tool"
     },
+    "archive-converter": {
+      "title": "Archive Converter",
+      "description": "Archive Converter: create ZIP archives and extract ZIP files locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "archive converter | zip tool | create zip | extract zip | unzip | zip creator | zip extractor | local zip | no upload zip"
+    },
+    "rar-to-zip": {
+      "title": "RAR to ZIP",
+      "description": "RAR to ZIP: guidance for converting archives. ZIP creation/extraction runs locally in your browser; RAR extraction is not supported in-browser yet.",
+      "keywords": "rar to zip | convert rar to zip | rar converter | zip converter | unrar | archive conversion | rar extractor | zip tool"
+    },
+    "pst-to-est": {
+      "title": "PST to EST",
+      "description": "PST to EST: convert times from Pacific to Eastern time in your browser. DST-aware, private, client-side processing; no uploads.",
+      "keywords": "pst to est | convert pst to est | pacific to eastern time | pt to et | time zone converter | meeting time | dst aware"
+    },
+    "cst-to-est": {
+      "title": "CST to EST",
+      "description": "CST to EST: convert times from Central to Eastern time in your browser. DST-aware, private, client-side processing; no uploads.",
+      "keywords": "cst to est | convert cst to est | central to eastern time | ct to et | time zone converter | meeting time | dst aware"
+    },
+    "lbs-to-kg": {
+      "title": "Lbs to Kg",
+      "description": "Lbs to Kg: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "lbs to kg | pounds to kilograms | lb to kg | weight converter | convert pounds to kg | lbs kg calculator | browser unit converter"
+    },
+    "kg-to-lbs": {
+      "title": "Kg to Lbs",
+      "description": "Kg to Lbs: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "kg to lbs | kilograms to pounds | kg to lb | weight converter | convert kg to pounds | kg lbs calculator | browser unit converter"
+    },
+    "feet-to-meters": {
+      "title": "Feet to Meters",
+      "description": "Feet to Meters: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "feet to meters | ft to m | convert feet to meters | height converter | length converter | ft m calculator | browser unit converter"
+    },
+    "unit-converter": {
+      "title": "Unit Converter",
+      "description": "Unit Converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "unit converter | convert units | weight converter | length converter | lbs to kg | kg to lbs | feet to meters | browser unit converter"
+    },
     "fetch-converter": {
       "title": "récupérer le convertisseur",
       "description": "récupérer le convertisseur : gratuit en ligne dans votre navigateur. Traitement privé côté client ; vos fichiers ne sont pas téléchargés sur nos serveurs.",

@@ -41,10 +41,18 @@ function getLocalizedLabel(
     | "celsiusFahrenheitConverter"
     | "decimalFractionConverter"
     | "degreesRadiansConverter"
+    | "lbsToKgConverter"
+    | "kgToLbsConverter"
+    | "feetToMetersConverter"
+    | "unitConverter"
     | "unixTimestampConverter"
     | "curlConverter"
     | "fetchConverter"
     | "axiosConverter"
+    | "archiveConverter"
+    | "rarToZip"
+    | "pstToEst"
+    | "cstToEst"
     | "pythonRequestsConverter"
     | "httpExplainer"
     | "openapiViewer"
@@ -568,6 +576,14 @@ function getLocalizedLabel(
         tr: "Derece ↔ radyan",
         zh: "度 ↔ 弧度",
       });
+    case "lbsToKgConverter":
+      return localizedText(locale, { en: "Lbs to Kg" });
+    case "kgToLbsConverter":
+      return localizedText(locale, { en: "Kg to Lbs" });
+    case "feetToMetersConverter":
+      return localizedText(locale, { en: "Feet to Meters" });
+    case "unitConverter":
+      return localizedText(locale, { en: "Unit Converter" });
     case "curlConverter":
       return localizedText(locale, {
         en: "cURL Converter",
@@ -613,6 +629,14 @@ function getLocalizedLabel(
         tr: "Axios Donusturucu",
         zh: "Axios 转换器",
       });
+    case "archiveConverter":
+      return localizedText(locale, { en: "Archive Converter" });
+    case "rarToZip":
+      return localizedText(locale, { en: "RAR to ZIP" });
+    case "pstToEst":
+      return localizedText(locale, { en: "PST to EST" });
+    case "cstToEst":
+      return localizedText(locale, { en: "CST to EST" });
     case "pythonRequestsConverter":
       return localizedText(locale, {
         en: "Python Requests Converter",
@@ -1226,10 +1250,18 @@ function getLocalizedDescription(
     | "celsiusFahrenheitConverter"
     | "decimalFractionConverter"
     | "degreesRadiansConverter"
+    | "lbsToKgConverter"
+    | "kgToLbsConverter"
+    | "feetToMetersConverter"
+    | "unitConverter"
     | "unixTimestampConverter"
     | "curlConverter"
     | "fetchConverter"
     | "axiosConverter"
+    | "archiveConverter"
+    | "rarToZip"
+    | "pstToEst"
+    | "cstToEst"
     | "pythonRequestsConverter"
     | "httpExplainer"
     | "openapiViewer"
@@ -1619,6 +1651,10 @@ function getLocalizedDescription(
             "Convert decimals to simplified fractions and fractions to decimals.",
           degreesRadiansConverter:
             "Convert degrees and radians for angles and trig.",
+          lbsToKgConverter: "Convert pounds (lb) to kilograms (kg) locally.",
+          kgToLbsConverter: "Convert kilograms (kg) to pounds (lb) locally.",
+          feetToMetersConverter: "Convert feet (ft) to meters (m) locally.",
+          unitConverter: "Quick unit conversions that run locally in your browser.",
           curlConverter:
             "Convert cURL request snippets to fetch, axios, or Python.",
           fetchConverter: "Convert fetch snippets to cURL, axios, or Python.",
@@ -1663,6 +1699,14 @@ function getLocalizedDescription(
           trendingPalettes: "Browse curated color palettes.",
           trendingGradients: "Browse curated gradients.",
           trendingMeshGradients: "Browse 500 mesh-style blob gradients.",
+          archiveConverter:
+            "Create ZIP archives and extract ZIP files locally in your browser.",
+          rarToZip:
+            "RAR to ZIP: archive conversion guidance and local ZIP tools in your browser.",
+          pstToEst:
+            "Convert times from Pacific to Eastern time with DST-aware rules (runs locally).",
+          cstToEst:
+            "Convert times from Central to Eastern time with DST-aware rules (runs locally).",
         }[key],
       });
   }
@@ -1835,6 +1879,26 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       description: getLocalizedDescription(safeLocale, "groupConverters"),
       links: [
         {
+          href: "/archive-converter",
+          label: getLocalizedLabel(safeLocale, "archiveConverter"),
+          description: getLocalizedDescription(safeLocale, "archiveConverter"),
+        },
+        {
+          href: "/rar-to-zip",
+          label: getLocalizedLabel(safeLocale, "rarToZip"),
+          description: getLocalizedDescription(safeLocale, "rarToZip"),
+        },
+        {
+          href: "/pst-to-est",
+          label: getLocalizedLabel(safeLocale, "pstToEst"),
+          description: getLocalizedDescription(safeLocale, "pstToEst"),
+        },
+        {
+          href: "/cst-to-est",
+          label: getLocalizedLabel(safeLocale, "cstToEst"),
+          description: getLocalizedDescription(safeLocale, "cstToEst"),
+        },
+        {
           href: "/csv-to-json",
           label: getLocalizedLabel(safeLocale, "csvToJson"),
           description: getLocalizedDescription(safeLocale, "csvToJson"),
@@ -1944,6 +2008,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       description: getLocalizedDescription(safeLocale, "groupMath"),
       links: [
         {
+          href: "/unit-converter",
+          label: getLocalizedLabel(safeLocale, "unitConverter"),
+          description: getLocalizedDescription(safeLocale, "unitConverter"),
+        },
+        {
           href: "/celsius-fahrenheit-converter",
           label: getLocalizedLabel(safeLocale, "celsiusFahrenheitConverter"),
           description: getLocalizedDescription(
@@ -1965,6 +2034,24 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           description: getLocalizedDescription(
             safeLocale,
             "degreesRadiansConverter",
+          ),
+        },
+        {
+          href: "/lbs-to-kg",
+          label: getLocalizedLabel(safeLocale, "lbsToKgConverter"),
+          description: getLocalizedDescription(safeLocale, "lbsToKgConverter"),
+        },
+        {
+          href: "/kg-to-lbs",
+          label: getLocalizedLabel(safeLocale, "kgToLbsConverter"),
+          description: getLocalizedDescription(safeLocale, "kgToLbsConverter"),
+        },
+        {
+          href: "/feet-to-meters",
+          label: getLocalizedLabel(safeLocale, "feetToMetersConverter"),
+          description: getLocalizedDescription(
+            safeLocale,
+            "feetToMetersConverter",
           ),
         },
       ],
