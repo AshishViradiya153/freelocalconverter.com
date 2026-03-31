@@ -128,7 +128,7 @@ export function DegreesRadiansConverterApp() {
             <div className="min-w-48 flex-1">
               <Label className="text-muted-foreground">{output?.label}</Label>
               <p className="mt-1 font-mono text-lg tabular-nums">
-                {output ? output.value : "—"}
+                {output ? output.value : "-"}
               </p>
             </div>
             <Button

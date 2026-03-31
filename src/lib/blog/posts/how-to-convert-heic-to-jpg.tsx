@@ -10,7 +10,7 @@ export const meta: BlogPostMeta = {
   slug: SLUG,
   title: "How to convert HEIC to JPG: iPhone, Windows, Mac, and browser",
   description:
-    "Turn HEIC/HEIF photos into JPG (JPEG) or PNG: change iPhone camera format, use Photos on Mac, add HEIF support on Windows, or convert locally in the browser—plus quality and batch tips.",
+    "Turn HEIC/HEIF photos into JPG (JPEG) or PNG: change iPhone camera format, use Photos on Mac, add HEIF support on Windows, or convert locally in the browser (plus quality and batch tips).",
   publishedAt: "2026-04-01",
   category: "guide",
   readTimeMinutes: 10,

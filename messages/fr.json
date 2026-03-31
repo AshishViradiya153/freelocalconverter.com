@@ -732,7 +732,7 @@
     "audioConverterLabel": "Audio converter",
     "audioConverterDesc": "Convert audio formats or extract audio from video locally in your browser.",
     "youtubeToMp3Label": "YouTube to MP3 converter",
-    "youtubeToMp3Desc": "Extract MP3 from video files on your device—local in your browser, no uploads. Does not download from URLs.",
+    "youtubeToMp3Desc": "Extract MP3 from video files on your device (local in your browser, no uploads). Does not download from URLs.",
     "subtitleConverterLabel": "SRT to VTT converter",
     "subtitleConverterDesc": "Convert subtitles locally: SRT ⇄ WebVTT (VTT).",
     "csvViewerLabel": "Visionneuse et éditeur CSV",
@@ -1151,12 +1151,12 @@
     },
     "youtube-to-mp3": {
       "title": "YouTube to MP3 converter",
-      "description": "YouTube to MP3 converter: free in your browser. Add a video file you already have; we extract MP3 locally. Private, client-side processing—no uploads to our servers. Does not fetch videos from URLs.",
+      "description": "YouTube to MP3 converter: free in your browser. Add a video file you already have; we extract MP3 locally. Private, client-side processing (no uploads to our servers). Does not fetch videos from URLs.",
       "keywords": "youtube to mp3 | youtube mp3 converter | video to mp3 | extract mp3 from video | mp4 to mp3 | webm to mp3 | local mp3 converter | browser mp3 extractor | no upload mp3 | ffmpeg wasm"
     },
     "media-downloader": {
       "title": "Media downloader (links + convert)",
-      "description": "Download from direct MP3/MP4/etc file links in bulk (CORS required) or upload files to convert locally in your browser. Private, client-side processing—no uploads to our servers. Does not download from platform pages.",
+      "description": "Download from direct MP3/MP4/etc file links in bulk (CORS required) or upload files to convert locally in your browser. Private, client-side processing (no uploads to our servers). Does not download from platform pages.",
       "keywords": "media downloader | download mp3 link | download mp4 link | direct file download | bulk downloader | batch download | download zip | mp3 converter | ffmpeg wasm | no upload converter"
     },
     "html-to-text-email": {

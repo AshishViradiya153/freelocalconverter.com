@@ -174,13 +174,13 @@ export function DecimalFractionConverterApp() {
                   </div>
                 </>
               ) : (
-                <p className="font-mono text-lg text-muted-foreground">—</p>
+                <p className="font-mono text-lg text-muted-foreground">-</p>
               )}
             </div>
           ) : (
             <div className="flex flex-wrap items-end gap-2">
               <p className="min-w-48 flex-1 font-mono text-lg tabular-nums">
-                {fracToDecResult?.kind === "ok" ? fracToDecResult.value : "—"}
+                {fracToDecResult?.kind === "ok" ? fracToDecResult.value : "-"}
               </p>
             </div>
           )}

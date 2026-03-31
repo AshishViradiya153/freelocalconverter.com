@@ -1402,7 +1402,7 @@ function getLocalizedDescription(
         fr: "Extrayez l'MP3 des fichiers video sur votre appareil (localement dans le navigateur, sans envoi). Ne telecharge pas depuis des URL.",
         it: "Estrai MP3 da file video sul dispositivo (in locale nel browser, nessun caricamento). Non scarica da URL.",
         ja: "端末上の動画からMP3を抽出。ブラウザ内でローカル処理、アップロードなし。URLからは取得しません。",
-        ko: "기기의 동영상 파일에서 MP3 추출—브라우저에서 로컬 처리, 업로드 없음. URL에서 받아오지 않습니다.",
+        ko: "기기의 동영상 파일에서 MP3 추출 (브라우저에서 로컬 처리, 업로드 없음). URL에서 받아오지 않습니다.",
         nl: "Haal MP3 uit videobestanden op je apparaat (lokaal in je browser, geen uploads). Haalt niet van URLs.",
         pt: "Extraia MP3 de arquivos de video no seu dispositivo (local no navegador, sem uploads). Nao baixa de URLs.",
         ru: "Извлекайте MP3 из видеофайлов на устройстве (локально в браузере, без загрузки на сервер). Не скачивает по URL.",

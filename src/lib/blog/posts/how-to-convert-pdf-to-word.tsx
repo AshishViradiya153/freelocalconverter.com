@@ -10,7 +10,7 @@ export const meta: BlogPostMeta = {
   slug: SLUG,
   title: "How to convert PDF to Word: methods that actually work",
   description:
-    "Step-by-step ways to turn a PDF into an editable Word (DOCX) file: Microsoft Word, Acrobat, Google Docs, browser tools, and OCR for scans—plus layout limits and privacy tips.",
+    "Step-by-step ways to turn a PDF into an editable Word (DOCX) file: Microsoft Word, Acrobat, Google Docs, browser tools, and OCR for scans (plus layout limits and privacy tips).",
   publishedAt: "2026-03-31",
   category: "guide",
   readTimeMinutes: 11,
