@@ -775,6 +775,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF를 Word로",
     "pdfToWordDesc": "PDF를 DOCX 파일로 변환합니다.",
     "splitPdfLabel": "PDF 분할",
@@ -1203,6 +1205,11 @@
       "title": "그리드 렌더 데모",
       "description": "그리드 렌더 데모: 브라우저에서 무료입니다. 비공개 로컬 처리이며 파일은 서버로 업로드되지 않습니다.",
       "keywords": "그리드 렌더 | react 성능 | 벤치마크 | 대용량 | 가상화"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "fetch-converter": {
       "title": "fetch 변환기",

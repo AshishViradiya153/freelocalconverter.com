@@ -185,6 +185,7 @@ export const LLMS_SECTIONS: LlmsSection[] = [
   {
     heading: "PDF",
     items: [
+      { path: "/edit-pdf", label: "Edit PDF" },
       { path: "/pdf-to-word", label: "PDF to Word" },
       { path: "/split-pdf", label: "Split PDF" },
       { path: "/reorder-pdf", label: "Reorder PDF pages" },

@@ -775,6 +775,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF转换为Word",
     "pdfToWordDesc": "将PDF转换为DOCX文件。",
     "splitPdfLabel": "拆分PDF",
@@ -1203,6 +1205,11 @@
       "title": "数据网格渲染演示",
       "description": "数据网格渲染演示：在浏览器中免费在线。私有的客户端处理；您的文件不会上传到我们的服务器。",
       "keywords": "数据网格渲染演示 |网格渲染演示 |反应网格性能|渲染数据网格 |浏览器网格基准测试|数据网格渲染示例|虚拟化网格性能|大型数据集表渲染"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "fetch-converter": {
       "title": "获取转换器",

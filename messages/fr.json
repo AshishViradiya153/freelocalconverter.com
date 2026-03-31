@@ -775,6 +775,8 @@
     "graphqlToolsDesc": "Rédigez et formatez des requêtes GraphQL ; chargez le schéma JSON et inspectez les types localement.",
     "webhookViewerLabel": "Visionneuse et éditeur webhook",
     "webhookViewerDesc": "Collez, modifiez et mettez en forme du JSON ; recherchez avec JSONPath localement.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF vers Word",
     "pdfToWordDesc": "Convertissez des PDF en fichiers DOCX.",
     "splitPdfLabel": "Fractionner un PDF",
@@ -1203,6 +1205,11 @@
       "title": "Démo de rendu de grille de données",
       "description": "Démo Data Grid Render : gratuite en ligne dans votre navigateur. Traitement privé côté client ; vos fichiers ne sont pas téléchargés sur nos serveurs.",
       "keywords": "Démo de rendu de grille de données | Démo de rendu de grille | réagir aux performances de la grille | rendre la grille de données | référence de la grille du navigateur | exemple de rendu de grille de données | performances de la grille virtualisée | rendu de table d'un grand ensemble de données"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "fetch-converter": {
       "title": "récupérer le convertisseur",

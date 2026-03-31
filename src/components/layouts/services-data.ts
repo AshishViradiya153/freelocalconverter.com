@@ -225,6 +225,11 @@ export function getServiceGroups({
       description: services("groupPdfDescription"),
       links: [
         {
+          href: "/edit-pdf",
+          label: services("editPdfLabel"),
+          description: services("editPdfDesc"),
+        },
+        {
           href: "/pdf-to-word",
           label: services("pdfToWordLabel"),
           description: services("pdfToWordDesc"),

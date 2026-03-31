@@ -775,6 +775,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF-dən Word-ə",
     "pdfToWordDesc": "PDF-ləri DOCX fayllarına çevirin.",
     "splitPdfLabel": "PDF bölmə",
@@ -1203,6 +1205,11 @@
       "title": "Data Grid Render Demo",
       "description": "Data Grid Render Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "data grid render demo | grid rendering demo | react grid performance | render data grid | browser grid benchmark | data grid render example | virtualized grid performance | large dataset table render"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "fetch-converter": {
       "title": "fetch converter",

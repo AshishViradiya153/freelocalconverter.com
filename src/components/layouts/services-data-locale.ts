@@ -46,6 +46,7 @@ function getLocalizedLabel(
     | "openapiViewer"
     | "graphqlTools"
     | "webhookViewer"
+    | "editPdf"
     | "pdfToWord"
     | "splitPdf"
     | "reorderPdf"
@@ -616,6 +617,21 @@ function getLocalizedLabel(
         tr: "Webhook goruntuleyici ve duzenleyici",
         zh: "Webhook 查看器与编辑器",
       });
+    case "editPdf":
+      return localizedText(locale, {
+        en: "Edit PDF",
+        de: "PDF bearbeiten",
+        es: "Editar PDF",
+        fr: "Modifier PDF",
+        it: "Modifica PDF",
+        ja: "PDF編集",
+        ko: "PDF 편집",
+        nl: "PDF bewerken",
+        pt: "Editar PDF",
+        ru: "Редактировать PDF",
+        tr: "PDF Duzenle",
+        zh: "编辑 PDF",
+      });
     case "pdfToWord":
       return localizedText(locale, {
         en: "PDF to Word",
@@ -1119,6 +1135,7 @@ function getLocalizedDescription(
     | "openapiViewer"
     | "graphqlTools"
     | "webhookViewer"
+    | "editPdf"
     | "pdfToWord"
     | "splitPdf"
     | "reorderPdf"
@@ -1217,18 +1234,18 @@ function getLocalizedDescription(
       });
     case "groupPdf":
       return localizedText(locale, {
-        en: "PDF tools: convert, split, merge, and watermark locally.",
-        de: "PDF-Werkzeuge: lokal konvertieren, teilen, zusammenfugen und wasserzeichnen.",
-        es: "Herramientas PDF: convierte, divide, une y marca localmente.",
-        fr: "Outils PDF : convertir, diviser, fusionner et filigraner localement.",
-        it: "Strumenti PDF: converti, dividi, unisci e aggiungi filigrane in locale.",
-        ja: "PDF の変換、分割、結合、透かしをローカルで実行。",
-        ko: "PDF 변환, 분할, 병합, 워터마크를 로컬에서 처리합니다.",
-        nl: "PDF-tools: lokaal converteren, splitsen, samenvoegen en watermerken.",
-        pt: "Ferramentas PDF: converta, divida, junte e adicione marca d'agua localmente.",
-        ru: "PDF-инструменты: конвертация, разделение, объединение и водяные знаки локально.",
-        tr: "PDF araclari: yerelde donustur, bol, birlestir ve filigran ekle.",
-        zh: "PDF 工具：本地转换、拆分、合并和加水印。",
+        en: "PDF tools: edit, convert, split, merge, and watermark locally.",
+        de: "PDF-Werkzeuge: lokal bearbeiten, konvertieren, teilen, zusammenfugen und wasserzeichnen.",
+        es: "Herramientas PDF: edita, convierte, divide, une y marca localmente.",
+        fr: "Outils PDF : modifier, convertir, diviser, fusionner et filigraner localement.",
+        it: "Strumenti PDF: modifica, converti, dividi, unisci e aggiungi filigrane in locale.",
+        ja: "PDF の編集、変換、分割、結合、透かしをローカルで実行。",
+        ko: "PDF 편집, 변환, 분할, 병합, 워터마크를 로컬에서 처리합니다.",
+        nl: "PDF-tools: lokaal bewerken, converteren, splitsen, samenvoegen en watermerken.",
+        pt: "Ferramentas PDF: edite, converta, divida, junte e adicione marca d'agua localmente.",
+        ru: "PDF-инструменты: редактирование, конвертация, разделение, объединение и водяные знаки локально.",
+        tr: "PDF araclari: yerelde duzenle, donustur, bol, birlestir ve filigran ekle.",
+        zh: "PDF 工具：本地编辑、转换、拆分、合并和加水印。",
       });
     case "groupVideo":
       return localizedText(locale, {
@@ -1466,6 +1483,8 @@ function getLocalizedDescription(
             "Write and format GraphQL queries; load schema JSON and inspect types locally.",
           webhookViewer:
             "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+          editPdf:
+            "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
           pdfToWord: "Convert PDFs to DOCX files.",
           splitPdf: "Split PDF files by page or range.",
           reorderPdf: "Reorder or remove pages, then save a new PDF.",
@@ -1482,8 +1501,7 @@ function getLocalizedDescription(
           faviconGenerator:
             "Upload one image; download a ZIP with favicon.ico, PNG sizes, and site.webmanifest.",
           heicToJpg: "Convert HEIC and HEIF photos to JPG or PNG.",
-          gifTools:
-            "GIF to MP4, video to GIF, frame ZIP, stills to GIF.",
+          gifTools: "GIF to MP4, video to GIF, frame ZIP, stills to GIF.",
           imageBase64:
             "Data URLs from images and decode back to files locally.",
           linkedinBanner:
@@ -1861,6 +1879,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
       title: getLocalizedGroupTitle(safeLocale, "pdf"),
       description: getLocalizedDescription(safeLocale, "groupPdf"),
       links: [
+        {
+          href: "/edit-pdf",
+          label: getLocalizedLabel(safeLocale, "editPdf"),
+          description: getLocalizedDescription(safeLocale, "editPdf"),
+        },
         {
           href: "/pdf-to-word",
           label: getLocalizedLabel(safeLocale, "pdfToWord"),

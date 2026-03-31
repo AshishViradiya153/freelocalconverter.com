@@ -26,6 +26,7 @@ export const STATIC_SITEMAP_PATH_SEGMENTS: readonly string[] = [
   "/base64-converter",
   "/unix-timestamp-converter",
   "/python-requests-converter",
+  "/edit-pdf",
   "/pdf-to-image",
   "/pdf-to-word",
   "/split-pdf",

@@ -775,6 +775,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF a Word",
     "pdfToWordDesc": "Convierta archivos PDF a archivos DOCX.",
     "splitPdfLabel": "Dividir PDF",
@@ -1203,6 +1205,11 @@
       "title": "Demostración de renderizado de cuadrícula de datos",
       "description": "Demostración de Data Grid Render: gratis en línea en su navegador. Procesamiento privado del lado del cliente; sus archivos no se cargan en nuestros servidores.",
       "keywords": "demostración de procesamiento de cuadrícula de datos | demostración de representación de cuadrícula | reaccionar el rendimiento de la red | renderizar cuadrícula de datos | punto de referencia de la cuadrícula del navegador | ejemplo de renderizado de cuadrícula de datos | rendimiento de la red virtualizada | renderizado de tabla de conjunto de datos grande"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "fetch-converter": {
       "title": "buscar convertidor",
