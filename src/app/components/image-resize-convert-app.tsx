@@ -38,7 +38,7 @@ import {
 } from "@/lib/image-resize/render-pipeline";
 import { cn } from "@/lib/utils";
 
-type OutputFormat = "webp" | "avif" | "jpeg" | "png";
+type OutputFormat = "webp" | "avif" | "jpeg" | "png" | "gif";
 type ConvertEngine = "auto" | "browser" | "ffmpeg";
 type ItemStatus = "queued" | "running" | "done" | "error";
 
@@ -97,6 +97,7 @@ function outputMime(format: OutputFormat) {
   if (format === "jpeg") return "image/jpeg";
   if (format === "webp") return "image/webp";
   if (format === "avif") return "image/avif";
+  if (format === "gif") return "image/gif";
   return "image/png";
 }
 
@@ -192,6 +193,8 @@ async function encodeWithFfmpeg(args: {
   } else if (args.format === "avif") {
     const crf = clamp(Math.round(63 - (q / 100) * 55), 8, 63);
     cmd.push("-crf", String(crf));
+  } else if (args.format === "gif") {
+    cmd.push("-loop", "0");
   }
 
   cmd.push(outName);
@@ -803,6 +806,7 @@ export function ImageResizeConvertApp() {
                       <SelectItem value="avif">AVIF</SelectItem>
                       <SelectItem value="jpeg">JPEG</SelectItem>
                       <SelectItem value="png">PNG</SelectItem>
+                      <SelectItem value="gif">GIF</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -812,6 +816,7 @@ export function ImageResizeConvertApp() {
                   <Select
                     value={engine}
                     onValueChange={(v) => setEngine(v as ConvertEngine)}
+                    disabled={outputFormat === "gif"}
                   >
                     <SelectTrigger>
                       <SelectValue />
