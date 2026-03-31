@@ -285,13 +285,6 @@
     "sampleError": "Nümunə məlumatları yüklənmədi.",
     "largeFileTitle": "Böyük fayl qısaldıldı",
     "largeFileDescription": "{shown} sətir göstərilir (faylda limit {total}).",
-    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
-    "collectionPageName": "{name}: alət kataloqu",
-    "directoryFavoritesLabel": "Seçilmişlər",
-    "directoryPinToolAria": "Seçilmişlərə əlavə et",
-    "directoryUnpinToolAria": "Seçilmişlərdən çıxar",
-    "directoryFavoritesEmptyTitle": "Hələ seçilmiş yoxdur",
-    "directoryFavoritesEmptyDescription": "Burada saxlamaq üçün alət kartındakı ulduzdan istifadə edin. Seçilmişlər yalnız bu cihazda qalır.",
     "importReadingRows": "Reading… {count} rows",
     "importCancel": "Cancel",
     "importCancelled": "Import cancelled.",
@@ -304,7 +297,14 @@
     "importDialectFirstRow": "First row",
     "importDialectFirstRowHeader": "Column names (header)",
     "importDialectFirstRowData": "Data only (no header)",
-    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks."
+    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks.",
+    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
+    "collectionPageName": "{name}: alət kataloqu",
+    "directoryFavoritesLabel": "Seçilmişlər",
+    "directoryPinToolAria": "Seçilmişlərə əlavə et",
+    "directoryUnpinToolAria": "Seçilmişlərdən çıxar",
+    "directoryFavoritesEmptyTitle": "Hələ seçilmiş yoxdur",
+    "directoryFavoritesEmptyDescription": "Burada saxlamaq üçün alət kartındakı ulduzdan istifadə edin. Seçilmişlər yalnız bu cihazda qalır."
   },
   "csvToParquet": {
     "heroTitle": "CSV-dən Parquet-ə",
@@ -798,6 +798,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF-dən Word-ə",
     "pdfToWordDesc": "PDF-ləri DOCX fayllarına çevirin.",
     "splitPdfLabel": "PDF bölmə",
@@ -1266,6 +1268,11 @@
       "title": "Data Grid Render Demo",
       "description": "Data Grid Render Demo: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "data grid render demo | grid rendering demo | react grid performance | render data grid | browser grid benchmark | data grid render example | virtualized grid performance | large dataset table render"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "decimal-fraction-converter": {
       "title": "Decimal and fraction converter",

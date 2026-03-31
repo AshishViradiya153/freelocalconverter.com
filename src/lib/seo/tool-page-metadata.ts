@@ -5,6 +5,7 @@ import { buildPageMetadata } from "./metadata";
 
 export type ToolPageSlug =
   | "audio-convert"
+  | "youtube-to-mp3"
   | "srt-to-vtt"
   | "html-to-text-email"
   | "axios-converter"
@@ -29,6 +30,7 @@ export type ToolPageSlug =
   | "data-grid"
   | "data-grid-live"
   | "data-grid-render"
+  | "edit-pdf"
   | "decimal-fraction-converter"
   | "degrees-radians-converter"
   | "fetch-converter"
@@ -449,6 +451,45 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Μετατροπέας ήχου";
           default:
             return "Audio converter";
+        }
+      });
+    case "edit-pdf":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "de":
+            return "PDF bearbeiten";
+          case "es":
+            return "Editar PDF";
+          case "fr":
+            return "Modifier PDF";
+          case "it":
+            return "Modifica PDF";
+          case "ja":
+            return "PDF編集";
+          case "ko":
+            return "PDF 편집";
+          case "nl":
+            return "PDF bewerken";
+          case "pt":
+            return "Editar PDF";
+          case "ru":
+            return "Редактировать PDF";
+          case "tr":
+            return "PDF Duzenle";
+          case "zh":
+            return "编辑 PDF";
+          case "az":
+            return "PDF redakte et";
+          case "ar":
+            return "تحرير PDF";
+          case "fa":
+            return "ویرایش PDF";
+          case "he":
+            return "עריכת PDF";
+          case "el":
+            return "Επεξεργασια PDF";
+          default:
+            return "Edit PDF";
         }
       });
     case "youtube-to-mp3":
@@ -2083,6 +2124,20 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "data grid render example",
       "virtualized grid performance",
       "large dataset table render",
+    ],
+  },
+  "edit-pdf": {
+    pathname: "/edit-pdf",
+    titleByLocale: localizedTitle("edit-pdf"),
+    keywords: [
+      "edit pdf",
+      "pdf editor",
+      "add text to pdf",
+      "draw on pdf",
+      "annotate pdf",
+      "add image to pdf",
+      "pdf markup tool",
+      "browser pdf editor no upload",
     ],
   },
   "decimal-fraction-converter": {

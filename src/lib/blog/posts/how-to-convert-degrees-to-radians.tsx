@@ -8,7 +8,8 @@ const SLUG = "how-to-convert-degrees-to-radians";
 
 export const meta: BlogPostMeta = {
   slug: SLUG,
-  title: "How to convert degrees to radians (and radians to degrees) for math and geometry",
+  title:
+    "How to convert degrees to radians (and radians to degrees) for math and geometry",
   description:
     "Convert angles between degrees and radians using rad = deg * pi / 180 and deg = rad * 180 / pi. Includes clear examples and a quick browser converter.",
   publishedAt: "2026-04-03",
@@ -148,4 +149,3 @@ export async function BlogPostContent() {
     </BlogProse>
   );
 }
-

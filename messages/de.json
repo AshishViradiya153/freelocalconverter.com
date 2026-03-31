@@ -285,13 +285,6 @@
     "sampleError": "Beispieldaten konnten nicht geladen werden.",
     "largeFileTitle": "Große Datei gekürzt",
     "largeFileDescription": "{shown} Zeilen angezeigt (Limit {total} in der Datei).",
-    "metaKeywords": "kostenloser CSV-Viewer online | CSV-Editor-Browser | CSV-Dateien vergleichen | CSV-Diff-Tool | JSON-zu-CSV-Konverter | CSV-zu-JSON-Konverter | JSON-Formatierer online | csv nach Excel | json zu Excel | Excel in CSV | XLS-Viewer | Tabellenkalkulations-Viewer | Parkettbetrachter online | csv in Parkett | Parkett in CSV | json zu Parkett | Parkett zu JSON | PDF online zusammenführen | PDF teilen | PDF-Wasserzeichen | pdf zum Bild | pdf zu Word | Bildkompressor | Bildgröße online ändern | heic in jpg | SVG zum Code | Browser-Dateikonverter | lokale Tools kein Upload | Datenschutzfreundlicher Konverter | Datenkonvertierungstools | OpenAPI-Viewer | Curl-Konverter | API-Konverter abrufen | GraphQL-Tools | Webhook-Viewer",
-    "collectionPageName": "{name}: Toolverzeichnis",
-    "directoryFavoritesLabel": "Favoriten",
-    "directoryPinToolAria": "Zu Favoriten hinzufügen",
-    "directoryUnpinToolAria": "Aus Favoriten entfernen",
-    "directoryFavoritesEmptyTitle": "Noch keine Favoriten",
-    "directoryFavoritesEmptyDescription": "Speichern Sie Tools über den Stern auf der Karte. Favoriten bleiben nur auf diesem Gerät.",
     "importReadingRows": "Reading… {count} rows",
     "importCancel": "Cancel",
     "importCancelled": "Import cancelled.",
@@ -304,7 +297,14 @@
     "importDialectFirstRow": "First row",
     "importDialectFirstRowHeader": "Column names (header)",
     "importDialectFirstRowData": "Data only (no header)",
-    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks."
+    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks.",
+    "metaKeywords": "kostenloser CSV-Viewer online | CSV-Editor-Browser | CSV-Dateien vergleichen | CSV-Diff-Tool | JSON-zu-CSV-Konverter | CSV-zu-JSON-Konverter | JSON-Formatierer online | csv nach Excel | json zu Excel | Excel in CSV | XLS-Viewer | Tabellenkalkulations-Viewer | Parkettbetrachter online | csv in Parkett | Parkett in CSV | json zu Parkett | Parkett zu JSON | PDF online zusammenführen | PDF teilen | PDF-Wasserzeichen | pdf zum Bild | pdf zu Word | Bildkompressor | Bildgröße online ändern | heic in jpg | SVG zum Code | Browser-Dateikonverter | lokale Tools kein Upload | Datenschutzfreundlicher Konverter | Datenkonvertierungstools | OpenAPI-Viewer | Curl-Konverter | API-Konverter abrufen | GraphQL-Tools | Webhook-Viewer",
+    "collectionPageName": "{name}: Toolverzeichnis",
+    "directoryFavoritesLabel": "Favoriten",
+    "directoryPinToolAria": "Zu Favoriten hinzufügen",
+    "directoryUnpinToolAria": "Aus Favoriten entfernen",
+    "directoryFavoritesEmptyTitle": "Noch keine Favoriten",
+    "directoryFavoritesEmptyDescription": "Speichern Sie Tools über den Stern auf der Karte. Favoriten bleiben nur auf diesem Gerät."
   },
   "csvToParquet": {
     "heroTitle": "CSV zu Parquet",
@@ -798,6 +798,8 @@
     "graphqlToolsDesc": "GraphQL-Abfragen schreiben und formatieren; Schema-JSON laden und Typen lokal prüfen.",
     "webhookViewerLabel": "Webhook-Viewer & Editor",
     "webhookViewerDesc": "JSON-Payloads einfügen, bearbeiten, formatieren und lokal per JSONPath durchsuchen.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF zu Word",
     "pdfToWordDesc": "PDFs in DOCX-Dateien umwandeln.",
     "splitPdfLabel": "PDF teilen",
@@ -1266,6 +1268,11 @@
       "title": "Data Grid Render-Demo",
       "description": "Data Grid Render Demo: kostenlos online in Ihrem Browser. Private, clientseitige Verarbeitung; Ihre Dateien werden nicht auf unsere Server hochgeladen.",
       "keywords": "Datenraster-Rendering-Demo | Raster-Rendering-Demo | Reagieren Sie auf die Netzleistung | Datenraster rendern | Browser-Raster-Benchmark | Beispiel für das Rendern eines Datenrasters | virtualisierte Grid-Leistung | Rendern einer großen Datensatztabelle"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "decimal-fraction-converter": {
       "title": "Decimal and fraction converter",
