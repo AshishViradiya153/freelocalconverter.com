@@ -35,7 +35,7 @@ export default async function YoutubeToMp3Page({ params }: YoutubeToMp3PageProps
         <AudioConvertApp
           title="YouTube to MP3 converter"
           allowUrlInput
-          subtitle="Paste a direct MP4/WebM URL (or add a video file you already have). We extract MP3 locally in your browser—no uploads to our servers. If the site blocks browser downloads (CORS), download the file first and upload it instead."
+          subtitle="Paste a direct MP4/WebM URL (or add a video file you already have). We extract MP3 locally in your browser (no uploads to our servers). If the site blocks browser downloads (CORS), download the file first and upload it instead."
           inputId="youtube-to-mp3-input"
           guideLinks={[
             {

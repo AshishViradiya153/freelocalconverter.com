@@ -1396,23 +1396,23 @@ function getLocalizedDescription(
       });
     case "youtubeToMp3":
       return localizedText(locale, {
-        en: "Extract MP3 from video files on your device—local in your browser, no uploads. Does not download from URLs.",
-        de: "MP3 aus Videodateien auf Ihrem Geraet extrahieren—lokal im Browser, ohne Upload. Laedt keine URLs herunter.",
+        en: "Extract MP3 from video files on your device (local in your browser, no uploads). Does not download from URLs.",
+        de: "MP3 aus Videodateien auf Ihrem Geraet extrahieren (lokal im Browser, ohne Upload). Laedt keine URLs herunter.",
         es: "Extrae MP3 de archivos de video en tu dispositivo: local en el navegador, sin subidas. No descarga desde URLs.",
-        fr: "Extrayez l'MP3 des fichiers video sur votre appareil—localement dans le navigateur, sans envoi. Ne telecharge pas depuis des URL.",
-        it: "Estrai MP3 da file video sul dispositivo—in locale nel browser, nessun caricamento. Non scarica da URL.",
+        fr: "Extrayez l'MP3 des fichiers video sur votre appareil (localement dans le navigateur, sans envoi). Ne telecharge pas depuis des URL.",
+        it: "Estrai MP3 da file video sul dispositivo (in locale nel browser, nessun caricamento). Non scarica da URL.",
         ja: "端末上の動画からMP3を抽出。ブラウザ内でローカル処理、アップロードなし。URLからは取得しません。",
         ko: "기기의 동영상 파일에서 MP3 추출—브라우저에서 로컬 처리, 업로드 없음. URL에서 받아오지 않습니다.",
-        nl: "Haal MP3 uit videobestanden op je apparaat—lokaal in je browser, geen uploads. Haalt niet van URLs.",
-        pt: "Extraia MP3 de arquivos de video no seu dispositivo—local no navegador, sem uploads. Nao baixa de URLs.",
-        ru: "Извлекайте MP3 из видеофайлов на устройстве—локально в браузере, без загрузки на сервер. Не скачивает по URL.",
-        tr: "Cihazinizdaki video dosyalarindan MP3 cikarin—tarayicide yerel, yukleme yok. URL'lerden indirmez.",
+        nl: "Haal MP3 uit videobestanden op je apparaat (lokaal in je browser, geen uploads). Haalt niet van URLs.",
+        pt: "Extraia MP3 de arquivos de video no seu dispositivo (local no navegador, sem uploads). Nao baixa de URLs.",
+        ru: "Извлекайте MP3 из видеофайлов на устройстве (локально в браузере, без загрузки на сервер). Не скачивает по URL.",
+        tr: "Cihazinizdaki video dosyalarindan MP3 cikarin (tarayicide yerel, yukleme yok). URL'lerden indirmez.",
         zh: "从本机视频文件提取 MP3，浏览器本地处理，不上传。不从网址下载。",
-        ar: "استخراج MP3 من ملفات الفيديو على جهازك—محليا في المتصفح دون رفع. لا يحمّل من عناوين URL.",
-        fa: "استخراج MP3 از فایل ویدیو روی دستگاهتان—به صورت محلی در مرورگر، بدون آپلود. از URL دانلود نمی‌کند.",
-        he: "חילוץ MP3 מקבצי וידאו במכשיר—מקומי בדפדפן, ללא העלאה. לא מוריד מכתובות URL.",
-        az: "Cihazinizdaki video fayllarindan MP3 cixarin—brauzerde lokal, yukleme yoxdur. URL-lərdən endirmir.",
-        el: "Εξαγετε MP3 απο αρχεια βιντεο στη συσκευη σας—τοπικα στον browser, χωρις uploads. Δεν κατεβαζει απο URL.",
+        ar: "استخراج MP3 من ملفات الفيديو على جهازك (محليا في المتصفح دون رفع). لا يحمّل من عناوين URL.",
+        fa: "استخراج MP3 از فایل ویدیو روی دستگاهتان (به صورت محلی در مرورگر، بدون آپلود). از URL دانلود نمی‌کند.",
+        he: "חילוץ MP3 מקבצי וידאו במכשיר (מקומי בדפדפן, ללא העלאה). לא מוריד מכתובות URL.",
+        az: "Cihazinizdaki video fayllarindan MP3 cixarin (brauzerde lokal, yukleme yoxdur). URL-lərdən endirmir.",
+        el: "Εξαγετε MP3 απο αρχεια βιντεο στη συσκευη σας (τοπικα στον browser, χωρις uploads). Δεν κατεβαζει απο URL.",
       });
     case "mediaDownloader":
       return localizedText(locale, {
