@@ -11,7 +11,7 @@ import { LanguageSwitcher } from "@/components/layouts/language-switcher";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import {
   flattenServiceGroups,
-  getSearchScore,
+  getSearchRank,
   type ToolSearchItem,
 } from "@/components/layouts/tool-search";
 import { Button } from "@/components/ui/button";
@@ -118,10 +118,13 @@ export function SiteHeader() {
     if (!query) return searchItems;
 
     return [...searchItems]
-      .map((item) => ({ item, score: getSearchScore(item, query) }))
-      .filter((entry) => entry.score > 0)
+      .map((item) => ({ item, rank: getSearchRank(item, query) }))
+      .filter((entry) => entry.rank.score > 0)
       .sort(
-        (a, b) => b.score - a.score || a.item.label.localeCompare(b.item.label),
+        (a, b) =>
+          Number(b.rank.matchedInTitle) - Number(a.rank.matchedInTitle) ||
+          b.rank.score - a.rank.score ||
+          a.item.label.localeCompare(b.item.label),
       )
       .map((entry) => entry.item);
   }, [searchItems, searchQuery]);

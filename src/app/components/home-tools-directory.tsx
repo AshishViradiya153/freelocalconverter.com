@@ -21,7 +21,7 @@ import {
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import {
   flattenServiceGroups,
-  getSearchScore,
+  getSearchRank,
   normalizeSearchValue,
   type ToolSearchItem,
 } from "@/components/layouts/tool-search";
@@ -92,10 +92,13 @@ export function HomeToolsDirectory() {
     if (!query.trim()) return searchItems;
 
     return [...searchItems]
-      .map((item) => ({ item, score: getSearchScore(item, query) }))
-      .filter((entry) => entry.score > 0)
+      .map((item) => ({ item, rank: getSearchRank(item, query) }))
+      .filter((entry) => entry.rank.score > 0)
       .sort(
-        (a, b) => b.score - a.score || a.item.label.localeCompare(b.item.label),
+        (a, b) =>
+          Number(b.rank.matchedInTitle) - Number(a.rank.matchedInTitle) ||
+          b.rank.score - a.rank.score ||
+          a.item.label.localeCompare(b.item.label),
       )
       .map((entry) => entry.item);
   }, [query, searchItems]);

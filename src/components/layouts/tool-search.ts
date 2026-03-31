@@ -34,9 +34,17 @@ export function isSubsequenceMatch(needle: string, haystack: string) {
   return false;
 }
 
-export function getSearchScore(item: ToolSearchItem, query: string) {
+export interface ToolSearchRank {
+  score: number;
+  matchedInTitle: boolean;
+  matchedInDescription: boolean;
+}
+
+function computeToolSearchRank(item: ToolSearchItem, query: string): ToolSearchRank {
   const normalizedQuery = normalizeSearchValue(query);
-  if (!normalizedQuery) return 0;
+  if (!normalizedQuery) {
+    return { score: 0, matchedInTitle: false, matchedInDescription: false };
+  }
 
   const label = normalizeSearchValue(item.label);
   const description = normalizeSearchValue(item.description);
@@ -45,7 +53,9 @@ export function getSearchScore(item: ToolSearchItem, query: string) {
   const searchableText = `${label} ${description} ${group} ${href}`;
   const queryTokens = normalizedQuery.split(" ").filter(Boolean);
 
-  if (!queryTokens.length) return 0;
+  if (!queryTokens.length) {
+    return { score: 0, matchedInTitle: false, matchedInDescription: false };
+  }
 
   let score = 0;
 
@@ -57,16 +67,20 @@ export function getSearchScore(item: ToolSearchItem, query: string) {
   }
 
   let matchedTokenCount = 0;
+  let matchedInTitle = false;
+  let matchedInDescription = false;
   for (const token of queryTokens) {
     if (label.includes(token)) {
       score += 170 - label.indexOf(token);
       matchedTokenCount += 1;
+      matchedInTitle = true;
       continue;
     }
 
     if (description.includes(token)) {
       score += 110 - description.indexOf(token);
       matchedTokenCount += 1;
+      matchedInDescription = true;
       continue;
     }
 
@@ -88,8 +102,24 @@ export function getSearchScore(item: ToolSearchItem, query: string) {
     }
   }
 
-  if (matchedTokenCount !== queryTokens.length) return 0;
+  if (matchedTokenCount !== queryTokens.length) {
+    return { score: 0, matchedInTitle: false, matchedInDescription: false };
+  }
   if (queryTokens.length > 1) score += 80;
 
-  return Math.max(score, 0);
+  const normalizedScore = Math.max(score, 0);
+  return {
+    score: normalizedScore,
+    matchedInTitle:
+      matchedInTitle || label.includes(normalizedQuery) || label.startsWith(normalizedQuery),
+    matchedInDescription: matchedInDescription || description.includes(normalizedQuery),
+  };
+}
+
+export function getSearchRank(item: ToolSearchItem, query: string): ToolSearchRank {
+  return computeToolSearchRank(item, query);
+}
+
+export function getSearchScore(item: ToolSearchItem, query: string) {
+  return computeToolSearchRank(item, query).score;
 }
