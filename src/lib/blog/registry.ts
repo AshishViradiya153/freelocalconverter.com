@@ -42,6 +42,23 @@ import {
   BlogPostContent as C17,
   meta as m17,
 } from "./posts/how-to-convert-youtube-to-mp3";
+import {
+  BlogPostContent as C18,
+  meta as m18,
+} from "./posts/how-to-convert-lbs-to-kg";
+import {
+  BlogPostContent as C19,
+  meta as m19,
+} from "./posts/how-to-convert-kg-to-lbs";
+import {
+  BlogPostContent as C20,
+  meta as m20,
+} from "./posts/how-to-convert-feet-to-meters";
+import { BlogPostContent as C21, meta as m21 } from "./posts/unit-converter-in-browser";
+import { BlogPostContent as C22, meta as m22 } from "./posts/create-zip-in-browser";
+import { BlogPostContent as C23, meta as m23 } from "./posts/rar-to-zip-what-it-means";
+import { BlogPostContent as C24, meta as m24 } from "./posts/pst-to-est-conversion";
+import { BlogPostContent as C25, meta as m25 } from "./posts/cst-to-est-conversion";
 import { BlogPostContent as C2, meta as m2 } from "./posts/csv-viewer-overview";
 import {
   BlogPostContent as C3,
@@ -88,6 +105,14 @@ const originalPosts: PublishedBlogPost[] = [
   { meta: m15, Content: C15 },
   { meta: m16, Content: C16 },
   { meta: m17, Content: C17 },
+  { meta: m18, Content: C18 },
+  { meta: m19, Content: C19 },
+  { meta: m20, Content: C20 },
+  { meta: m21, Content: C21 },
+  { meta: m22, Content: C22 },
+  { meta: m23, Content: C23 },
+  { meta: m24, Content: C24 },
+  { meta: m25, Content: C25 },
 ];
 
 export const publishedBlogPosts: PublishedBlogPost[] = [
