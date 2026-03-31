@@ -285,13 +285,6 @@
     "sampleError": "Voorbeeldgegevens laden mislukt.",
     "largeFileTitle": "Groot bestand ingekort",
     "largeFileDescription": "{shown} rijen getoond (limiet {total} in bestand).",
-    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
-    "collectionPageName": "{name}: tooloverzicht",
-    "directoryFavoritesLabel": "Favorieten",
-    "directoryPinToolAria": "Toevoegen aan favorieten",
-    "directoryUnpinToolAria": "Verwijderen uit favorieten",
-    "directoryFavoritesEmptyTitle": "Nog geen favorieten",
-    "directoryFavoritesEmptyDescription": "Gebruik de ster op een toolkaart om hier op te slaan. Favorieten blijven alleen op dit apparaat.",
     "importReadingRows": "Reading… {count} rows",
     "importCancel": "Cancel",
     "importCancelled": "Import cancelled.",
@@ -304,7 +297,14 @@
     "importDialectFirstRow": "First row",
     "importDialectFirstRowHeader": "Column names (header)",
     "importDialectFirstRowData": "Data only (no header)",
-    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks."
+    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks.",
+    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
+    "collectionPageName": "{name}: tooloverzicht",
+    "directoryFavoritesLabel": "Favorieten",
+    "directoryPinToolAria": "Toevoegen aan favorieten",
+    "directoryUnpinToolAria": "Verwijderen uit favorieten",
+    "directoryFavoritesEmptyTitle": "Nog geen favorieten",
+    "directoryFavoritesEmptyDescription": "Gebruik de ster op een toolkaart om hier op te slaan. Favorieten blijven alleen op dit apparaat."
   },
   "csvToParquet": {
     "heroTitle": "CSV naar Parquet",
@@ -798,6 +798,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF naar Word",
     "pdfToWordDesc": "Converteer PDF’s naar DOCX-bestanden.",
     "splitPdfLabel": "PDF splitsen",
@@ -1266,6 +1268,11 @@
       "title": "Data grid render-demo",
       "description": "Data grid render-demo: gratis online in uw browser. Verwerking lokaal en privé; uw bestanden worden niet naar onze servers geüpload.",
       "keywords": "grid rendering | react performance | browser benchmark | grote dataset | gevirtualiseerd"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "decimal-fraction-converter": {
       "title": "Decimal and fraction converter",

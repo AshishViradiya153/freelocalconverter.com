@@ -285,13 +285,6 @@
     "sampleError": "Não foi possível carregar os dados de amostra.",
     "largeFileTitle": "Ficheiro grande truncado",
     "largeFileDescription": "A mostrar {shown} linhas (limite {total} no ficheiro).",
-    "metaKeywords": "visualizador csv gratuito on-line | navegador editor csv | comparar arquivos csv | ferramenta de comparação csv | conversor json para csv | conversor de csv para json | formatador json on-line | csv para excel | JSON para Excel | excel para csv | visualizador de xls | visualizador de planilhas | visualizador de parquet online | csv para parquet | parquete para csv | json para parquet | parquete para json | mesclar pdf online | dividir pdf | marca d'água pdf | pdf para imagem | pdf para palavra | compressor de imagem | redimensionar imagem on-line | heic para jpg | svg para codificar | conversor de arquivo do navegador | ferramentas locais sem upload | conversor amigável para privacidade | ferramentas de conversão de dados | visualizador openapi | conversor de cachos | buscar conversor de API | ferramentas gráficas | visualizador de webhook",
-    "collectionPageName": "{name}: diretório de ferramentas",
-    "directoryFavoritesLabel": "Favoritos",
-    "directoryPinToolAria": "Adicionar aos favoritos",
-    "directoryUnpinToolAria": "Remover dos favoritos",
-    "directoryFavoritesEmptyTitle": "Ainda sem favoritos",
-    "directoryFavoritesEmptyDescription": "Use a estrela no cartão da ferramenta para guardar aqui. Os favoritos ficam só neste dispositivo.",
     "importReadingRows": "Reading… {count} rows",
     "importCancel": "Cancel",
     "importCancelled": "Import cancelled.",
@@ -304,7 +297,14 @@
     "importDialectFirstRow": "First row",
     "importDialectFirstRowHeader": "Column names (header)",
     "importDialectFirstRowData": "Data only (no header)",
-    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks."
+    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks.",
+    "metaKeywords": "visualizador csv gratuito on-line | navegador editor csv | comparar arquivos csv | ferramenta de comparação csv | conversor json para csv | conversor de csv para json | formatador json on-line | csv para excel | JSON para Excel | excel para csv | visualizador de xls | visualizador de planilhas | visualizador de parquet online | csv para parquet | parquete para csv | json para parquet | parquete para json | mesclar pdf online | dividir pdf | marca d'água pdf | pdf para imagem | pdf para palavra | compressor de imagem | redimensionar imagem on-line | heic para jpg | svg para codificar | conversor de arquivo do navegador | ferramentas locais sem upload | conversor amigável para privacidade | ferramentas de conversão de dados | visualizador openapi | conversor de cachos | buscar conversor de API | ferramentas gráficas | visualizador de webhook",
+    "collectionPageName": "{name}: diretório de ferramentas",
+    "directoryFavoritesLabel": "Favoritos",
+    "directoryPinToolAria": "Adicionar aos favoritos",
+    "directoryUnpinToolAria": "Remover dos favoritos",
+    "directoryFavoritesEmptyTitle": "Ainda sem favoritos",
+    "directoryFavoritesEmptyDescription": "Use a estrela no cartão da ferramenta para guardar aqui. Os favoritos ficam só neste dispositivo."
   },
   "csvToParquet": {
     "heroTitle": "CSV para Parquet",
@@ -798,6 +798,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF para Word",
     "pdfToWordDesc": "Converta PDFs para ficheiros DOCX.",
     "splitPdfLabel": "Dividir PDF",
@@ -1266,6 +1268,11 @@
       "title": "Demo de renderização da grelha",
       "description": "Demo de renderização da grelha: grátis online no navegador. Processamento privado no seu dispositivo; os ficheiros não são enviados aos nossos servidores.",
       "keywords": "grid render | performance react | benchmark browser | dataset grande | virtualized"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "decimal-fraction-converter": {
       "title": "Decimal and fraction converter",

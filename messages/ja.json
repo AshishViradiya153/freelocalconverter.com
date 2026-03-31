@@ -285,13 +285,6 @@
     "sampleError": "サンプルデータを読み込めませんでした。",
     "largeFileTitle": "大きなファイルを切り詰めました",
     "largeFileDescription": "{shown} 行を表示（ファイル内は最大 {total} 行）。",
-    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
-    "collectionPageName": "{name}: ツールディレクトリ",
-    "directoryFavoritesLabel": "お気に入り",
-    "directoryPinToolAria": "お気に入りに追加",
-    "directoryUnpinToolAria": "お気に入りから削除",
-    "directoryFavoritesEmptyTitle": "お気に入りはまだありません",
-    "directoryFavoritesEmptyDescription": "各ツールカードの星で保存します。お気に入りはこの端末にのみ保存されます。",
     "importReadingRows": "Reading… {count} rows",
     "importCancel": "Cancel",
     "importCancelled": "Import cancelled.",
@@ -304,7 +297,14 @@
     "importDialectFirstRow": "First row",
     "importDialectFirstRowHeader": "Column names (header)",
     "importDialectFirstRowData": "Data only (no header)",
-    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks."
+    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks.",
+    "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
+    "collectionPageName": "{name}: ツールディレクトリ",
+    "directoryFavoritesLabel": "お気に入り",
+    "directoryPinToolAria": "お気に入りに追加",
+    "directoryUnpinToolAria": "お気に入りから削除",
+    "directoryFavoritesEmptyTitle": "お気に入りはまだありません",
+    "directoryFavoritesEmptyDescription": "各ツールカードの星で保存します。お気に入りはこの端末にのみ保存されます。"
   },
   "csvToParquet": {
     "heroTitle": "CSV から Parquet",
@@ -798,6 +798,8 @@
     "graphqlToolsDesc": "Write and format GraphQL queries; load schema JSON and inspect types locally.",
     "webhookViewerLabel": "Webhook viewer & editor",
     "webhookViewerDesc": "Paste, edit, prettify JSON payloads, and search with JSONPath locally.",
+    "editPdfLabel": "Edit PDF",
+    "editPdfDesc": "Add text, images, shapes, arrows, and freehand marks on PDF pages locally.",
     "pdfToWordLabel": "PDF を Word に",
     "pdfToWordDesc": "PDF を DOCX に変換します。",
     "splitPdfLabel": "PDF 分割",
@@ -1266,6 +1268,11 @@
       "title": "グリッドレンダー デモ",
       "description": "グリッドレンダー デモ: ブラウザーで無料。プライベートにローカル処理され、ファイルは当社サーバーにアップロードされません。",
       "keywords": "グリッド描画 | react 性能 | ベンチマーク | 大規模 | 仮想化"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
     "decimal-fraction-converter": {
       "title": "Decimal and fraction converter",

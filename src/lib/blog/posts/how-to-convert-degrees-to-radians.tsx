@@ -4,7 +4,8 @@ import type { BlogPostMeta } from "../types";
 
 export const meta: BlogPostMeta = {
   slug: "how-to-convert-degrees-to-radians",
-  title: "How to convert degrees to radians (and radians to degrees) for math and geometry",
+  title:
+    "How to convert degrees to radians (and radians to degrees) for math and geometry",
   description:
     "Convert angles between degrees and radians using rad = deg * pi / 180 and deg = rad * 180 / pi. Includes clear examples and a quick browser converter.",
   publishedAt: "2026-04-03",
@@ -30,8 +31,8 @@ export function BlogPostContent() {
         unit conversion used in trig, circles, and geometry. The core
         relationship is:
         <br />
-        <code className="text-foreground">rad = deg * pi / 180</code>.
-        The inverse is:
+        <code className="text-foreground">rad = deg * pi / 180</code>. The
+        inverse is:
         <br />
         <code className="text-foreground">deg = rad * 180 / pi</code>.
       </p>
@@ -49,24 +50,23 @@ export function BlogPostContent() {
       </p>
       <ul>
         <li>
-          Convert by multiplying degrees by <code className="text-foreground">pi/180</code>.
+          Convert by multiplying degrees by{" "}
+          <code className="text-foreground">pi/180</code>.
         </li>
         <li>
-          Convert back by multiplying radians by <code className="text-foreground">180/pi</code>.
+          Convert back by multiplying radians by{" "}
+          <code className="text-foreground">180/pi</code>.
         </li>
+        <li>180 degrees equals pi radians.</li>
         <li>
-          180 degrees equals pi radians.
-        </li>
-        <li>
-          Round only after computing the full expression (especially if
-          you plug into trig functions).
+          Round only after computing the full expression (especially if you plug
+          into trig functions).
         </li>
       </ul>
 
       <h2>Degrees to radians (how to do it)</h2>
       <p>
-        Take your angle in degrees (deg) and apply:
-        {" "}
+        Take your angle in degrees (deg) and apply:{" "}
         <code className="text-foreground">rad = deg * pi / 180</code>.
       </p>
 
@@ -79,22 +79,17 @@ export function BlogPostContent() {
 
       <h2>Examples</h2>
       <p>
-        Example 1: 90 degrees.
-        {" "}
-        <br />
+        Example 1: 90 degrees. <br />
         rad = 90 * pi / 180 = <code className="text-foreground">pi/2</code>.
       </p>
       <p>
-        Example 2: 180 degrees.
-        {" "}
-        <br />
+        Example 2: 180 degrees. <br />
         rad = 180 * pi / 180 = <code className="text-foreground">pi</code>.
       </p>
 
       <h2>Radians to degrees</h2>
       <p>
-        If you already have radians and want degrees, use:
-        {" "}
+        If you already have radians and want degrees, use:{" "}
         <code className="text-foreground">deg = rad * 180 / pi</code>.
       </p>
 
@@ -110,14 +105,13 @@ export function BlogPostContent() {
           Confusing radians with degrees in calculators/software (for trig
           functions, most inputs require radians).
         </li>
-        <li>
-          Rounding pi too early instead of using a full-precision value.
-        </li>
+        <li>Rounding pi too early instead of using a full-precision value.</li>
       </ul>
 
       <h2>Reference</h2>
       <p>
-        The radians definition and the degrees<->radians conversion are explained by{" "}
+        The radians definition and the degrees-to-radians conversion are
+        explained by{" "}
         <a
           href="https://en.wikipedia.org/wiki/Radian"
           className={linkClass}
@@ -131,8 +125,8 @@ export function BlogPostContent() {
 
       <h2>Next steps</h2>
       <p>
-        Convert once, then reuse the result in your trig/geometry steps.
-        If you need to check multiple values quickly, run{" "}
+        Convert once, then reuse the result in your trig/geometry steps. If you
+        need to check multiple values quickly, run{" "}
         <Link href="/degrees-radians-converter" className={linkClass}>
           Degrees ↔ radians
         </Link>{" "}
@@ -141,4 +135,3 @@ export function BlogPostContent() {
     </BlogProse>
   );
 }
-
