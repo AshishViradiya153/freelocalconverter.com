@@ -37,6 +37,18 @@ interface MeshGradientState {
   };
   textPosition: { x: number; y: number };
   textAlign: "left" | "center" | "right";
+  overlayImageUrl: string;
+  imagePosition: { x: number; y: number };
+  imageWidthPercent: number;
+  imageBorderWidth: number;
+  imageBorderColor: string;
+  imageBorderRadius: number;
+  imageShadow: {
+    color: string;
+    blur: number;
+    offsetX: number;
+    offsetY: number;
+  };
 
   setBlobs: (blobs: AuroraBlob[]) => void;
   updateBlob: (id: string, updates: Partial<AuroraBlob>) => void;
@@ -66,6 +78,13 @@ interface MeshGradientState {
   setTextShadow: (patch: Partial<MeshGradientState["textShadow"]>) => void;
   setTextPosition: (textPosition: { x: number; y: number }) => void;
   setTextAlign: (textAlign: "left" | "center" | "right") => void;
+  setOverlayImageUrl: (overlayImageUrl: string) => void;
+  setImagePosition: (imagePosition: { x: number; y: number }) => void;
+  setImageWidthPercent: (imageWidthPercent: number) => void;
+  setImageBorderWidth: (imageBorderWidth: number) => void;
+  setImageBorderColor: (imageBorderColor: string) => void;
+  setImageBorderRadius: (imageBorderRadius: number) => void;
+  setImageShadow: (patch: Partial<MeshGradientState["imageShadow"]>) => void;
 }
 
 function mapTrendingToBlobs(preset: TrendingMeshGradientItem): AuroraBlob[] {
@@ -116,6 +135,18 @@ export const useMeshGradientStore = create<MeshGradientState>((set, get) => ({
   },
   textPosition: { x: 0, y: 0 },
   textAlign: "center",
+  overlayImageUrl: "",
+  imagePosition: { x: 0, y: 0 },
+  imageWidthPercent: 30,
+  imageBorderWidth: 0,
+  imageBorderColor: "#ffffff",
+  imageBorderRadius: 12,
+  imageShadow: {
+    color: "#000000",
+    blur: 20,
+    offsetX: 0,
+    offsetY: 8,
+  },
 
   setBlobs: (blobs) => set({ blobs }),
 
@@ -180,6 +211,18 @@ export const useMeshGradientStore = create<MeshGradientState>((set, get) => ({
       blur: 80,
       noiseOpacity: 0,
       selectedBlobId: null,
+      overlayImageUrl: "",
+      imagePosition: { x: 0, y: 0 },
+      imageWidthPercent: 30,
+      imageBorderWidth: 0,
+      imageBorderColor: "#ffffff",
+      imageBorderRadius: 12,
+      imageShadow: {
+        color: "#000000",
+        blur: 20,
+        offsetX: 0,
+        offsetY: 8,
+      },
     });
   },
 
@@ -214,4 +257,12 @@ export const useMeshGradientStore = create<MeshGradientState>((set, get) => ({
     set((s) => ({ textShadow: { ...s.textShadow, ...patch } })),
   setTextPosition: (textPosition) => set({ textPosition }),
   setTextAlign: (textAlign) => set({ textAlign }),
+  setOverlayImageUrl: (overlayImageUrl) => set({ overlayImageUrl }),
+  setImagePosition: (imagePosition) => set({ imagePosition }),
+  setImageWidthPercent: (imageWidthPercent) => set({ imageWidthPercent }),
+  setImageBorderWidth: (imageBorderWidth) => set({ imageBorderWidth }),
+  setImageBorderColor: (imageBorderColor) => set({ imageBorderColor }),
+  setImageBorderRadius: (imageBorderRadius) => set({ imageBorderRadius }),
+  setImageShadow: (patch) =>
+    set((s) => ({ imageShadow: { ...s.imageShadow, ...patch } })),
 }));

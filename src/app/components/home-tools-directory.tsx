@@ -137,7 +137,9 @@ export function HomeToolsDirectory() {
 
   React.useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key.toLowerCase() !== "k") return;
+      const normalizedKey =
+        typeof event.key === "string" ? event.key.toLowerCase() : "";
+      if (normalizedKey !== "k") return;
       if (!event.metaKey && !event.ctrlKey) return;
       event.preventDefault();
       inputRef.current?.focus();
@@ -272,12 +274,12 @@ export function HomeToolsDirectory() {
                 <div className="min-w-0 shrink-0 wrap-break-word border-border border-b-4 bg-brutal-canvas px-3 py-2.5 font-black text-[9px] text-brutal-canvas-foreground uppercase leading-tight tracking-widest sm:px-4 sm:py-3 sm:text-[10px]">
                   {query.trim()
                     ? tLanding("directoryResultsLabel", {
-                      count: visibleItems.length,
-                      query: query.trim(),
-                    })
+                        count: visibleItems.length,
+                        query: query.trim(),
+                      })
                     : tLanding("directoryReadyLabel", {
-                      count: visibleItems.length,
-                    })}
+                        count: visibleItems.length,
+                      })}
                 </div>
 
                 <div className="grid min-w-0 auto-rows-fr grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
@@ -308,13 +310,13 @@ export function HomeToolsDirectory() {
                         />
                         <h2 className="wrap-break-word font-black text-2xl uppercase tracking-tighter sm:text-3xl md:text-4xl">
                           {activeGroup === "favorites" &&
-                            !normalizeSearchValue(query)
+                          !normalizeSearchValue(query)
                             ? tLanding("directoryFavoritesEmptyTitle")
                             : tLanding("directoryEmptyTitle")}
                         </h2>
                         <p className="mt-4 font-bold text-muted-foreground text-sm md:text-base">
                           {activeGroup === "favorites" &&
-                            !normalizeSearchValue(query)
+                          !normalizeSearchValue(query)
                             ? tLanding("directoryFavoritesEmptyDescription")
                             : tLanding("directoryEmptyDescription")}
                         </p>

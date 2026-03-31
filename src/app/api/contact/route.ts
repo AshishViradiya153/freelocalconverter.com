@@ -6,7 +6,7 @@ import {
   sendContactMail,
 } from "@/lib/send-contact-mail";
 
-const MAX_MESSAGE = 1500;
+const MAX_MESSAGE = 1000;
 const MAX_URL_LEN = 500;
 
 function optionalHttpsUrl(field: "linkX" | "linkGithub" | "linkLinkedin") {

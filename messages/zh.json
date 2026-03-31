@@ -1020,7 +1020,7 @@
     "generatedGifPreviewAlt": "Generated GIF preview",
     "buttonDownloadGif": "Download GIF",
     "footerNote": "Open Graph preview and other image utilities live on separate pages in the Image tools group.",
-    "statusLoadingFfmpeg": "Loading FFmpeg in your browser…",
+    "statusLoadingFfmpeg": "Loading..",
     "errorAddGifOrVideoFirst": "Add a GIF or video file first.",
     "errorAddAnimatedGifOrShortVideo": "Add an animated GIF or a short video.",
     "errorAddAtLeastTwoImages": "Add at least two images.",

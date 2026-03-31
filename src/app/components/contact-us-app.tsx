@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-const MAX_MESSAGE = 1500;
+const MAX_MESSAGE = 1000;
 
 const LINK_FIELDS = ["linkX", "linkGithub", "linkLinkedin"] as const;
 
