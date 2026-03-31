@@ -26,6 +26,7 @@ import type {
   Direction,
   RowHeightValue,
 } from "@/types/data-grid";
+import type { DataGridCellMergeState } from "@/types/data-grid";
 
 const rowReorderGripClassName = cn(
   "flex max-h-full shrink-0 touch-none items-center justify-center self-stretch overflow-hidden rounded-sm text-muted-foreground",
@@ -223,9 +224,7 @@ function DataGridRowImpl<TData>({
 
   const isRowSelected = row.getIsSelected();
 
-  // Memoize visible cells to avoid recreating cell array on every render
-  // Though TanStack returns new Cell wrappers, memoizing the array helps React's reconciliation
-  // biome-ignore lint/correctness/useExhaustiveDependencies: columnVisibility and columnPinning are used for calculating the visible cells
+
   const visibleCells = React.useMemo(
     () => row.getVisibleCells(),
     [row, columnVisibility, columnPinning],
@@ -258,6 +257,43 @@ function DataGridRowImpl<TData>({
     >
       {visibleCells.map((cell, colIndex) => {
         const columnId = cell.column.id;
+
+        const mergeState: DataGridCellMergeState | null =
+          typeof tableMeta?.getCellMergeState === "function"
+            ? tableMeta.getCellMergeState(virtualRowIndex, columnId)
+            : null;
+
+        const isCoveredCell = mergeState?.kind === "covered";
+        if (isCoveredCell) {
+          return (
+            <div
+              key={cell.id}
+              role="gridcell"
+              aria-colindex={colIndex + 1}
+              data-slot="grid-cell"
+              tabIndex={-1}
+              className={cn({
+                grow: stretchColumns && columnId !== "select",
+                "shrink-0": columnId === "select",
+              })}
+              style={{
+                ...getColumnPinningStyle({ column: cell.column, dir }),
+                ...getDataGridColumnWidthStyle({
+                  column: cell.column,
+                  cssVarName: `--col-${columnId}-size`,
+                }),
+                width: 0,
+                minWidth: 0,
+                maxWidth: 0,
+                padding: 0,
+                border: "none",
+                overflow: "hidden",
+                pointerEvents: "none",
+                opacity: 0,
+              }}
+            />
+          );
+        }
 
         const isCellFocused =
           focusedCell?.rowIndex === virtualRowIndex &&
@@ -300,6 +336,15 @@ function DataGridRowImpl<TData>({
                 column: cell.column,
                 cssVarName: `--col-${columnId}-size`,
               }),
+              ...(mergeState?.kind === "anchor" && mergeState.widthCss
+                ? {
+                  width: mergeState.widthCss,
+                  minWidth: mergeState.widthCss,
+                  maxWidth: mergeState.widthCss,
+                  position: "relative",
+                  zIndex: 3,
+                }
+                : null),
             }}
           >
             {typeof cell.column.columnDef.header === "function" ? (

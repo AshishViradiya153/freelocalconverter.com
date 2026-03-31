@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 import { getAllPostSlugs, getPostBySlug } from "@/lib/blog/registry";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
+import { BlogPageFrame } from "@/app/components/blog-page-frame";
 
 interface BlogPostPageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -71,49 +72,60 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <div className="container max-w-3xl py-10 pb-20">
-      <nav className="text-muted-foreground text-sm">
-        <Link
-          href="/blog"
-          locale={locale}
-          className="underline-offset-4 hover:text-foreground hover:underline"
-        >
-          {t("backToBlog")}
-        </Link>
-        <span className="mx-2 text-border">/</span>
-        <span className="text-foreground/80">{t("articleCrumb")}</span>
-      </nav>
+      <BlogPageFrame
+        header={
+          <header className="border-border border-b-4 bg-primary p-4 sm:p-6 md:p-8">
+            <p className="font-medium text-primary-foreground text-xs uppercase tracking-wide">
+              {categoryLabel} · {t("readMin", { n: meta.readTimeMinutes })}
+            </p>
+            <h1
+              className={cn(
+                toolHeroTitleClassName,
+                "mt-2 text-primary-foreground",
+              )}
+            >
+              {meta.title}
+            </h1>
+            <p className="mt-3 max-w-2xl text-primary-foreground/85 text-sm leading-relaxed">
+              {meta.description}
+            </p>
+            <p className="mt-4 text-primary-foreground/70 text-xs">
+              {t("publishedLine", {
+                date: formatDate(meta.publishedAt, locale),
+                name: siteConfig.name,
+              })}
+            </p>
+          </header>
+        }
+      >
+        <nav className="text-muted-foreground text-sm">
+          <Link
+            href="/blog"
+            locale={locale}
+            className="underline-offset-4 hover:text-foreground hover:underline"
+          >
+            {t("backToBlog")}
+          </Link>
+          <span className="mx-2 text-border">/</span>
+          <span className="text-foreground/80">{t("articleCrumb")}</span>
+        </nav>
 
-      <article className="mt-8">
-        <header className="border-border border-b pb-8">
-          <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
-            {categoryLabel} · {t("readMin", { n: meta.readTimeMinutes })}
-          </p>
-          <h1 className={cn(toolHeroTitleClassName, "mt-2")}>{meta.title}</h1>
-          <p className="mt-3 max-w-2xl text-muted-foreground text-sm leading-relaxed">
-            {meta.description}
-          </p>
-          <p className="mt-4 text-muted-foreground text-xs">
-            {t("publishedLine", {
-              date: formatDate(meta.publishedAt, locale),
-              name: siteConfig.name,
-            })}
-          </p>
-        </header>
+        <article className="mt-10">
+          <div className="mt-10">
+            <Content />
+          </div>
+        </article>
 
-        <div className="mt-10">
-          <Content />
-        </div>
-      </article>
-
-      <p className="mt-14 text-center text-muted-foreground text-sm">
-        <Link
-          href="/blog"
-          locale={locale}
-          className="underline-offset-4 hover:text-foreground hover:underline"
-        >
-          {t("allArticles")}
-        </Link>
-      </p>
+        <p className="mt-14 text-center text-muted-foreground text-sm">
+          <Link
+            href="/blog"
+            locale={locale}
+            className="underline-offset-4 hover:text-foreground hover:underline"
+          >
+            {t("allArticles")}
+          </Link>
+        </p>
+      </BlogPageFrame>
     </div>
   );
 }

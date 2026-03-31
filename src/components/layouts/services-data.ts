@@ -82,6 +82,11 @@ export function getServiceGroups({
           description: services("markdownToEpubDesc"),
         },
         {
+          href: "/html-to-text-email",
+          label: services("htmlToTextEmailLabel"),
+          description: services("htmlToTextEmailDesc"),
+        },
+        {
           href: "/base64-converter",
           label: services("base64ConverterLabel"),
           description: services("base64ConverterDesc"),
@@ -90,6 +95,21 @@ export function getServiceGroups({
           href: "/unix-timestamp-converter",
           label: services("unixTimestampConverterLabel"),
           description: services("unixTimestampConverterDesc"),
+        },
+        {
+          href: "/celsius-fahrenheit-converter",
+          label: services("celsiusFahrenheitConverterLabel"),
+          description: services("celsiusFahrenheitConverterDesc"),
+        },
+        {
+          href: "/decimal-fraction-converter",
+          label: services("decimalFractionConverterLabel"),
+          description: services("decimalFractionConverterDesc"),
+        },
+        {
+          href: "/degrees-radians-converter",
+          label: services("degreesRadiansConverterLabel"),
+          description: services("degreesRadiansConverterDesc"),
         },
         {
           href: "/curl-converter",
@@ -280,6 +300,11 @@ export function getServiceGroups({
           href: "/audio-convert",
           label: services("audioConverterLabel"),
           description: services("audioConverterDesc"),
+        },
+        {
+          href: "/youtube-to-mp3",
+          label: services("youtubeToMp3Label"),
+          description: services("youtubeToMp3Desc"),
         },
         {
           href: "/srt-to-vtt",

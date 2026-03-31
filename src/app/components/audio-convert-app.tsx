@@ -1,11 +1,12 @@
 "use client";
 
-import { Download, Loader2, Music2, Trash2, X } from "lucide-react";
+import { Download, Link as LinkIcon, Loader2, Music2, Trash2, X } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
 import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -19,14 +20,15 @@ import { Slider } from "@/components/ui/slider";
 import { downloadBlob } from "@/lib/download-blob";
 
 type OutputFormat = "mp3" | "aac" | "opus" | "wav";
-type ItemStatus = "queued" | "running" | "done" | "error";
+type ItemStatus = "queued" | "fetching" | "running" | "done" | "error";
 
 interface AudioItem {
   id: string;
-  file: File;
+  file: File | null;
   status: ItemStatus;
   progress: number | null; // 0..1
   error: string | null;
+  sourceName: string | null;
   outputBlob: Blob | null;
   outputName: string | null;
 }
@@ -62,6 +64,36 @@ function formatBytes(bytes: number) {
 function baseNameFromFileName(name: string) {
   const leaf = name.replace(/\.[a-z0-9]+$/i, "");
   return leaf || "audio";
+}
+
+function safeNameFromUrl(url: string) {
+  try {
+    const u = new URL(url);
+    const leaf = u.pathname.split("/").filter(Boolean).pop() ?? "video";
+    const sanitized =
+      leaf.replace(/[/?%*:|"<>\\]/g, "-").slice(0, 80) || "video";
+
+    const ext = sanitized.match(/\.([a-z0-9]+)$/i)?.[1]?.toLowerCase();
+    const allowed = new Set([
+      "mp4",
+      "webm",
+      "mov",
+      "mkv",
+      "m4v",
+      "mp3",
+      "wav",
+      "aac",
+      "opus",
+      "ogg",
+      "flac",
+    ]);
+
+    if (ext && allowed.has(ext)) return sanitized;
+    if (sanitized.includes(".")) return sanitized;
+    return `${sanitized}.mp4`;
+  } catch {
+    return "video.mp4";
+  }
 }
 
 function isProbablyMediaFile(file: File) {
@@ -135,7 +167,21 @@ function formatToMime(format: OutputFormat) {
   }
 }
 
-export function AudioConvertApp() {
+interface AudioConvertAppProps {
+  title?: string;
+  subtitle?: string;
+  inputId?: string;
+  allowUrlInput?: boolean;
+  urlPlaceholder?: string;
+}
+
+export function AudioConvertApp({
+  title = "Video to MP3 converter",
+  subtitle = "Convert audio formats (MP3/AAC/Opus/WAV) or extract audio from videos locally in your browser. No uploads to our servers.",
+  inputId = "audio-convert-input",
+  allowUrlInput = false,
+  urlPlaceholder = "https://example.com/video.mp4",
+}: AudioConvertAppProps = {}) {
   const ffmpegRef = React.useRef<null | import("@ffmpeg/ffmpeg").FFmpeg>(null);
   const loadedRef = React.useRef(false);
   const boundProgressRef = React.useRef(false);
@@ -151,7 +197,9 @@ export function AudioConvertApp() {
   const [format, setFormat] = React.useState<OutputFormat>("mp3");
   const [kbps, setKbps] = React.useState(192);
 
-  const hasQueued = items.some((i) => i.status === "queued");
+  const [linkInput, setLinkInput] = React.useState("");
+
+  const hasQueued = items.some((i) => i.status === "queued" && i.file);
 
   const onAddFiles = React.useCallback((files: FileList | null) => {
     if (!files?.length) return;
@@ -168,6 +216,7 @@ export function AudioConvertApp() {
         status: "queued" as const,
         progress: null,
         error: null,
+        sourceName: null,
         outputBlob: null,
         outputName: null,
       })),
@@ -182,10 +231,82 @@ export function AudioConvertApp() {
     setItems([]);
   }, []);
 
+  const onAddLink = React.useCallback(async () => {
+    const url = linkInput.trim();
+    if (!url) return;
+
+    setBusy(true);
+    setEngineError(null);
+    setEngineStatus({ phase: "Fetching video from link…" });
+
+    const id = crypto.randomUUID();
+    setItems((prev) => [
+      {
+        id,
+        file: null,
+        status: "fetching" as const,
+        progress: null,
+        error: null,
+        sourceName: safeNameFromUrl(url),
+        outputBlob: null,
+        outputName: null,
+      },
+      ...prev,
+    ]);
+
+    try {
+      const res = await fetch(url, { mode: "cors" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const blob = await res.blob();
+      if (
+        !blob.type.startsWith("video/") &&
+        !blob.type.startsWith("audio/")
+      ) {
+        throw new Error(
+          `That link did not return a video/audio file (Content-Type: ${blob.type || "unknown"
+          }).`,
+        );
+      }
+
+      const name = safeNameFromUrl(url);
+      const file = new File([blob], name, {
+        type: blob.type || "video/mp4",
+      });
+
+      setItems((prev) =>
+        prev.map((x) =>
+          x.id === id
+            ? {
+              ...x,
+              file,
+              status: "queued",
+              error: null,
+            }
+            : x,
+        ),
+      );
+
+      setLinkInput("");
+    } catch (e) {
+      const msg = errorToMessage(e);
+      setItems((prev) =>
+        prev.map((x) =>
+          x.id === id ? { ...x, status: "error", error: msg } : x,
+        ),
+      );
+      toast.error(msg);
+    } finally {
+      setBusy(false);
+      setEngineStatus(null);
+    }
+  }, [linkInput]);
+
   const convertOne = React.useCallback(
     async (id: string) => {
       const item = items.find((x) => x.id === id) ?? null;
       if (!item) return;
+      if (!item.file) return;
 
       setEngineError(null);
       setBusy(true);
@@ -287,7 +408,7 @@ export function AudioConvertApp() {
   );
 
   const onConvertAll = React.useCallback(async () => {
-    const queue = items.filter((i) => i.status === "queued");
+    const queue = items.filter((i) => i.status === "queued" && i.file);
     if (queue.length === 0) return;
     for (const it of queue) {
       await convertOne(it.id);
@@ -301,18 +422,45 @@ export function AudioConvertApp() {
           <div className="grid size-9 place-items-center rounded-lg border bg-muted/10">
             <Music2 className="size-5" aria-hidden />
           </div>
-          <h1 className={toolHeroTitleClassName}>Video to MP3 converter</h1>
+          <h1 className={toolHeroTitleClassName}>{title}</h1>
         </div>
-        <p className="max-w-3xl text-muted-foreground text-sm">
-          Convert audio formats (MP3/AAC/Opus/WAV) or extract audio from videos
-          locally in your browser. No uploads to our servers.
-        </p>
+        <p className="max-w-3xl text-muted-foreground text-sm">{subtitle}</p>
       </header>
+
+      {allowUrlInput ? (
+        <div className="grid gap-3 rounded-xl border bg-background p-4">
+          <div className="flex flex-col gap-2">
+            <Label className="text-sm">Add by link</Label>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Input
+                value={linkInput}
+                onChange={(e) => setLinkInput(e.target.value)}
+                placeholder={urlPlaceholder}
+                inputMode="url"
+                disabled={busy}
+              />
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => void onAddLink()}
+                disabled={busy || !linkInput.trim()}
+                className="sm:w-40"
+              >
+                <LinkIcon className="size-4" aria-hidden />
+                Add link
+              </Button>
+            </div>
+            <div className="text-muted-foreground text-xs">
+              Works only if the host allows browser downloads (CORS). If it fails, download the file first, then upload it here.
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <FileDropZone
         disabled={busy}
         busy={busy}
-        inputId="audio-convert-input"
+        inputId={inputId}
         accept="audio/*,video/*,.mp3,.wav,.m4a,.aac,.opus,.ogg,.flac,.mp4,.mov,.mkv,.webm,.m4v"
         multiple
         onFiles={onAddFiles}
@@ -375,7 +523,7 @@ export function AudioConvertApp() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
                         <div className="truncate font-medium text-sm">
-                          {item.file.name}
+                          {item.file?.name ?? item.sourceName ?? outName}
                         </div>
                         <Button
                           type="button"
@@ -391,17 +539,19 @@ export function AudioConvertApp() {
                       </div>
 
                       <div className="text-muted-foreground text-xs">
-                        {item.status === "queued"
-                          ? "Ready"
-                          : item.status === "running"
-                            ? `Converting… ${Math.round((item.progress ?? 0) * 100)}%`
-                            : item.status === "done"
-                              ? "Done"
-                              : `Error: ${item.error ?? "Failed"}`}
+                        {item.status === "fetching"
+                          ? "Fetching…"
+                          : item.status === "queued"
+                            ? "Ready"
+                            : item.status === "running"
+                              ? `Converting… ${Math.round((item.progress ?? 0) * 100)}%`
+                              : item.status === "done"
+                                ? "Done"
+                                : `Error: ${item.error ?? "Failed"}`}
                       </div>
 
                       <div className="mt-1 text-muted-foreground text-xs">
-                        In: {formatBytes(item.file.size)}
+                        {item.file ? `In: ${formatBytes(item.file.size)}` : null}
                       </div>
 
                       {item.status === "running" ? (
@@ -420,7 +570,7 @@ export function AudioConvertApp() {
                           type="button"
                           size="sm"
                           variant="secondary"
-                          disabled={busy || item.status !== "queued"}
+                          disabled={busy || item.status !== "queued" || !item.file}
                           onClick={() => void convertOne(item.id)}
                         >
                           Convert

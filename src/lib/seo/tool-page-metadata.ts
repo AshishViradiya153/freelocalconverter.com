@@ -6,10 +6,18 @@ import { buildPageMetadata } from "./metadata";
 export type ToolPageSlug =
   | "audio-convert"
   | "srt-to-vtt"
+  | "html-to-text-email"
   | "axios-converter"
   | "base64-converter"
   | "bulk-pdf-watermark"
+  | "celsius-fahrenheit-converter"
   | "compare"
+  | "online-msg-viewer"
+  | "total-mail-converter"
+  | "convert-email-to-pdf-free"
+  | "convert-email-to-html-free"
+  | "convert-email-to-jpeg-free"
+  | "convert-email-to-text-free"
   | "csv-to-excel"
   | "csv-to-json"
   | "csv-to-markdown-table"
@@ -21,6 +29,8 @@ export type ToolPageSlug =
   | "data-grid"
   | "data-grid-live"
   | "data-grid-render"
+  | "decimal-fraction-converter"
+  | "degrees-radians-converter"
   | "fetch-converter"
   | "gif-tools"
   | "graphql-tools"
@@ -437,6 +447,78 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Μετατροπέας ήχου";
           default:
             return "Audio converter";
+        }
+      });
+    case "youtube-to-mp3":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "en":
+            return "YouTube to MP3 converter";
+          case "zh":
+            return "YouTube 转 MP3";
+          case "es":
+            return "Convertidor de YouTube a MP3";
+          case "pt":
+            return "Conversor de YouTube para MP3";
+          case "fr":
+            return "Convertisseur YouTube vers MP3";
+          case "de":
+            return "YouTube zu MP3 Konverter";
+          case "nl":
+            return "YouTube naar MP3 converter";
+          case "it":
+            return "Convertitore YouTube in MP3";
+          case "ja":
+            return "YouTubeをMP3に変換";
+          case "ko":
+            return "YouTube MP3 변환기";
+          case "ar":
+            return "محول يوتيوب إلى MP3";
+          case "fa":
+            return "مبدل یوتیوب به MP3";
+          case "ru":
+            return "Конвертер YouTube в MP3";
+          case "he":
+            return "ממיר YouTube ל-MP3";
+          case "el":
+            return "Μετατροπεας YouTube σε MP3";
+          default:
+            return "YouTube to MP3 converter";
+        }
+      });
+    case "html-to-text-email":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "HTML 转纯文本邮件";
+          case "fr":
+            return "Convertisseur d'e-mail HTML en texte";
+          case "es":
+            return "HTML a texto (correo electrónico)";
+          case "pt":
+            return "HTML para texto (e-mail)";
+          case "de":
+            return "HTML-zu-Text E-Mail-Konverter";
+          case "nl":
+            return "HTML-naar-tekst e-mail converter";
+          case "it":
+            return "Convertitore email HTML in testo";
+          case "ja":
+            return "HTMLからテキストメールへ";
+          case "ko":
+            return "HTML → 텍스트 이메일";
+          case "ar":
+            return "تحويل بريد HTML إلى نص";
+          case "fa":
+            return "تبدیل ایمیل HTML به متن";
+          case "ru":
+            return "HTML в текст (письмо)";
+          case "he":
+            return "ממיר אימייל HTML לטקסט";
+          case "el":
+            return "HTML σε κείμενο (email)";
+          default:
+            return "HTML to Text Email Converter";
         }
       });
     case "srt-to-vtt":
@@ -1467,6 +1549,123 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
       });
     case "xls-viewer":
       return viewerTitle(TERMS.excel);
+    case "celsius-fahrenheit-converter":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "摄氏与华氏互转";
+          case "es":
+            return "Convertidor Celsius y Fahrenheit";
+          case "pt":
+            return "Conversor Celsius e Fahrenheit";
+          case "fr":
+            return "Convertisseur Celsius et Fahrenheit";
+          case "de":
+            return "Celsius-Fahrenheit-Umrechner";
+          case "nl":
+            return "Celsius en Fahrenheit converter";
+          case "it":
+            return "Convertitore Celsius e Fahrenheit";
+          case "ja":
+            return "摂氏・華氏変換";
+          case "tr":
+            return "Celsius Fahrenheit donusturucu";
+          case "az":
+            return "Selsi Fahrenheit cevirici";
+          case "ko":
+            return "섭씨 화씨 변환";
+          case "ar":
+            return "تحويل مئوية وفهرنهايت";
+          case "fa":
+            return "تبدیل سلسیوس و فارنهایت";
+          case "ru":
+            return "Конвертер Цельсия и Фаренгейта";
+          case "he":
+            return "ממיר צלזיוס ופרנהייט";
+          case "el":
+            return "Μετατροπεας Κελσιου και Φαρναιτ";
+          default:
+            return "Celsius and Fahrenheit converter";
+        }
+      });
+    case "decimal-fraction-converter":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "小数与分数互转";
+          case "es":
+            return "Decimal y fracciones";
+          case "pt":
+            return "Decimal e frações";
+          case "fr":
+            return "Décimal et fractions";
+          case "de":
+            return "Dezimal und Brüche";
+          case "nl":
+            return "Decimaal en breuken";
+          case "it":
+            return "Decimale e frazioni";
+          case "ja":
+            return "小数と分数の変換";
+          case "tr":
+            return "Ondalik ve kesir";
+          case "az":
+            return "Ondaliq ve kesr";
+          case "ko":
+            return "소수와 분수 변환";
+          case "ar":
+            return "عشري وكسور";
+          case "fa":
+            return "اعشاری و کسر";
+          case "ru":
+            return "Десятичные дроби и обыкновенные";
+          case "he":
+            return "עשרוני ושברים";
+          case "el":
+            return "Δεκαδικα και κλασματα";
+          default:
+            return "Decimal and fraction converter";
+        }
+      });
+    case "degrees-radians-converter":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "度与弧度互转";
+          case "es":
+            return "Grados y radianes";
+          case "pt":
+            return "Graus e radianos";
+          case "fr":
+            return "Degrés et radians";
+          case "de":
+            return "Grad und Radiant";
+          case "nl":
+            return "Graden en radialen";
+          case "it":
+            return "Gradi e radianti";
+          case "ja":
+            return "度とラジアン";
+          case "tr":
+            return "Derece ve radyan";
+          case "az":
+            return "Derece ve radian";
+          case "ko":
+            return "도와 라디안 변환";
+          case "ar":
+            return "درجات وراديان";
+          case "fa":
+            return "درجه و رادیان";
+          case "ru":
+            return "Градусы и радианы";
+          case "he":
+            return "מעלות ורדיאנים";
+          case "el":
+            return "Μοιρες και ακτινια";
+          default:
+            return "Degrees and radians converter";
+        }
+      });
     case "markdown-to-epub":
       return localizedRecord(() => "Markdown to ePub");
     default:
@@ -1495,6 +1694,39 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "browser audio converter",
     ],
   },
+  "youtube-to-mp3": {
+    pathname: "/youtube-to-mp3",
+    titleByLocale: localizedTitle("youtube-to-mp3"),
+    keywords: [
+      "youtube to mp3",
+      "youtube mp3 converter",
+      "video to mp3",
+      "extract mp3 from video",
+      "mp4 to mp3",
+      "webm to mp3",
+      "local mp3 converter",
+      "browser mp3 extractor",
+      "no upload youtube mp3",
+      "ffmpeg wasm mp3",
+      "convert video file to mp3",
+    ],
+  },
+  "html-to-text-email": {
+    pathname: "/html-to-text-email",
+    titleByLocale: localizedTitle("html-to-text-email"),
+    keywords: [
+      "html to text email",
+      "html email to plain text",
+      "email plain text generator",
+      "convert html email to text",
+      "html to plaintext",
+      "email text version",
+      "strip html tags email",
+      "browser html to text converter",
+      "no upload html to text",
+      "local html email converter",
+    ],
+  },
   "srt-to-vtt": {
     pathname: "/srt-to-vtt",
     titleByLocale: localizedTitle("srt-to-vtt"),
@@ -1509,6 +1741,90 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "closed captions vtt srt",
       "browser subtitle converter",
       "no upload subtitle converter",
+    ],
+  },
+  "online-msg-viewer": {
+    pathname: "/online-msg-viewer",
+    titleByLocale: localizedRecord(() => "Online MSG Viewer"),
+    keywords: [
+      "msg viewer",
+      "online msg viewer",
+      "open outlook msg",
+      "view msg file",
+      "outlook message viewer",
+      "msg email viewer",
+      "browser msg viewer",
+      "no upload msg viewer",
+    ],
+  },
+  "total-mail-converter": {
+    pathname: "/total-mail-converter",
+    titleByLocale: localizedRecord(() => "Total Mail Converter"),
+    keywords: [
+      "mail converter",
+      "total mail converter",
+      "email converter",
+      "convert msg",
+      "convert eml",
+      "email to pdf html jpeg text",
+      "browser email converter",
+      "no upload email converter",
+    ],
+  },
+  "convert-email-to-pdf-free": {
+    pathname: "/convert-email-to-pdf-free",
+    titleByLocale: localizedRecord(() => "Convert Email to PDF Free"),
+    keywords: [
+      "convert email to pdf",
+      "eml to pdf",
+      "msg to pdf",
+      "outlook msg to pdf",
+      "download email as pdf",
+      "email pdf export",
+      "browser email to pdf",
+      "no upload email to pdf",
+    ],
+  },
+  "convert-email-to-html-free": {
+    pathname: "/convert-email-to-html-free",
+    titleByLocale: localizedRecord(() => "Convert Email to HTML Free"),
+    keywords: [
+      "convert email to html",
+      "eml to html",
+      "msg to html",
+      "outlook msg to html",
+      "email html export",
+      "download email as html",
+      "browser email converter",
+      "no upload email converter",
+    ],
+  },
+  "convert-email-to-jpeg-free": {
+    pathname: "/convert-email-to-jpeg-free",
+    titleByLocale: localizedRecord(() => "Convert Email to JPEG Free"),
+    keywords: [
+      "convert email to jpeg",
+      "email to jpg",
+      "eml to jpg",
+      "msg to jpg",
+      "outlook msg to jpeg",
+      "render email to image",
+      "browser email to jpeg",
+      "no upload email to jpg",
+    ],
+  },
+  "convert-email-to-text-free": {
+    pathname: "/convert-email-to-text-free",
+    titleByLocale: localizedRecord(() => "Convert Email to Text Free"),
+    keywords: [
+      "convert email to text",
+      "email to txt",
+      "eml to text",
+      "msg to text",
+      "plain text email converter",
+      "strip html email",
+      "browser email to text",
+      "no upload email to txt",
     ],
   },
   "axios-converter": {
@@ -1569,6 +1885,20 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "watermark pdf with image",
       "free pdf watermark online",
       "watermark pdf in browser",
+    ],
+  },
+  "celsius-fahrenheit-converter": {
+    pathname: "/celsius-fahrenheit-converter",
+    titleByLocale: localizedTitle("celsius-fahrenheit-converter"),
+    keywords: [
+      "celsius to fahrenheit",
+      "fahrenheit to celsius",
+      "c to f converter",
+      "f to c calculator",
+      "temperature converter",
+      "deg c to deg f",
+      "celsius fahrenheit formula",
+      "browser temperature converter",
     ],
   },
   compare: {
@@ -1724,6 +2054,34 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "data grid render example",
       "virtualized grid performance",
       "large dataset table render",
+    ],
+  },
+  "decimal-fraction-converter": {
+    pathname: "/decimal-fraction-converter",
+    titleByLocale: localizedTitle("decimal-fraction-converter"),
+    keywords: [
+      "decimal to fraction",
+      "fraction to decimal",
+      "convert decimal to fraction",
+      "mixed number to decimal",
+      "simplify fraction from decimal",
+      "repeating decimal to fraction",
+      "browser fraction calculator",
+      "math converter local",
+    ],
+  },
+  "degrees-radians-converter": {
+    pathname: "/degrees-radians-converter",
+    titleByLocale: localizedTitle("degrees-radians-converter"),
+    keywords: [
+      "degrees to radians",
+      "radians to degrees",
+      "deg to rad",
+      "rad to deg",
+      "angle converter",
+      "pi radians to degrees",
+      "trig angle converter",
+      "browser degrees radians tool",
     ],
   },
   "fetch-converter": {

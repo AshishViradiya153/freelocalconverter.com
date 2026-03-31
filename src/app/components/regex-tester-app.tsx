@@ -263,7 +263,7 @@ export function RegexTesterApp() {
                           {row.letter}
                         </span>{" "}
                         <span className="font-medium">{row.label}</span>
-                        {" — "}
+                        {" - "}
                         {row.description}
                       </li>
                     );
@@ -324,7 +324,7 @@ export function RegexTesterApp() {
                     {result.matchCount === 1 ? "match" : "matches"}
                   </span>
                   <span className="font-mono text-[11px]">
-                    /{pattern || "(empty)"}/{result.flagsUsed || "—"}
+                    /{pattern || "(empty)"}/{result.flagsUsed || " - "}
                   </span>
                   {result.subjectWasTruncated ? (
                     <span className="text-amber-600 dark:text-amber-400">
@@ -410,7 +410,7 @@ export function RegexTesterApp() {
                             <TableCell className="font-mono text-[11px] leading-snug">
                               {m.captures.length === 0 &&
                               Object.keys(m.named).length === 0
-                                ? "—"
+                                ? " - "
                                 : null}
                               {m.captures.some(Boolean) ? (
                                 <span className="wrap-break-word block">

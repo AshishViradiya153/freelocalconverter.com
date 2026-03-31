@@ -6,6 +6,42 @@ import {
   BlogPostContent as C8,
   meta as m8,
 } from "./posts/csv-compare-two-files-browser";
+import {
+  BlogPostContent as C9,
+  meta as m9,
+} from "./posts/how-to-convert-pdf-to-word";
+import {
+  BlogPostContent as C10,
+  meta as m10,
+} from "./posts/how-to-convert-heic-to-jpg";
+import {
+  BlogPostContent as C11,
+  meta as m11,
+} from "./posts/how-to-convert-pdf-to-jpg";
+import {
+  BlogPostContent as C12,
+  meta as m12,
+} from "./posts/how-to-convert-jpg-to-pdf";
+import {
+  BlogPostContent as C13,
+  meta as m13,
+} from "./posts/how-to-convert-celsius-to-fahrenheit";
+import {
+  BlogPostContent as C14,
+  meta as m14,
+} from "./posts/how-to-convert-decimal-to-fraction";
+import {
+  BlogPostContent as C15,
+  meta as m15,
+} from "./posts/how-to-convert-fractions-to-decimals";
+import {
+  BlogPostContent as C16,
+  meta as m16,
+} from "./posts/how-to-convert-degrees-to-radians";
+import {
+  BlogPostContent as C17,
+  meta as m17,
+} from "./posts/how-to-convert-youtube-to-mp3";
 import { BlogPostContent as C2, meta as m2 } from "./posts/csv-viewer-overview";
 import {
   BlogPostContent as C3,
@@ -43,6 +79,15 @@ const originalPosts: PublishedBlogPost[] = [
   { meta: m6, Content: C6 },
   { meta: m7, Content: C7 },
   { meta: m8, Content: C8 },
+  { meta: m9, Content: C9 },
+  { meta: m10, Content: C10 },
+  { meta: m11, Content: C11 },
+  { meta: m12, Content: C12 },
+  { meta: m13, Content: C13 },
+  { meta: m14, Content: C14 },
+  { meta: m15, Content: C15 },
+  { meta: m16, Content: C16 },
+  { meta: m17, Content: C17 },
 ];
 
 export const publishedBlogPosts: PublishedBlogPost[] = [

@@ -139,6 +139,14 @@ function ContextMenuImpl<TData>({
     propsRef.current.onCellsCut?.();
   }, [propsRef]);
 
+  const onMergeCells = React.useCallback(() => {
+    tableMeta?.onCellsMerge?.();
+  }, [tableMeta]);
+
+  const onUnmergeCells = React.useCallback(() => {
+    tableMeta?.onCellsUnmerge?.();
+  }, [tableMeta]);
+
   const onClear = React.useCallback(() => {
     const { selectionState, columns, onDataUpdate } = propsRef.current;
 
@@ -203,6 +211,16 @@ function ContextMenuImpl<TData>({
     toast.success(`${rowCount} row${rowCount !== 1 ? "s" : ""} deleted`);
   }, [propsRef]);
 
+  const selectionRange = selectionState?.selectionRange ?? null;
+  const mergeActionEnabled = Boolean(
+    !tableMeta?.readOnly &&
+    selectionRange &&
+    selectionRange.start.columnId !== "select" &&
+    selectionRange.end.columnId !== "select" &&
+    (Math.abs(selectionRange.end.rowIndex - selectionRange.start.rowIndex) > 0 ||
+      selectionRange.end.columnId !== selectionRange.start.columnId),
+  );
+
   return (
     <DropdownMenu
       open={contextMenu.open}
@@ -222,6 +240,19 @@ function ContextMenuImpl<TData>({
         <DropdownMenuItem onSelect={onCut} disabled={tableMeta?.readOnly}>
           <ScissorsIcon />
           Cut
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onSelect={onMergeCells}
+          disabled={!mergeActionEnabled || !tableMeta?.onCellsMerge}
+        >
+          Merge cells
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={onUnmergeCells}
+          disabled={!selectionRange || !tableMeta?.onCellsUnmerge}
+        >
+          Unmerge cells
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={onClear} disabled={tableMeta?.readOnly}>
           <EraserIcon />

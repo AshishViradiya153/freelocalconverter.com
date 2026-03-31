@@ -111,7 +111,7 @@ export function SqlFormatterApp() {
       <ToolHero
         icon={<Database className="size-8 md:size-9" aria-hidden />}
         title="SQL formatter"
-        description="Pretty-print SQL locally in your browser. Pick your engine for correct quoting and functions, adjust keyword case and layout—read-only output, nothing uploaded."
+        description="Pretty-print SQL locally in your browser. Pick your engine for correct quoting and functions, adjust keyword case and layout - read-only output, nothing uploaded."
       />
 
       <ToolCard>
@@ -220,7 +220,7 @@ export function SqlFormatterApp() {
               </span>{" "}
               lexer and parser (not regex-only prettifiers), so nesting and
               strings respect your dialect. This does not execute or validate
-              semantics—only layout.
+              semantics - only layout.
             </p>
           </div>
 

@@ -1,5 +1,5 @@
 /**
- * Landing FAQ message keys under `landing` namespace — keep in sync with
+ * Landing FAQ message keys under `landing` namespace - keep in sync with
  * `messages/*.json` and `buildFaqPageJsonLd` on the index page.
  */
 export const LANDING_FAQ_MESSAGE_KEYS = [
