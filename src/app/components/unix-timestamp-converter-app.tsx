@@ -38,7 +38,7 @@ import {
 } from "@/lib/text/unix-timestamp-convert";
 import { cn } from "@/lib/utils";
 
-const TZ_STORAGE = "localtool.unix-ts.tz";
+const TZ_STORAGE = "FreeLocalConverter.unix-ts.tz";
 
 type Mode = "unix-to-date" | "date-to-unix";
 

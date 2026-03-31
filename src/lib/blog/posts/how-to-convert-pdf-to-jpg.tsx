@@ -10,7 +10,7 @@ export const meta: BlogPostMeta = {
   slug: SLUG,
   title: "How to convert PDF to JPG: quality, DPI, and local export",
   description:
-    "Export PDF pages as JPEG images: pick resolution and quality, handle white backgrounds for photos, and use desktop apps or Localtool’s browser PDF-to-image (ZIP, single pages, or combined).",
+    "Export PDF pages as JPEG images: pick resolution and quality, handle white backgrounds for photos, and use desktop apps or FreeLocalConverter’s browser PDF-to-image (ZIP, single pages, or combined).",
   publishedAt: "2026-04-02",
   category: "guide",
   readTimeMinutes: 10,

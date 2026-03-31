@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -617,7 +617,7 @@
     "hubDiscoveryIntro": "Weitere Hubs:",
     "crumbImageConverter": "Bildkonverter",
     "guidesHubTitle": "CSV- und Datenraster-Anleitungen",
-    "guidesHubDescription": "Strukturierte Anleitungen zum Öffnen großer CSV-Dateien, Bereinigen von Exporten, zum lokalen Vergleich zweier CSV-Dateien im Browser und zur Nutzung von Localtool vor dem Hochladen von Tabellen oder der ERP-Synchronisation.",
+    "guidesHubDescription": "Strukturierte Anleitungen zum Öffnen großer CSV-Dateien, Bereinigen von Exporten, zum lokalen Vergleich zweier CSV-Dateien im Browser und zur Nutzung von FreeLocalConverter vor dem Hochladen von Tabellen oder der ERP-Synchronisation.",
     "toolsHubTitle": "Tools und Workflow-Hubs",
     "toolsHubDescription": "Intent-orientierte Seiten für CSV-Prüfung im Browser, E-Commerce-Exporte und verwandte Abläufe, mit strukturierten Daten und konsistenten Metadaten.",
     "toolsHubSectionsTitle": "Nach Kategorie stöbern",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "{from} zu {to} lokal im Browser konvertieren. Keine Uploads. Standardausgabe: {to}.",
-    "intro1": "Nutzer suchen nach {from} zu {to}, wenn sie eine kleinere Datei brauchen, ein Format, das ihr CMS akzeptiert, oder Pixelgrafiken, die Editoren ohne Plugins öffnen. Diese Seite nutzt denselben Localtool-Bildkonverter wie der Haupt-Hub, mit Voreinstellung {to}.",
+    "intro1": "Nutzer suchen nach {from} zu {to}, wenn sie eine kleinere Datei brauchen, ein Format, das ihr CMS akzeptiert, oder Pixelgrafiken, die Editoren ohne Plugins öffnen. Diese Seite nutzt denselben FreeLocalConverter-Bildkonverter wie der Haupt-Hub, mit Voreinstellung {to}.",
     "intro2": "Dekodierung und Kodierung laufen in Ihrem Browser-Tab. Für die Konvertierung wird nichts auf unsere Server hochgeladen. Nutzen Sie den Schnellmodus für PNG, JPG, WebP und AVIF, wenn Ihr Browser es unterstützt, oder den erweiterten Pfad für GIF, BMP, TIFF, ICO, HEIC oder nachverfolgtes SVG.",
     "faq1Question": "Wie konvertiere ich {from} zu {to}, ohne Dateien hochzuladen?",
     "faq1Answer": "Seite öffnen, Bilder vom Gerät oder per CORS-fähigem Direktlink hinzufügen, Ausgabe auf {to} lassen, herunterladen. Die Verarbeitung bleibt im Browser; wir erhalten Ihre Bildbytes nicht.",

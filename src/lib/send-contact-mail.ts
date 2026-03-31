@@ -12,7 +12,7 @@ export interface ContactMailInput {
 function getMailRuntime(): {
   transporter: nodemailer.Transporter;
   to: string;
-  from: string;
+  envelopeFrom: string;
 } | null {
   const host = process.env.CONTACT_SMTP_HOST;
   const user = process.env.CONTACT_SMTP_USER;
@@ -30,9 +30,7 @@ function getMailRuntime(): {
     auth: { user, pass },
   });
 
-  const from = process.env.CONTACT_MAIL_FROM?.trim() || user;
-
-  return { transporter, to, from };
+  return { transporter, to, envelopeFrom: user };
 }
 
 export function isContactMailConfigured(): boolean {
@@ -45,7 +43,10 @@ export async function sendContactMail(input: ContactMailInput): Promise<void> {
     throw new Error("CONTACT_MAIL_NOT_CONFIGURED");
   }
 
-  const { transporter, to, from } = cfg;
+  const { transporter, to, envelopeFrom } = cfg;
+  const fromHeader = input.email.trim();
+  if (!fromHeader) throw new Error("CONTACT_EMAIL_REQUIRED");
+
   const who = input.name || input.email || "visitor";
   const subject = `[Contact] ${who}`.slice(0, 200);
 
@@ -66,10 +67,14 @@ export async function sendContactMail(input: ContactMailInput): Promise<void> {
   ].filter((line) => line !== null);
 
   await transporter.sendMail({
-    from,
+    from: fromHeader,
     to,
     replyTo: input.email || undefined,
     subject,
     text: lines.join("\n"),
+    envelope: {
+      from: envelopeFrom,
+      to,
+    },
   });
 }

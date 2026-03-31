@@ -34,7 +34,7 @@ function optionalHttpsUrl(field: "linkX" | "linkGithub" | "linkLinkedin") {
 const contactBodySchema = z
   .object({
     name: z.string().max(120).optional(),
-    email: z.string().max(254).optional(),
+    email: z.string().email().max(254),
     message: z.string().max(MAX_MESSAGE),
     linkX: z.string().max(MAX_URL_LEN).optional(),
     linkGithub: z.string().max(MAX_URL_LEN).optional(),
@@ -42,7 +42,7 @@ const contactBodySchema = z
   })
   .transform((d) => ({
     name: (d.name ?? "").trim(),
-    email: (d.email ?? "").trim(),
+    email: d.email.trim(),
     message: d.message.trim(),
     linkX: (d.linkX ?? "").trim(),
     linkGithub: (d.linkGithub ?? "").trim(),
@@ -53,13 +53,6 @@ const contactBodySchema = z
     message: "required",
   })
   .superRefine((d, ctx) => {
-    if (d.email && !z.string().email().safeParse(d.email).success) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["email"],
-        message: "invalid",
-      });
-    }
     optionalHttpsUrl("linkX")(d.linkX, ctx);
     optionalHttpsUrl("linkGithub")(d.linkGithub, ctx);
     optionalHttpsUrl("linkLinkedin")(d.linkLinkedin, ctx);

@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "ブラウザー内で {from} を {to} にローカル変換します。アップロードなし。既定の出力は {to} です。",
-    "intro1": "ファイルを小さくしたい、CMS が受け入れる形式にしたい、エディターがプラグインなしで開けるピクセルレイアウトにしたいときに、ユーザーは {from} から {to} を検索します。このページはメインハブと同じ Localtool 画像コンバーターを使い、既定出力を {to} に設定します。",
+    "intro1": "ファイルを小さくしたい、CMS が受け入れる形式にしたい、エディターがプラグインなしで開けるピクセルレイアウトにしたいときに、ユーザーは {from} から {to} を検索します。このページはメインハブと同じ FreeLocalConverter 画像コンバーターを使い、既定出力を {to} に設定します。",
     "intro2": "デコードとエンコードはブラウザーのタブ内で行われます。変換のためにサーバーへアップロードされません。ブラウザーが対応していれば PNG、JPG、WebP、AVIF は高速モードを、必要に応じて GIF、BMP、TIFF、ICO、HEIC、トレース SVG は詳細パスを使ってください。",
     "faq1Question": "ファイルをアップロードせずに {from} を {to} に変換するには？",
     "faq1Answer": "このページを開き、端末または CORS 対応の直接リンクから画像を追加し、出力を {to} のままにしてダウンロードしてください。処理はブラウザー内のみです。変換のため画像データをサーバーで受け取りません。",

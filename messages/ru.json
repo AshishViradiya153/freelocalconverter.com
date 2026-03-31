@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "Локально в браузере: {from} → {to}. Без загрузки на сервер. Вывод по умолчанию: {to}.",
-    "intro1": "Ищут {from} в {to}, когда нужен меньший файл, формат для CMS или растровая вёрстка без плагинов. Эта страница: тот же конвертер изображений Localtool, что и в центре, с предустановкой {to}.",
+    "intro1": "Ищут {from} в {to}, когда нужен меньший файл, формат для CMS или растровая вёрстка без плагинов. Эта страница: тот же конвертер изображений FreeLocalConverter, что и в центре, с предустановкой {to}.",
     "intro2": "Декодирование и кодирование во вкладке браузера. Для конвертации ничего не отправляется на наши серверы. Быстрый режим для PNG, JPG, WebP и AVIF при поддержке браузера; расширенный путь для GIF, BMP, TIFF, ICO, HEIC или трассированного SVG при необходимости.",
     "faq1Question": "Как конвертировать {from} в {to} без загрузки файлов?",
     "faq1Answer": "Откройте страницу, добавьте изображения с устройства или по прямой ссылке с CORS, оставьте выход {to}, скачайте. Обработка в браузере; байты изображений для конвертации к нам не попадают.",

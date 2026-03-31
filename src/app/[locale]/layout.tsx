@@ -122,10 +122,26 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
   const resolvedDir = RTL_LOCALES.has(locale as AppLocale) ? "rtl" : "ltr";
+  const isProd = process.env.NODE_ENV === "production";
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "";
+  const gaId = process.env.NEXT_PUBLIC_GA_ID?.trim() ?? "";
+  const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID?.trim() ?? "";
 
   return (
     <html lang={locale} dir={resolvedDir} suppressHydrationWarning>
-      <head />
+      <head>
+        {isProd && gtmId ? (
+          <Script id="google-tag-manager" strategy="afterInteractive">
+            {`
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer',${JSON.stringify(gtmId)});
+            `}
+          </Script>
+        ) : null}
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
@@ -133,9 +149,30 @@ export default async function LocaleLayout({
           fontMono.variable,
         )}
       >
+        {isProd && gtmId ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(gtmId)}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        ) : null}
         <NextIntlClientProvider messages={messages}>
           <Script defer src="https://assets.onedollarstats.com/stonks.js" />
-          {/* TODO: restore `defaultTheme="system"` + `enableSystem` and remove forcedTheme when shipping dark mode again */}
+          {isProd && clarityId ? (
+            <Script id="ms-clarity" strategy="afterInteractive">
+              {`
+                (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", ${JSON.stringify(clarityId)});
+              `}
+            </Script>
+          ) : null}
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -152,11 +189,10 @@ export default async function LocaleLayout({
               <TrustedByMarquee />
               <SiteFooter />
             </div>
-            {/* <TailwindIndicator /> */}
           </ThemeProvider>
           <Toaster />
         </NextIntlClientProvider>
-        <GoogleAnalytics gaId={"G-Y0B8C93BRK"} />
+        {isProd && gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>
   );

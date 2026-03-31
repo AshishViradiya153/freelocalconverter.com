@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "Convierta {from} a {to} localmente en su navegador. Sin cargas. La salida predeterminada es {to}.",
-    "intro1": "Las personas buscan {from} a {to} cuando necesitan un archivo más pequeño, un formato que acepte su CMS o un diseño de píxeles que los editores puedan abrir sin complementos adicionales. Esta página ejecuta el mismo convertidor de imágenes Localtool que el centro principal, preestablecido en salida {to}.",
+    "intro1": "Las personas buscan {from} a {to} cuando necesitan un archivo más pequeño, un formato que acepte su CMS o un diseño de píxeles que los editores puedan abrir sin complementos adicionales. Esta página ejecuta el mismo convertidor de imágenes FreeLocalConverter que el centro principal, preestablecido en salida {to}.",
     "intro2": "La decodificación y codificación se realizan en la pestaña de su navegador. No se carga nada en nuestros servidores para su conversión. Utilice el modo rápido para PNG, JPG, WebP y AVIF cuando su navegador lo admita, o habilite la ruta avanzada para GIF, BMP, TIFF, ICO, HEIC o SVG trazado cuando sea necesario.",
     "faq1Question": "¿Cómo convierto {from} a {to} sin cargar mis archivos?",
     "faq1Answer": "Abra esta página, agregue imágenes desde su dispositivo o un enlace directo habilitado para CORS, mantenga la salida en {to} y luego descárguela. El procesamiento permanece en su navegador; No recibimos sus bytes de imagen para la conversión.",

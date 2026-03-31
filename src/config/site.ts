@@ -18,10 +18,10 @@ export interface SiteConfigShape {
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Localtool",
+  name: "FreeLocalConverter",
   description:
-    "Localtool: free browser-based CSV, JSON, PDF, image, and data conversion tools that run locally in your browser without server uploads.",
-  url: "https://csveditoronline.com/",
+    "FreeLocalConverter: free browser-based CSV, JSON, PDF, image, and data conversion tools that run locally in your browser without server uploads.",
+  url: "https://freelocalconverter.com/",
   copyrightYear: 2026,
   /**
    * Logo URL path (`app/icon.png` → `/icon.png`). Used for Organization `logo` JSON-LD
@@ -41,5 +41,5 @@ export const siteConfig = {
    * `utm_source` on outbound marketing links (trusted-by marquee, header repo, etc.).
    * Match the value you use in analytics (GA4, Plausible custom props, etc.).
    */
-  utmSource: "localtool",
+  utmSource: "freelocalconverter",
 } satisfies SiteConfigShape;

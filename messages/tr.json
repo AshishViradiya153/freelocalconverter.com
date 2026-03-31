@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "{from} dosyasını {to} biçimine tarayıcınızda yerel olarak dönüştürün. Yükleme yok. Varsayılan çıktı {to}.",
-    "intro1": "Daha küçük dosya, CMS'in kabul ettiği biçim veya eklentisiz açılabilen piksel düzeni gerektiğinde insanlar {from}–{to} arar. Bu sayfa, ana merkezdeki Localtool görsel dönüştürücüyle aynıdır; çıktı {to} olarak ön ayarlıdır.",
+    "intro1": "Daha küçük dosya, CMS'in kabul ettiği biçim veya eklentisiz açılabilen piksel düzeni gerektiğinde insanlar {from}–{to} arar. Bu sayfa, ana merkezdeki FreeLocalConverter görsel dönüştürücüyle aynıdır; çıktı {to} olarak ön ayarlıdır.",
     "intro2": "Kod çözme ve kodlama tarayıcı sekmesinde olur. Dönüşüm için sunucularımıza hiçbir şey yüklenmez. Tarayıcı destekliyorsa PNG, JPG, WebP ve AVIF için hızlı modu kullanın; gerektiğinde GIF, BMP, TIFF, ICO, HEIC veya izlenmiş SVG için gelişmiş yolu açın.",
     "faq1Question": "Dosyalarımı yüklemeden {from}'ı {to}'ya nasıl dönüştürürüm?",
     "faq1Answer": "Bu sayfayı açın, cihazınızdan veya CORS açık doğrudan bağlantıdan görsel ekleyin, çıktıyı {to} tutun ve indirin. İşlem tarayıcınızda kalır; dönüşüm için görsel baytlarınız bize gelmez.",

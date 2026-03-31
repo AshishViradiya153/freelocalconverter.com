@@ -1,6 +1,6 @@
 <div align="center">
 
-# Localtool
+# FreeLocalConverter
 
 **Free, privacy-friendly utilities in the browser** — CSV, JSON, Parquet, PDF, images, and dozens of other tools. Workflows run **entirely on the client** so your files often never leave your device.
 
@@ -8,7 +8,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-[Live site](https://csveditoronline.com/) · [Source](https://github.com/AshishViradiya153/csvvieweronline)
+[Live site](https://freelocalconverter.com/) · [Source](https://github.com/AshishViradiya153/csvvieweronline)
 
 </div>
 
@@ -16,7 +16,7 @@
 
 ## Table of contents
 
-- [Why Localtool?](#why-localtool)
+- [Why FreeLocalConverter?](#why-freelocalconverter)
 - [Features](#features)
 - [Tech stack](#tech-stack)
 - [Getting started](#getting-started)
@@ -29,7 +29,7 @@
 
 ---
 
-## Why Localtool?
+## Why FreeLocalConverter?
 
 - **Local-first**: Core data tools are built so processing happens in your browser when possible.
 - **Multilingual**: UI is translated across many locales via [next-intl](https://next-intl-docs.vercel.app/).

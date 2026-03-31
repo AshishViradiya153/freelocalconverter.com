@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "Converteer {from} naar {to} lokaal in uw browser. Geen uploads. Standaarduitvoer: {to}.",
-    "intro1": "Mensen zoeken naar {from} naar {to} als ze een kleiner bestand nodig hebben, een formaat dat hun CMS accepteert, of pixelindeling die editors zonder plug-ins openen. Deze pagina gebruikt dezelfde Localtool-afbeeldingsconverter als de hoofdhub, vooraf ingesteld op {to}.",
+    "intro1": "Mensen zoeken naar {from} naar {to} als ze een kleiner bestand nodig hebben, een formaat dat hun CMS accepteert, of pixelindeling die editors zonder plug-ins openen. Deze pagina gebruikt dezelfde FreeLocalConverter-afbeeldingsconverter als de hoofdhub, vooraf ingesteld op {to}.",
     "intro2": "Decoderen en encoderen gebeurt in uw browsertab. Er wordt niets naar onze servers geüpload voor conversie. Gebruik snelle modus voor PNG, JPG, WebP en AVIF als uw browser het ondersteunt, of het geavanceerde pad voor GIF, BMP, TIFF, ICO, HEIC of getraceerde SVG indien nodig.",
     "faq1Question": "Hoe zet ik {from} naar {to} zonder mijn bestanden te uploaden?",
     "faq1Answer": "Open deze pagina, voeg afbeeldingen toe van uw apparaat of een CORS-toegestane directe link, houd uitvoer op {to} en download. Verwerking blijft in uw browser; wij ontvangen uw afbeeldingsbytes niet voor conversie.",

@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "브라우저에서 {from}을(를) {to}(으)로 로컬 변환합니다. 업로드 없음. 기본 출력은 {to}입니다.",
-    "intro1": "더 작은 파일, CMS가 받아들이는 형식, 플러그인 없이 열 수 있는 픽셀 레이아웃이 필요할 때 사람들은 {from}에서 {to}로 검색합니다. 이 페이지는 메인 허브와 동일한 Localtool 이미지 변환기를 사용하며 기본 출력은 {to}입니다.",
+    "intro1": "더 작은 파일, CMS가 받아들이는 형식, 플러그인 없이 열 수 있는 픽셀 레이아웃이 필요할 때 사람들은 {from}에서 {to}로 검색합니다. 이 페이지는 메인 허브와 동일한 FreeLocalConverter 이미지 변환기를 사용하며 기본 출력은 {to}입니다.",
     "intro2": "디코딩과 인코딩은 브라우저 탭에서 이루어집니다. 변환을 위해 서버로 업로드되지 않습니다. 브라우저가 지원하면 PNG, JPG, WebP, AVIF는 빠른 모드를, 필요 시 GIF, BMP, TIFF, ICO, HEIC 또는 추적 SVG는 고급 경로를 사용하세요.",
     "faq1Question": "파일을 올리지 않고 {from}을(를) {to}(으)로 어떻게 변환하나요?",
     "faq1Answer": "이 페이지를 열고 기기나 CORS가 허용된 직접 링크에서 이미지를 추가하고 출력을 {to}로 유지한 뒤 다운로드하세요. 처리는 브라우저에만 머뭅니다. 변환을 위해 이미지 바이트를 서버로 받지 않습니다.",

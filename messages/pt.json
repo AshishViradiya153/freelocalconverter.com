@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "Converta {from} para {to} localmente no navegador. Sem envios. A saída predefinida é {to}.",
-    "intro1": "As pessoas procuram {from} para {to} quando precisam de um ficheiro mais pequeno, de um formato aceite pelo CMS ou de pixéis que editores abram sem extensões. Esta página usa o mesmo conversor de imagens Localtool que o hub principal, com saída predefinida {to}.",
+    "intro1": "As pessoas procuram {from} para {to} quando precisam de um ficheiro mais pequeno, de um formato aceite pelo CMS ou de pixéis que editores abram sem extensões. Esta página usa o mesmo conversor de imagens FreeLocalConverter que o hub principal, com saída predefinida {to}.",
     "intro2": "A descodificação e codificação ocorrem no separador do navegador. Nada é enviado aos nossos servidores para conversão. Use o modo rápido para PNG, JPG, WebP e AVIF se o navegador suportar, ou o caminho avançado para GIF, BMP, TIFF, ICO, HEIC ou SVG vetorizado quando necessário.",
     "faq1Question": "Como converter {from} para {to} sem enviar os meus ficheiros?",
     "faq1Answer": "Abra esta página, adicione imagens do dispositivo ou de um link direto com CORS, mantenha a saída em {to} e descarregue. O processamento fica no navegador; não recebemos os bytes das suas imagens para conversão.",

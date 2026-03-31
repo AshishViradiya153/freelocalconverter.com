@@ -26,6 +26,11 @@ export function ContactUsApp() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = message.trim();
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      toast.error(t("errorEmailInvalid"));
+      return;
+    }
     if (!trimmed) {
       toast.error(t("errorEmpty"));
       return;
@@ -42,7 +47,7 @@ export function ContactUsApp() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim() || undefined,
-          email: email.trim() || undefined,
+          email: trimmedEmail,
           message: trimmed,
           linkX: linkX.trim() || undefined,
           linkGithub: linkGithub.trim() || undefined,
@@ -148,6 +153,7 @@ export function ContactUsApp() {
               placeholder={t("fieldEmailPlaceholder")}
               autoComplete="email"
               maxLength={254}
+              required
               disabled={isSubmitting}
             />
           </div>

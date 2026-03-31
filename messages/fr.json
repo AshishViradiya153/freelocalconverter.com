@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverterConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "Convertissez {from} en {to} localement dans votre navigateur. Aucun téléchargement. La sortie par défaut est {to}.",
-    "intro1": "Les gens recherchent {from} à {to} lorsqu'ils ont besoin d'un fichier plus petit, d'un format accepté par leur CMS ou d'un éditeur de disposition en pixels qui peut s'ouvrir sans plugins supplémentaires. Cette page exécute le même convertisseur d'image Localtool que le hub principal, prédéfini sur la sortie {to}.",
+    "intro1": "Les gens recherchent {from} à {to} lorsqu'ils ont besoin d'un fichier plus petit, d'un format accepté par leur CMS ou d'un éditeur de disposition en pixels qui peut s'ouvrir sans plugins supplémentaires. Cette page exécute le même convertisseur d'image FreeLocalConverter que le hub principal, prédéfini sur la sortie {to}.",
     "intro2": "Le décodage et l'encodage s'effectuent dans l'onglet de votre navigateur. Rien n'est téléchargé sur nos serveurs pour la conversion. Utilisez le mode rapide pour PNG, JPG, WebP et AVIF lorsque votre navigateur le prend en charge, ou activez le chemin avancé pour GIF, BMP, TIFF, ICO, HEIC ou SVG tracé si nécessaire.",
     "faq1Question": "Comment convertir {from} en {to} sans télécharger mes fichiers ?",
     "faq1Answer": "Ouvrez cette page, ajoutez des images depuis votre appareil ou un lien direct compatible CORS, conservez la sortie sur {to}, puis téléchargez. Le traitement reste dans votre navigateur ; nous ne recevons pas vos octets d’image pour la conversion.",

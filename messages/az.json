@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "{from} formatını {to} formatına brauzerinizdə lokal çevirin. Yükləmə yoxdur. Defolt çıxış: {to}.",
-    "intro1": "İstifadəçilər daha kiçik fayl, CMS-in qəbul etdiyi format və ya redaktorların əlavə plaginsiz aça biləcəyi piksel tərtibatı lazım olduqda {from} → {to} axtarır. Bu səhifə əsas mərkəzdəki eyni Localtool şəkil çeviricisini işlədir, çıxış əvvəlcədən {to} olaraq təyin olunub.",
+    "intro1": "İstifadəçilər daha kiçik fayl, CMS-in qəbul etdiyi format və ya redaktorların əlavə plaginsiz aça biləcəyi piksel tərtibatı lazım olduqda {from} → {to} axtarır. Bu səhifə əsas mərkəzdəki eyni FreeLocalConverter şəkil çeviricisini işlədir, çıxış əvvəlcədən {to} olaraq təyin olunub.",
     "intro2": "Dekodlama və kodlama brauzer vərəqinizdə baş verir. Çevirmə üçün heç nə serverlərimizə göndərilmir. Brauzeriniz dəstəklədikdə PNG, JPG, WebP və AVIF üçün sürətli rejimdən istifadə edin və ya ehtiyac olduqda GIF, BMP, TIFF, ICO, HEIC və ya izlənmiş SVG üçün genişləndirilmiş yolu aktivləşdirin.",
     "faq1Question": "Faylları yükləmədən {from}-i {to}-ya necə çevirməliyəm?",
     "faq1Answer": "Bu səhifəni açın, cihazınızdan və ya CORS dəstəklənən birbaşa linkdən şəkillər əlavə edin, çıxışı {to} saxlayın, sonra yükləyin. Emal brauzerinizdə qalır; çevirmə üçün şəkil baytlarınız bizə çatmır.",

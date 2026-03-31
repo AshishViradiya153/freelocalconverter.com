@@ -462,8 +462,8 @@
   },
   "contactUs": {
     "metaTitle": "Contact us",
-    "metaDescription": "Reach the Localtool team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
-    "metaKeywords": "contact localtool | support | feedback | github issues | browser csv tools | get in touch",
+    "metaDescription": "Reach the FreeLocalConverter team: send feedback, report a problem, or ask a question via GitHub. We read every message.",
+    "metaKeywords": "contact freelocalconverter | support | feedback | github issues | browser csv tools | get in touch",
     "kicker": "Contact",
     "heroTitle": "Contact us",
     "heroDescription": "Questions, bugs, or ideas? Send us a message through GitHub Issues. Your name, email, and note are only used to prefill a draft issue in your browser, we do not submit anything to our servers from this page.",
@@ -851,7 +851,7 @@
   },
   "imageConvertPair": {
     "subtitle": "在浏览器本地将 {from} 转换为 {to}。没有上传。输出默认为{to}。",
-    "intro1": "当人们需要较小的文件、CMS 接受的格式或无需额外插件即可打开的像素布局编辑器时，人们会搜索 {from} 到 {to}。此页面运行与主中心相同的 Localtool 图像转换器，预设为 {to} 输出。",
+    "intro1": "当人们需要较小的文件、CMS 接受的格式或无需额外插件即可打开的像素布局编辑器时，人们会搜索 {from} 到 {to}。此页面运行与主中心相同的 FreeLocalConverter 图像转换器，预设为 {to} 输出。",
     "intro2": "解码和编码发生在您的浏览器选项卡中。没有任何内容上传到我们的服务器进行转换。当您的浏览器支持时，对 PNG、JPG、WebP 和 AVIF 使用快速模式，或者在需要时启用 GIF、BMP、TIFF、ICO、HEIC 或跟踪 SVG 的高级路径。",
     "faq1Question": "如何在不上传文件的情况下将 {from} 转换为 {to}？",
     "faq1Answer": "打开此页面，从您的设备或支持 CORS 的直接链接添加图像，将输出保持在 {to}，然​​后下载。处理保留在您的浏览器中；我们不会收到您的图像字节进行转换。",

@@ -4,7 +4,7 @@ import {
   normalizeCsvViewerSessionForLoad,
 } from "@/lib/csv-viewer-session";
 
-const DB_NAME = "localtool-csv-viewer";
+const DB_NAME = "FreeLocalConverter-csv-viewer";
 const DB_VERSION = 2;
 const SNAPSHOT_STORE = "snapshot";
 const ROW_CHUNKS_STORE = "rowChunks";

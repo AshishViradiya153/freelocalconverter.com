@@ -10,7 +10,7 @@ export const meta: BlogPostMeta = {
   slug: SLUG,
   title: "How to convert JPG to PDF: one file, many photos, correct order",
   description:
-    "Turn JPEG and other images into a single PDF: order pages, pick page size and fit, use Print to PDF or Acrobat, or build locally in the browser with Localtool’s Images to PDF.",
+    "Turn JPEG and other images into a single PDF: order pages, pick page size and fit, use Print to PDF or Acrobat, or build locally in the browser with FreeLocalConverter’s Images to PDF.",
   publishedAt: "2026-04-02",
   category: "guide",
   readTimeMinutes: 9,

@@ -130,7 +130,8 @@ export function SiteHeader() {
     if (!showHeaderSearch) return;
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key.toLowerCase() !== "k") return;
+      const key = typeof event.key === "string" ? event.key.toLowerCase() : "";
+      if (key !== "k") return;
       if (!event.metaKey && !event.ctrlKey) return;
       event.preventDefault();
       setOpen((state) => !state);
