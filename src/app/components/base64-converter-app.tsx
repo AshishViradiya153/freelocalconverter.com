@@ -199,7 +199,7 @@ export function Base64ConverterApp() {
       <ToolHero
         icon={<Layers className="size-8 md:size-9" aria-hidden />}
         title="Base64 encoder & decoder"
-        description="Encode UTF-8 text or any file to Base64, or decode Base64 back to text or a downloadable binary — all locally in your browser. Whitespace in pasted Base64 is ignored; optional URL-safe (Base64URL) output."
+        description="Encode UTF-8 text or any file to Base64, or decode Base64 back to text or a downloadable binary - all locally in your browser. Whitespace in pasted Base64 is ignored; optional URL-safe (Base64URL) output."
       />
 
       <ToolCard>

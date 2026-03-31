@@ -120,7 +120,7 @@ export function UuidGeneratorApp() {
       <ToolHero
         icon={<Fingerprint className="size-8 md:size-9" aria-hidden />}
         title="UUID / GUID generator"
-        description="Create RFC 4122 v1 and v4 identifiers, RFC 9562 v7 time-ordered UUIDs, or the nil UUID—in bulk for fixtures and tests. Random bytes come from your browser (Web Crypto); nothing is uploaded."
+        description="Create RFC 4122 v1 and v4 identifiers, RFC 9562 v7 time-ordered UUIDs, or the nil UUID - in bulk for fixtures and tests. Random bytes come from your browser (Web Crypto); nothing is uploaded."
       />
 
       <ToolCard>
@@ -281,20 +281,20 @@ export function UuidGeneratorApp() {
         <ToolPaneTitle>Reference</ToolPaneTitle>
         <ul className="list-inside list-disc text-muted-foreground text-sm leading-relaxed">
           <li>
-            <strong className="text-foreground">v4</strong> — Random (RFC 4122
+            <strong className="text-foreground">v4</strong> - Random (RFC 4122
             variant 4).
           </li>
           <li>
-            <strong className="text-foreground">v7</strong> — Unix ms in the
+            <strong className="text-foreground">v7</strong> - Unix ms in the
             first 48 bits, then random (RFC 9562).
           </li>
           <li>
-            <strong className="text-foreground">v1</strong> — Gregorian
+            <strong className="text-foreground">v1</strong> - Gregorian
             timestamp + random clock and node (RFC 4122); not guaranteed
             globally unique without a real MAC.
           </li>
           <li>
-            <strong className="text-foreground">Nil</strong> — All zeros; useful
+            <strong className="text-foreground">Nil</strong> - All zeros; useful
             as a sentinel in tests.
           </li>
         </ul>

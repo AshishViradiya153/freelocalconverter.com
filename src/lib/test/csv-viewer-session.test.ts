@@ -18,6 +18,11 @@ import {
   resultToSession,
   sessionToResult,
 } from "@/lib/csv-viewer-session";
+import {
+  makeCsvCellMerge,
+  mergeCsvCellsAnyway,
+  tryAddCsvCellMerge,
+} from "@/lib/csv-cell-merges";
 
 describe("csv-viewer-session", () => {
   it("round-trips parse result through session", () => {
@@ -32,7 +37,7 @@ describe("csv-viewer-session", () => {
 
   it("normalizeCsvViewerSessionForLoad pads labels and kinds", () => {
     const n = normalizeCsvViewerSessionForLoad({
-      version: 1,
+      version: 2,
       fileName: "t.csv",
       dir: "ltr",
       columnKeys: ["a", "b"],
@@ -50,7 +55,7 @@ describe("csv-viewer-session", () => {
   it("normalizeCsvViewerSessionForLoad returns null for invalid keys", () => {
     expect(
       normalizeCsvViewerSessionForLoad({
-        version: 1,
+        version: 2,
         fileName: "t.csv",
         dir: "ltr",
         columnKeys: ["", "b"],
@@ -158,6 +163,7 @@ describe("csv-viewer-session", () => {
     const r = parseCsvText("a,b\n1,2\n3,4");
     const s = resultToSession("t.csv", r, "ltr");
     const id = s.rows[0]?.id;
+    if (!id) throw new Error("fixture: expected row id");
     const next = removeCsvSessionRowById(s, id);
     expect(next?.rows).toHaveLength(1);
   });
@@ -166,6 +172,7 @@ describe("csv-viewer-session", () => {
     const r = parseCsvText("a\n1");
     const s = resultToSession("t.csv", r, "ltr");
     const id = s.rows[0]?.id;
+    if (!id) throw new Error("fixture: expected row id");
     const extra = [
       { ...createEmptyCsvViewerRow(s.columnKeys), id: "new1", a: "x" },
     ];
@@ -222,5 +229,94 @@ describe("csv-viewer-session", () => {
       kindByKey[colB],
     ]);
     expect(next.rows).toEqual(s.rows);
+  });
+
+  it("removes merges when deleting a merged column", () => {
+    const r = parseCsvText("a,b\n1,2\n3,4");
+    let s = resultToSession("t.csv", r, "ltr");
+    const [a, b] = s.columnKeys;
+    const [r1, r2] = s.rows.map((x) => x.id);
+    if (!a || !b || !r1 || !r2) throw new Error("fixture");
+
+    const orderedRowIds = s.rows.map((x) => x.id);
+    const merge = makeCsvCellMerge({
+      startRowId: r1,
+      endRowId: r1,
+      startColumnId: a,
+      endColumnId: b,
+    });
+    const attempt = tryAddCsvCellMerge({ session: s, merge, orderedRowIds });
+    if (!attempt.ok) throw new Error("fixture merge failed");
+    s = attempt.session;
+    expect(s.cellMerges?.length).toBe(1);
+
+    const removed = removeCsvSessionColumn(s, a);
+    expect(removed).not.toBeNull();
+    expect(removed?.cellMerges?.length ?? 0).toBe(0);
+  });
+
+  it("removes merges when deleting a merged row", () => {
+    const r = parseCsvText("a,b\n1,2\n3,4");
+    let s = resultToSession("t.csv", r, "ltr");
+    const [a, b] = s.columnKeys;
+    const [r1, r2] = s.rows.map((x) => x.id);
+    if (!a || !b || !r1 || !r2) throw new Error("fixture");
+
+    const orderedRowIds = s.rows.map((x) => x.id);
+    const merge = makeCsvCellMerge({
+      startRowId: r1,
+      endRowId: r1,
+      startColumnId: a,
+      endColumnId: b,
+    });
+    const attempt = tryAddCsvCellMerge({ session: s, merge, orderedRowIds });
+    if (!attempt.ok) throw new Error("fixture merge failed");
+    s = attempt.session;
+    expect(s.cellMerges?.length).toBe(1);
+
+    const removed = removeCsvSessionRowById(s, r1);
+    expect(removed).not.toBeNull();
+    expect(removed?.cellMerges?.length ?? 0).toBe(0);
+  });
+
+  it("mergeCsvCellsAnyway replaces intersecting merges", () => {
+    const r = parseCsvText("a,b,c,d\n1,2,3,4\n5,6,7,8");
+    let s = resultToSession("t.csv", r, "ltr");
+    const [a, b, c, d] = s.columnKeys;
+    const [r1] = s.rows.map((x) => x.id);
+    if (!a || !b || !c || !d || !r1) throw new Error("fixture");
+
+    const orderedRowIds = s.rows.map((x) => x.id);
+    const m1 = makeCsvCellMerge({
+      startRowId: r1,
+      endRowId: r1,
+      startColumnId: a,
+      endColumnId: b,
+    });
+    const m2 = makeCsvCellMerge({
+      startRowId: r1,
+      endRowId: r1,
+      startColumnId: c,
+      endColumnId: d,
+    });
+
+    const a1 = tryAddCsvCellMerge({ session: s, merge: m1, orderedRowIds });
+    if (!a1.ok) throw new Error("fixture m1");
+    const a2 = tryAddCsvCellMerge({ session: a1.session, merge: m2, orderedRowIds });
+    if (!a2.ok) throw new Error("fixture m2");
+    s = a2.session;
+    expect(s.cellMerges?.length).toBe(2);
+
+    // Merge a rectangle intersecting both existing merges.
+    const big = makeCsvCellMerge({
+      startRowId: r1,
+      endRowId: r1,
+      startColumnId: a,
+      endColumnId: d,
+    });
+    const out = mergeCsvCellsAnyway({ session: s, merge: big, orderedRowIds });
+    if (!out.ok) throw new Error("expected ok");
+    expect(out.session.cellMerges?.length).toBe(1);
+    expect(out.session.cellMerges?.[0]?.startRowId).toBe(big.startRowId);
   });
 });

@@ -2,11 +2,11 @@ import type { TrendingMeshGradientItem } from "@/lib/mesh-gradient/trending-mesh
 
 /**
  * Footer brand mesh: custom palette. `#001220` base; blobs use oranges and blues.
- * No `#000000` blob — on this base it reads as “missing” ink inside `background-clip: text`.
+ * No `#000000` blob - on this base it reads as “missing” ink inside `background-clip: text`.
  * Replaced with a light highlight (`#E6F2FF`) so glyphs stay legible.
  * `#0066CC` → `#8CC4FF` (lighter sky blue) for the same reason inside `background-clip: text`.
  *
- * **Blur is much lower than full-page trending presets** — `paintMeshGradientFrame` uses
+ * **Blur is much lower than full-page trending presets** - `paintMeshGradientFrame` uses
  * `blur(preset/4)px` on a canvas only ~50–120px tall; values like 600 become ~150px blur and
  * wash all hues into one muddy average, so clipped text never “reads” your palette.
  */

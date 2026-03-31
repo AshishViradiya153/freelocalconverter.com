@@ -217,7 +217,7 @@
     "featuresSubtitle": "Brutalist UI, smooth interactions, and client-side processing. Browse tools, pin favorites, and move data between formats without leaving the page.",
     "featuresItems": {
       "localTitle": "Local-first by default",
-      "localDescription": "Most tools run in your browser tab—no uploads for processing.",
+      "localDescription": "Most tools run in your browser tab, no uploads for processing.",
       "fastTitle": "Fast even on big files",
       "fastDescription": "Responsive grids, search, and previews tuned for large datasets.",
       "searchTitle": "Find tools instantly",
@@ -237,10 +237,10 @@
     "howItWorksStep1Description": "Press Ctrl+K or ⌘K to focus search, filter by category, or open a pinned favorite.",
     "howItWorksStep2Label": "02",
     "howItWorksStep2Title": "Add your files",
-    "howItWorksStep2Description": "Drop files or browse. Converters, viewers, and editors run locally in your tab—no upload queue for core workflows.",
+    "howItWorksStep2Description": "Drop files or browse. Converters, viewers, and editors run locally in your tab, no upload queue for core workflows.",
     "howItWorksStep3Label": "03",
     "howItWorksStep3Title": "Copy or download",
-    "howItWorksStep3Description": "Grab the output in one click, then leave whenever you're done—no signup wall.",
+    "howItWorksStep3Description": "Grab the output in one click, then leave whenever you're done, no signup wall.",
     "faqKicker": "FAQ",
     "faqTitle": "Questions, answered",
     "faqSubtitle": "Straight answers about privacy, limits, and how this directory works.",
@@ -249,11 +249,11 @@
     "faq2Question": "Do I need an account?",
     "faq2Answer": "No. Open a tool and start working. Favorites are stored locally in your browser on this device only.",
     "faq3Question": "Are these tools free?",
-    "faq3Answer": "Yes—the tools in this directory are free to use in the browser. There is no paywall to run conversions or open viewers listed here.",
+    "faq3Answer": "Yes, the tools in this directory are free to use in the browser. There is no paywall to run conversions or open viewers listed here.",
     "faq4Question": "Are there file size or row limits?",
     "faq4Answer": "Yes. Each tool shows its own limits (for example max file size and row caps in the grid). Large files may be trimmed or previewed partially so the page stays responsive.",
     "faq5Question": "What formats can I use?",
-    "faq5Answer": "The directory includes CSV, JSON, Excel, Parquet, PDF, images, video, and developer helpers such as OpenAPI and webhooks—use search to find the right workflow.",
+    "faq5Answer": "The directory includes CSV, JSON, Excel, Parquet, PDF, images, video, and developer helpers such as OpenAPI and webhooks - use search to find the right workflow.",
     "faq6Question": "Where are my pinned favorites saved?",
     "faq6Answer": "Favorites are saved in your browser’s local storage on this device. They are not synced to an account and won’t appear on another browser or device unless you pin again there.",
     "faq7Question": "How do I search the tool list quickly?",
@@ -261,7 +261,7 @@
     "faq8Question": "Can I use this offline or after I close the tab?",
     "faq8Answer": "You need a network connection to load the site. Once a tool is open, much of the work happens locally in your tab. Closing the tab clears that session unless the tool stores recovery data on your device (such as draft grid state on some viewers).",
     "directoryKicker": "Tool Directory",
-    "directorySubtitle": "Search across converters, viewers and editors (CSV/Excel/Parquet grids, OpenAPI, webhooks), formatters, PDF and image tools, and more—all in one directory.",
+    "directorySubtitle": "Search across converters, viewers and editors (CSV/Excel/Parquet grids, OpenAPI, webhooks), formatters, PDF and image tools, and more - all in one directory.",
     "directorySearchLabel": "Search tools",
     "directoryTopHit": "Press Enter to open {label}",
     "directoryAllLabel": "All",
@@ -285,6 +285,19 @@
     "sampleError": "Could not load sample data.",
     "largeFileTitle": "Large file trimmed",
     "largeFileDescription": "Showing {shown} rows (limit {total} in file).",
+    "importReadingRows": "Reading… {count} rows",
+    "importCancel": "Cancel",
+    "importCancelled": "Import cancelled.",
+    "importDialectDelimiter": "Delimiter",
+    "importDialectDelimiterAuto": "Auto-detect",
+    "importDialectDelimiterComma": "Comma (,)",
+    "importDialectDelimiterSemicolon": "Semicolon (;)",
+    "importDialectDelimiterTab": "Tab",
+    "importDialectDelimiterPipe": "Pipe (|)",
+    "importDialectFirstRow": "First row",
+    "importDialectFirstRowHeader": "Column names (header)",
+    "importDialectFirstRowData": "Data only (no header)",
+    "importDialectNoHeaderHint": "No-header mode reads the full file at once. Prefer a header row for very large files so parsing can stream in chunks.",
     "metaKeywords": "free csv viewer online | csv editor browser | compare csv files | csv diff tool | json to csv converter | csv to json converter | json formatter online | csv to excel | json to excel | excel to csv | xls viewer | spreadsheet viewer | parquet viewer online | csv to parquet | parquet to csv | json to parquet | parquet to json | merge pdf online | split pdf | pdf watermark | pdf to image | pdf to word | image compressor | resize image online | heic to jpg | svg to code | browser file converter | local tools no upload | privacy friendly converter | data conversion tools | openapi viewer | curl converter | fetch api converter | graphql tools | webhook viewer",
     "collectionPageName": "{name}: tool directory",
     "directoryFavoritesLabel": "Favorites",
@@ -469,7 +482,7 @@
     "fieldLinkLinkedinPlaceholder": "https://linkedin.com/in/yourprofile",
     "submit": "Send message",
     "submitting": "Sending…",
-    "submitToast": "Thanks—we received your message.",
+    "submitToast": "Thanks, we received your message.",
     "errorEmpty": "Please add a message.",
     "errorTooLong": "Keep your message under {max} characters.",
     "errorEmailInvalid": "Please enter a valid email address, or leave it blank.",
@@ -703,7 +716,7 @@
     "groupConvertersTitle": "Converters",
     "groupConvertersDescription": "Convert data formats, markup, encodings, timestamps, and HTTP client snippets locally.",
     "groupViewersTitle": "Viewers & editors",
-    "groupViewersDescription": "Open, search, and edit locally—editable grids, OpenAPI specs, webhook JSON, and more in your browser.",
+    "groupViewersDescription": "Open, search, and edit locally, editable grids, OpenAPI specs, webhook JSON, and more in your browser.",
     "groupExcelTitle": "Excel",
     "groupExcelDescription": "Import and export between CSV, JSON, and Excel.",
     "groupDeveloperTitle": "Developer",
@@ -718,10 +731,12 @@
     "groupColorDescription": "Color tools: generators and trending galleries.",
     "audioConverterLabel": "Video to MP3 converter",
     "audioConverterDesc": "Convert audio formats or extract audio from video locally in your browser (MP4/MKV/WebM → MP3).",
+    "youtubeToMp3Label": "YouTube to MP3 converter",
+    "youtubeToMp3Desc": "Extract MP3 from video files on your device—local in your browser, no uploads. Does not download from URLs.",
     "subtitleConverterLabel": "SRT to VTT converter",
     "subtitleConverterDesc": "Convert subtitles locally: SRT ⇄ WebVTT (VTT).",
     "csvViewerLabel": "CSV viewer & editor",
-    "csvViewerDesc": "Open CSV in an editable grid, search and export—runs locally in your browser.",
+    "csvViewerDesc": "Open CSV in an editable grid, search and export, runs locally in your browser.",
     "csvCompareLabel": "CSV Compare",
     "csvCompareDesc": "Compare two CSV files side by side.",
     "csvToExcelDesc": "Convert CSV to XLSX files.",
@@ -746,7 +761,9 @@
     "markdownHtmlConverterLabel": "Markdown HTML converter",
     "markdownHtmlConverterDesc": "Convert Markdown and HTML with GFM tables, live preview, and safe copy.",
     "markdownToEpubLabel": "Markdown to ePub",
-    "markdownToEpubDesc": "Convert Markdown into a .epub file for offline reading—runs locally in your browser.",
+    "markdownToEpubDesc": "Convert Markdown into a .epub file for offline reading, runs locally in your browser.",
+    "htmlToTextEmailLabel": "HTML to Text Email Converter",
+    "htmlToTextEmailDesc": "Convert HTML email markup into a clean plain-text version locally in your browser.",
     "jwtDecoderLabel": "JWT decoder",
     "jwtDecoderDesc": "Decode JWT header and payload locally for API debugging.",
     "cronParserLabel": "Cron parser",
@@ -759,6 +776,12 @@
     "base64ConverterDesc": "Encode UTF-8 or files to Base64; decode to text or download binary.",
     "unixTimestampConverterLabel": "Unix timestamp converter",
     "unixTimestampConverterDesc": "Convert epoch seconds or milliseconds to human dates and back with IANA timezones locally.",
+    "celsiusFahrenheitConverterLabel": "Celsius ↔ Fahrenheit",
+    "celsiusFahrenheitConverterDesc": "Convert °C and °F both ways in the browser.",
+    "decimalFractionConverterLabel": "Decimal ↔ fraction",
+    "decimalFractionConverterDesc": "Convert decimals to simplified fractions and fractions to decimals.",
+    "degreesRadiansConverterLabel": "Degrees ↔ radians",
+    "degreesRadiansConverterDesc": "Convert degrees and radians for angles and trig.",
     "curlConverterLabel": "cURL Converter",
     "curlConverterDesc": "Convert cURL request snippets to fetch/axios/Python.",
     "fetchConverterLabel": "Fetch Converter",
@@ -802,7 +825,7 @@
     "imageResizeLabel": "Resize/Crop + Convert",
     "imageResizeDesc": "Resize, crop, convert, and rename images in bulk.",
     "faviconGeneratorLabel": "Favicon generator",
-    "faviconGeneratorDesc": "Text, emoji, or image—gradients and mesh backgrounds—then favicon.ico and PNG pack in a ZIP.",
+    "faviconGeneratorDesc": "Text, emoji, or image - gradients and mesh backgrounds - then favicon.ico and PNG pack in a ZIP.",
     "heicToJpgLabel": "HEIC to JPG/PNG",
     "heicToJpgDesc": "Convert HEIC/HEIF photos to JPG or PNG.",
     "gifToolsLabel": "GIF & motion tools",
@@ -857,7 +880,7 @@
     "designGradientTo": "Color at end",
     "designGradientPreset": "Gradient style",
     "designMeshPreset": "Mesh style",
-    "designMeshHint": "Soft, layered blobs—good for modern app icons.",
+    "designMeshHint": "Soft, layered blobs, good for modern app icons.",
     "designTextLabel": "Letters (up to 3)",
     "designTextPlaceholder": "A",
     "designTextHint": "Short initials or a single letter read best at 16×16.",
@@ -913,14 +936,14 @@
       "rounded": "Clean sans"
     },
     "pasteRegionLabel": "Image import: paste, drop, or browse",
-    "pasteInstructions": "Paste from the clipboard with Ctrl+V (Windows/Linux) or ⌘V (Mac) while this page is focused—avoid pasting inside other text fields. You can also drop a file or use Choose image.",
+    "pasteInstructions": "Paste from the clipboard with Ctrl+V (Windows/Linux) or ⌘V (Mac) while this page is focused - avoid pasting inside other text fields. You can also drop a file or use Choose image.",
     "pasteFocusButton": "Focus import area",
     "toastPasteOk": "Image added from clipboard.",
     "toastPasteNoImage": "Clipboard does not contain a supported image.",
     "statusRasterizing": "Preparing image…",
     "rotate90Label": "Rotate 90°",
     "rotate90Aria": "Rotate image ninety degrees clockwise",
-    "largeImageWarning": "Very large image — rotation or export may take longer on this device.",
+    "largeImageWarning": "Very large image, rotation or export may take longer on this device.",
     "editorImageAlt": "Uploaded image for favicon crop",
     "dropTitle": "Drop an image here or click to browse",
     "dropHint": "PNG, JPG, WebP, SVG, ICO, GIF, AVIF, HEIC, and more · one file",
@@ -1126,15 +1149,50 @@
       "description": "Video to MP3 converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "audio converter | video to mp3 | extract audio from video | mp4 to mp3 | mkv to mp3 | webm to mp3 | mp3 converter | aac converter | opus converter | wav converter | ffmpeg wasm audio | convert audio locally | no upload audio converter | browser audio converter"
     },
-    "markdown-to-epub": {
-      "title": "Markdown to ePub",
-      "description": "Markdown to ePub: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "markdown to epub | md to epub | epub generator | create epub from markdown | ebook converter | epub 3 | toc ncx | offline reading | convert markdown locally | no upload epub converter"
+    "youtube-to-mp3": {
+      "title": "YouTube to MP3 converter",
+      "description": "YouTube to MP3 converter: free in your browser. Add a video file you already have; we extract MP3 locally. Private, client-side processing—no uploads to our servers. Does not fetch videos from URLs.",
+      "keywords": "youtube to mp3 | youtube mp3 converter | video to mp3 | extract mp3 from video | mp4 to mp3 | webm to mp3 | local mp3 converter | browser mp3 extractor | no upload mp3 | ffmpeg wasm"
+    },
+    "html-to-text-email": {
+      "title": "HTML to Text Email Converter",
+      "description": "HTML to Text Email Converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "html to text email | html email to plain text | email plain text generator | convert html email to text | html to plaintext | email text version | strip html tags email | browser html to text converter | no upload html to text | local html email converter"
     },
     "srt-to-vtt": {
       "title": "SRT to VTT converter",
       "description": "SRT to VTT converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "srt to vtt | vtt to srt | subtitle converter | webvtt converter | convert subtitles | srt vtt converter | captions converter | browser subtitle converter | no upload subtitle converter"
+      "keywords": "srt to vtt | vtt to srt | subtitle converter | webvtt converter | convert subtitles | srt vtt converter | captions converter | closed captions vtt srt | browser subtitle converter | no upload subtitle converter"
+    },
+    "online-msg-viewer": {
+      "title": "Online MSG Viewer",
+      "description": "Online MSG Viewer: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "msg viewer | online msg viewer | open outlook msg | view msg file | outlook message viewer | msg email viewer | browser msg viewer | no upload msg viewer"
+    },
+    "total-mail-converter": {
+      "title": "Total Mail Converter",
+      "description": "Total Mail Converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "mail converter | total mail converter | email converter | convert msg | convert eml | email to pdf html jpeg text | browser email converter | no upload email converter"
+    },
+    "convert-email-to-pdf-free": {
+      "title": "Convert Email to PDF Free",
+      "description": "Convert Email to PDF Free: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "convert email to pdf | eml to pdf | msg to pdf | outlook msg to pdf | download email as pdf | email pdf export | browser email to pdf | no upload email to pdf"
+    },
+    "convert-email-to-html-free": {
+      "title": "Convert Email to HTML Free",
+      "description": "Convert Email to HTML Free: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "convert email to html | eml to html | msg to html | outlook msg to html | email html export | download email as html | browser email converter | no upload email converter"
+    },
+    "convert-email-to-jpeg-free": {
+      "title": "Convert Email to JPEG Free",
+      "description": "Convert Email to JPEG Free: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "convert email to jpeg | email to jpg | eml to jpg | msg to jpg | outlook msg to jpeg | render email to image | browser email to jpeg | no upload email to jpg"
+    },
+    "convert-email-to-text-free": {
+      "title": "Convert Email to Text Free",
+      "description": "Convert Email to Text Free: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "convert email to text | email to txt | eml to text | msg to text | plain text email converter | strip html email | browser email to text | no upload email to txt"
     },
     "axios-converter": {
       "title": "axios converter",
@@ -1150,6 +1208,11 @@
       "title": "Bulk PDF Watermark",
       "description": "Bulk PDF Watermark: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "bulk pdf watermark | watermark multiple pdf files | batch pdf watermark tool | pdf watermark no upload | watermark pdf with text | watermark pdf with image | free pdf watermark online | watermark pdf in browser"
+    },
+    "celsius-fahrenheit-converter": {
+      "title": "Celsius and Fahrenheit converter",
+      "description": "Celsius and Fahrenheit converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "celsius to fahrenheit | fahrenheit to celsius | c to f converter | f to c calculator | temperature converter | deg c to deg f | celsius fahrenheit formula | browser temperature converter"
     },
     "compare": {
       "title": "Compare CSV files",
@@ -1211,20 +1274,30 @@
       "description": "Edit PDF: add text, images, shapes, arrows, and freehand notes locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "edit pdf | pdf editor | add text to pdf | draw on pdf | annotate pdf | add image to pdf | pdf markup tool | browser pdf editor no upload"
     },
+    "decimal-fraction-converter": {
+      "title": "Decimal and fraction converter",
+      "description": "Decimal and fraction converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "decimal to fraction | fraction to decimal | convert decimal to fraction | mixed number to decimal | simplify fraction from decimal | browser fraction calculator | math converter local | fraction decimal converter online"
+    },
+    "degrees-radians-converter": {
+      "title": "Degrees and radians converter",
+      "description": "Degrees and radians converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "degrees to radians | radians to degrees | deg to rad | rad to deg | angle converter | pi radians to degrees | trig angle converter | browser degrees radians tool"
+    },
     "fetch-converter": {
       "title": "fetch converter",
       "description": "fetch converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "fetch converter | fetch to curl | fetch to axios | fetch to python requests | request converter | browser api converter | javascript fetch to curl | free fetch api converter"
     },
-    "favicon-generator": {
-      "title": "Favicon generator",
-      "description": "Free favicon generator: text, emoji, or image with gradients and mesh backgrounds. Download favicon.ico, PNG sizes, and site.webmanifest in one ZIP—runs locally in your browser.",
-      "keywords": "favicon generator | emoji favicon | text favicon maker | gradient favicon | mesh favicon background | favicon zip download | create favicon from image | android chrome icons | apple touch icon | free favicon generator no upload"
-    },
     "gif-tools": {
       "title": "GIF & motion tools",
-      "description": "GIF to MP4, video to GIF, optional animated WebP, PNG frame ZIP export, and stills-to-GIF.no uploads to our servers for conversion.",
-      "keywords": "gif to mp4 | mp4 to gif | gif frames to png | images to gif | animated webp from gif | browser gif tool | split gif frames"
+      "description": "GIF & motion tools: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "gif to mp4 | mp4 to gif | gif frames to png | images to gif | animated webp from gif | browser gif converter | ffmpeg wasm gif | split gif frames zip"
+    },
+    "favicon-generator": {
+      "title": "Favicon generator",
+      "description": "Favicon generator: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "favicon generator | emoji favicon | text favicon maker | gradient favicon | mesh favicon background | favicon zip download | create favicon from image | android chrome icons | apple touch icon | free favicon generator no upload"
     },
     "graphql-tools": {
       "title": "GraphQL tools",
@@ -1247,9 +1320,9 @@
       "keywords": "image compressor | compress images | bulk image compression | browser image compressor | local image compress | no upload image compression | free compress images online | reduce image file size"
     },
     "image-base64": {
-      "title": "Image Base64 & data URL",
-      "description": "Encode images to Base64 and data URLs, or decode back to a file. Runs locally in your browser; nothing is uploaded for encoding or decoding.",
-      "keywords": "image to base64 | data url generator | base64 image decode | png to base64 online | browser image base64 | decode data url | css inline image base64"
+      "title": "Image Base64",
+      "description": "Image Base64: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "image to base64 | data url generator | base64 image decode | png to base64 online | browser image base64 | decode data url image | css background base64"
     },
     "image-convert": {
       "title": "Image converter",
@@ -1301,6 +1374,11 @@
       "description": "markdown-html-converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "markdown to html | html to markdown | markdown html converter | gfm markdown preview | convert markdown to html online | browser markdown tool | markdown table to html | local markdown converter no upload | turndown html to md"
     },
+    "markdown-to-epub": {
+      "title": "Markdown to ePub",
+      "description": "Markdown to ePub: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "markdown to epub | md to epub | epub generator | create epub from markdown | ebook converter | offline reading | epub 3 nav | toc ncx | convert markdown locally | no upload epub converter"
+    },
     "merge-pdf": {
       "title": "Merge PDF",
       "description": "Merge PDF: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
@@ -1312,9 +1390,9 @@
       "keywords": "openapi viewer | swagger viewer | openapi browser | api spec viewer | swagger file viewer | browser openapi tool | free swagger ui alternative | view openapi yaml json"
     },
     "open-graph-preview": {
-      "title": "Open Graph & Twitter card preview",
-      "description": "Parse og:title, og:image, Twitter cards, and related meta tags in your tab with DOMParser. Paste View Source HTML, or fetch the page only when the site allows browser CORS. No app API and no proxy.",
-      "keywords": "open graph preview | og meta parser browser | twitter card preview | domparser meta tags | view source og:image | cors fetch og tags | local og debugger | social share preview"
+      "title": "Open Graph preview",
+      "description": "Open Graph preview: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "open graph preview | og image checker | twitter card preview | meta tags debugger | og:title viewer | social share preview | linkedin preview image"
     },
     "parquet-to-csv": {
       "title": "Parquet to CSV",
@@ -1373,8 +1451,8 @@
     },
     "svg-to-png": {
       "title": "SVG to PNG (multi-size)",
-      "description": "Rasterize one SVG to square PNGs at preset sizes and download a ZIP. Canvas runs locally in your browser; vectors are not uploaded to our servers.",
-      "keywords": "svg to png | rasterize svg | svg icon export | pwa icon png sizes | multi resolution png | browser svg raster | svg to png zip"
+      "description": "SVG to PNG (multi-size): free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "svg to png | rasterize svg | svg icon sizes | export svg png zip | browser svg to png | pwa icon sizes png | multi size png from svg"
     },
     "sql-formatter": {
       "title": "SQL formatter",

@@ -72,7 +72,7 @@ export function JwtDecoderApp() {
       <ToolHero
         icon={<KeyRound className="size-8 md:size-9" aria-hidden />}
         title="JWT decoder"
-        description="Inspect header and payload from a JSON Web Token (JWS). Decoding runs locally in your browser. Signatures are never verified here—use your auth library with the correct secret or JWKS on the server."
+        description="Inspect header and payload from a JSON Web Token (JWS). Decoding runs locally in your browser. Signatures are never verified here - use your auth library with the correct secret or JWKS on the server."
       />
 
       <ToolCard>
@@ -310,7 +310,7 @@ export function JwtDecoderApp() {
                   }{" "}
                 </span>
                 using the algorithm in <span className="font-mono">alg</span>{" "}
-                and your key material. This page does not perform that step—copy
+                and your key material. This page does not perform that step, copy
                 the token to your server or use your IdP’s JWKS flow.
               </p>
             </ToolPane>

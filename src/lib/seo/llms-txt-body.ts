@@ -104,6 +104,22 @@ export const LLMS_SECTIONS: LlmsSection[] = [
     blurb: "HTTP clients, specs, and payload inspection.",
     items: [
       {
+        path: "/html-to-text-email",
+        label: "HTML to text email converter",
+        detail:
+          "Convert HTML email markup into a clean plain-text version locally in your browser.",
+      },
+      { path: "/online-msg-viewer", label: "Online MSG viewer" },
+      {
+        path: "/total-mail-converter",
+        label: "Total mail converter",
+        detail: "Convert .msg/.eml emails into PDF, HTML, JPEG, or plain text.",
+      },
+      { path: "/convert-email-to-pdf-free", label: "Convert email to PDF" },
+      { path: "/convert-email-to-html-free", label: "Convert email to HTML" },
+      { path: "/convert-email-to-jpeg-free", label: "Convert email to JPEG" },
+      { path: "/convert-email-to-text-free", label: "Convert email to text" },
+      {
         path: "/json-formatter",
         label: "JSON formatter",
         detail: "Format and validate JSON locally.",
@@ -159,6 +175,21 @@ export const LLMS_SECTIONS: LlmsSection[] = [
           "Epoch seconds or ms to human time and back; IANA timezones; local only.",
       },
       {
+        path: "/celsius-fahrenheit-converter",
+        label: "Celsius ↔ Fahrenheit",
+        detail: "Temperature conversion both ways; local calculator.",
+      },
+      {
+        path: "/decimal-fraction-converter",
+        label: "Decimal ↔ fraction",
+        detail: "Decimals to simplified fractions and fractions to decimals; local.",
+      },
+      {
+        path: "/degrees-radians-converter",
+        label: "Degrees ↔ radians",
+        detail: "Angle units for trig; local conversion.",
+      },
+      {
         path: "/regex-tester",
         label: "Regex tester",
         detail:
@@ -201,6 +232,7 @@ export const LLMS_SECTIONS: LlmsSection[] = [
     items: [
       { path: "/video-compress", label: "Video compress" },
       { path: "/audio-convert", label: "Audio converter" },
+      { path: "/youtube-to-mp3", label: "YouTube to MP3 converter" },
       { path: "/srt-to-vtt", label: "SRT to VTT converter" },
     ],
   },
@@ -277,7 +309,7 @@ export function buildLlmsTxtBody(): string {
     const intro = section.blurb ? `\n${section.blurb}\n` : "\n";
     const lines = section.items.map((item) => {
       const url = abs(base, item.path);
-      const suffix = item.detail ? ` — ${item.detail}` : "";
+      const suffix = item.detail ? ` - ${item.detail}` : "";
       return `- [${item.label}](${url})${suffix}`;
     });
     return `## ${section.heading}${intro}${lines.join("\n")}`;

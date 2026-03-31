@@ -2,10 +2,13 @@ import { describe, expect, it } from "vitest";
 import {
   buildCsvExportString,
   buildLabelKeyedExportRows,
+  buildPdfExportBytes,
   neutralizeCsvFormulaPrefix,
+  serializeCellForDownload,
   sanitizeCsvDownloadFileBaseName,
 } from "@/lib/csv-export";
 import type { CsvViewerRow } from "@/lib/csv-import";
+import type { CsvCellMerge } from "@/lib/csv-viewer-session";
 
 describe("neutralizeCsvFormulaPrefix", () => {
   it("prefixes tab for leading formula metacharacters", () => {
@@ -47,6 +50,28 @@ describe("buildLabelKeyedExportRows", () => {
     expect(out).toEqual([
       { Name: "Ada", Score: 10 },
       { Name: "Bob", Score: 20 },
+    ]);
+  });
+
+  it("blanks covered cells for merged ranges", () => {
+    const rows: CsvViewerRow[] = [
+      { id: "r1", a: "A1", b: "B1" },
+      { id: "r2", a: "A2", b: "B2" },
+    ];
+    const merges: CsvCellMerge[] = [
+      {
+        id: "m1",
+        startRowId: "r1",
+        endRowId: "r2",
+        startColumnId: "a",
+        endColumnId: "b",
+      },
+    ];
+
+    const out = buildLabelKeyedExportRows(rows, ["a", "b"], ["A", "B"], merges);
+    expect(out).toEqual([
+      { A: "A1", B: "" },
+      { A: "", B: "" },
     ]);
   });
 });
@@ -91,5 +116,67 @@ describe("buildCsvExportString", () => {
     const dataLine = lines.at(-1);
     expect(dataLine).toBeDefined();
     expect(dataLine).toMatch(/^,?,?$/);
+  });
+
+  it("blanks covered cells for merged ranges", () => {
+    const rows: CsvViewerRow[] = [
+      { id: "r1", a: "A1", b: "B1", c: "C1" },
+      { id: "r2", a: "A2", b: "B2", c: "C2" },
+    ];
+    const merges: CsvCellMerge[] = [
+      {
+        id: "m1",
+        startRowId: "r1",
+        endRowId: "r2",
+        startColumnId: "a",
+        endColumnId: "b",
+      },
+    ];
+
+    const csv = buildCsvExportString(
+      rows,
+      ["a", "b", "c"],
+      ["A", "B", "C"],
+      merges,
+    );
+    const lines = csv.trim().split(/\r?\n/);
+    expect(lines[0]).toBe("A,B,C");
+    expect(lines[1]).toBe("A1,,C1");
+    expect(lines[2]).toBe(",,C2");
+  });
+});
+
+describe("serializeCellForDownload", () => {
+  it("serializes file cells as urls or names", () => {
+    expect(
+      serializeCellForDownload([
+        {
+          id: "f1",
+          name: "pic.png",
+          size: 1,
+          type: "image/png",
+          url: "blob:abc",
+        },
+      ]),
+    ).toBe("blob:abc");
+    expect(
+      serializeCellForDownload([
+        { id: "f1", name: "pic.png", size: 1, type: "image/png" },
+      ]),
+    ).toBe("pic.png");
+  });
+});
+
+describe("buildPdfExportBytes", () => {
+  it("creates a PDF document", async () => {
+    const rows: CsvViewerRow[] = [{ id: "1", name: "Ada", score: 10 }];
+    const bytes = await buildPdfExportBytes({
+      rows,
+      columnKeys: ["name", "score"],
+      headerLabels: ["Name", "Score"],
+      title: "test",
+    });
+    const prefix = new TextDecoder().decode(bytes.slice(0, 4));
+    expect(prefix).toBe("%PDF");
   });
 });
