@@ -11,14 +11,20 @@ export interface ContactMailInput {
 
 function getMailRuntime(): {
   transporter: nodemailer.Transporter;
-  to: string;
+  to: string[];
   envelopeFrom: string;
 } | null {
   const host = process.env.CONTACT_SMTP_HOST;
   const user = process.env.CONTACT_SMTP_USER;
   const pass = process.env.CONTACT_SMTP_PASS;
-  const to = process.env.CONTACT_MAIL_TO;
-  if (!host || !user || !pass || !to) return null;
+  const adminMails = (process.env.ADMIN_MAILS ?? "")
+    .split(",")
+    .map((mail) => mail.trim())
+    .filter((mail) => mail.length > 0);
+  const fallbackMail = (process.env.CONTACT_MAIL_TO ?? "").trim();
+  const to =
+    adminMails.length > 0 ? adminMails : fallbackMail ? [fallbackMail] : [];
+  if (!host || !user || !pass || to.length === 0) return null;
 
   const port = Number(process.env.CONTACT_SMTP_PORT ?? "587");
   const secure = process.env.CONTACT_SMTP_SECURE === "true" || port === 465;

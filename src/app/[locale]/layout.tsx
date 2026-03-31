@@ -15,16 +15,14 @@ import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
 import { fontMono, fontSans } from "@/lib/fonts";
-import {
-  buildAbsoluteUrl,
-  openGraphLocaleForSeo,
-} from "@/lib/seo/paths";
+import { buildAbsoluteUrl, openGraphLocaleForSeo } from "@/lib/seo/paths";
 import { cn } from "@/lib/utils";
 import { buildOgImageUrl } from "@/lib/seo/metadata";
 
 import "@/styles/globals.css";
 import { RelatedAppTools } from "@/app/components/related-app-tools";
 import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";
+import { FeatureRequestWidget } from "@/components/feature-request-widget";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -189,6 +187,7 @@ export default async function LocaleLayout({
               <TrustedByMarquee />
               <SiteFooter />
             </div>
+            <FeatureRequestWidget />
           </ThemeProvider>
           <Toaster />
         </NextIntlClientProvider>

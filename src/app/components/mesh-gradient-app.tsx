@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import {
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
   Check,
+  ChevronDown,
   Code,
   Copy,
   Image as ImageIcon,
   Italic,
-  Layers,
   Palette,
   Plus,
   RefreshCw,
@@ -90,6 +87,18 @@ interface GeneratorFavoriteSnapshot {
   isItalic: boolean;
   isUnderline: boolean;
   isStrikethrough: boolean;
+  overlayImageUrl: string;
+  imagePosition: { x: number; y: number };
+  imageWidthPercent: number;
+  imageBorderWidth: number;
+  imageBorderColor: string;
+  imageBorderRadius: number;
+  imageShadow: {
+    color: string;
+    blur: number;
+    offsetX: number;
+    offsetY: number;
+  };
 }
 
 interface GeneratorFavoriteEntry {
@@ -173,6 +182,13 @@ export function MeshGradientApp() {
   const isItalic = useMeshGradientStore((s) => s.isItalic);
   const isUnderline = useMeshGradientStore((s) => s.isUnderline);
   const isStrikethrough = useMeshGradientStore((s) => s.isStrikethrough);
+  const overlayImageUrl = useMeshGradientStore((s) => s.overlayImageUrl);
+  const imagePosition = useMeshGradientStore((s) => s.imagePosition);
+  const imageWidthPercent = useMeshGradientStore((s) => s.imageWidthPercent);
+  const imageBorderWidth = useMeshGradientStore((s) => s.imageBorderWidth);
+  const imageBorderColor = useMeshGradientStore((s) => s.imageBorderColor);
+  const imageBorderRadius = useMeshGradientStore((s) => s.imageBorderRadius);
+  const imageShadow = useMeshGradientStore((s) => s.imageShadow);
 
   const setText = useMeshGradientStore((s) => s.setText);
   const setTextColor = useMeshGradientStore((s) => s.setTextColor);
@@ -187,6 +203,21 @@ export function MeshGradientApp() {
   const setIsItalic = useMeshGradientStore((s) => s.setIsItalic);
   const setIsUnderline = useMeshGradientStore((s) => s.setIsUnderline);
   const setIsStrikethrough = useMeshGradientStore((s) => s.setIsStrikethrough);
+  const setOverlayImageUrl = useMeshGradientStore((s) => s.setOverlayImageUrl);
+  const setImagePosition = useMeshGradientStore((s) => s.setImagePosition);
+  const setImageWidthPercent = useMeshGradientStore(
+    (s) => s.setImageWidthPercent,
+  );
+  const setImageBorderWidth = useMeshGradientStore(
+    (s) => s.setImageBorderWidth,
+  );
+  const setImageBorderColor = useMeshGradientStore(
+    (s) => s.setImageBorderColor,
+  );
+  const setImageBorderRadius = useMeshGradientStore(
+    (s) => s.setImageBorderRadius,
+  );
+  const setImageShadow = useMeshGradientStore((s) => s.setImageShadow);
 
   const currentSnapshot = useMemo<GeneratorFavoriteSnapshot>(
     () => ({
@@ -208,6 +239,13 @@ export function MeshGradientApp() {
       isItalic,
       isUnderline,
       isStrikethrough,
+      overlayImageUrl,
+      imagePosition,
+      imageWidthPercent,
+      imageBorderWidth,
+      imageBorderColor,
+      imageBorderRadius,
+      imageShadow,
     }),
     [
       blobs,
@@ -228,6 +266,13 @@ export function MeshGradientApp() {
       isItalic,
       isUnderline,
       isStrikethrough,
+      overlayImageUrl,
+      imagePosition,
+      imageWidthPercent,
+      imageBorderWidth,
+      imageBorderColor,
+      imageBorderRadius,
+      imageShadow,
     ],
   );
   const favoriteFingerprint = useMemo(
@@ -358,6 +403,20 @@ export function MeshGradientApp() {
     setIsItalic(snap.isItalic);
     setIsUnderline(snap.isUnderline);
     setIsStrikethrough(snap.isStrikethrough);
+    setOverlayImageUrl(snap.overlayImageUrl ?? "");
+    setImagePosition(snap.imagePosition ?? { x: 0, y: 0 });
+    setImageWidthPercent(snap.imageWidthPercent ?? 30);
+    setImageBorderWidth(snap.imageBorderWidth ?? 0);
+    setImageBorderColor(snap.imageBorderColor ?? "#ffffff");
+    setImageBorderRadius(snap.imageBorderRadius ?? 12);
+    setImageShadow(
+      snap.imageShadow ?? {
+        color: "#000000",
+        blur: 20,
+        offsetX: 0,
+        offsetY: 8,
+      },
+    );
     toast.success("Favorite loaded");
   };
 
@@ -372,6 +431,26 @@ export function MeshGradientApp() {
     } catch {
       // ignore storage errors
     }
+  };
+
+  const onOverlayImageUpload = (file: File | null) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image file");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result;
+      if (typeof result === "string") {
+        setOverlayImageUrl(result);
+        toast.success("Image uploaded");
+      } else {
+        toast.error("Could not read image");
+      }
+    };
+    reader.onerror = () => toast.error("Could not read image");
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -409,7 +488,7 @@ export function MeshGradientApp() {
           className="flex min-h-0 w-full shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-md lg:w-96"
         >
           <div className="flex min-h-0 max-h-[min(80vh,920px)] flex-1 flex-col">
-            <div className="min-h-0 flex-1 space-y-6 overflow-y-auto p-4">
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4">
               <div className="flex items-center justify-between gap-2">
                 <h2 className="flex items-center gap-2 font-semibold text-sm">
                   <Palette className="size-4 text-primary" />
@@ -493,486 +572,606 @@ export function MeshGradientApp() {
                 </div>
               </div>
 
-              <section className="space-y-4">
-                <SliderRow
-                  label="Global blur"
-                  value={blur}
-                  min={0}
-                  max={200}
-                  step={1}
-                  suffix=" px"
-                  onValueChange={setBlur}
-                />
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-sm">
-                    <Label>Noise intensity</Label>
-                    <span className="text-muted-foreground tabular-nums">
-                      {Math.round(noiseOpacity * 100)}%
-                    </span>
-                  </div>
-                  <Slider
-                    value={[Math.round(noiseOpacity * 100)]}
+              <CollapsibleSection title="Canvas" defaultOpen>
+                <section className="space-y-4">
+                  <SliderRow
+                    label="Global blur"
+                    value={blur}
                     min={0}
-                    max={50}
+                    max={200}
                     step={1}
-                    onValueChange={(v) => setNoiseOpacity((v[0] ?? 0) / 100)}
-                    className="py-1"
+                    suffix=" px"
+                    onValueChange={setBlur}
                   />
-                </div>
-                <div className="space-y-1.5">
-                  <Label>Base background</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="color"
-                      aria-label="Base background"
-                      className="h-10 w-14 shrink-0 cursor-pointer p-1"
-                      value={
-                        /^#[0-9A-Fa-f]{6}$/.test(backgroundColor)
-                          ? backgroundColor
-                          : "#f5f5f0"
-                      }
-                      onChange={(e) => setBackgroundColor(e.target.value)}
-                    />
-                    <Input
-                      value={backgroundColor}
-                      onChange={(e) => setBackgroundColor(e.target.value)}
-                      className="font-mono text-sm"
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-sm">
+                      <Label>Noise intensity</Label>
+                      <span className="text-muted-foreground tabular-nums">
+                        {Math.round(noiseOpacity * 100)}%
+                      </span>
+                    </div>
+                    <Slider
+                      value={[Math.round(noiseOpacity * 100)]}
+                      min={0}
+                      max={50}
+                      step={1}
+                      onValueChange={(v) => setNoiseOpacity((v[0] ?? 0) / 100)}
+                      className="py-1"
                     />
                   </div>
-                </div>
-              </section>
+                  <div className="space-y-1.5">
+                    <Label>Base background</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        aria-label="Base background"
+                        className="h-10 w-14 shrink-0 cursor-pointer p-1"
+                        value={
+                          /^#[0-9A-Fa-f]{6}$/.test(backgroundColor)
+                            ? backgroundColor
+                            : "#f5f5f0"
+                        }
+                        onChange={(e) => setBackgroundColor(e.target.value)}
+                      />
+                      <Input
+                        value={backgroundColor}
+                        onChange={(e) => setBackgroundColor(e.target.value)}
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                  </div>
+                </section>
+              </CollapsibleSection>
 
-              <Separator />
-
-              <div className="flex items-center justify-between gap-2">
-                <h3 className="flex items-center gap-2 font-medium text-muted-foreground text-xs uppercase tracking-wide">
-                  <Layers className="size-3.5" />
-                  Blobs ({blobs.length})
-                </h3>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 gap-1 text-primary"
-                  disabled={blobs.length >= MAX_MESH_BLOB_COUNT}
-                  onClick={() => addBlob()}
-                >
-                  <Plus className="size-3.5" />
-                  Add blob
-                </Button>
-              </div>
-
-              <div className="space-y-3">
-                {blobs.map((blob, index) => (
-                  <div
-                    key={blob.id}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => setSelectedBlobId(blob.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setSelectedBlobId(blob.id);
-                      }
-                    }}
-                    className={cn(
-                      "cursor-pointer rounded-xl border p-3 transition-colors",
-                      selectedBlobId === blob.id
-                        ? "border-primary bg-muted/80"
-                        : "border-border/60 bg-muted/30 hover:bg-muted/50",
-                    )}
+              <CollapsibleSection
+                title={`Blobs (${blobs.length})`}
+                defaultOpen
+                action={
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 gap-1 text-primary"
+                    disabled={blobs.length >= MAX_MESH_BLOB_COUNT}
+                    onClick={() => addBlob()}
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex min-w-0 items-center gap-2">
-                        <Input
-                          type="color"
-                          className="h-8 w-8 shrink-0 cursor-pointer rounded-full border-0 p-0.5"
-                          value={
-                            /^#[0-9A-Fa-f]{6}$/.test(blob.color)
-                              ? blob.color
-                              : "#000000"
-                          }
-                          onChange={(e) =>
-                            updateBlob(blob.id, { color: e.target.value })
-                          }
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <span
-                          className={cn(
-                            "truncate text-xs font-medium",
-                            selectedBlobId === blob.id
-                              ? "text-primary"
-                              : "text-foreground",
-                          )}
-                        >
-                          Blob {index + 1}
-                        </span>
-                      </div>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="size-8 shrink-0 text-muted-foreground hover:text-destructive"
-                        disabled={blobs.length <= 1}
-                        aria-label="Remove blob"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeBlob(blob.id);
-                        }}
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
-                    </div>
-
-                    <div className="mt-3 grid grid-cols-2 gap-3">
-                      <SliderRow
-                        label="X"
-                        value={Math.round(blob.x)}
-                        min={0}
-                        max={100}
-                        step={1}
-                        suffix="%"
-                        onValueChange={(n) => updateBlob(blob.id, { x: n })}
-                      />
-                      <SliderRow
-                        label="Y"
-                        value={Math.round(blob.y)}
-                        min={0}
-                        max={100}
-                        step={1}
-                        suffix="%"
-                        onValueChange={(n) => updateBlob(blob.id, { y: n })}
-                      />
-                    </div>
-                    <div className="mt-2 grid grid-cols-2 gap-3">
-                      <SliderRow
-                        label="Size"
-                        value={Math.round(blob.size)}
-                        min={10}
-                        max={150}
-                        step={1}
-                        suffix="%"
-                        onValueChange={(n) => updateBlob(blob.id, { size: n })}
-                      />
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between text-sm">
-                          <Label>Opacity</Label>
-                          <span className="text-muted-foreground tabular-nums">
-                            {Math.round(blob.opacity * 100)}%
+                    <Plus className="size-3.5" />
+                    Add blob
+                  </Button>
+                }
+              >
+                <div className="space-y-3">
+                  {blobs.map((blob, index) => (
+                    <div
+                      key={blob.id}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelectedBlobId(blob.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedBlobId(blob.id);
+                        }
+                      }}
+                      className={cn(
+                        "cursor-pointer rounded-xl border p-3 transition-colors",
+                        selectedBlobId === blob.id
+                          ? "border-primary bg-muted/80"
+                          : "border-border/60 bg-muted/30 hover:bg-muted/50",
+                      )}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex min-w-0 items-center gap-2">
+                          <Input
+                            type="color"
+                            className="h-8 w-8 shrink-0 cursor-pointer rounded-full border-0 p-0.5"
+                            value={
+                              /^#[0-9A-Fa-f]{6}$/.test(blob.color)
+                                ? blob.color
+                                : "#000000"
+                            }
+                            onChange={(e) =>
+                              updateBlob(blob.id, { color: e.target.value })
+                            }
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                          <span
+                            className={cn(
+                              "truncate text-xs font-medium",
+                              selectedBlobId === blob.id
+                                ? "text-primary"
+                                : "text-foreground",
+                            )}
+                          >
+                            Blob {index + 1}
                           </span>
                         </div>
-                        <Slider
-                          value={[Math.round(blob.opacity * 100)]}
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="size-8 shrink-0 text-muted-foreground hover:text-destructive"
+                          disabled={blobs.length <= 1}
+                          aria-label="Remove blob"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeBlob(blob.id);
+                          }}
+                        >
+                          <Trash2 className="size-4" />
+                        </Button>
+                      </div>
+
+                      <div className="mt-3 grid grid-cols-2 gap-3">
+                        <SliderRow
+                          label="X"
+                          value={Math.round(blob.x)}
                           min={0}
                           max={100}
                           step={1}
-                          onValueChange={(v) =>
-                            updateBlob(blob.id, {
-                              opacity: (v[0] ?? 0) / 100,
-                            })
-                          }
-                          className="py-1"
+                          suffix="%"
+                          onValueChange={(n) => updateBlob(blob.id, { x: n })}
+                        />
+                        <SliderRow
+                          label="Y"
+                          value={Math.round(blob.y)}
+                          min={0}
+                          max={100}
+                          step={1}
+                          suffix="%"
+                          onValueChange={(n) => updateBlob(blob.id, { y: n })}
                         />
                       </div>
-                    </div>
-                    <div className="mt-2">
-                      <Label className="text-muted-foreground text-xs">
-                        Layer (z-index)
-                      </Label>
-                      <Input
-                        type="number"
-                        min={1}
-                        max={999}
-                        step={1}
-                        value={blob.zIndex}
-                        onChange={(e) => {
-                          const v = Number.parseInt(e.target.value, 10);
-                          if (!Number.isFinite(v)) return;
-                          updateBlob(blob.id, {
-                            zIndex: Math.max(1, Math.min(999, v)),
-                          });
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                        className="mt-1 h-8 w-28 font-mono text-xs"
-                      />
-                    </div>
-
-                    <div className="mt-3 space-y-1.5">
-                      <Label className="text-muted-foreground text-xs">
-                        Shape
-                      </Label>
-                      <ToggleGroup
-                        type="single"
-                        value={blob.shape}
-                        onValueChange={(v) => {
-                          if (
-                            v === "circle" ||
-                            v === "square" ||
-                            v === "pill" ||
-                            v === "organic"
-                          ) {
-                            updateBlob(blob.id, { shape: v });
+                      <div className="mt-2 grid grid-cols-2 gap-3">
+                        <SliderRow
+                          label="Size"
+                          value={Math.round(blob.size)}
+                          min={10}
+                          max={150}
+                          step={1}
+                          suffix="%"
+                          onValueChange={(n) =>
+                            updateBlob(blob.id, { size: n })
                           }
-                        }}
-                        variant="outline"
-                        className="grid w-full grid-cols-4 gap-1"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {BLOB_SHAPE_OPTIONS.map((s) => (
-                          <ToggleGroupItem
-                            key={s}
-                            value={s}
-                            className="px-1 text-[10px] uppercase"
-                          >
-                            {s}
-                          </ToggleGroupItem>
-                        ))}
-                      </ToggleGroup>
+                        />
+                        <div className="space-y-1.5">
+                          <div className="flex justify-between text-sm">
+                            <Label>Opacity</Label>
+                            <span className="text-muted-foreground tabular-nums">
+                              {Math.round(blob.opacity * 100)}%
+                            </span>
+                          </div>
+                          <Slider
+                            value={[Math.round(blob.opacity * 100)]}
+                            min={0}
+                            max={100}
+                            step={1}
+                            onValueChange={(v) =>
+                              updateBlob(blob.id, {
+                                opacity: (v[0] ?? 0) / 100,
+                              })
+                            }
+                            className="py-1"
+                          />
+                        </div>
+                      </div>
+                      <div className="mt-2">
+                        <Label className="text-muted-foreground text-xs">
+                          Layer (z-index)
+                        </Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          max={999}
+                          step={1}
+                          value={blob.zIndex}
+                          onChange={(e) => {
+                            const v = Number.parseInt(e.target.value, 10);
+                            if (!Number.isFinite(v)) return;
+                            updateBlob(blob.id, {
+                              zIndex: Math.max(1, Math.min(999, v)),
+                            });
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          className="mt-1 h-8 w-28 font-mono text-xs"
+                        />
+                      </div>
+
+                      <div className="mt-3 space-y-1.5">
+                        <Label className="text-muted-foreground text-xs">
+                          Shape
+                        </Label>
+                        <ToggleGroup
+                          type="single"
+                          value={blob.shape}
+                          onValueChange={(v) => {
+                            if (
+                              v === "circle" ||
+                              v === "square" ||
+                              v === "pill" ||
+                              v === "organic"
+                            ) {
+                              updateBlob(blob.id, { shape: v });
+                            }
+                          }}
+                          variant="outline"
+                          className="grid w-full grid-cols-4 gap-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {BLOB_SHAPE_OPTIONS.map((s) => (
+                            <ToggleGroupItem
+                              key={s}
+                              value={s}
+                              className="px-1 text-[10px] uppercase"
+                            >
+                              {s}
+                            </ToggleGroupItem>
+                          ))}
+                        </ToggleGroup>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-
-              <Separator />
-
-              <div className="space-y-2">
-                <Label htmlFor="mesh-resolution">Export size</Label>
-                <Select
-                  value={resolutionSelectValue}
-                  onValueChange={(v) => {
-                    if (v === "__custom__") return;
-                    const preset = resolutionOptions.find((p) => p.value === v);
-                    if (preset) {
-                      setResolution({
-                        width: preset.width,
-                        height: preset.height,
-                      });
-                    }
-                  }}
-                >
-                  <SelectTrigger id="mesh-resolution" className="w-full">
-                    <SelectValue placeholder="Resolution" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-80">
-                    {resolutionOptions.map((p) => (
-                      <SelectItem key={p.value} value={p.value}>
-                        {p.label}
-                      </SelectItem>
-                    ))}
-                    {!presetMatch ? (
-                      <SelectItem value="__custom__" disabled>
-                        Custom ({resolution.width} × {resolution.height})
-                      </SelectItem>
-                    ) : null}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-3">
-                <p className="font-medium text-sm">Text on image</p>
-                <Textarea
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  placeholder="Title or short copy"
-                  rows={3}
-                  className="min-h-[72px] resize-y font-sans text-sm"
-                />
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-sm">
-                    <Label>Text color</Label>
-                    <span className="font-mono text-muted-foreground text-xs">
-                      {textColor}
-                    </span>
-                  </div>
-                  <div className="flex gap-2">
-                    <Input
-                      type="color"
-                      aria-label="Text color"
-                      className="h-10 w-14 cursor-pointer p-1"
-                      value={
-                        /^#[0-9A-Fa-f]{6}$/.test(textColor)
-                          ? textColor
-                          : "#f1f1f1"
-                      }
-                      onChange={(e) => setTextColor(e.target.value)}
-                    />
-                    <Input
-                      value={textColor}
-                      onChange={(e) => setTextColor(e.target.value)}
-                      className="font-mono text-sm"
-                    />
-                  </div>
+                  ))}
                 </div>
+              </CollapsibleSection>
 
-                <div className="space-y-1.5">
-                  <Label className="text-muted-foreground text-xs">
-                    Alignment
-                  </Label>
-                  <ToggleGroup
-                    type="single"
-                    value={textAlign}
+              <CollapsibleSection title="Export size" defaultOpen>
+                <div className="space-y-2">
+                  <Label htmlFor="mesh-resolution">Export size</Label>
+                  <Select
+                    value={resolutionSelectValue}
                     onValueChange={(v) => {
-                      if (v === "left" || v === "center" || v === "right") {
-                        setTextAlign(v);
+                      if (v === "__custom__") return;
+                      const preset = resolutionOptions.find(
+                        (p) => p.value === v,
+                      );
+                      if (preset) {
+                        setResolution({
+                          width: preset.width,
+                          height: preset.height,
+                        });
                       }
                     }}
-                    variant="outline"
-                    className="w-full justify-stretch *:flex-1"
                   >
-                    <ToggleGroupItem value="left" aria-label="Align left">
-                      <AlignLeft className="size-4" />
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="center" aria-label="Align center">
-                      <AlignCenter className="size-4" />
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="right" aria-label="Align right">
-                      <AlignRight className="size-4" />
-                    </ToggleGroupItem>
-                  </ToggleGroup>
+                    <SelectTrigger id="mesh-resolution" className="w-full">
+                      <SelectValue placeholder="Resolution" />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-80">
+                      {resolutionOptions.map((p) => (
+                        <SelectItem key={p.value} value={p.value}>
+                          {p.label}
+                        </SelectItem>
+                      ))}
+                      {!presetMatch ? (
+                        <SelectItem value="__custom__" disabled>
+                          Custom ({resolution.width} × {resolution.height})
+                        </SelectItem>
+                      ) : null}
+                    </SelectContent>
+                  </Select>
                 </div>
+              </CollapsibleSection>
+              <CollapsibleSection title="Text on image" defaultOpen>
+                <div className="space-y-3">
+                  <Textarea
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    placeholder="Title or short copy"
+                    rows={3}
+                    className="min-h-[72px] resize-y font-sans text-sm"
+                  />
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-sm">
+                      <Label>Text color</Label>
+                      <span className="font-mono text-muted-foreground text-xs">
+                        {textColor}
+                      </span>
+                    </div>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        aria-label="Text color"
+                        className="h-10 w-14 cursor-pointer p-1"
+                        value={
+                          /^#[0-9A-Fa-f]{6}$/.test(textColor)
+                            ? textColor
+                            : "#f1f1f1"
+                        }
+                        onChange={(e) => setTextColor(e.target.value)}
+                      />
+                      <Input
+                        value={textColor}
+                        onChange={(e) => setTextColor(e.target.value)}
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                  </div>
+                  {/* Alignment controls are temporarily hidden. */}
+                  <div className="flex flex-wrap gap-1">
+                    <Toggle
+                      pressed={isItalic}
+                      onPressedChange={setIsItalic}
+                      variant="outline"
+                      size="sm"
+                      aria-label="Italic"
+                    >
+                      <Italic className="size-4" />
+                    </Toggle>
+                    <Toggle
+                      pressed={isUnderline}
+                      onPressedChange={setIsUnderline}
+                      variant="outline"
+                      size="sm"
+                      aria-label="Underline"
+                    >
+                      <Underline className="size-4" />
+                    </Toggle>
+                    <Toggle
+                      pressed={isStrikethrough}
+                      onPressedChange={setIsStrikethrough}
+                      variant="outline"
+                      size="sm"
+                      aria-label="Strikethrough"
+                    >
+                      <Strikethrough className="size-4" />
+                    </Toggle>
+                  </div>
 
-                <div className="flex flex-wrap gap-1">
-                  <Toggle
-                    pressed={isItalic}
-                    onPressedChange={setIsItalic}
-                    variant="outline"
-                    size="sm"
-                    aria-label="Italic"
-                  >
-                    <Italic className="size-4" />
-                  </Toggle>
-                  <Toggle
-                    pressed={isUnderline}
-                    onPressedChange={setIsUnderline}
-                    variant="outline"
-                    size="sm"
-                    aria-label="Underline"
-                  >
-                    <Underline className="size-4" />
-                  </Toggle>
-                  <Toggle
-                    pressed={isStrikethrough}
-                    onPressedChange={setIsStrikethrough}
-                    variant="outline"
-                    size="sm"
-                    aria-label="Strikethrough"
-                  >
-                    <Strikethrough className="size-4" />
-                  </Toggle>
-                </div>
+                  <SliderRow
+                    label="Type size"
+                    value={fontSize}
+                    min={1}
+                    max={14}
+                    step={0.25}
+                    onValueChange={setFontSize}
+                    suffix=" em"
+                  />
+                  <SliderRow
+                    label="Weight"
+                    value={fontWeight}
+                    min={100}
+                    max={900}
+                    step={100}
+                    onValueChange={setFontWeight}
+                    suffix=""
+                  />
+                  <SliderRow
+                    label="Text opacity"
+                    value={opacityText}
+                    min={0}
+                    max={100}
+                    step={1}
+                    onValueChange={setOpacity}
+                    suffix="%"
+                  />
+                  <SliderRow
+                    label="Line height"
+                    value={lineHeight}
+                    min={0.8}
+                    max={2}
+                    step={0.05}
+                    onValueChange={setLineHeight}
+                    suffix=""
+                  />
+                  <SliderRow
+                    label="Letter spacing"
+                    value={letterSpacing}
+                    min={-0.08}
+                    max={0.2}
+                    step={0.01}
+                    onValueChange={setLetterSpacing}
+                    suffix=" em"
+                  />
 
-                <SliderRow
-                  label="Type size"
-                  value={fontSize}
-                  min={1}
-                  max={14}
-                  step={0.25}
-                  onValueChange={setFontSize}
-                  suffix=" em"
-                />
-                <SliderRow
-                  label="Weight"
-                  value={fontWeight}
-                  min={100}
-                  max={900}
-                  step={100}
-                  onValueChange={setFontWeight}
-                  suffix=""
-                />
-                <SliderRow
-                  label="Text opacity"
-                  value={opacityText}
-                  min={0}
-                  max={100}
-                  step={1}
-                  onValueChange={setOpacity}
-                  suffix="%"
-                />
-                <SliderRow
-                  label="Line height"
-                  value={lineHeight}
-                  min={0.8}
-                  max={2}
-                  step={0.05}
-                  onValueChange={setLineHeight}
-                  suffix=""
-                />
-                <SliderRow
-                  label="Letter spacing"
-                  value={letterSpacing}
-                  min={-0.08}
-                  max={0.2}
-                  step={0.01}
-                  onValueChange={setLetterSpacing}
-                  suffix=" em"
-                />
+                  <p className="pt-1 font-medium text-muted-foreground text-xs">
+                    Shadow
+                  </p>
+                  <div className="space-y-1.5">
+                    <Label className="text-xs">Shadow color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        aria-label="Shadow color"
+                        className="h-9 w-12 cursor-pointer p-1"
+                        value={
+                          /^#[0-9A-Fa-f]{6}$/.test(textShadow.color)
+                            ? textShadow.color
+                            : "#f5f5f5"
+                        }
+                        onChange={(e) =>
+                          setTextShadow({ color: e.target.value })
+                        }
+                      />
+                      <Input
+                        value={textShadow.color}
+                        onChange={(e) =>
+                          setTextShadow({ color: e.target.value })
+                        }
+                        className="font-mono text-xs"
+                      />
+                    </div>
+                  </div>
+                  <SliderRow
+                    label="Shadow blur"
+                    value={textShadow.blur}
+                    min={0}
+                    max={80}
+                    step={1}
+                    onValueChange={(n) => setTextShadow({ blur: n })}
+                    suffix=" px"
+                  />
+                  <SliderRow
+                    label="Shadow X"
+                    value={textShadow.offsetX}
+                    min={-40}
+                    max={40}
+                    step={1}
+                    onValueChange={(n) => setTextShadow({ offsetX: n })}
+                    suffix=" px"
+                  />
+                  <SliderRow
+                    label="Shadow Y"
+                    value={textShadow.offsetY}
+                    min={-40}
+                    max={40}
+                    step={1}
+                    onValueChange={(n) => setTextShadow({ offsetY: n })}
+                    suffix=" px"
+                  />
 
-                <p className="pt-1 font-medium text-muted-foreground text-xs">
-                  Shadow
-                </p>
-                <div className="space-y-1.5">
-                  <Label className="text-xs">Shadow color</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="color"
-                      aria-label="Shadow color"
-                      className="h-9 w-12 cursor-pointer p-1"
-                      value={
-                        /^#[0-9A-Fa-f]{6}$/.test(textShadow.color)
-                          ? textShadow.color
-                          : "#f5f5f5"
-                      }
-                      onChange={(e) => setTextShadow({ color: e.target.value })}
-                    />
-                    <Input
-                      value={textShadow.color}
-                      onChange={(e) => setTextShadow({ color: e.target.value })}
-                      className="font-mono text-xs"
+                  <div className="rounded-xl border border-border/60 bg-muted/40 p-3">
+                    <MeshGradientPositionControl
+                      value={textPosition}
+                      onChange={setTextPosition}
+                      width={resolution.width}
+                      height={resolution.height}
+                      className="max-h-[120px] max-w-[min(100%,160px)]"
                     />
                   </div>
                 </div>
-                <SliderRow
-                  label="Shadow blur"
-                  value={textShadow.blur}
-                  min={0}
-                  max={80}
-                  step={1}
-                  onValueChange={(n) => setTextShadow({ blur: n })}
-                  suffix=" px"
-                />
-                <SliderRow
-                  label="Shadow X"
-                  value={textShadow.offsetX}
-                  min={-40}
-                  max={40}
-                  step={1}
-                  onValueChange={(n) => setTextShadow({ offsetX: n })}
-                  suffix=" px"
-                />
-                <SliderRow
-                  label="Shadow Y"
-                  value={textShadow.offsetY}
-                  min={-40}
-                  max={40}
-                  step={1}
-                  onValueChange={(n) => setTextShadow({ offsetY: n })}
-                  suffix=" px"
-                />
+              </CollapsibleSection>
 
-                <div className="rounded-xl border border-border/60 bg-muted/40 p-3">
-                  <MeshGradientPositionControl
-                    value={textPosition}
-                    onChange={setTextPosition}
-                    width={resolution.width}
-                    height={resolution.height}
-                    className="max-h-[120px] max-w-[min(100%,160px)]"
+              <CollapsibleSection title="Image overlay" defaultOpen>
+                <div className="space-y-3">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      onOverlayImageUpload(e.target.files?.[0] ?? null);
+                      e.target.value = "";
+                    }}
                   />
-                </div>
-              </div>
-            </div>
+                  {overlayImageUrl ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setOverlayImageUrl("")}
+                    >
+                      Remove image
+                    </Button>
+                  ) : null}
 
+                  <SliderRow
+                    label="Image width"
+                    value={imageWidthPercent}
+                    min={10}
+                    max={100}
+                    step={1}
+                    onValueChange={setImageWidthPercent}
+                    suffix="%"
+                  />
+                  <SliderRow
+                    label="Border width"
+                    value={imageBorderWidth}
+                    min={0}
+                    max={40}
+                    step={1}
+                    onValueChange={setImageBorderWidth}
+                    suffix=" px"
+                  />
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-sm">
+                      <Label>Border color</Label>
+                      <span className="font-mono text-muted-foreground text-xs">
+                        {imageBorderColor}
+                      </span>
+                    </div>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        aria-label="Image border color"
+                        className="h-10 w-14 cursor-pointer p-1"
+                        value={
+                          /^#[0-9A-Fa-f]{6}$/.test(imageBorderColor)
+                            ? imageBorderColor
+                            : "#ffffff"
+                        }
+                        onChange={(e) => setImageBorderColor(e.target.value)}
+                      />
+                      <Input
+                        value={imageBorderColor}
+                        onChange={(e) => setImageBorderColor(e.target.value)}
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                  </div>
+                  <SliderRow
+                    label="Border radius"
+                    value={imageBorderRadius}
+                    min={0}
+                    max={100}
+                    step={1}
+                    onValueChange={setImageBorderRadius}
+                    suffix=" px"
+                  />
+                  <p className="pt-1 font-medium text-muted-foreground text-xs">
+                    Shadow
+                  </p>
+                  <div className="space-y-1.5">
+                    <Label className="text-xs">Shadow color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        aria-label="Image shadow color"
+                        className="h-9 w-12 cursor-pointer p-1"
+                        value={
+                          /^#[0-9A-Fa-f]{6}$/.test(imageShadow.color)
+                            ? imageShadow.color
+                            : "#000000"
+                        }
+                        onChange={(e) =>
+                          setImageShadow({ color: e.target.value })
+                        }
+                      />
+                      <Input
+                        value={imageShadow.color}
+                        onChange={(e) =>
+                          setImageShadow({ color: e.target.value })
+                        }
+                        className="font-mono text-xs"
+                      />
+                    </div>
+                  </div>
+                  <SliderRow
+                    label="Shadow blur"
+                    value={imageShadow.blur}
+                    min={0}
+                    max={120}
+                    step={1}
+                    onValueChange={(n) => setImageShadow({ blur: n })}
+                    suffix=" px"
+                  />
+                  <SliderRow
+                    label="Shadow X"
+                    value={imageShadow.offsetX}
+                    min={-80}
+                    max={80}
+                    step={1}
+                    onValueChange={(n) => setImageShadow({ offsetX: n })}
+                    suffix=" px"
+                  />
+                  <SliderRow
+                    label="Shadow Y"
+                    value={imageShadow.offsetY}
+                    min={-80}
+                    max={80}
+                    step={1}
+                    onValueChange={(n) => setImageShadow({ offsetY: n })}
+                    suffix=" px"
+                  />
+                  <div className="rounded-xl border border-border/60 bg-muted/40 p-3">
+                    <MeshGradientPositionControl
+                      value={imagePosition}
+                      onChange={setImagePosition}
+                      width={resolution.width}
+                      height={resolution.height}
+                      label="Image position"
+                      className="max-h-[120px] max-w-[min(100%,160px)]"
+                    />
+                  </div>
+                </div>
+              </CollapsibleSection>
+            </div>
             <div className="border-t border-border bg-background/95 p-3 backdrop-blur-sm">
               <div className="grid grid-cols-2 gap-2">
                 <Button
@@ -1011,10 +1210,18 @@ export function MeshGradientApp() {
             {[...favoriteEntries]
               .sort((a, b) => b.createdAt - a.createdAt)
               .map((entry) => (
-                <button
+                <div
                   key={entry.id}
-                  type="button"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => onApplyFavorite(entry)}
+                  onKeyDown={(e) => {
+                    if (e.target !== e.currentTarget) return;
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onApplyFavorite(entry);
+                    }
+                  }}
                   className="group overflow-hidden rounded-xl border border-border/60 bg-card/40 text-left transition-colors hover:border-border hover:bg-card/80"
                 >
                   <div
@@ -1077,7 +1284,7 @@ export function MeshGradientApp() {
                       <Star className="size-4 fill-primary text-primary" />
                     </Button>
                   </div>
-                </button>
+                </div>
               ))}
           </div>
         </section>
@@ -1158,5 +1365,35 @@ function SliderRow({
         className={cn("py-1")}
       />
     </div>
+  );
+}
+
+function CollapsibleSection({
+  title,
+  defaultOpen = false,
+  action,
+  children,
+}: {
+  title: string;
+  defaultOpen?: boolean;
+  action?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <details
+      open={defaultOpen}
+      className="group rounded-xl border border-border/60 bg-muted/20 px-3 py-2"
+    >
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 [&::-webkit-details-marker]:hidden">
+        <div className="flex items-center gap-2">
+          <ChevronDown className="size-4 text-muted-foreground transition-transform group-open:rotate-180" />
+          <span className="font-medium text-sm">{title}</span>
+        </div>
+        {action ? (
+          <div onClick={(e) => e.stopPropagation()}>{action}</div>
+        ) : null}
+      </summary>
+      <div className="pt-3">{children}</div>
+    </details>
   );
 }

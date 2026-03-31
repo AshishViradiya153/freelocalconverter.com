@@ -16,6 +16,7 @@ interface MeshGradientPositionControlProps {
   onChange: (position: Position) => void;
   width: number;
   height: number;
+  label?: string;
   className?: string;
 }
 
@@ -24,6 +25,7 @@ export function MeshGradientPositionControl({
   onChange,
   width,
   height,
+  label = "Text position",
   className,
 }: MeshGradientPositionControlProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -95,7 +97,7 @@ export function MeshGradientPositionControl({
   return (
     <div className="flex h-full w-full flex-col gap-3">
       <div className="flex w-full items-center justify-between gap-2">
-        <h4 className="text-muted-foreground text-sm">Text position</h4>
+        <h4 className="text-muted-foreground text-sm">{label}</h4>
         <div className="flex items-center gap-2">
           <Label
             htmlFor="mesh-snap-grid"

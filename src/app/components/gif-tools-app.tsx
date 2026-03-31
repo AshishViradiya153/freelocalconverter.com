@@ -37,16 +37,6 @@ function baseName(name: string) {
   return name.replace(/\.[^./]+$/, "") || "output";
 }
 
-function extFromImageFile(f: File): string {
-  const n = f.name.toLowerCase();
-  if (n.endsWith(".webp")) return ".webp";
-  if (n.endsWith(".jpg") || n.endsWith(".jpeg")) return ".jpg";
-  if (n.endsWith(".png")) return ".png";
-  if (f.type === "image/webp") return ".webp";
-  if (f.type === "image/jpeg") return ".jpg";
-  return ".png";
-}
-
 function extFromMediaFile(f: File): string {
   const n = f.name.toLowerCase();
   if (n.endsWith(".gif")) return ".gif";
@@ -57,6 +47,38 @@ function extFromMediaFile(f: File): string {
   if (f.type === "video/webm") return ".webm";
   if (f.type === "video/quicktime") return ".mov";
   return ".mp4";
+}
+
+async function imageFileToPngBytes(
+  file: File,
+  size: number,
+): Promise<Uint8Array> {
+  const bitmap = await createImageBitmap(file);
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not prepare canvas context");
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, size, size);
+  const scale = Math.min(size / bitmap.width, size / bitmap.height);
+  const drawWidth = Math.max(1, Math.round(bitmap.width * scale));
+  const drawHeight = Math.max(1, Math.round(bitmap.height * scale));
+  const dx = Math.floor((size - drawWidth) / 2);
+  const dy = Math.floor((size - drawHeight) / 2);
+  ctx.drawImage(bitmap, dx, dy, drawWidth, drawHeight);
+  bitmap.close();
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((b) => {
+      if (!b) {
+        reject(new Error("Failed to encode image as PNG"));
+        return;
+      }
+      resolve(b);
+    }, "image/png");
+  });
+  const arr = await blob.arrayBuffer();
+  return new Uint8Array(arr);
 }
 
 async function cleanupByPrefix(
@@ -103,9 +125,9 @@ export function GifToolsApp() {
   const [videoToGifMaxWidth, setVideoToGifMaxWidth] = React.useState(480);
   const [sequenceSize, setSequenceSize] = React.useState(480);
 
-  const [outputPreviewUrl, setOutputPreviewUrl] = React.useState<
-    string | null
-  >(null);
+  const [outputPreviewUrl, setOutputPreviewUrl] = React.useState<string | null>(
+    null,
+  );
   const [outputPreviewKind, setOutputPreviewKind] = React.useState<
     "gif" | "mp4" | "webp" | null
   >(null);
@@ -291,8 +313,7 @@ export function GifToolsApp() {
     const prefix = `${job}-frame-`;
     const MAX_SPLIT_FRAMES = 240;
     const SPLIT_DETECT_EXTRA_FRAMES = 1;
-    const CAP_FRAMES =
-      MAX_SPLIT_FRAMES + SPLIT_DETECT_EXTRA_FRAMES;
+    const CAP_FRAMES = MAX_SPLIT_FRAMES + SPLIT_DETECT_EXTRA_FRAMES;
     try {
       const ffmpeg = await ensureFfmpeg();
       const { fetchFile } = await import("@ffmpeg/util");
@@ -370,53 +391,47 @@ export function GifToolsApp() {
     clearOutputPreview();
     clearSplitFramePreviews();
     const job = `q${Date.now()}`;
-    const listName = `${job}-list.txt`;
+    const sequenceMp4 = `${job}.mp4`;
     const out = `${job}.gif`;
     try {
       const ffmpeg = await ensureFfmpeg();
-      const { fetchFile } = await import("@ffmpeg/util");
       await cleanupByPrefix(ffmpeg, job);
 
-      const lines: string[] = [];
-      seqFiles.forEach((f, i) => {
-        const n = `${job}-${String(i).padStart(3, "0")}${extFromImageFile(f)}`;
-        lines.push(`file '${n}'`);
-        lines.push(`duration ${(1 / Math.max(0.5, seqFps)).toFixed(3)}`);
-      });
-      const lastIdx = seqFiles.length - 1;
-      const last = seqFiles.at(-1);
-      if (!last) throw new Error(t("errorMissingLastImage"));
-      const lastName = `${job}-${String(lastIdx).padStart(3, "0")}${extFromImageFile(last)}`;
-      lines.push(`file '${lastName}'`);
-
       for (const [i, f] of seqFiles.entries()) {
-        const n = `${job}-${String(i).padStart(3, "0")}${extFromImageFile(f)}`;
-        await ffmpeg.writeFile(n, await fetchFile(f));
+        const n = `${job}-${String(i).padStart(3, "0")}.png`;
+        await ffmpeg.writeFile(n, await imageFileToPngBytes(f, sequenceSize));
       }
-
-      await ffmpeg.writeFile(
-        listName,
-        new TextEncoder().encode(lines.join("\n")),
-      );
-
-      const vf = `fps=${seqFps},scale=${sequenceSize}:${sequenceSize}:force_original_aspect_ratio=decrease,pad=${sequenceSize}:${sequenceSize}:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse`;
 
       await ffmpeg.exec([
         "-y",
-        "-f",
-        "concat",
-        "-safe",
+        "-framerate",
+        String(seqFps),
+        "-start_number",
         "0",
         "-i",
-        listName,
+        `${job}-%03d.png`,
+        "-frames:v",
+        String(seqFiles.length),
+        "-pix_fmt",
+        "yuv420p",
+        sequenceMp4,
+      ]);
+
+      const vf = `fps=${seqFps},split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse`;
+
+      await ffmpeg.exec([
+        "-y",
+        "-i",
+        sequenceMp4,
         "-vf",
         vf,
+        "-loop",
+        "0",
         out,
       ]);
 
       const data = await ffmpeg.readFile(out);
-      if (typeof data === "string")
-        throw new Error(t("errorUnexpectedOutput"));
+      if (typeof data === "string") throw new Error(t("errorUnexpectedOutput"));
       const bytes = data instanceof Uint8Array ? data : new Uint8Array(data);
       const blob = new Blob([bytes.slice().buffer], { type: "image/gif" });
       setOutputPreviewKind("gif");
@@ -503,9 +518,7 @@ export function GifToolsApp() {
           <h2 className="font-semibold text-sm tracking-tight">
             {t("convertTitle")}
           </h2>
-          <p className="text-muted-foreground text-xs">
-            {t("convertDesc")}
-          </p>
+          <p className="text-muted-foreground text-xs">{t("convertDesc")}</p>
           <FileDropZone
             disabled={busy}
             busy={busy}
@@ -518,9 +531,7 @@ export function GifToolsApp() {
             }}
             fileIcon={(p) => <Film {...p} />}
             dropTitle={
-              convertFile
-                ? t("dropReplaceTitle")
-                : t("dropConvertTitle")
+              convertFile ? t("dropReplaceTitle") : t("dropConvertTitle")
             }
             dropHint={t("dropOneFileHint")}
             chooseLabel={convertFile ? t("chooseReplaceFile") : t("chooseFile")}
@@ -532,7 +543,7 @@ export function GifToolsApp() {
           (/\.gif$/i.test(convertFile.name) ||
             convertFile.type === "image/gif") ? (
             <div className="flex flex-col gap-2">
-                <Label className="text-sm">{t("gifOutputLabel")}</Label>
+              <Label className="text-sm">{t("gifOutputLabel")}</Label>
               <div className="flex flex-wrap gap-2">
                 <Button
                   type="button"
@@ -541,7 +552,7 @@ export function GifToolsApp() {
                   disabled={busy}
                   onClick={() => setGifOutChoice("mp4")}
                 >
-                    {t("mp4Label")}
+                  {t("mp4Label")}
                 </Button>
                 <Button
                   type="button"
@@ -550,30 +561,30 @@ export function GifToolsApp() {
                   disabled={busy}
                   onClick={() => setGifOutChoice("webp")}
                 >
-                    {t("animatedWebpLabel")}
+                  {t("animatedWebpLabel")}
                 </Button>
               </div>
             </div>
           ) : convertFile ? (
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
-                  <Label className="text-sm">{t("videoToGifFpsLabel")}</Label>
+                <Label className="text-sm">{t("videoToGifFpsLabel")}</Label>
 
-                  <div className="flex flex-wrap gap-2">
-                    {[6, 8, 12].map((v) => (
-                      <Button
-                        key={v}
-                        type="button"
-                        size="sm"
-                        variant={videoToGifFps === v ? "default" : "outline"}
-                        disabled={busy}
-                        onClick={() => setVideoToGifFps(v)}
-                        className="font-mono"
-                      >
-                        {v} fps
-                      </Button>
-                    ))}
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {[6, 8, 12].map((v) => (
+                    <Button
+                      key={v}
+                      type="button"
+                      size="sm"
+                      variant={videoToGifFps === v ? "default" : "outline"}
+                      disabled={busy}
+                      onClick={() => setVideoToGifFps(v)}
+                      className="font-mono"
+                    >
+                      {v} fps
+                    </Button>
+                  ))}
+                </div>
                 <Slider
                   disabled={busy}
                   min={2}
@@ -583,31 +594,31 @@ export function GifToolsApp() {
                   onValueChange={(v) => setVideoToGifFps(v[0] ?? 8)}
                 />
                 <p className="text-muted-foreground text-xs">
-                    {videoToGifFps} fps · wider clips are scaled to max width{" "}
-                    {videoToGifMaxWidth}px
-                  </p>
-                </div>
+                  {videoToGifFps} fps · wider clips are scaled to max width{" "}
+                  {videoToGifMaxWidth}px
+                </p>
+              </div>
 
-                <div className="flex flex-col gap-2">
-                  <Label className="text-sm">{t("gifMaxWidthLabel")}</Label>
-                  <div className="flex flex-wrap gap-2">
-                    {[320, 480, 640].map((w) => (
-                      <Button
-                        key={w}
-                        type="button"
-                        size="sm"
-                        variant={videoToGifMaxWidth === w ? "default" : "outline"}
-                        disabled={busy}
-                        onClick={() => setVideoToGifMaxWidth(w)}
-                        className="font-mono"
-                      >
-                        {w}px
-                      </Button>
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground text-xs">
-                    Real-world presets: 320px for small stickers, 480px for app-like
-                    GIFs, 640px for sharper exports.
+              <div className="flex flex-col gap-2">
+                <Label className="text-sm">{t("gifMaxWidthLabel")}</Label>
+                <div className="flex flex-wrap gap-2">
+                  {[320, 480, 640].map((w) => (
+                    <Button
+                      key={w}
+                      type="button"
+                      size="sm"
+                      variant={videoToGifMaxWidth === w ? "default" : "outline"}
+                      disabled={busy}
+                      onClick={() => setVideoToGifMaxWidth(w)}
+                      className="font-mono"
+                    >
+                      {w}px
+                    </Button>
+                  ))}
+                </div>
+                <p className="text-muted-foreground text-xs">
+                  Real-world presets: 320px for small stickers, 480px for
+                  app-like GIFs, 640px for sharper exports.
                 </p>
               </div>
             </div>
@@ -672,9 +683,7 @@ export function GifToolsApp() {
           <h2 className="font-semibold text-sm tracking-tight">
             {t("splitTitle")}
           </h2>
-          <p className="text-muted-foreground text-xs">
-            {t("splitDesc")}
-          </p>
+          <p className="text-muted-foreground text-xs">{t("splitDesc")}</p>
           <FileDropZone
             disabled={busy}
             busy={busy}
@@ -686,13 +695,9 @@ export function GifToolsApp() {
               if (f) setSplitFile(f);
             }}
             fileIcon={(p) => <Scissors {...p} />}
-            dropTitle={
-              splitFile ? t("dropReplaceTitle") : t("dropGifOrVideo")
-            }
+            dropTitle={splitFile ? t("dropReplaceTitle") : t("dropGifOrVideo")}
             dropHint={t("dropOneFileHint")}
-            chooseLabel={
-              splitFile ? t("chooseReplaceFile") : t("chooseFile")
-            }
+            chooseLabel={splitFile ? t("chooseReplaceFile") : t("chooseFile")}
             fileHint={splitFile?.name ?? t("fileHintNoFileSelected")}
             size={splitFile ? "sm" : "md"}
           />
@@ -772,7 +777,9 @@ export function GifToolsApp() {
             }
             dropHint={t("sequenceDropHint")}
             chooseLabel={
-              seqFiles.length ? t("sequenceAddImages") : t("sequenceChooseImages")
+              seqFiles.length
+                ? t("sequenceAddImages")
+                : t("sequenceChooseImages")
             }
             fileHint={t("sequenceFileHintQueued", { count: seqFiles.length })}
             size={seqFiles.length ? "sm" : "md"}
@@ -950,9 +957,7 @@ export function GifToolsApp() {
       ) : null}
 
       <Separator />
-      <p className="text-muted-foreground text-xs">
-        {t("footerNote")}
-      </p>
+      <p className="text-muted-foreground text-xs">{t("footerNote")}</p>
     </div>
   );
 }

@@ -55,6 +55,13 @@ export const MeshGradientPreview = forwardRef<
   const textShadow = useMeshGradientStore((s) => s.textShadow);
   const textPosition = useMeshGradientStore((s) => s.textPosition);
   const textAlign = useMeshGradientStore((s) => s.textAlign);
+  const overlayImageUrl = useMeshGradientStore((s) => s.overlayImageUrl);
+  const imagePosition = useMeshGradientStore((s) => s.imagePosition);
+  const imageWidthPercent = useMeshGradientStore((s) => s.imageWidthPercent);
+  const imageBorderWidth = useMeshGradientStore((s) => s.imageBorderWidth);
+  const imageBorderColor = useMeshGradientStore((s) => s.imageBorderColor);
+  const imageBorderRadius = useMeshGradientStore((s) => s.imageBorderRadius);
+  const imageShadow = useMeshGradientStore((s) => s.imageShadow);
 
   const setExportRef = useCallback(
     (el: HTMLDivElement | null) => {
@@ -162,7 +169,7 @@ export const MeshGradientPreview = forwardRef<
       >
         <div
           ref={setExportRef}
-          className="relative overflow-hidden rounded-xl"
+          className="relative isolate overflow-hidden rounded-xl"
           style={{
             width: resolution.width,
             height: resolution.height,
@@ -178,8 +185,7 @@ export const MeshGradientPreview = forwardRef<
         >
           <div
             data-aurora-backdrop
-            className="pointer-events-auto absolute inset-[-20%] h-[140%] w-[140%]"
-            style={{ filter: blur > 0 ? `blur(${blur}px)` : undefined }}
+            className="pointer-events-auto absolute inset-[-20%] z-0 h-[140%] w-[140%]"
           >
             {blobs.map((blob, index) => (
               <div
@@ -200,6 +206,7 @@ export const MeshGradientPreview = forwardRef<
                   zIndex: blob.zIndex ?? index + 1,
                   borderRadius: blobBorderRadius(blob.shape),
                   backgroundColor: blob.color,
+                  filter: blur > 0 ? `blur(${blur}px)` : undefined,
                 }}
                 onPointerDown={(e) => {
                   e.preventDefault();
@@ -214,7 +221,7 @@ export const MeshGradientPreview = forwardRef<
           </div>
           {noiseOpacity > 0 ? (
             <div
-              className="pointer-events-none absolute inset-0 mix-blend-overlay"
+              className="pointer-events-none absolute inset-0 z-1 mix-blend-overlay"
               style={{
                 opacity: noiseOpacity,
                 backgroundImage: AURORA_NOISE_DATA_URL,
@@ -222,7 +229,26 @@ export const MeshGradientPreview = forwardRef<
             />
           ) : null}
 
-          <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center p-8 text-center">
+          {overlayImageUrl ? (
+            <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center p-8">
+              <img
+                src={overlayImageUrl}
+                alt=""
+                className="max-h-[95%] object-contain"
+                style={{
+                  width: `${imageWidthPercent}%`,
+                  transform: `translate(${imagePosition.x}px, ${imagePosition.y}px)`,
+                  borderStyle: "solid",
+                  borderWidth: `${imageBorderWidth}px`,
+                  borderColor: imageBorderColor,
+                  borderRadius: `${imageBorderRadius}px`,
+                  boxShadow: `${imageShadow.offsetX}px ${imageShadow.offsetY}px ${imageShadow.blur}px ${imageShadow.color}`,
+                }}
+              />
+            </div>
+          ) : null}
+
+          <div className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-center p-8 text-center">
             {text.trim() ? (
               <p
                 className={cn(
