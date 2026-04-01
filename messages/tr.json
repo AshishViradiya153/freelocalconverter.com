@@ -209,7 +209,8 @@
     "previewHint": "Salt okunur kılavuz: sıralama, filtreleme ve arama; yukarıdaki satır sınırıyla aynı sınırlar."
   },
   "landing": {
-    "heroTitle": "Ücretsiz, modern, yerel\nve güvenli araçlar.",
+    "heroTitle": "Ücretsiz, modern, yerel\nve güvenli dönüştürücü araçları.",
+    "heroTitleSeo": "Ücretsiz, modern, yerel\nve güvenli dönüştürücü araçları.",
     "heroSubtitle": "CSV dosyasını bırakın: sıralayın, filtreleyin, arayın, düzenleyin, yapıştırın, geri alın/yineleyin, satır ekleyin veya silin. Veriler bu cihazda kalır.",
     "featuresAria": "Product features",
     "featuresKicker": "Features",

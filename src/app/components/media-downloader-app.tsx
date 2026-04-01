@@ -320,28 +320,26 @@ export function MediaDownloaderApp() {
               This only works for direct file URLs and hosts that allow browser downloads
               (CORS). We don’t support “platform link downloading” (YouTube/TikTok/Instagram pages).
             </div>
-            <div className="rounded-lg border bg-muted/20 p-3 text-xs text-foreground">
-              <span className="font-medium">Need downloads from 1,000+ websites?</span>{" "}
+            <div className="text-muted-foreground text-xs">
+              Need downloads from 1,000+ websites? Try{" "}
               <a
                 href={globalVideoReferralHref}
                 target="_blank"
                 rel="noreferrer"
-                className="font-semibold underline underline-offset-2"
+                className="underline underline-offset-2"
               >
-                Try GlobalVideo.download
+                GlobalVideo.download
               </a>{" "}
-              <span className="text-muted-foreground">
-                (a clean, ad-free web interface powered by{" "}
-                <a
-                  href="https://github.com/yt-dlp/yt-dlp"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline underline-offset-2"
-                >
-                  yt-dlp
-                </a>
-                ).
-              </span>
+              (a clean, ad-free web interface powered by{" "}
+              <a
+                href="https://github.com/yt-dlp/yt-dlp"
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2"
+              >
+                yt-dlp
+              </a>
+              ).
             </div>
           </div>
 

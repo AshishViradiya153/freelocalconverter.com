@@ -209,7 +209,8 @@
     "previewHint": "Cuadrícula de solo lectura: ordenar, filtrar y buscar: los mismos límites que el límite de fila anterior."
   },
   "landing": {
-    "heroTitle": "Herramientas gratuitas, modernas,\nlocales y seguras.",
+    "heroTitle": "Herramientas gratuitas, modernas,\nlocales y seguras de conversión.",
+    "heroTitleSeo": "Herramientas gratuitas, modernas,\nlocales y seguras de conversión.",
     "heroSubtitle": "Suelta un CSV en la cuadrícula: ordena, filtra, busca, edita, pega, deshace/rehace y añade o quita filas. Los datos permanecen en este dispositivo y se restauran al volver.",
     "featuresAria": "Product features",
     "featuresKicker": "Features",
