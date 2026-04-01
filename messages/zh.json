@@ -209,7 +209,8 @@
     "previewHint": "只读网格：排序、过滤和搜索 - 与上面的行上限相同的限制。"
   },
   "landing": {
-    "heroTitle": "免费、现代、本地\n且安全的工具。",
+    "heroTitle": "免费、现代、本地\n且安全的转换工具。",
+    "heroTitleSeo": "免费、现代、本地\n且安全的转换工具。",
     "heroSubtitle": "拖入 CSV 文件，在表格中排序、筛选、搜索、编辑、粘贴、撤销/重做，并增删行。数据保留在本设备，下次访问可继续。",
     "featuresAria": "Product features",
     "featuresKicker": "Features",

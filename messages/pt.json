@@ -209,7 +209,8 @@
     "previewHint": "Grade somente leitura: classificar, filtrar e pesquisar – mesmos limites do limite de linha acima."
   },
   "landing": {
-    "heroTitle": "Ferramentas gratuitas, modernas,\nlocais e seguras.",
+    "heroTitle": "Ferramentas gratuitas, modernas,\nlocais e seguras de conversão.",
+    "heroTitleSeo": "Ferramentas gratuitas, modernas,\nlocais e seguras de conversão.",
     "heroSubtitle": "Solte um CSV na grelha: ordene, filtre, pesquise, edite, cole, desfaça/refaça e adicione ou remova linhas. Os dados ficam neste dispositivo e são restaurados quando voltar.",
     "featuresAria": "Product features",
     "featuresKicker": "Features",

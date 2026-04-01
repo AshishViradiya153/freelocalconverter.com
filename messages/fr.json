@@ -209,7 +209,8 @@
     "previewHint": "Grille en lecture seule : trier, filtrer et rechercher : mêmes limites que la limite de ligne ci-dessus."
   },
   "landing": {
-    "heroTitle": "Outils gratuits, modernes,\nlocaux et securises.",
+    "heroTitle": "Outils gratuits, modernes,\nlocaux et securises de conversion.",
+    "heroTitleSeo": "Outils gratuits, modernes,\nlocaux et securises de conversion.",
     "heroSubtitle": "Déposez un CSV dans la grille : tri, filtres, recherche, édition, collage, annuler/rétablir, ajout ou suppression de lignes. Les données restent sur cet appareil.",
     "featuresAria": "Product features",
     "featuresKicker": "Features",

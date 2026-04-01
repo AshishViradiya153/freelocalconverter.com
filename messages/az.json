@@ -209,7 +209,8 @@
     "previewHint": "Yalnız oxumaq üçün şəbəkə: çeşidləyin, filtrləyin və axtarın, yuxarıdakı sətir qapağı ilə eyni məhdudiyyətlər."
   },
   "landing": {
-    "heroTitle": "Pulsuz, müasir, lokal\nvə təhlükəsiz alətlər.",
+    "heroTitle": "Pulsuz, müasir, lokal\nvə təhlükəsiz çevirici alətlər.",
+    "heroTitleSeo": "Pulsuz, müasir, lokal\nvə təhlükəsiz çevirici alətlər.",
     "heroSubtitle": "CSV faylını şəbəkədə kəşf etmək üçün buraxın: çeşidləyin, süzün, axtarın, redaktə edin, yapışdırın, geri alın/təkrar edin, sətir əlavə edin və ya silin. Məlumat bu cihazda qalır və qayıtdığınızda bərpa oluna bilər.",
     "featuresAria": "Product features",
     "featuresKicker": "Features",

@@ -209,7 +209,8 @@
     "previewHint": "Read-only grid: sort, filter, and search, same limits as the row cap above."
   },
   "landing": {
-    "heroTitle": "Free, modern, local\nand secure tools.",
+    "heroTitle": "Free, modern, local\nsecure converter tools.",
+    "heroTitleSeo": "Free, modern, local\nand secure converter tools.",
     "heroSubtitle": "Drop a CSV file to explore it in the grid: sort, filter, search, edit, paste, undo/redo, and add or remove rows. Data stays on this device and is restored when you return.",
     "featuresAria": "Product features",
     "featuresKicker": "Features",

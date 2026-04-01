@@ -209,7 +209,8 @@
     "previewHint": "Schreibgeschütztes Raster: Sortieren, Filtern und Suchen – dieselben Einschränkungen wie bei der Zeilenobergrenze oben."
   },
   "landing": {
-    "heroTitle": "Kostenlose, moderne, lokale\nund sichere Tools.",
+    "heroTitle": "Kostenlose, moderne, lokale\nund sichere Konverter-Tools.",
+    "heroTitleSeo": "Kostenlose, moderne, lokale\nund sichere Konverter-Tools.",
     "heroSubtitle": "CSV in die Tabelle ziehen: sortieren, filtern, suchen, bearbeiten, einfügen, rückgängig/wiederholen, Zeilen hinzufügen oder entfernen. Daten bleiben auf diesem Gerät.",
     "featuresAria": "Product features",
     "featuresKicker": "Features",
