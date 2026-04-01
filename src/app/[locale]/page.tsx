@@ -37,7 +37,7 @@ export async function generateMetadata({
   return buildPageMetadata({
     locale,
     pathname: "/",
-    title: `${heroTitleSeo} · ${siteConfig.name}`,
+    title: heroTitleSeo,
     description: tLanding("directorySubtitle"),
     keywords: keywords.length > 0 ? keywords : undefined,
   });
