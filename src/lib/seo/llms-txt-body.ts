@@ -62,6 +62,12 @@ export const LLMS_SECTIONS: LlmsSection[] = [
         detail:
           "CREATE TABLE sketch and batched INSERTs (PostgreSQL, MySQL, SQLite); local parsing.",
       },
+      {
+        path: "/merge-csv",
+        label: "Merge CSV",
+        detail:
+          "Stack rows from multiple CSVs into one file; first file defines columns; local merge.",
+      },
     ],
   },
   {

@@ -7,10 +7,10 @@
   "scripts": {
     "clean": "rimraf --glob **/node_modules **/dist **/.next pnpm-lock.yaml **/.tsbuildinfo",
     "postinstall": "node scripts/copy-ffmpeg-core.mjs && node scripts/copy-vtracer-wasm.mjs",
-    "build": "next build",
-    "dev": "next dev",
+    "build": "node init && next build",
+    "dev": "node init && next dev",
     "test": "vitest run",
-    "start": "next start",
+    "start": "node init && next start",
     "ollie": "pnpm install",
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
@@ -25,7 +25,7 @@
     "generate:trending-mesh:from-csv": "tsx scripts/generate-trending-mesh-gradients.ts --from-csv",
     "generate:trending-mesh:json-to-csv": "tsx scripts/generate-trending-mesh-gradients.ts --json-to-csv",
     "shadcn": "pnpm dlx shadcn@latest",
-    "build:registry": "shadcn build"
+    "build:registry": "node init && shadcn build"
   },
   "dependencies": {
     "@chenglou/pretext": "^0.0.3",

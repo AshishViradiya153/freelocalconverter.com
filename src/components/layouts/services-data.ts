@@ -67,6 +67,11 @@ export function getServiceGroups({
           description: services("csvToSqlDesc"),
         },
         {
+          href: "/merge-csv",
+          label: nav("mergeCsv"),
+          description: services("mergeCsvDesc"),
+        },
+        {
           href: "/json-yaml-converter",
           label: services("jsonYamlConverterLabel"),
           description: services("jsonYamlConverterDesc"),

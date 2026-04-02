@@ -14,24 +14,19 @@ import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Separator } from "@/components/ui/separator";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+} from "@/components/ui/sortable";
 import { downloadBlob } from "@/lib/download-blob";
+import { moveArrayElement } from "@/lib/move-array-element";
 import { cn } from "@/lib/utils";
 
 interface QueuedPdf {
   id: string;
   file: File;
-}
-
-function moveItem<T>(arr: T[], from: number, to: number) {
-  if (from === to) return arr;
-  if (from < 0 || from >= arr.length) return arr;
-  if (to < 0 || to >= arr.length) return arr;
-  const next = arr.slice();
-  const removed = next.splice(from, 1);
-  const item = removed[0];
-  if (item === undefined) return arr;
-  next.splice(to, 0, item);
-  return next;
 }
 
 function acceptablePdf(file: File) {
@@ -199,7 +194,7 @@ export function MergePdfApp() {
               <div className="flex flex-col gap-0.5">
                 <div className="font-medium">Files</div>
                 <div className="text-muted-foreground text-xs">
-                  Drag is optional, use up/down for precise ordering.
+                  Drag the grip to reorder, or use Up and Down.
                 </div>
               </div>
               <div className="text-muted-foreground text-sm">
@@ -207,70 +202,96 @@ export function MergePdfApp() {
               </div>
             </div>
 
-            <ul className="divide-y overflow-hidden rounded-xl border bg-background">
-              {items.map((it, idx) => (
-                <li key={it.id} className="flex items-center gap-3 p-3">
-                  <div className="grid size-10 place-items-center rounded-lg border bg-muted/10">
-                    <span className="font-semibold text-muted-foreground text-xs">
-                      {idx + 1}
-                    </span>
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate font-medium text-sm">
-                      {it.file.name}
+            <Sortable
+              value={items}
+              getItemValue={(it) => it.id}
+              onValueChange={setItems}
+              orientation="vertical"
+              mouseActivationDistance={6}
+            >
+              <SortableContent
+                className="divide-y overflow-hidden rounded-xl border bg-background"
+                role="list"
+                aria-label="PDF merge order"
+              >
+                {items.map((it, idx) => (
+                  <SortableItem
+                    key={it.id}
+                    value={it.id}
+                    className="flex items-center gap-3 bg-background p-3"
+                  >
+                    <div className="grid size-10 place-items-center rounded-lg border bg-muted/10">
+                      <span className="font-semibold text-muted-foreground text-xs">
+                        {idx + 1}
+                      </span>
                     </div>
-                    <div className="text-muted-foreground text-xs">
-                      {(it.file.size / 1024 / 1024).toFixed(2)} MB
+
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate font-medium text-sm">
+                        {it.file.name}
+                      </div>
+                      <div className="text-muted-foreground text-xs">
+                        {(it.file.size / 1024 / 1024).toFixed(2)} MB
+                      </div>
                     </div>
-                  </div>
 
-                  <GripVertical
-                    className="size-4 text-muted-foreground"
-                    aria-hidden
-                  />
-
-                  <div className="flex items-center gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={busy || idx === 0}
-                      onClick={() =>
-                        setItems((prev) => moveItem(prev, idx, idx - 1))
-                      }
-                    >
-                      Up
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={busy || idx === items.length - 1}
-                      onClick={() =>
-                        setItems((prev) => moveItem(prev, idx, idx + 1))
-                      }
-                    >
-                      Down
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
+                    <SortableItemHandle
+                      className="inline-flex size-9 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted/30"
+                      aria-label={`Drag to reorder ${it.file.name}`}
+                      title="Drag to reorder"
                       disabled={busy}
-                      onClick={() =>
-                        setItems((prev) => prev.filter((x) => x.id !== it.id))
-                      }
-                      className={cn("text-destructive hover:text-destructive")}
-                      aria-label={`Remove ${it.file.name}`}
-                      title="Remove"
                     >
-                      <Trash2 className="size-4" aria-hidden />
-                    </Button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                      <GripVertical className="size-4" aria-hidden />
+                    </SortableItemHandle>
+
+                    <div className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={busy || idx === 0}
+                        onClick={() =>
+                          setItems((prev) =>
+                            moveArrayElement(prev, idx, idx - 1),
+                          )
+                        }
+                      >
+                        Up
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={busy || idx === items.length - 1}
+                        onClick={() =>
+                          setItems((prev) =>
+                            moveArrayElement(prev, idx, idx + 1),
+                          )
+                        }
+                      >
+                        Down
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={busy}
+                        onClick={() =>
+                          setItems((prev) => prev.filter((x) => x.id !== it.id))
+                        }
+                        className={cn(
+                          "text-destructive hover:text-destructive",
+                        )}
+                        aria-label={`Remove ${it.file.name}`}
+                        title="Remove"
+                      >
+                        <Trash2 className="size-4" aria-hidden />
+                      </Button>
+                    </div>
+                  </SortableItem>
+                ))}
+              </SortableContent>
+            </Sortable>
           </section>
 
           <aside className="rounded-xl border bg-background p-4">
