@@ -174,8 +174,6 @@ If you discover a security issue, please **do not** open a public issue. Contact
 
 This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0-only)** — see the [LICENSE](./LICENSE) file.
 
-`"private": true` in `package.json` only prevents accidental publishing to the npm registry; it does **not** stop you from hosting a public GitHub repository.
-
 ---
 
 Built with care by [contributors](https://github.com/AshishViradiya153/csvvieweronline/graphs/contributors) like you.

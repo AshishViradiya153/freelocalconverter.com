@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { downloadBlob } from "@/lib/download-blob";
+import { appendUtmParams } from "@/lib/marketing/utm";
 import { zipSync } from "fflate";
 
 type ItemStatus = "queued" | "fetching" | "done" | "error";
@@ -111,6 +112,16 @@ export function MediaDownloaderApp() {
 
   const hasQueued = items.some((i) => i.status === "queued");
   const hasDone = items.some((i) => i.status === "done" && i.blob);
+
+  const globalVideoReferralHref = React.useMemo(
+    () =>
+      appendUtmParams("https://globalvideo.download/", {
+        utm_medium: "referral",
+        utm_campaign: "media_downloader",
+        utm_content: "platform_download_callout",
+      }),
+    [],
+  );
 
   const onAddLinks = React.useCallback(() => {
     const urls = parseLinks(linkInput);
@@ -308,6 +319,27 @@ export function MediaDownloaderApp() {
             <div className="text-muted-foreground text-xs">
               This only works for direct file URLs and hosts that allow browser downloads
               (CORS). We don’t support “platform link downloading” (YouTube/TikTok/Instagram pages).
+            </div>
+            <div className="text-muted-foreground text-xs">
+              Need downloads from 1,000+ websites? Try{" "}
+              <a
+                href={globalVideoReferralHref}
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2"
+              >
+                GlobalVideo.download
+              </a>{" "}
+              (a clean, ad-free web interface powered by{" "}
+              <a
+                href="https://github.com/yt-dlp/yt-dlp"
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2"
+              >
+                yt-dlp
+              </a>
+              ).
             </div>
           </div>
 

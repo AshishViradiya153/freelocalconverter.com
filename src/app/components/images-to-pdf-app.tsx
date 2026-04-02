@@ -1,5 +1,6 @@
 "use client";
 
+import { rectSortingStrategy } from "@dnd-kit/sortable";
 import {
   Download,
   Expand,
@@ -30,7 +31,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+} from "@/components/ui/sortable";
 import { downloadBlob } from "@/lib/download-blob";
+import { moveArrayElement } from "@/lib/move-array-element";
 import {
   type ImagesToPdfFit,
   type ImagesToPdfPageSize,
@@ -51,18 +59,6 @@ function clamp(n: number, min: number, max: number) {
 function baseNameFromFirstFileName(name: string) {
   const leaf = name.replace(/\.(png|jpe?g|webp|gif|bmp|tiff?)$/i, "");
   return leaf || "images";
-}
-
-function moveItem<T>(arr: T[], from: number, to: number) {
-  if (from === to) return arr;
-  if (from < 0 || from >= arr.length) return arr;
-  if (to < 0 || to >= arr.length) return arr;
-  const next = arr.slice();
-  const removed = next.splice(from, 1);
-  const item = removed[0];
-  if (item === undefined) return arr;
-  next.splice(to, 0, item);
-  return next;
 }
 
 function acceptableImage(file: File) {
@@ -209,7 +205,7 @@ export function ImagesToPdfApp() {
               <div className="flex flex-col gap-0.5">
                 <div className="font-medium">Pages</div>
                 <div className="text-muted-foreground text-xs">
-                  Drag is optional, use up/down for precise ordering.
+                  Drag the grip to reorder, or use Up and Down.
                 </div>
               </div>
               <div className="text-muted-foreground text-sm">
@@ -217,98 +213,124 @@ export function ImagesToPdfApp() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {items.map((it, idx) => (
-                <div
-                  key={it.id}
-                  className="overflow-hidden rounded-lg border bg-background"
-                >
-                  <div className="group relative aspect-3/4 w-full bg-muted/20">
-                    {/* biome-ignore lint/performance/noImgElement: object URL preview */}
-                    <img
-                      src={it.previewUrl}
-                      alt=""
-                      className="h-full w-full object-contain"
-                      decoding="async"
-                    />
-                    <button
-                      type="button"
-                      className={cn(
-                        "absolute top-2 right-2 inline-flex items-center justify-center rounded-md border bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm",
-                        "hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-                        "opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100",
-                      )}
-                      onClick={() =>
-                        setPreview({ title: it.file.name, src: it.previewUrl })
-                      }
-                      aria-label={`Preview ${it.file.name} full screen`}
-                      title="Preview"
-                    >
-                      <Expand className="size-4" aria-hidden />
-                    </button>
-                  </div>
-                  <div className="flex flex-col gap-2 p-2">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="min-w-0 font-medium text-xs">
-                        <span className="text-muted-foreground">
-                          #{idx + 1}
-                        </span>{" "}
-                        <span className="truncate">{it.file.name}</span>
-                      </div>
-                      <GripVertical
-                        className="size-4 text-muted-foreground"
-                        aria-hidden
+            <Sortable
+              value={items}
+              getItemValue={(it) => it.id}
+              onValueChange={setItems}
+              orientation="mixed"
+              strategy={rectSortingStrategy}
+              mouseActivationDistance={6}
+            >
+              <SortableContent
+                className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+                role="list"
+                aria-label="Image page order"
+              >
+                {items.map((it, idx) => (
+                  <SortableItem
+                    key={it.id}
+                    value={it.id}
+                    className="overflow-hidden rounded-lg border bg-background"
+                  >
+                    <div className="group relative aspect-3/4 w-full bg-muted/20">
+                      {/* biome-ignore lint/performance/noImgElement: object URL preview */}
+                      <img
+                        src={it.previewUrl}
+                        alt=""
+                        className="h-full w-full object-contain"
+                        decoding="async"
                       />
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-2">
-                      <Button
+                      <button
                         type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={busy || idx === 0}
-                        onClick={() =>
-                          setItems((prev) => moveItem(prev, idx, idx - 1))
-                        }
-                      >
-                        Up
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={busy || idx === items.length - 1}
-                        onClick={() =>
-                          setItems((prev) => moveItem(prev, idx, idx + 1))
-                        }
-                      >
-                        Down
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={busy}
-                        onClick={() => {
-                          setItems((prev) => {
-                            const target = prev.find((x) => x.id === it.id);
-                            if (target) URL.revokeObjectURL(target.previewUrl);
-                            return prev.filter((x) => x.id !== it.id);
-                          });
-                        }}
                         className={cn(
-                          "text-destructive hover:text-destructive",
+                          "absolute top-2 right-2 inline-flex items-center justify-center rounded-md border bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm",
+                          "hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                          "opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100",
                         )}
-                        aria-label={`Remove ${it.file.name}`}
-                        title="Remove"
+                        onClick={() =>
+                          setPreview({
+                            title: it.file.name,
+                            src: it.previewUrl,
+                          })
+                        }
+                        aria-label={`Preview ${it.file.name} full screen`}
+                        title="Preview"
                       >
-                        <Trash2 className="size-4" aria-hidden />
-                      </Button>
+                        <Expand className="size-4" aria-hidden />
+                      </button>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                    <div className="flex flex-col gap-2 p-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="min-w-0 font-medium text-xs">
+                          <span className="text-muted-foreground">
+                            #{idx + 1}
+                          </span>{" "}
+                          <span className="truncate">{it.file.name}</span>
+                        </div>
+                        <SortableItemHandle
+                          className="inline-flex size-8 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted/30"
+                          aria-label={`Drag to reorder ${it.file.name}`}
+                          title="Drag to reorder"
+                          disabled={busy}
+                        >
+                          <GripVertical className="size-4" aria-hidden />
+                        </SortableItemHandle>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={busy || idx === 0}
+                          onClick={() =>
+                            setItems((prev) =>
+                              moveArrayElement(prev, idx, idx - 1),
+                            )
+                          }
+                        >
+                          Up
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={busy || idx === items.length - 1}
+                          onClick={() =>
+                            setItems((prev) =>
+                              moveArrayElement(prev, idx, idx + 1),
+                            )
+                          }
+                        >
+                          Down
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={busy}
+                          onClick={() => {
+                            setItems((prev) => {
+                              const target = prev.find((x) => x.id === it.id);
+                              if (target)
+                                URL.revokeObjectURL(target.previewUrl);
+                              return prev.filter((x) => x.id !== it.id);
+                            });
+                          }}
+                          className={cn(
+                            "text-destructive hover:text-destructive",
+                          )}
+                          aria-label={`Remove ${it.file.name}`}
+                          title="Remove"
+                        >
+                          <Trash2 className="size-4" aria-hidden />
+                        </Button>
+                      </div>
+                    </div>
+                  </SortableItem>
+                ))}
+              </SortableContent>
+            </Sortable>
           </section>
 
           <aside className="rounded-xl border bg-background p-4">

@@ -79,6 +79,13 @@ export function defaultInstitutionLogoHost(href: string): string {
  * universities with real logos (local SVG and/or Clearbit fallback).
  */
 export const trustedByEntries: TrustedByEntry[] = [
+  institution(
+    "globalvideo",
+    "GlobalVideo",
+    "https://globalvideo.download",
+    "GlobalVideo",
+    "globalvideo.download",
+  ),
   brand(siGoogle, "https://www.google.com"),
   brand(siApple, "https://www.apple.com"),
   brand(siMeta, "https://www.meta.com"),

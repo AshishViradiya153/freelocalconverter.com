@@ -4,13 +4,14 @@ import { zipSync } from "fflate";
 import {
   Download,
   Film,
+  GripVertical,
   ImageIcon,
   Layers,
   Loader2,
   Scissors,
 } from "lucide-react";
-import * as React from "react";
 import { useTranslations } from "next-intl";
+import * as React from "react";
 import { toast } from "sonner";
 import { toolHeroTitleClassName } from "@/components/tool-ui";
 import { Button } from "@/components/ui/button";
@@ -18,10 +19,22 @@ import { FileDropZone } from "@/components/ui/file-drop-zone";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+} from "@/components/ui/sortable";
 import { downloadBlob } from "@/lib/download-blob";
 import { createBrowserFfmpeg } from "@/lib/ffmpeg/create-browser-ffmpeg";
+import { moveArrayElement } from "@/lib/move-array-element";
 
 type ToolMode = "convert" | "split" | "sequence";
+
+interface SequenceQueuedItem {
+  id: string;
+  file: File;
+}
 
 function errorToMessage(error: unknown, unknownError: string): string {
   if (error instanceof Error) {
@@ -120,7 +133,9 @@ export function GifToolsApp() {
 
   const [splitFile, setSplitFile] = React.useState<File | null>(null);
 
-  const [seqFiles, setSeqFiles] = React.useState<File[]>([]);
+  const [sequenceItems, setSequenceItems] = React.useState<
+    SequenceQueuedItem[]
+  >([]);
   const [seqFps, setSeqFps] = React.useState(4);
   const [videoToGifMaxWidth, setVideoToGifMaxWidth] = React.useState(480);
   const [sequenceSize, setSequenceSize] = React.useState(480);
@@ -383,7 +398,7 @@ export function GifToolsApp() {
   }, [clearOutputPreview, clearSplitFramePreviews, ensureFfmpeg, splitFile]);
 
   const onSequenceRun = React.useCallback(async () => {
-    if (seqFiles.length < 2) {
+    if (sequenceItems.length < 2) {
       toast.error(t("errorAddAtLeastTwoImages"));
       return;
     }
@@ -397,9 +412,12 @@ export function GifToolsApp() {
       const ffmpeg = await ensureFfmpeg();
       await cleanupByPrefix(ffmpeg, job);
 
-      for (const [i, f] of seqFiles.entries()) {
+      for (const [i, entry] of sequenceItems.entries()) {
         const n = `${job}-${String(i).padStart(3, "0")}.png`;
-        await ffmpeg.writeFile(n, await imageFileToPngBytes(f, sequenceSize));
+        await ffmpeg.writeFile(
+          n,
+          await imageFileToPngBytes(entry.file, sequenceSize),
+        );
       }
 
       await ffmpeg.exec([
@@ -411,7 +429,7 @@ export function GifToolsApp() {
         "-i",
         `${job}-%03d.png`,
         "-frames:v",
-        String(seqFiles.length),
+        String(sequenceItems.length),
         "-pix_fmt",
         "yuv420p",
         sequenceMp4,
@@ -452,7 +470,7 @@ export function GifToolsApp() {
     clearOutputPreview,
     clearSplitFramePreviews,
     ensureFfmpeg,
-    seqFiles,
+    sequenceItems,
     seqFps,
     sequenceSize,
   ]);
@@ -653,7 +671,7 @@ export function GifToolsApp() {
                 <img
                   src={outputPreviewUrl}
                   alt={t("outputPreviewAlt")}
-                  className="w-full max-w-[520px] aspect-video rounded-md border bg-background object-contain"
+                    className="aspect-video w-full max-w-[520px] rounded-md border bg-background object-contain"
                 />
               )}
               <p className="text-muted-foreground text-xs">
@@ -767,88 +785,107 @@ export function GifToolsApp() {
             multiple
             onFiles={(list) => {
               if (!list?.length) return;
-              setSeqFiles((prev) => [...prev, ...Array.from(list)]);
+              setSequenceItems((prev) => [
+                ...prev,
+                ...Array.from(list).map((file) => ({
+                  id: crypto.randomUUID(),
+                  file,
+                })),
+              ]);
             }}
             fileIcon={(p) => <ImageIcon {...p} />}
             dropTitle={
-              seqFiles.length
+              sequenceItems.length
                 ? t("sequenceDropMoreTitle")
                 : t("sequenceDropHereTitle")
             }
             dropHint={t("sequenceDropHint")}
             chooseLabel={
-              seqFiles.length
+              sequenceItems.length
                 ? t("sequenceAddImages")
                 : t("sequenceChooseImages")
             }
-            fileHint={t("sequenceFileHintQueued", { count: seqFiles.length })}
-            size={seqFiles.length ? "sm" : "md"}
+            fileHint={t("sequenceFileHintQueued", {
+              count: sequenceItems.length,
+            })}
+            size={sequenceItems.length ? "sm" : "md"}
           />
 
-          {seqFiles.length > 0 ? (
-            <div className="flex max-h-48 flex-col gap-1 overflow-y-auto rounded-md border p-2 text-sm">
-              {seqFiles.map((f, i) => (
-                <div
-                  key={`${f.name}-${i}`}
-                  className="flex items-center justify-between gap-2"
-                >
-                  <span className="min-w-0 truncate">{f.name}</span>
-                  <div className="flex shrink-0 gap-1">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      disabled={busy || i === 0}
-                      onClick={() => {
-                        setSeqFiles((prev) => {
-                          if (i <= 0) return prev;
-                          const next = [...prev];
-                          const a = next[i - 1];
-                          const b = next[i];
-                          if (!a || !b) return prev;
-                          next[i - 1] = b;
-                          next[i] = a;
-                          return next;
-                        });
-                      }}
-                    >
-                      Up
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      disabled={busy || i >= seqFiles.length - 1}
-                      onClick={() => {
-                        setSeqFiles((prev) => {
-                          if (i >= prev.length - 1) return prev;
-                          const next = [...prev];
-                          const a = next[i];
-                          const b = next[i + 1];
-                          if (!a || !b) return prev;
-                          next[i] = b;
-                          next[i + 1] = a;
-                          return next;
-                        });
-                      }}
-                    >
-                      Down
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      disabled={busy}
-                      onClick={() => {
-                        setSeqFiles((prev) => prev.filter((_, j) => j !== i));
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {sequenceItems.length > 0 ? (
+            <Sortable
+              value={sequenceItems}
+              getItemValue={(it) => it.id}
+              onValueChange={setSequenceItems}
+              orientation="vertical"
+              mouseActivationDistance={6}
+            >
+              <SortableContent
+                className="flex max-h-48 flex-col gap-1 overflow-y-auto rounded-md border p-2 text-sm"
+                role="list"
+                aria-label={t("sequenceListAria")}
+              >
+                {sequenceItems.map((entry, i) => (
+                  <SortableItem
+                    key={entry.id}
+                    value={entry.id}
+                    className="flex items-center justify-between gap-2 rounded-md bg-background py-1 pr-1 pl-2"
+                  >
+                    <span className="min-w-0 truncate">{entry.file.name}</span>
+                    <div className="flex shrink-0 items-center gap-1">
+                      <SortableItemHandle
+                        className="inline-flex size-8 items-center justify-center rounded-md border border-transparent text-muted-foreground hover:bg-muted/40"
+                        aria-label={t("sequenceDragReorderAria", {
+                          name: entry.file.name,
+                        })}
+                        title={t("sequenceDragReorderTitle")}
+                        disabled={busy}
+                      >
+                        <GripVertical className="size-4" aria-hidden />
+                      </SortableItemHandle>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        disabled={busy || i === 0}
+                        onClick={() =>
+                          setSequenceItems((prev) =>
+                            moveArrayElement(prev, i, i - 1),
+                          )
+                        }
+                      >
+                        Up
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        disabled={busy || i >= sequenceItems.length - 1}
+                        onClick={() =>
+                          setSequenceItems((prev) =>
+                            moveArrayElement(prev, i, i + 1),
+                          )
+                        }
+                      >
+                        Down
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        disabled={busy}
+                        onClick={() =>
+                          setSequenceItems((prev) =>
+                            prev.filter((x) => x.id !== entry.id),
+                          )
+                        }
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </SortableItem>
+                ))}
+              </SortableContent>
+            </Sortable>
           ) : null}
 
           <div className="flex flex-col gap-2">
@@ -906,14 +943,14 @@ export function GifToolsApp() {
               type="button"
               variant="outline"
               size="sm"
-              disabled={busy || seqFiles.length === 0}
-              onClick={() => setSeqFiles([])}
+              disabled={busy || sequenceItems.length === 0}
+              onClick={() => setSequenceItems([])}
             >
               {t("buttonClearList")}
             </Button>
             <Button
               type="button"
-              disabled={busy || seqFiles.length < 2}
+              disabled={busy || sequenceItems.length < 2}
               onClick={() => void onSequenceRun()}
               className="gap-2"
             >
@@ -932,7 +969,7 @@ export function GifToolsApp() {
               <img
                 src={outputPreviewUrl}
                 alt={t("generatedGifPreviewAlt")}
-                className="w-full max-w-[520px] aspect-video rounded-md border bg-background object-contain"
+                className="aspect-video w-full max-w-[520px] rounded-md border bg-background object-contain"
               />
               <p className="text-muted-foreground text-xs">
                 {t("outputPreviewNote")}
