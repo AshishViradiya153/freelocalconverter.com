@@ -20,6 +20,7 @@ import { buildHomeLayoutSocialMetadata } from "@/lib/seo/metadata";
 
 import "@/styles/globals.css";
 import { RelatedAppTools } from "@/app/components/related-app-tools";
+import { Testimonial } from "@/components/marketing/testimonial";
 import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";
 import { FeatureRequestWidget } from "@/components/feature-request-widget";
 

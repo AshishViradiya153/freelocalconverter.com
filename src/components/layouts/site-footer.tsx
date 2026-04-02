@@ -1,5 +1,4 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { FooterBrandPretextMesh } from "@/components/layouts/footer-brand-pretext-mesh";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
@@ -91,33 +90,32 @@ export async function SiteFooter() {
               </div>
             </div>
 
-            <div className="flex w-full min-w-0 flex-col gap-8 border-brutal-canvas-foreground/15 border-t-4 bg-brutal-canvas px-4 py-8 text-brutal-canvas-foreground sm:gap-10 md:px-10 md:py-10 lg:px-12">
-              <FooterBrandPretextMesh />
+            <div className="flex w-full min-w-0 flex-col gap-8 border-black/20 border-t-4 bg-[#f6d44a] px-4 py-8 text-black sm:gap-10 md:px-10 md:py-10 lg:px-12">
+              <p className="w-full text-balance font-black text-[clamp(2.5rem,11vw,10rem)] leading-[0.9] tracking-[-0.04em]">
+                {siteConfig.name}
+              </p>
 
-              <div className="flex flex-col gap-6 border-brutal-canvas-foreground/15 border-t pt-8 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
-                <p className="max-w-2xl font-bold text-brutal-canvas-foreground/90 text-xs leading-relaxed md:text-sm">
+              <div className="flex flex-col gap-6 border-black/20 border-t pt-8 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+                <p className="max-w-2xl font-bold text-black/90 text-xs leading-relaxed md:text-sm">
                   {tFooter("processingNotice")}{" "}
                   <Link
-                    className="ms-0.5 inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
+                    className="ms-0.5 inline-block rounded-none border-2 border-black/45 px-2 py-1 font-black text-black transition-colors hover:border-transparent hover:bg-black hover:text-[#f6d44a]"
                     href="/privacy"
                   >
                     {tNav("privacy")}
                   </Link>{" "}
-                  <span
-                    className="text-brutal-canvas-foreground/40"
-                    aria-hidden
-                  >
+                  <span className="text-black/40" aria-hidden>
                     |
                   </span>{" "}
                   <Link
-                    className="inline-block rounded-none border-2 border-brutal-canvas-foreground/45 px-2 py-1 font-black text-brutal-canvas-foreground transition-colors hover:border-transparent hover:bg-primary hover:text-primary-foreground"
+                    className="inline-block rounded-none border-2 border-black/45 px-2 py-1 font-black text-black transition-colors hover:border-transparent hover:bg-black hover:text-[#f6d44a]"
                     href="/terms"
                   >
                     {tNav("terms")}
                   </Link>
                 </p>
 
-                <p className="shrink-0 font-semibold text-[10px] text-brutal-canvas-foreground/70 tracking-tight sm:text-xs">
+                <p className="shrink-0 font-semibold text-[10px] text-black/70 tracking-tight sm:text-xs">
                   {tFooter("copyright", {
                     year: siteConfig.copyrightYear,
                     name: siteConfig.name,
