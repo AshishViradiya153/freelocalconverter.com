@@ -22,6 +22,7 @@
     "parquetToJson": "Parquet → JSON",
     "csvToMarkdownTable": "CSV → Markdown cədvəli",
     "csvToSql": "CSV → SQL",
+    "mergeCsv": "Merge CSV",
     "markdownToEpub": "Markdown → ePub"
   },
   "language": {
@@ -61,6 +62,43 @@
     "exportDiffStarted": "Fərq hesabatının yüklənməsi başladı",
     "exportDiffUnavailable": "Fərq hesabatını ixrac etmək üçün etibarlı sütun düzəni aktivləşdirin.",
     "reset": "Hər iki faylı silin"
+  },
+  "mergeCsv": {
+    "heroTitle": "Merge CSV",
+    "heroSubtitle": "Add two or more CSV files, put them in order, and download one combined file. The first file sets the columns; later files are matched by column header (trimmed, case-insensitive). Missing columns are left empty. Everything runs locally in your browser.",
+    "dropTitle": "Drop CSV files here or click to browse",
+    "dropHint": "Reorder files · one CSV download · local-only merge",
+    "chooseLabel": "Choose CSVs",
+    "chooseMore": "Add more CSVs",
+    "fileHint": "Your CSVs stay on this device.",
+    "noValidCsv": "No valid CSV files found. Please choose .csv files.",
+    "merging": "Merging CSVs…",
+    "mergeSuccess": "Downloaded merged CSV ({count} files)",
+    "mergeFailed": "Merge failed",
+    "filesSection": "Files",
+    "filesHint": "Drag is optional; use up and down for precise ordering.",
+    "listAria": "CSV files merge order",
+    "dragHandleAria": "Drag to reorder {name}",
+    "dragHandleTitle": "Drag to reorder",
+    "fileCount": "{count} CSV(s)",
+    "moveUp": "Up",
+    "moveDown": "Down",
+    "removeAria": "Remove {name}",
+    "removeTitle": "Remove",
+    "exportSection": "Export",
+    "exportHint": "Rows are stacked top to bottom in the order shown. Only the header row from the first file is kept.",
+    "settingsSection": "Settings",
+    "skipRepeatHeaderLabel": "Skip repeated header row in 2nd+ files",
+    "skipRepeatHeaderHint": "If the first data row of an extra file matches the first file’s column names (e.g. pasted headers), drop that row.",
+    "dedupeRowsLabel": "Remove duplicate rows",
+    "dedupeRowsHint": "After merging, drop rows that are identical in every column.",
+    "dedupeColsLabel": "Remove duplicate columns",
+    "dedupeColsHint": "Drop a column when its values match an earlier column on every row.",
+    "addIndexLabel": "Add Index column",
+    "addIndexHint": "Prepend a 1-based Index column to the downloaded CSV.",
+    "clear": "Clear",
+    "mergeDownload": "Merge & download CSV",
+    "privacyNote": "Everything runs locally in your browser. Your CSVs are not uploaded."
   },
   "csvToJson": {
     "heroTitle": "CSV-dən JSON görüntüləyicisinə və redaktoruna",
@@ -751,6 +789,7 @@
     "parquetToJsonDesc": "Parquet-i JSON-a çevirin.",
     "csvToMarkdownTableDesc": "CSV fayllarından Markdown cədvəlləri yaradın.",
     "csvToSqlDesc": "Generate CREATE TABLE and batched INSERTs from CSV for PostgreSQL, MySQL, or SQLite.",
+    "mergeCsvDesc": "Stack rows from multiple CSV files into one (first file sets columns).",
     "xlsViewerDesc": "Open Excel in an editable grid; edit cells and export locally.",
     "parquetViewerDesc": "Browse Parquet in an editable grid and export back to .parquet locally.",
     "jsonFormatterLabel": "JSON formatlayıcı",
@@ -1013,6 +1052,9 @@
     "sequenceAddImages": "Add images",
     "sequenceChooseImages": "Choose images",
     "sequenceFileHintQueued": "{count} image(s) queued",
+    "sequenceListAria": "Image order for GIF frames",
+    "sequenceDragReorderAria": "Drag to reorder {name}",
+    "sequenceDragReorderTitle": "Drag to reorder",
     "sequenceFpsLabel": "Playback speed (frames per second)",
     "sequenceOutputSizeLabel": "Output size",
     "sequenceOutputSizeHint": "256×256 is great for app icons; 480×480 keeps more detail.",
@@ -1225,6 +1267,26 @@
       "description": "Compare CSV files: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "compare csv files | csv diff tool | csv compare online | compare two csv files | browser csv diff | csv changes viewer | free csv diff online | side by side csv compare"
     },
+    "archive-converter": {
+      "title": "Archive Converter",
+      "description": "Archive Converter: create ZIP archives and extract ZIP files locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "archive converter | zip tool | create zip | extract zip | unzip | zip creator | zip extractor | local zip | no upload zip"
+    },
+    "rar-to-zip": {
+      "title": "RAR to ZIP",
+      "description": "RAR to ZIP: guidance for converting archives. ZIP creation/extraction runs locally in your browser; RAR extraction is not supported in-browser yet.",
+      "keywords": "rar to zip | convert rar to zip | rar converter | zip converter | unrar | archive conversion | rar extractor | zip tool"
+    },
+    "pst-to-est": {
+      "title": "PST to EST",
+      "description": "PST to EST: convert times from Pacific to Eastern time in your browser. DST-aware, private, client-side processing; no uploads.",
+      "keywords": "pst to est | convert pst to est | pacific to eastern time | pt to et | time zone converter | meeting time | dst aware"
+    },
+    "cst-to-est": {
+      "title": "CST to EST",
+      "description": "CST to EST: convert times from Central to Eastern time in your browser. DST-aware, private, client-side processing; no uploads.",
+      "keywords": "cst to est | convert cst to est | central to eastern time | ct to et | time zone converter | meeting time | dst aware"
+    },
     "csv-to-excel": {
       "title": "CSV to Excel",
       "description": "CSV to Excel: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
@@ -1289,26 +1351,6 @@
       "title": "Degrees and radians converter",
       "description": "Degrees and radians converter: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "degrees to radians | radians to degrees | deg to rad | rad to deg | angle converter | pi radians to degrees | trig angle converter | browser degrees radians tool"
-    },
-    "archive-converter": {
-      "title": "Archive Converter",
-      "description": "Archive Converter: create ZIP archives and extract ZIP files locally in your browser. Private, client-side processing; your files are not uploaded to our servers.",
-      "keywords": "archive converter | zip tool | create zip | extract zip | unzip | zip creator | zip extractor | local zip | no upload zip"
-    },
-    "rar-to-zip": {
-      "title": "RAR to ZIP",
-      "description": "RAR to ZIP: guidance for converting archives. ZIP creation/extraction runs locally in your browser; RAR extraction is not supported in-browser yet.",
-      "keywords": "rar to zip | convert rar to zip | rar converter | zip converter | unrar | archive conversion | rar extractor | zip tool"
-    },
-    "pst-to-est": {
-      "title": "PST to EST",
-      "description": "PST to EST: convert times from Pacific to Eastern time in your browser. DST-aware, private, client-side processing; no uploads.",
-      "keywords": "pst to est | convert pst to est | pacific to eastern time | pt to et | time zone converter | meeting time | dst aware"
-    },
-    "cst-to-est": {
-      "title": "CST to EST",
-      "description": "CST to EST: convert times from Central to Eastern time in your browser. DST-aware, private, client-side processing; no uploads.",
-      "keywords": "cst to est | convert cst to est | central to eastern time | ct to et | time zone converter | meeting time | dst aware"
     },
     "lbs-to-kg": {
       "title": "Lbs to Kg",
@@ -1424,6 +1466,11 @@
       "title": "Markdown to ePub",
       "description": "Markdown to ePub: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
       "keywords": "markdown to epub | md to epub | epub generator | create epub from markdown | ebook converter | epub 3 | toc ncx | offline reading | convert markdown locally | no upload epub converter"
+    },
+    "merge-csv": {
+      "title": "Merge CSV",
+      "description": "Merge CSV: free online in your browser. Private, client-side processing; your files are not uploaded to our servers.",
+      "keywords": "merge csv | combine csv | csv merger | append csv | concat csv | stack csv files | browser csv merge | local csv merge | no upload csv merge | join csv files"
     },
     "merge-pdf": {
       "title": "Merge PDF",

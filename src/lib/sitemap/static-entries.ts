@@ -68,6 +68,7 @@ export const STATIC_SITEMAP_PATH_SEGMENTS: readonly string[] = [
   "/markdown-html-converter",
   "/markdown-to-epub",
   "/csv-to-sql",
+  "/merge-csv",
   "/csv-to-excel",
   "/palettes/trending",
   "/palettes/best",

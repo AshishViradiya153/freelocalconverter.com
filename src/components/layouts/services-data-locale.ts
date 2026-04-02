@@ -22,6 +22,7 @@ function getLocalizedLabel(
     | "parquetToJson"
     | "csvToMarkdownTable"
     | "csvToSql"
+    | "mergeCsv"
     | "xlsViewer"
     | "parquetViewer"
     | "csvToExcel"
@@ -255,6 +256,26 @@ function getLocalizedLabel(
         ru: "CSV в SQL",
         tr: "CSV'den SQL'e",
         zh: "CSV 转 SQL",
+      });
+    case "mergeCsv":
+      return localizedText(locale, {
+        en: "Merge CSV",
+        de: "CSV zusammenfuhren",
+        es: "Fusionar CSV",
+        fr: "Fusionner CSV",
+        it: "Unisci CSV",
+        ja: "CSV結合",
+        ko: "CSV 병합",
+        nl: "CSV samenvoegen",
+        pt: "Mesclar CSV",
+        ru: "Объединить CSV",
+        tr: "CSV Birlestir",
+        zh: "合并 CSV",
+        ar: "دمج CSV",
+        fa: "ادغام CSV",
+        he: "מיזוג CSV",
+        az: "CSV birlesdir",
+        el: "Συγχωνευση CSV",
       });
     case "xlsViewer":
       return localizedText(locale, {
@@ -1231,6 +1252,7 @@ function getLocalizedDescription(
     | "parquetToJson"
     | "csvToMarkdownTable"
     | "csvToSql"
+    | "mergeCsv"
     | "xlsViewer"
     | "parquetViewer"
     | "csvToExcel"
@@ -1615,6 +1637,8 @@ function getLocalizedDescription(
           csvToMarkdownTable: "Generate Markdown tables from CSV files.",
           csvToSql:
             "Generate CREATE TABLE and INSERT statements from CSV (PostgreSQL, MySQL, SQLite).",
+          mergeCsv:
+            "Stack rows from multiple CSV files into one (first file sets columns).",
           xlsViewer:
             "Open Excel in an editable grid; edit cells and export locally.",
           parquetViewer:
@@ -1940,6 +1964,11 @@ export function getLocalizedServiceGroups(locale: string): ServiceGroup[] {
           href: "/csv-to-sql",
           label: getLocalizedLabel(safeLocale, "csvToSql"),
           description: getLocalizedDescription(safeLocale, "csvToSql"),
+        },
+        {
+          href: "/merge-csv",
+          label: getLocalizedLabel(safeLocale, "mergeCsv"),
+          description: getLocalizedDescription(safeLocale, "mergeCsv"),
         },
         {
           href: "/json-yaml-converter",
