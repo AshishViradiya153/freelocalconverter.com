@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MergeCsvApp } from "@/app/components/merge-csv-app";
+import { setInputFiles } from "@/lib/test/dom-file-input";
 
 const downloadBlob = vi.fn();
 
@@ -31,27 +32,6 @@ vi.mock("next-intl", () => ({
       return key;
     },
 }));
-
-/** JSDOM has no `DataTransfer` on `File` inputs; mimic a `FileList` for tests. */
-function createFileList(files: File[]): FileList {
-  const list = {
-    length: files.length,
-    item: (index: number) => files[index] ?? null,
-    *[Symbol.iterator]() {
-      for (const f of files) yield f;
-    },
-  };
-  return list as unknown as FileList;
-}
-
-function setInputFiles(input: HTMLInputElement, files: File[]) {
-  Object.defineProperty(input, "files", {
-    value: createFileList(files),
-    configurable: true,
-    writable: false,
-  });
-  fireEvent.change(input);
-}
 
 describe("MergeCsvApp", () => {
   afterEach(() => {
