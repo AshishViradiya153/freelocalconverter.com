@@ -2,17 +2,19 @@
 
 import {
   Download,
-  FileText,
+  FileSpreadsheet,
   GripVertical,
   Loader2,
   Trash2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
 import { toolHeroTitleClassName } from "@/components/tool-ui";
-
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FileDropZone } from "@/components/ui/file-drop-zone";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
   Sortable,
@@ -20,96 +22,64 @@ import {
   SortableItem,
   SortableItemHandle,
 } from "@/components/ui/sortable";
+import {
+  buildCsvExportString,
+  sanitizeCsvDownloadFileBaseName,
+} from "@/lib/csv-export";
+import {
+  CsvImportError,
+  type CsvImportResult,
+  parseCsvFile,
+} from "@/lib/csv-import";
+import { mergeCsvImports } from "@/lib/csv-merge";
 import { downloadBlob } from "@/lib/download-blob";
 import { moveArrayElement } from "@/lib/move-array-element";
 import { cn } from "@/lib/utils";
 
-interface QueuedPdf {
+interface QueuedCsv {
   id: string;
   file: File;
 }
 
-function acceptablePdf(file: File) {
-  if (file.type === "application/pdf") return true;
-  return /\.pdf$/i.test(file.name);
+function acceptableCsv(file: File) {
+  if (file.type === "text/csv" || file.type === "application/csv") return true;
+  return /\.csv$/i.test(file.name);
 }
 
 function baseNameFromFirstFileName(name: string) {
-  const leaf = name.replace(/\.pdf$/i, "");
+  const leaf = name.replace(/\.csv$/i, "");
   return leaf || "merged";
 }
 
-async function mergePdfs(files: File[]) {
-  const { PDFDocument } = await import("pdf-lib");
-
-  const out = await PDFDocument.create();
-
-  for (const file of files) {
-    try {
-      const buf = await file.arrayBuffer();
-      const bytes = new Uint8Array(buf);
-      if (bytes.byteLength === 0) {
-        throw new Error("empty_file");
-      }
-
-      // Prefer failing fast on encrypted PDFs so we can show a clear message.
-      const src = await PDFDocument.load(bytes, { ignoreEncryption: false });
-      if (src.isEncrypted) {
-        throw new Error("encrypted_pdf");
-      }
-
-      const pageIndices = src.getPageIndices();
-      if (pageIndices.length === 0) {
-        throw new Error("no_pages");
-      }
-
-      const pages = await out.copyPages(src, pageIndices);
-      for (const p of pages) out.addPage(p);
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : String(error);
-      if (msg === "empty_file") {
-        throw new Error(`"${file.name}" is empty (0 bytes).`);
-      }
-      if (msg === "encrypted_pdf") {
-        throw new Error(
-          `"${file.name}" is password-protected. Please unlock it first, then try again.`,
-        );
-      }
-      if (msg === "no_pages") {
-        throw new Error(`"${file.name}" has no pages to merge.`);
-      }
-      throw new Error(
-        `Could not read "${file.name}". The PDF may be corrupted, not a real PDF, or unsupported by this tool.`,
-      );
-    }
-  }
-
-  return await out.save();
-}
-
-export function MergePdfApp() {
-  const [items, setItems] = React.useState<QueuedPdf[]>([]);
+export function MergeCsvApp() {
+  const t = useTranslations("mergeCsv");
+  const tl = useTranslations("landing");
+  const [items, setItems] = React.useState<QueuedCsv[]>([]);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [skipRepeatHeader, setSkipRepeatHeader] = React.useState(true);
+  const [dedupeRows, setDedupeRows] = React.useState(false);
+  const [dedupeCols, setDedupeCols] = React.useState(false);
+  const [addIndexColumn, setAddIndexColumn] = React.useState(false);
 
   const canMerge = items.length >= 2 && !busy;
   const baseName = React.useMemo(() => {
     if (items.length === 0) return "merged";
-    return baseNameFromFirstFileName(items[0]?.file.name);
+    return baseNameFromFirstFileName(items[0]?.file.name ?? "");
   }, [items]);
 
   function addFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     setError(null);
 
-    const next: QueuedPdf[] = [];
+    const next: QueuedCsv[] = [];
     for (const f of Array.from(files)) {
-      if (!acceptablePdf(f)) continue;
+      if (!acceptableCsv(f)) continue;
       next.push({ id: crypto.randomUUID(), file: f });
     }
 
     if (next.length === 0) {
-      setError("No valid PDFs found. Please choose PDF files.");
+      setError(t("noValidCsv"));
       return;
     }
 
@@ -128,15 +98,49 @@ export function MergePdfApp() {
     setError(null);
 
     try {
-      const bytes = await mergePdfs(items.map((it) => it.file));
-      const safeBytes = new Uint8Array(bytes);
-      const blob = new Blob([safeBytes], { type: "application/pdf" });
-      downloadBlob(blob, `${baseName}-merged.pdf`);
-      toast.success(`Downloaded merged PDF (${items.length} file(s))`);
+      const results: CsvImportResult[] = [];
+      for (const it of items) {
+        const r = await parseCsvFile(it.file);
+        results.push(r);
+      }
+
+      const merged = mergeCsvImports(
+        results.map((result) => ({ result })),
+        {
+          skipRepeatedHeaderRowsInSubsequentFiles: skipRepeatHeader,
+          dedupeRows,
+          dedupeDuplicateColumns: dedupeCols,
+          addIndexColumn,
+        },
+      );
+
+      if (merged.truncated) {
+        toast.message(tl("largeFileTitle"), {
+          description: tl("largeFileDescription", {
+            shown: merged.rows.length.toLocaleString(),
+            total: merged.rowCountBeforeCap.toLocaleString(),
+          }),
+        });
+      }
+
+      const csv = buildCsvExportString(
+        merged.rows,
+        merged.columnKeys,
+        merged.headerLabels,
+      );
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const safeBase = sanitizeCsvDownloadFileBaseName(baseName);
+      downloadBlob(blob, `${safeBase}-merged.csv`);
+      toast.success(t("mergeSuccess", { count: items.length }));
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Merge failed";
+      if (e instanceof CsvImportError) {
+        setError(e.message);
+        toast.error(t("mergeFailed"));
+        return;
+      }
+      const msg = e instanceof Error ? e.message : t("mergeFailed");
       setError(msg);
-      toast.error("Merge failed");
+      toast.error(t("mergeFailed"));
     } finally {
       setBusy(false);
     }
@@ -146,28 +150,30 @@ export function MergePdfApp() {
     <div className="container flex flex-col gap-6 py-4">
       <header className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <FileText className="size-8 text-muted-foreground" aria-hidden />
-          <h1 className={toolHeroTitleClassName}>Merge PDF</h1>
+          <FileSpreadsheet
+            className="size-8 text-muted-foreground"
+            aria-hidden
+          />
+          <h1 className={toolHeroTitleClassName}>{t("heroTitle")}</h1>
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Add multiple PDFs, reorder them, and download one merged PDF locally
-          in your browser, no uploads.
+          {t("heroSubtitle")}
         </p>
       </header>
 
       <FileDropZone
         disabled={false}
         busy={busy}
-        inputId="merge-pdf-input"
-        accept="application/pdf,.pdf"
+        inputId="merge-csv-input"
+        accept=".csv,text/csv,application/csv"
         multiple
         onFiles={(files) => addFiles(files)}
-        fileIcon={FileText}
-        dropTitle="Drop PDFs here or click to browse"
-        dropHint="Reorder files · single PDF download · local-only merge"
-        chooseLabel="Choose PDFs"
-        chooseLabelWhenFileSelected="Add more PDFs"
-        fileHint="Your PDFs stay on this device."
+        fileIcon={FileSpreadsheet}
+        dropTitle={t("dropTitle")}
+        dropHint={t("dropHint")}
+        chooseLabel={t("chooseLabel")}
+        chooseLabelWhenFileSelected={t("chooseMore")}
+        fileHint={t("fileHint")}
       />
 
       {busy ? (
@@ -177,7 +183,7 @@ export function MergePdfApp() {
           aria-live="polite"
         >
           <Loader2 className="size-4 animate-spin" aria-hidden />
-          <span>Merging PDFs…</span>
+          <span>{t("merging")}</span>
         </div>
       ) : null}
 
@@ -192,13 +198,13 @@ export function MergePdfApp() {
           <section className="flex min-w-0 flex-col gap-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex flex-col gap-0.5">
-                <div className="font-medium">Files</div>
+                <div className="font-medium">{t("filesSection")}</div>
                 <div className="text-muted-foreground text-xs">
-                  Drag the grip to reorder, or use Up and Down.
+                  {t("filesHint")}
                 </div>
               </div>
               <div className="text-muted-foreground text-sm">
-                {items.length} PDF(s)
+                {t("fileCount", { count: items.length })}
               </div>
             </div>
 
@@ -212,7 +218,7 @@ export function MergePdfApp() {
               <SortableContent
                 className="divide-y overflow-hidden rounded-xl border bg-background"
                 role="list"
-                aria-label="PDF merge order"
+                aria-label={t("listAria")}
               >
                 {items.map((it, idx) => (
                   <SortableItem
@@ -237,8 +243,8 @@ export function MergePdfApp() {
 
                     <SortableItemHandle
                       className="inline-flex size-9 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted/30"
-                      aria-label={`Drag to reorder ${it.file.name}`}
-                      title="Drag to reorder"
+                      aria-label={t("dragHandleAria", { name: it.file.name })}
+                      title={t("dragHandleTitle")}
                       disabled={busy}
                     >
                       <GripVertical className="size-4" aria-hidden />
@@ -256,7 +262,7 @@ export function MergePdfApp() {
                           )
                         }
                       >
-                        Up
+                        {t("moveUp")}
                       </Button>
                       <Button
                         type="button"
@@ -269,7 +275,7 @@ export function MergePdfApp() {
                           )
                         }
                       >
-                        Down
+                        {t("moveDown")}
                       </Button>
                       <Button
                         type="button"
@@ -282,8 +288,8 @@ export function MergePdfApp() {
                         className={cn(
                           "text-destructive hover:text-destructive",
                         )}
-                        aria-label={`Remove ${it.file.name}`}
-                        title="Remove"
+                        aria-label={t("removeAria", { name: it.file.name })}
+                        title={t("removeTitle")}
                       >
                         <Trash2 className="size-4" aria-hidden />
                       </Button>
@@ -297,9 +303,99 @@ export function MergePdfApp() {
           <aside className="rounded-xl border bg-background p-4">
             <div className="flex flex-col gap-4">
               <div>
-                <div className="font-medium">Export</div>
+                <div className="font-medium">{t("exportSection")}</div>
                 <div className="text-muted-foreground text-xs">
-                  The merged PDF preserves pages in the order shown.
+                  {t("exportHint")}
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="flex flex-col gap-4">
+                <div className="font-medium">{t("settingsSection")}</div>
+
+                <div className="flex gap-2">
+                  <Checkbox
+                    id="merge-csv-skip-repeat-header"
+                    checked={skipRepeatHeader}
+                    disabled={busy}
+                    onCheckedChange={(c) => setSkipRepeatHeader(c === true)}
+                    className="mt-0.5"
+                  />
+                  <div className="flex min-w-0 flex-col gap-0.5">
+                    <Label
+                      htmlFor="merge-csv-skip-repeat-header"
+                      className="font-normal"
+                    >
+                      {t("skipRepeatHeaderLabel")}
+                    </Label>
+                    <p className="text-muted-foreground text-xs leading-snug">
+                      {t("skipRepeatHeaderHint")}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Checkbox
+                    id="merge-csv-dedupe-rows"
+                    checked={dedupeRows}
+                    disabled={busy}
+                    onCheckedChange={(c) => setDedupeRows(c === true)}
+                    className="mt-0.5"
+                  />
+                  <div className="flex min-w-0 flex-col gap-0.5">
+                    <Label
+                      htmlFor="merge-csv-dedupe-rows"
+                      className="font-normal"
+                    >
+                      {t("dedupeRowsLabel")}
+                    </Label>
+                    <p className="text-muted-foreground text-xs leading-snug">
+                      {t("dedupeRowsHint")}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Checkbox
+                    id="merge-csv-dedupe-cols"
+                    checked={dedupeCols}
+                    disabled={busy}
+                    onCheckedChange={(c) => setDedupeCols(c === true)}
+                    className="mt-0.5"
+                  />
+                  <div className="flex min-w-0 flex-col gap-0.5">
+                    <Label
+                      htmlFor="merge-csv-dedupe-cols"
+                      className="font-normal"
+                    >
+                      {t("dedupeColsLabel")}
+                    </Label>
+                    <p className="text-muted-foreground text-xs leading-snug">
+                      {t("dedupeColsHint")}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Checkbox
+                    id="merge-csv-add-index"
+                    checked={addIndexColumn}
+                    disabled={busy}
+                    onCheckedChange={(c) => setAddIndexColumn(c === true)}
+                    className="mt-0.5"
+                  />
+                  <div className="flex min-w-0 flex-col gap-0.5">
+                    <Label
+                      htmlFor="merge-csv-add-index"
+                      className="font-normal"
+                    >
+                      {t("addIndexLabel")}
+                    </Label>
+                    <p className="text-muted-foreground text-xs leading-snug">
+                      {t("addIndexHint")}
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -314,7 +410,7 @@ export function MergePdfApp() {
                   disabled={busy}
                 >
                   <Trash2 className="size-4" aria-hidden />
-                  Clear
+                  {t("clear")}
                 </Button>
               </div>
 
@@ -325,15 +421,12 @@ export function MergePdfApp() {
                 onClick={() => void onMerge()}
               >
                 <Download className="size-4" aria-hidden />
-                Merge & download PDF
+                {t("mergeDownload")}
               </Button>
 
               <div className="flex items-start gap-2 rounded-lg border bg-muted/10 p-3 text-muted-foreground text-xs">
-                <FileText className="mt-0.5 size-4" aria-hidden />
-                <div className="min-w-0">
-                  Everything runs locally in your browser. Your PDFs are not
-                  uploaded.
-                </div>
+                <FileSpreadsheet className="mt-0.5 size-4" aria-hidden />
+                <div className="min-w-0">{t("privacyNote")}</div>
               </div>
             </div>
           </aside>

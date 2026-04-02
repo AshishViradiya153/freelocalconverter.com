@@ -57,6 +57,7 @@ export type ToolPageSlug =
   | "jwt-decoder"
   | "kg-to-lbs"
   | "lbs-to-kg"
+  | "merge-csv"
   | "merge-pdf"
   | "markdown-html-converter"
   | "markdown-to-epub"
@@ -1196,6 +1197,45 @@ function localizedTitle(slug: ToolPageSlug): Record<AppLocale, string> {
             return "Αποκωδικοποιητης JWT";
           default:
             return "JWT decoder";
+        }
+      });
+    case "merge-csv":
+      return localizedRecord((locale) => {
+        switch (locale) {
+          case "zh":
+            return "合并 CSV";
+          case "es":
+            return "Fusionar CSV";
+          case "pt":
+            return "Mesclar CSV";
+          case "fr":
+            return "Fusionner CSV";
+          case "de":
+            return "CSV zusammenfuhren";
+          case "nl":
+            return "CSV samenvoegen";
+          case "it":
+            return "Unisci CSV";
+          case "ja":
+            return "CSV 結合";
+          case "tr":
+            return "CSV birlestir";
+          case "az":
+            return "CSV birlesdir";
+          case "ko":
+            return "CSV 병합";
+          case "ar":
+            return "دمج CSV";
+          case "fa":
+            return "ادغام CSV";
+          case "ru":
+            return "Объединить CSV";
+          case "he":
+            return "מיזוג CSV";
+          case "el":
+            return "Συγχωνευση CSV";
+          default:
+            return "Merge CSV";
         }
       });
     case "merge-pdf":
@@ -2523,6 +2563,22 @@ const TOOL_PAGE_DEFINITIONS: Record<ToolPageSlug, ToolPageDefinition> = {
       "toc ncx",
       "convert markdown locally",
       "no upload epub converter",
+    ],
+  },
+  "merge-csv": {
+    pathname: "/merge-csv",
+    titleByLocale: localizedTitle("merge-csv"),
+    keywords: [
+      "merge csv",
+      "combine csv",
+      "csv merger",
+      "append csv",
+      "concat csv",
+      "stack csv files",
+      "browser csv merge",
+      "local csv merge",
+      "no upload csv merge",
+      "join csv files",
     ],
   },
   "merge-pdf": {
