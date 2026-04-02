@@ -1,3 +1,5 @@
+import { clamp } from "@/lib/clamp";
+
 export type HarmonyMode =
   | "analogous"
   | "complementary"
@@ -11,10 +13,6 @@ export interface GeneratedPalette {
 
 type RGB = { r: number; g: number; b: number };
 type HSL = { h: number; s: number; l: number };
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
 
 export function normalizeHex(input: string): string | null {
   const s = input.trim().replace(/^#/, "");

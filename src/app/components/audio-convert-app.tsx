@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 import { Link } from "@/i18n/navigation";
 
@@ -32,10 +33,6 @@ interface AudioItem {
   sourceName: string | null;
   outputBlob: Blob | null;
   outputName: string | null;
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 function errorToMessage(error: unknown): string {

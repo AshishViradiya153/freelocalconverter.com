@@ -37,6 +37,7 @@ import {
   SortableItem,
   SortableItemHandle,
 } from "@/components/ui/sortable";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 import { moveArrayElement } from "@/lib/move-array-element";
 import {
@@ -50,10 +51,6 @@ interface QueuedImage {
   id: string;
   file: File;
   previewUrl: string;
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 function baseNameFromFirstFileName(name: string) {
