@@ -34,16 +34,46 @@ export function isSubsequenceMatch(needle: string, haystack: string) {
   return false;
 }
 
+/** Where the weakest query token matched: title (0) is best, fuzzy (4) is weakest. */
+const TIER_TITLE = 0;
+const TIER_DESCRIPTION = 1;
+const TIER_GROUP = 2;
+const TIER_HREF = 3;
+const TIER_FUZZY = 4;
+
 export interface ToolSearchRank {
   score: number;
   matchedInTitle: boolean;
   matchedInDescription: boolean;
+  /** Worst per-token tier; lower means matches are stronger (closer to title). 0 = every token hit the title. */
+  maxMatchTier: number;
+}
+
+function tokenMatchTier(
+  token: string,
+  label: string,
+  description: string,
+  group: string,
+  href: string,
+  searchableText: string,
+): number | null {
+  if (label.includes(token)) return TIER_TITLE;
+  if (description.includes(token)) return TIER_DESCRIPTION;
+  if (group.includes(token)) return TIER_GROUP;
+  if (href.includes(token)) return TIER_HREF;
+  if (isSubsequenceMatch(token, searchableText)) return TIER_FUZZY;
+  return null;
 }
 
 function computeToolSearchRank(item: ToolSearchItem, query: string): ToolSearchRank {
   const normalizedQuery = normalizeSearchValue(query);
   if (!normalizedQuery) {
-    return { score: 0, matchedInTitle: false, matchedInDescription: false };
+    return {
+      score: 0,
+      matchedInTitle: false,
+      matchedInDescription: false,
+      maxMatchTier: 99,
+    };
   }
 
   const label = normalizeSearchValue(item.label);
@@ -54,7 +84,12 @@ function computeToolSearchRank(item: ToolSearchItem, query: string): ToolSearchR
   const queryTokens = normalizedQuery.split(" ").filter(Boolean);
 
   if (!queryTokens.length) {
-    return { score: 0, matchedInTitle: false, matchedInDescription: false };
+    return {
+      score: 0,
+      matchedInTitle: false,
+      matchedInDescription: false,
+      maxMatchTier: 99,
+    };
   }
 
   let score = 0;
@@ -66,54 +101,72 @@ function computeToolSearchRank(item: ToolSearchItem, query: string): ToolSearchR
     score += 220 - searchableText.indexOf(normalizedQuery);
   }
 
-  let matchedTokenCount = 0;
+  const tokenTiers: number[] = [];
   let matchedInTitle = false;
   let matchedInDescription = false;
+
   for (const token of queryTokens) {
-    if (label.includes(token)) {
+    const tier = tokenMatchTier(token, label, description, group, href, searchableText);
+    if (tier === null) {
+      return {
+        score: 0,
+        matchedInTitle: false,
+        matchedInDescription: false,
+        maxMatchTier: 99,
+      };
+    }
+    tokenTiers.push(tier);
+    if (tier === TIER_TITLE) {
       score += 170 - label.indexOf(token);
-      matchedTokenCount += 1;
       matchedInTitle = true;
-      continue;
-    }
-
-    if (description.includes(token)) {
+    } else if (tier === TIER_DESCRIPTION) {
       score += 110 - description.indexOf(token);
-      matchedTokenCount += 1;
       matchedInDescription = true;
-      continue;
-    }
-
-    if (group.includes(token)) {
+    } else if (tier === TIER_GROUP) {
       score += 90 - group.indexOf(token);
-      matchedTokenCount += 1;
-      continue;
-    }
-
-    if (href.includes(token)) {
+    } else if (tier === TIER_HREF) {
       score += 85 - href.indexOf(token);
-      matchedTokenCount += 1;
-      continue;
-    }
-
-    if (isSubsequenceMatch(token, searchableText)) {
+    } else {
       score += 45;
-      matchedTokenCount += 1;
     }
   }
 
-  if (matchedTokenCount !== queryTokens.length) {
-    return { score: 0, matchedInTitle: false, matchedInDescription: false };
-  }
   if (queryTokens.length > 1) score += 80;
 
+  const maxMatchTier = Math.max(...tokenTiers);
   const normalizedScore = Math.max(score, 0);
   return {
     score: normalizedScore,
     matchedInTitle:
       matchedInTitle || label.includes(normalizedQuery) || label.startsWith(normalizedQuery),
-    matchedInDescription: matchedInDescription || description.includes(normalizedQuery),
+    matchedInDescription:
+      matchedInDescription || description.includes(normalizedQuery),
+    maxMatchTier,
   };
+}
+
+export interface ToolSearchRankedEntry {
+  item: ToolSearchItem;
+  rank: ToolSearchRank;
+}
+
+export function compareToolSearchRankedEntries(
+  a: ToolSearchRankedEntry,
+  b: ToolSearchRankedEntry,
+  options?: { preferInCategory?: (item: ToolSearchItem) => boolean },
+): number {
+  if (a.rank.maxMatchTier !== b.rank.maxMatchTier) {
+    return a.rank.maxMatchTier - b.rank.maxMatchTier;
+  }
+  if (b.rank.score !== a.rank.score) {
+    return b.rank.score - a.rank.score;
+  }
+  if (options?.preferInCategory) {
+    const pa = options.preferInCategory(a.item) ? 1 : 0;
+    const pb = options.preferInCategory(b.item) ? 1 : 0;
+    if (pb !== pa) return pb - pa;
+  }
+  return a.item.label.localeCompare(b.item.label);
 }
 
 export function getSearchRank(item: ToolSearchItem, query: string): ToolSearchRank {

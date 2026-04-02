@@ -20,6 +20,7 @@ import {
 } from "@/app/components/tool-directory-group-icons";
 import { getLocalizedServiceGroups } from "@/components/layouts/services-data-locale";
 import {
+  compareToolSearchRankedEntries,
   flattenServiceGroups,
   getSearchRank,
   normalizeSearchValue,
@@ -88,20 +89,20 @@ export function HomeToolsDirectory() {
     [],
   );
 
-  const rankedItems = React.useMemo(() => {
-    if (!query.trim()) return searchItems;
-
+  /** Relevance order: title → description → group/href → fuzzy; category is not injected ahead of relevance. */
+  const searchRankedEntries = React.useMemo(() => {
+    const nq = normalizeSearchValue(query);
+    if (!nq) return null;
     return [...searchItems]
       .map((item) => ({ item, rank: getSearchRank(item, query) }))
       .filter((entry) => entry.rank.score > 0)
-      .sort(
-        (a, b) =>
-          Number(b.rank.matchedInTitle) - Number(a.rank.matchedInTitle) ||
-          b.rank.score - a.rank.score ||
-          a.item.label.localeCompare(b.item.label),
-      )
-      .map((entry) => entry.item);
+      .sort((a, b) => compareToolSearchRankedEntries(a, b));
   }, [query, searchItems]);
+
+  const relevanceOrderedItems =
+    searchRankedEntries === null
+      ? searchItems
+      : searchRankedEntries.map((e) => e.item);
 
   const visibleItems = React.useMemo(() => {
     const normalizedQuery = normalizeSearchValue(query);
@@ -114,7 +115,7 @@ export function HomeToolsDirectory() {
     }
 
     if (!hasSearch) {
-      const filtered = rankedItems.filter(matchesActiveCategory);
+      const filtered = relevanceOrderedItems.filter(matchesActiveCategory);
       if (activeGroup !== "favorites") return filtered;
 
       const order = new Map(pinnedHrefs.map((href, index) => [href, index]));
@@ -122,16 +123,35 @@ export function HomeToolsDirectory() {
         (a, b) => (order.get(a.href) ?? 1e9) - (order.get(b.href) ?? 1e9),
       );
     }
-    if (activeGroup === "all") return rankedItems;
 
-    const inCategory: ToolSearchItem[] = [];
-    const globalRest: ToolSearchItem[] = [];
-    for (const item of rankedItems) {
-      if (matchesActiveCategory(item)) inCategory.push(item);
-      else globalRest.push(item);
+    if (!searchRankedEntries?.length) return [];
+
+    if (activeGroup === "all") {
+      return searchRankedEntries.map((e) => e.item);
     }
-    return [...inCategory, ...globalRest];
-  }, [activeGroup, pinnedHrefs, pinnedSet, query, rankedItems]);
+
+    if (activeGroup === "favorites") {
+      return searchRankedEntries
+        .filter((e) => pinnedSet.has(e.item.href))
+        .sort((a, b) => compareToolSearchRankedEntries(a, b))
+        .map((e) => e.item);
+    }
+
+    return [...searchRankedEntries]
+      .sort((a, b) =>
+        compareToolSearchRankedEntries(a, b, {
+          preferInCategory: matchesActiveCategory,
+        }),
+      )
+      .map((e) => e.item);
+  }, [
+    activeGroup,
+    pinnedHrefs,
+    pinnedSet,
+    query,
+    relevanceOrderedItems,
+    searchRankedEntries,
+  ]);
 
   const topHit = visibleItems[0] ?? null;
 
