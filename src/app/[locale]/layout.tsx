@@ -171,9 +171,8 @@ export default async function LocaleLayout({
                 {children}
                 <RelatedAppTools />
               </main>
-              <TrustedByMarquee />
-              <Testimonial />
               {/* <TrustedByMarquee /> */}
+              <Testimonial />
               <SiteFooter />
             </div>
             <FeatureRequestWidget />
