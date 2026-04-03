@@ -171,10 +171,7 @@ export default async function LocaleLayout({
                 {children}
                 <RelatedAppTools />
               </main>
-              <TrustedByMarquee />
-              <Testimonial />
               {/* <TrustedByMarquee /> */}
-              <TrustedByMarquee />
               <Testimonial />
               <SiteFooter />
             </div>
