@@ -15,9 +15,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
 import { fontMono, fontSans } from "@/lib/fonts";
-import { buildAbsoluteUrl, openGraphLocaleForSeo } from "@/lib/seo/paths";
 import { cn } from "@/lib/utils";
-import { buildOgImageUrl } from "@/lib/seo/metadata";
+import { buildHomeLayoutSocialMetadata } from "@/lib/seo/metadata";
 
 import "@/styles/globals.css";
 import { RelatedAppTools } from "@/app/components/related-app-tools";
@@ -77,30 +76,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
-    return defaultLayoutMetadata;
+    return {
+      ...defaultLayoutMetadata,
+      ...buildHomeLayoutSocialMetadata(routing.defaultLocale),
+    };
   }
   const tLanding = await getTranslations({ locale, namespace: "landing" });
   const keywords = metaKeywordsFromLandingPipe(tLanding("metaKeywords"));
-  const ogImageUrl = buildOgImageUrl(siteConfig.name, siteConfig.description);
-  const homeUrl = buildAbsoluteUrl(locale, "/");
   return {
     ...defaultLayoutMetadata,
     keywords: keywords.length > 0 ? keywords : undefined,
-    openGraph: {
-      type: "website",
-      locale: openGraphLocaleForSeo(locale),
-      url: homeUrl,
-      title: siteConfig.name,
-      description: siteConfig.description,
-      siteName: siteConfig.name,
-      images: [{ url: ogImageUrl }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: siteConfig.name,
-      description: siteConfig.description,
-      images: [ogImageUrl],
-    },
+    ...buildHomeLayoutSocialMetadata(locale),
   };
 }
 
