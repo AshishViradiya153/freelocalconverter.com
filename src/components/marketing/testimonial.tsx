@@ -12,60 +12,33 @@ interface TestimonialEntry {
 
 const testimonials: TestimonialEntry[] = [
   {
-    name: "Aarav",
-    role: "Data Analyst at OrbitOps",
+    name: "Harsh Boghani",
+    role: "User",
     quote:
-      '"FreeLocalConverter replaced three separate tools for our CSV and JSON cleanup workflows. It is fast, clear, and genuinely useful every day."',
-    bg: "#8b6e5a",
+      '"it was great experience, considering everything happens locally makes it even more impressive. W work."',
+    bg: "#6b8a7a",
   },
   {
-    name: "Maya",
-    role: "Operations Lead at Finch Labs",
+    name: "Harsh Bhat",
+    role: "User",
     quote:
-      '"The local-first approach was the reason we switched. We can process sensitive files in-browser without sending them to random servers."',
-    bg: "#7a5c6e",
+      '"damn good ui 🚀"',
+    bg: "#8c6b7c",
   },
   {
-    name: "Leo",
-    role: "Product Manager at Northstar",
-    quote:
-      '"Our team adopted FreeLocalConverter in one afternoon. The tools are simple enough for non-technical teammates and powerful enough for engineers."',
-    bg: "#c47c72",
-  },
-  {
-    name: "Sara",
-    role: "Compliance Specialist at Redwood Health",
-    quote:
-      '"Privacy messaging is not just marketing here. The workflows we use run on the client, which makes internal approvals much easier."',
+    name: "Maulik Dhameliya",
+    role: "User",
+    quote: '"very well executed and tones of free tools with privacy first"',
     bg: "#5c7a8c",
   },
   {
-    name: "Noah",
-    role: "Growth Engineer at PixelMint",
+    name: "Kahan Anghan",
+    role: "User",
     quote:
-      '"From PDF and image helpers to developer utilities, FreeLocalConverter feels like a complete toolbox instead of a single-purpose app."',
+      '"that mesh gradient feature here is top notch, i have never seen mesh gradient like this anywhere else ever"',
     bg: "#d4956a",
   },
-  {
-    name: "Elena",
-    role: "Localization Manager at LinguaForge",
-    quote:
-      '"We serve users in multiple regions, so the multilingual support matters a lot. The interface feels thoughtfully built for a global audience."',
-    bg: "#7a7a88",
-  },
 ];
-
-const slots = [
-  { className: "sn3", left: "calc(50% - 680px)", rotate: -9, zIndex: 1 },
-  { className: "sn2", left: "calc(50% - 490px)", rotate: -6, zIndex: 2 },
-  { className: "sn1", left: "calc(50% - 305px)", rotate: -3, zIndex: 4 },
-  { className: "s0", left: "calc(50% - 130px)", rotate: 0, zIndex: 10 },
-  { className: "s1", left: "calc(50% + 20px)", rotate: 3, zIndex: 4 },
-  { className: "s2", left: "calc(50% + 210px)", rotate: 6, zIndex: 2 },
-  { className: "s3", left: "calc(50% + 400px)", rotate: 9, zIndex: 1 },
-] as const;
-
-const offsets = [-3, -2, -1, 0, 1, 2, 3] as const;
 
 function mod(n: number, m: number): number {
   return ((n % m) + m) % m;
@@ -73,22 +46,39 @@ function mod(n: number, m: number): number {
 
 export function Testimonial() {
   const total = testimonials.length;
-  const [current, setCurrent] = React.useState(2);
+  const [current, setCurrent] = React.useState(0);
 
-  const cardSet = React.useMemo(
-    () =>
-      offsets.map((offset, i) => {
-        const idx = mod(current + offset, total);
-        return {
-          idx,
-          offset,
-          slot: slots[i],
-          data: testimonials[idx],
-          isActive: offset === 0,
-        };
-      }),
-    [current, total],
-  );
+  const cardSet = React.useMemo(() => {
+    if (total === 0) return [];
+    
+    const displayCount = Math.min(total, 7);
+    const start = -Math.floor((displayCount - 1) / 2);
+    const dynamicOffsets = Array.from({ length: displayCount }).map((_, i) => start + i);
+
+    return dynamicOffsets.map((offset) => {
+      const idx = mod(current + offset, total);
+      const isActive = offset === 0;
+
+      // Stable pseudo-randomness based on index for a "randomised" organic feel
+      const rand = Math.sin((idx + 1) * 88.88); 
+      const randLeftOffset = rand * 35; 
+      const randRotate = rand * 10;
+
+      const slot = {
+        left: `calc(50% - 130px + ${offset * 180 + randLeftOffset}px)`,
+        rotate: isActive ? 0 : offset * 3 + randRotate,
+        zIndex: 10 - Math.abs(offset),
+      };
+
+      return {
+        idx,
+        offset,
+        data: testimonials[idx]!,
+        isActive,
+        slot,
+      };
+    });
+  }, [current, total]);
 
   function onShift(nextDirection: "next" | "prev", target?: number) {
     setCurrent((prev) => {
@@ -108,9 +98,9 @@ export function Testimonial() {
             const rotate = slot.rotate;
             return (
               <article
-                key={`${slot.className}-${idx}-${current}`}
+                key={idx}
                 className={cn(
-                  "absolute top-1/2 flex min-h-[270px] cursor-pointer flex-col gap-3 border-[2.5px] px-4 pt-5 pb-4",
+                  "absolute top-1/2 flex min-h-[270px] cursor-pointer flex-col gap-3 border-[2.5px] px-4 pt-5 pb-4 transition-all duration-500 ease-out",
                   isActive
                     ? "cursor-default"
                     : "hover:z-9 hover:shadow-[6px_12px_28px_rgba(0,0,0,0.22)]",
