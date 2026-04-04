@@ -1,6 +1,4 @@
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
+import { clamp } from "@/lib/clamp";
 
 /**
  * Validates and normalizes a 1-based page order array.
