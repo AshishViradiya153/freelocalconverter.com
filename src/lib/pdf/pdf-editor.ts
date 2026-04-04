@@ -1,4 +1,5 @@
 import { rgb, StandardFonts } from "pdf-lib";
+import { clamp } from "@/lib/clamp";
 
 export type PdfEditorTool =
   | "select"
@@ -83,10 +84,6 @@ export type PdfEditorAnnotation =
   | PdfEditorRectangleAnnotation
   | PdfEditorEllipseAnnotation
   | PdfEditorArrowAnnotation;
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
-}
 
 export function estimateTextLayerHeight(opts: {
   text: string;

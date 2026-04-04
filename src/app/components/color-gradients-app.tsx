@@ -30,9 +30,9 @@ import {
   createLinearGradientExportCanvas,
   downloadCanvasPng,
 } from "@/lib/canvas-png-export";
+import { clamp } from "@/lib/clamp";
 import {
   buildCssLinearGradient,
-  clamp,
   type GradientStop,
   generateGradientFromBase,
   normalizeAngle,

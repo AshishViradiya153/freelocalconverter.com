@@ -1,3 +1,4 @@
+import { clamp } from "@/lib/clamp";
 import {
   generatePaletteFromBase,
   type HarmonyMode,
@@ -21,10 +22,6 @@ export interface GradientPreset {
   name: string;
   description: string;
   spec: GradientSpec;
-}
-
-export function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 export function normalizeAngle(angle: number): number {

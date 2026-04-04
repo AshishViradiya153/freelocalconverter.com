@@ -1,5 +1,6 @@
 import Papa from "papaparse";
 import { PDFDocument, StandardFonts } from "pdf-lib";
+import { clamp } from "@/lib/clamp";
 import type { CsvViewerRow } from "@/lib/csv-import";
 import type { CsvCellMerge } from "@/lib/csv-viewer-session";
 import type { FileCellData } from "@/types/data-grid";
@@ -340,10 +341,6 @@ export async function downloadXlsxExport(
   XLSX.utils.book_append_sheet(wb, ws, "Data");
   const base = sanitizeCsvDownloadFileBaseName(fileBaseName);
   XLSX.writeFile(wb, `${base}.xlsx`);
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 function ellipsize(value: string, maxChars: number): string {

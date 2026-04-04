@@ -32,7 +32,6 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files (optional; app does not require .env)
-.env
 .env*.local
 
 # vercel
@@ -40,3 +39,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+config.bat

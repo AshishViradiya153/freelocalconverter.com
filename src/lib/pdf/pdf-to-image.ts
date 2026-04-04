@@ -1,5 +1,6 @@
 import { strToU8, zipSync } from "fflate";
 import type { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 
 export interface PdfRenderOptions {
@@ -16,10 +17,6 @@ export interface PdfRenderOptions {
 export interface PdfImageExportOptions extends PdfRenderOptions {
   format: "png" | "jpeg" | "webp";
   quality?: number;
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 function parseHexColor(

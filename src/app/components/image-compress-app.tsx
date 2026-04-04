@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 
 type OutputFormat = "auto" | "webp" | "avif" | "jpeg" | "png";
@@ -48,10 +49,6 @@ interface EncodedCandidate {
   format: Exclude<OutputFormat, "auto">;
   blob: Blob;
   ssim: number;
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 function formatBytes(bytes: number) {
