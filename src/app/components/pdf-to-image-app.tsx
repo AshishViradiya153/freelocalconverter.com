@@ -31,6 +31,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 import {
   canvasToBlob,
@@ -49,10 +50,6 @@ type PageMode = "all" | "selected" | "range";
 type ExportMode = "pages" | "zip" | "long-image" | "contact-sheet";
 type PageFilter = "all" | "odd" | "even";
 type SizeMode = "dpi" | "width";
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
 
 function parsePageRange(input: string, pageCount: number): number[] {
   const cleaned = input.trim();

@@ -1,3 +1,4 @@
+import { clamp } from "@/lib/clamp";
 import { normalizeAngle } from "@/lib/color-gradients";
 import { bestTextColorOn, normalizeHex } from "@/lib/color-palette";
 
@@ -249,10 +250,6 @@ export const DEFAULT_SUB_FONT: BannerTextFontStyle = {
   letterSpacingPx: 0,
   familyId: "systemSans",
 };
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
 
 function canvasFontString(
   weight: number,

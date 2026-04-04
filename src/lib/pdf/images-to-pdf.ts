@@ -1,4 +1,5 @@
 import { PDFDocument } from "pdf-lib";
+import { clamp } from "@/lib/clamp";
 
 export type ImagesToPdfPageSize = "auto" | "a4" | "letter";
 export type ImagesToPdfFit = "contain" | "cover";
@@ -13,10 +14,6 @@ export interface ImagesToPdfOptions {
 
 export interface ImagesToPdfInputImage {
   file: File;
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 function getFixedPageSizePt(pageSize: Exclude<ImagesToPdfPageSize, "auto">): {

@@ -6,6 +6,7 @@ import {
   rgb,
   StandardFonts,
 } from "pdf-lib";
+import { clamp } from "@/lib/clamp";
 
 export type WatermarkType = "text" | "image";
 export type WatermarkPlacement =
@@ -42,10 +43,6 @@ export interface PdfWatermarkImageOptions {
 export type PdfWatermarkOptions =
   | PdfWatermarkTextOptions
   | PdfWatermarkImageOptions;
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
 
 function parseHexRgb(hex: string): { r: number; g: number; b: number } | null {
   const m = hex.trim().match(/^#([0-9a-f]{6})$/i);

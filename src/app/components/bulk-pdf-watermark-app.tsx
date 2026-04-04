@@ -20,6 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Link } from "@/i18n/navigation";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 import {
   addWatermarkToPdf,
@@ -34,10 +35,6 @@ interface BulkPdfItem {
   file: File;
   pageCount: number | null;
   loadError: string | null;
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 function errorToMessage(error: unknown): string {
