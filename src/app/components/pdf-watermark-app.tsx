@@ -33,6 +33,7 @@ import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Link } from "@/i18n/navigation";
+import { clamp } from "@/lib/clamp";
 import { downloadBlob } from "@/lib/download-blob";
 import {
   renderPdfPageToCanvas,
@@ -49,10 +50,6 @@ import { cn } from "@/lib/utils";
 
 type PageMode = "all" | "selected" | "range";
 type PageFilter = "all" | "odd" | "even";
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
 
 function errorToMessage(error: unknown): string {
   if (error instanceof Error) {

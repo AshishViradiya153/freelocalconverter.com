@@ -1,12 +1,10 @@
+import { clamp } from "@/lib/clamp";
+
 export interface PdfPageRange {
   /** 1-based, inclusive */
   start: number;
   /** 1-based, inclusive */
   end: number;
-}
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
 }
 
 /**
