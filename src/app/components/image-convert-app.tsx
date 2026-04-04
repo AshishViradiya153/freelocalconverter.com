@@ -716,8 +716,8 @@ export function ImageConvertApp(props: ImageConvertAppProps) {
           <div className="grid size-9 place-items-center rounded-lg border bg-muted/10">
             <span className="font-semibold text-sm">IMG</span>
           </div>
-          <div className="min-w-0">
-            <h1 className={cn(toolHeroTitleClassName, "truncate")}>
+          <div className="min-w-0 overflow-hidden">
+            <h1 className={cn(toolHeroTitleClassName, "whitespace-nowrap text-ellipsis pb-1")}>
               {props.title ?? "Image Converter"}
             </h1>
           </div>
