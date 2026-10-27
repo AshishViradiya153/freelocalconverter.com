@@ -17,12 +17,12 @@ import { type AppLocale, RTL_LOCALES, routing } from "@/i18n/routing";
 import { fontMono, fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { buildHomeLayoutSocialMetadata } from "@/lib/seo/metadata";
-
 import "@/styles/globals.css";
 import { RelatedAppTools } from "@/app/components/related-app-tools";
 import { Testimonial } from "@/components/marketing/testimonial";
 import { TrustedByMarquee } from "@/components/marketing/trusted-by-marquee";
 import { FeatureRequestWidget } from "@/components/feature-request-widget";
+import { Analytics } from '@vercel/analytics/next';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -172,11 +172,13 @@ export default async function LocaleLayout({
                 <RelatedAppTools />
               </main>
               {/* <TrustedByMarquee /> */}
+              <Testimonial />
               <SiteFooter />
             </div>
             <FeatureRequestWidget />
           </ThemeProvider>
           <Toaster />
+          <Analytics mode="production" />
         </NextIntlClientProvider>
         {isProd && gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
